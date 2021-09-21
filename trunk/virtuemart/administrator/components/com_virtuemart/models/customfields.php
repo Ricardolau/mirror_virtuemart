@@ -254,7 +254,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					$obj->_varsToPushParam = $varsToPushPlg[$obj->virtuemart_custom_id];
 				} else {
 					JPluginHelper::importPlugin ('vmcustom');
-                    vDispatcher::directTrigger('vmcustom', $obj->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$obj));
+                    vDispatcher::directTrigger('vmcustom', $obj->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$obj), false);
 					$varsToPushPlg[$obj->virtuemart_custom_id] = false;
 					if(!empty($obj->_varsToPushParam)){
 						$varsToPushPlg[$obj->virtuemart_custom_id] = $obj->_varsToPushParam;

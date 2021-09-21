@@ -82,7 +82,9 @@ class VirtueMartModelShipmentmethod extends VmModel {
 			if ($this->_cache[$this->_id]->shipment_jplugin_id) {
 				JPluginHelper::importPlugin ('vmshipment');
 				$blind = 0;
-				$retValue = vDispatcher::trigger ('plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]));
+				//$retValue = vDispatcher::trigger ('plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]));
+				$retValue = vDispatcher::directTrigger ( 'vmshipment', $this->_cache[$this->_id]->shipment_element,'plgVmDeclarePluginParamsShipmentVM3', array(&$this->_cache[$this->_id]), false);
+
 			}
 
 			if(empty($this->_cache[$this->_id]->_varsToPushParam)){

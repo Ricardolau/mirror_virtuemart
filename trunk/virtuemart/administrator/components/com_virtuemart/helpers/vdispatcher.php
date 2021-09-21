@@ -56,20 +56,20 @@ class vDispatcher {
 	 * @param $args the arguments (as before for the triggers)
 	 * @return mixed
 	 */
-	static public function directTrigger($type,$element,$trigger, $args){
+	static public function directTrigger($type,$element,$trigger, $args, $enabled = TRUE){
 		//vmdebug('Calling directTrigger',$type,$element,$trigger, $args);
 
 		JPluginHelper::importPlugin($type);
 		if(empty($element)){
 			$plugins = JPluginHelper::getPlugin($type);
 			foreach($plugins as $plugin){
-				$plg = self::createPlugin($type,$plugin->name);
+				$plg = self::createPlugin($type, $plugin->name, $enabled);
 				if($plg){
 					call_user_func_array(array($plg,$trigger),$args);
 				}
 			}
 		} else {
-			$plg = self::createPlugin($type,$element);
+			$plg = self::createPlugin($type,$element, $enabled);
 			if($plg){
 				return call_user_func_array(array($plg,$trigger),$args);
 			} else {
@@ -100,17 +100,17 @@ class vDispatcher {
 	 * @param $element
 	 * @return false|mixed
 	 */
-	static public function createPlugin($type, $element){
+	static public function createPlugin($type, $element, $enabled = TRUE){
 
 		if(empty($type) or empty($element)){
 			vmdebug('Developer error, class vmpluglin function createPlugin: empty type or element');
 		}
 
-		$plugin = self::getPlugin($type, $element);
+		$plugin = self::getPlugin($type, $element, $enabled);
 		if(!isset($plugin->type) or !isset($plugin->name)){
 			if(!empty($type) and !empty($element)) {
 				vmdebug('VmPlugin function createPlugin, plugin unpublished', $type, $element);
-				//vmTrace('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
+				vmTrace('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element.' $enabled '.(int)$enabled);
 				//vmError('VmPlugin function createPlugin, plugin unpublished '. $type .' '. $element);
 
 			} else {
@@ -146,9 +146,13 @@ class vDispatcher {
 
 	}
 
-	static function getPlugin($type, $element){
+	static function getPlugin($type, $element, $enabled = TRUE){
 
-		$q = 'SELECT `extension_id` as `id`, `folder` as `type`, `element` as `name`, `params` FROM #__extensions WHERE `type`="plugin" and `folder`="'.$type.'" and element = "'.$element.'"';
+		$q = 'SELECT `extension_id` as `id`, `folder` as `type`, `element` as `name`, `params` FROM #__extensions WHERE 
+						`type`="plugin" and `folder`="'.$type.'" and `element` = "'.$element.'" and `state` = "0"';
+		if($enabled){
+			$q .= ' AND enabled = "1"';
+		}
 		$db = JFactory::getDbo();
 		$db->setQuery($q);
 

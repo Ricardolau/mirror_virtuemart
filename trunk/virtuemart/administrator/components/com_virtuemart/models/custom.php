@@ -86,7 +86,7 @@ class VirtueMartModelCustom extends VmModel {
 			$this->_cache[$this->_id]->customfield_params = '';
 		    if ($this->_cache[$this->_id]->field_type == 'E') {
 			    JPluginHelper::importPlugin ('vmcustom');
-                vDispatcher::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]));
+                vDispatcher::directTrigger('vmcustom', $this->_cache[$this->_id]->custom_element, 'plgVmDeclarePluginParamsCustomVM3', array(&$this->_cache[$this->_id]), false);
                 //vmdebug('getCustom after directTrigger plgVmDeclarePluginParamsCustomVM3',$this->_cache[$this->_id]->_varsToPushParam);
 		    }
 			//exaample 	vm2 withParent="0"|parentOrderable="0"|

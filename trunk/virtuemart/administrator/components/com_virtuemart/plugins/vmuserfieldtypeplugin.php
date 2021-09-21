@@ -20,7 +20,7 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-abstract class vmUserfieldPlugin extends vmPlugin {
+class vmUserfieldPlugin extends vmPlugin {
 
 	function __construct(& $subject, $config) {
 		parent::__construct($subject, $config);
@@ -50,4 +50,7 @@ abstract class vmUserfieldPlugin extends vmPlugin {
 		vmTable::bindParameterable($this,'userfield_params',$this->_varsToPushParam);
 	}
 
+	function plgVmDeclarePluginParamsUserfieldVM3 (&$table){
+
+	}
 }

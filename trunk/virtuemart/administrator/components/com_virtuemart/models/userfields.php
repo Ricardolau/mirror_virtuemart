@@ -162,7 +162,8 @@ class VirtueMartModelUserfields extends VmModel {
 			//vmdebug('getUserfield',$id,$name,$this->_cache[$id]);
 			if(strpos($this->_cache[$hash]->type,'plugin')!==false){
 				vDispatcher::importVMPlugins('vmuserfield');
-				$retValue = vDispatcher::trigger('plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]));
+				$plgName = substr($this->_cache[$hash]->type,6);
+				$retValue = vDispatcher::directTrigger('vmuserfield', $plgName,'plgVmDeclarePluginParamsUserfieldVM3',array(&$this->_cache[$hash]), false);
 			}
 			/*else if($this->_cache[$hash]->type=='age_verification'){
 

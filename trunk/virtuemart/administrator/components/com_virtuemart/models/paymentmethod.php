@@ -64,7 +64,7 @@ class VirtueMartModelPaymentmethod extends VmModel{
 
 			if($this->_cache[$this->_id]->payment_jplugin_id){
 				vDispatcher::importVMPlugins('vmpayment');
-				$retValue = vDispatcher::trigger ('plgVmDeclarePluginParamsPaymentVM3', array(&$this->_cache[$this->_id]));
+				$retValue = vDispatcher::directTrigger ('vmpayment',$this->_cache[$this->_id]->payment_element,'plgVmDeclarePluginParamsPaymentVM3', array(&$this->_cache[$this->_id]), false);
 			}
 
 			if(!empty($this->_cache[$this->_id]->_varsToPushParam)){

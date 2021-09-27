@@ -619,11 +619,11 @@ class VirtueMartModelConfig extends VmModel {
 		return "CREATE TABLE IF NOT EXISTS `#__virtuemart_configs` (
   `virtuemart_config_id` tinyint(1) unsigned NOT NULL AUTO_INCREMENT,
   `config` text,
-  `created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_on` datetime,
   `created_by` int(11) NOT NULL DEFAULT 0,
-  `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` datetime,
   `modified_by` int(11) NOT NULL DEFAULT 0,
-  `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `locked_on` datetime,
   `locked_by` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`virtuemart_config_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT='Holds configuration settings' AUTO_INCREMENT=1 ;";

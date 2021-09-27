@@ -896,7 +896,7 @@ class VmTable extends vObject implements \JTableInterface {
 					//If nothing is there, dont update it
 					unset($this->created_on);
 				} else //ADDED BY P2 PETER
-					if ($this->created_on == "0000-00-00 00:00:00") {
+					if (empty($this->created_on) or $this->created_on == "0000-00-00 00:00:00") {
 						$this->created_on = $today;
 						$this->created_by = $user->id;
 					}

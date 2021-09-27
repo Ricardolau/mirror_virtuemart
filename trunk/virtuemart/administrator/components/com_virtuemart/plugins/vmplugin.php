@@ -450,11 +450,11 @@ abstract class vmPlugin extends JPlugin {
 	 */
 	function getTableSQLLoggablefields () {
 		return array(
-			'created_on'  => 'datetime NOT NULL default \'0000-00-00 00:00:00\'',
+			'created_on'  => 'datetime',
 			'created_by'  => "int(11) NOT NULL DEFAULT '0'",
-			'modified_on' => 'datetime NOT NULL DEFAULT \'0000-00-00 00:00:00\'',
+			'modified_on' => 'datetime',
 			'modified_by' => "int(11) NOT NULL DEFAULT '0'",
-			'locked_on'   => 'datetime NOT NULL DEFAULT \'0000-00-00 00:00:00\'',
+			'locked_on'   => 'datetime',
 			'locked_by'   => 'int(11) NOT NULL DEFAULT \'0\''
 		);
 	}

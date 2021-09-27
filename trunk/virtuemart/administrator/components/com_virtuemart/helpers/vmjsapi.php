@@ -827,7 +827,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 
 	static function date($date , $format ='LC2', $joomla=FALSE , $tz=false ){
 
-		if (!strcmp ($date, '0000-00-00 00:00:00')) {
+		if (empty($date) or $date == '0000-00-00 00:00:00') {
 			return vmText::_ ('COM_VIRTUEMART_NEVER');
 		}
 		If ($joomla) {

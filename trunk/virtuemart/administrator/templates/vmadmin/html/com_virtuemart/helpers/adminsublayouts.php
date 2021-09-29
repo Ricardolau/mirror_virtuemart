@@ -22,7 +22,31 @@ defined( '_JEXEC' ) or die('Restricted access');
 
 class adminSublayouts {
 
+	/** Caches sublayouts. Currently unused, it is maybe interesting if we have better caches.
+	 * like memcache, or similar. File cache seems to be a lot slower!
+	 * @param $name
+	 * @param int $viewData
+	 * @return string|null
+	 */
+	static public function renderAdminVmSubLayoutCached($name,$viewData=0){
 
+		static $menu = null;
+		vmStartTimer('renderAdminVmSubLayoutCached');
+		if($menu === null){
+			$useCache = VmConfig::get('UseRenderAdminVmSubLayoutCached',false);
+			if($useCache and $menu === null){
+				$cache = VmConfig::getCache('com_virtuemart_bemenu','callback');
+				$cache->setCaching(true);
+				$menu = $cache->get( array( 'adminSublayouts', 'renderAdminVmSubLayout' ),array($name,$viewData));
+
+			} else {
+				$menu = self::renderAdminVmSubLayout($name,$viewData);
+			}
+		}
+
+		vmTime('renderAdminVmSubLayoutCached','renderAdminVmSubLayoutCached');
+		return $menu;
+	}
 
 	/**
 	 * Renders sublayouts

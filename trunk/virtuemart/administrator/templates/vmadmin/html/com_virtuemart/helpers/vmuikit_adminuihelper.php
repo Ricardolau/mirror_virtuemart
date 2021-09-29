@@ -105,6 +105,7 @@ class vmuikitAdminUIHelper {
 		}
 		$menuItems = self::getMenuItems();
 		$fnag =  self::writeVmm();
+
 		echo adminSublayouts::renderAdminVmSubLayout('startadmin',
 			array('vmView' => $vmView,
 				'selectText' => $selectText,
@@ -297,29 +298,32 @@ class vmuikitAdminUIHelper {
 
 	static function _getAdminMenu($moduleId = 0) {
 		$db = JFactory::getDBO ();
-		$menuArr = array ();
+		static $menuArr = array ();
 
-		$filter [] = "jmmod.published='1'";
-		$filter [] = "item.published='1'";
+		if(!$menuArr){
+			$filter [] = "jmmod.published='1'";
+			$filter [] = "item.published='1'";
 
-		if (! empty ( $moduleId )) {
-			$filter [] = 'vmmod.module_id=' . ( int ) $moduleId;
-		}
+			if (! empty ( $moduleId )) {
+				$filter [] = 'vmmod.module_id=' . ( int ) $moduleId;
+			}
 
-		$query = 'SELECT `jmmod`.`module_id`, `module_name`, `module_perms`, `id`, `name`, `link`, `depends`, `uikit_icon`, `view`, `task`';
-		$query .= 'FROM `#__virtuemart_modules` AS jmmod
+			$query = 'SELECT `jmmod`.`module_id`, `module_name`, `module_perms`, `id`, `name`, `link`, `depends`, `uikit_icon`, `view`, `task`';
+			$query .= 'FROM `#__virtuemart_modules` AS jmmod
 						LEFT JOIN `#__virtuemart_adminmenuentries` AS item ON `jmmod`.`module_id`=`item`.`module_id`
 						WHERE  ' . implode ( ' AND ', $filter ) . '
 						ORDER BY `jmmod`.`ordering`, `item`.`ordering` ';
 
-		$db->setQuery ( $query );
-		$result = $db->loadAssocList ();
+			$db->setQuery ( $query );
+			$result = $db->loadAssocList ();
 
-		for($i = 0, $n = count ( $result ); $i < $n; $i ++) {
-			$row = $result [$i];
-			$menuArr [$row['module_id']] ['title'] = 'COM_VIRTUEMART_' . strtoupper ( $row['module_name'] ) . '_MOD';
-			$menuArr [$row['module_id']] ['items'] [] = $row ;
+			for($i = 0, $n = count ( $result ); $i < $n; $i ++) {
+				$row = $result [$i];
+				$menuArr [$row['module_id']] ['title'] = 'COM_VIRTUEMART_' . strtoupper ( $row['module_name'] ) . '_MOD';
+				$menuArr [$row['module_id']] ['items'] [] = $row ;
+			}
 		}
+
 		return $menuArr;
 	}
 

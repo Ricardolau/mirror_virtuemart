@@ -2838,8 +2838,8 @@ vmdebug('createCloneWithChildren relation',$relation);
 		//We clone a child of a just cloned parent, keep the relation.
 		if(!empty($parentId)) $product->product_parent_id = $parentId;
 
-		$product->created_on = "0000-00-00 00:00:00";
-		$product->created_by = 0;
+		//$product->created_on = "0000-00-00 00:00:00";
+		//$product->created_by = 0;
 		$product->slug = $product->slug . '-' . $id;
 		$product->originId = $id;
 		$product->published=0;
@@ -2865,8 +2865,6 @@ vmdebug('createCloneWithChildren relation',$relation);
 				if($langTable->_loaded and !$langTable->_loadedWithLangFallback){
 					if(!empty($langTable->virtuemart_product_id)){
 						$langTable->virtuemart_product_id = $newId;
-						$langTable->created_on = "0000-00-00 00:00:00";
-						$langTable->created_by = 0;
 						$langTable->slug = $langTable->slug . '-' . $id;
 						$langTable->bindChecknStore($langTable, false, true);
 					}

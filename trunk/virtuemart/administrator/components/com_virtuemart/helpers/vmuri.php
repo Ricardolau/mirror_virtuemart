@@ -119,7 +119,7 @@ class vmURI{
 		}
 
 		$rurl = JURI::root(false).$admin.$url;
-		vmdebug('createUrlWithPrefix',$rurl,$url);
+		//vmdebug('createUrlWithPrefix',$rurl,$url);
 		return $rurl;
 	}
 

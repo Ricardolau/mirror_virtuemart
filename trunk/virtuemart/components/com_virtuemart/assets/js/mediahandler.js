@@ -11,9 +11,10 @@
 jQuery(document).ready(function($){
 
 	var media = $('#searchMedia').data();
+	media.start=0;
 	var searchMedia = $('input#searchMedia');
 	searchMedia.click(function () {
-		if (media.start>0) media.start=0;
+		media.start=0;
 	});
 	searchMedia.autocomplete({
 		source: Virtuemart.medialink,

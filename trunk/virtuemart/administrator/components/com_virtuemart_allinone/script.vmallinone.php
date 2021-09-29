@@ -517,15 +517,9 @@ class com_virtuemart_allinoneInstallerScript {
 				$app->enqueueMessage (get_class ($this) . ':: VirtueMart3 could not find file '.$pluginfilename);
 				return false;
 			}
-
-			//plgVmpaymentPaypal
-			$pluginClassname = 'plg' . ucfirst ($group) . ucfirst ($element);
-
-			//Let's get the global dispatcher
-			//$dispatcher = JDispatcher::getInstance ();
-			//$config = array('type' => $group, 'name' => $element, 'params' => '');
+			
 			try {
-				$plugin = vDispatcher::createPlugin($group, $element); //new $pluginClassname($dispatcher, $config);
+				$plugin = vDispatcher::createPlugin($group, $element, false); //new $pluginClassname($dispatcher, $config);
 			}
 			catch (Exception $e) {
 				//errros in sql during plugin instalalation and updates

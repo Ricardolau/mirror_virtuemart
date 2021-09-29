@@ -140,7 +140,7 @@ if ($canSearch) {
 				<div class="uk-card-body">
 					<div class="vm__img_autocrop">
 						<?php $imageArgs = array('id' => 'vmuikit-js-display-info'); ?>
-						<?php //echo $VmMediaHandler->displayMediaFull($imageArgs, false, '', false) ?>
+						<?php echo $VmMediaHandler->displayMediaFull($imageArgs, false, '', false) ?>
 					</div>
 					<div class="uk-grid-match uk-grid-small " uk-grid>
 						<div class="uk-width-2-3@l">
@@ -283,7 +283,7 @@ if ($canSearch) {
 								} else {
 									$imgHeight = '';
 								}
-								$thumbArgs = array('class' => 'vmuikit-js-info-image', 'style' => 'overflow: auto;' . $imgWidth . $imgHeight);
+								$thumbArgs = array('class' => 'vmuikit-js-info-image', 'style' => 'overflow: auto; margin:30px;' . $imgWidth . $imgHeight);
 								//echo adminSublayouts::renderAdminVmSubLayout('displayimage', array('VmMediaHandler' => $VmMediaHandler, 'image' => $image, 'key' => $key));
 
 								$mediaThumb = $VmMediaHandler->displayMediaThumb($thumbArgs, false);
@@ -354,10 +354,11 @@ if(!VmConfig::isSiteByApp()){
 
 $j = 'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
-	Virtuemart.medialink = "' . $link . '";';
+	Virtuemart.medialink = "' . $link . '";
+	Virtuemart.mediaType = "'.$type.'";';
 
 
-$j .= "jQuery(document).ready(function(){ jQuery('#vmuikit-js-medias-container').vmuikitmedia('media','" . $type . "','0') }); ";
+//$j .= "jQuery(document).ready(function(){ jQuery('#vmuikit-js-medias-container').vmuikitmedia('media',Virtuemart.mediaType,'0') }); ";
 vmJsApi::addJScript('mediahandler.vars', $j);
 //vmJsApi::addJScript('mediahandler');
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';

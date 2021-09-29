@@ -88,7 +88,7 @@ class AdminUIHelper {
 			.virtuemart-admin-area { display: block; }
 			.virtuemart-admin-area #menu-wrapper { float: left; }
 			.virtuemart-admin-area #admin-content { margin-left: 221px; }
-			</script>
+			</style>
 		<![endif]-->
 		<?php if (!self::$backEnd ){
 			//JToolbarHelper

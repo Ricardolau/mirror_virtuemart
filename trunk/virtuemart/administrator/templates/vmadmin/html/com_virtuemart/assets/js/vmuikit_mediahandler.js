@@ -3,23 +3,19 @@
  *
  * @package    VirtueMart
  * @subpackage Javascript Library
- * @authors    Patrick Kohl, Max Milbers
- * @copyright  Copyright (c) 2011-2016 VirtueMart Team. All rights reserved.
+ * @authors    Patrick Kohl, Max Milbers, Valerie Isaksen
+ * @copyright  Copyright (c) 2011-2021 VirtueMart Team. All rights reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
 jQuery(document).ready(function ($) {
-	
-	var media = $('#vmuikit-js-search-media').data()
+
+	//media = $('#vmuikit-js-search-media').data()
+	Virtuemart.start = 0
 	var searchMedia = $('input#vmuikit-js-search-media')
-	searchMedia.click(function () {
-		if (media.start > 0) media.start = 0
-	})
-	
-	var media = $('#vmuikit-js-search-media').data()
-	var searchMedia = $('input#vmuikit-js-search-media')
-	searchMedia.click(function () {
-		if (media.start > 0) media.start = 0
+	searchMedia.on('click', function () {
+		Virtuemart.start = 0;
+		console.log('Mediahandler set Virtuemart.start = 0');
 	})
 	var searchMediaAuto = searchMedia.autocomplete({
 		source:Virtuemart.medialink,
@@ -32,9 +28,10 @@ jQuery(document).ready(function ($) {
 			var template = $('#display-selected-media-template').html()
 			var rendered = Mustache.render(template, {'medias':ui.item})
 			var container = $('#vmuikit-js-medias-container')
-			var renderedHTML = $(container).html() + rendered
-			$(container).html(renderedHTML)
+			container.append(rendered);
+
 			$(this).val('')
+			//container.vmuikitmedia('media',Virtuemart.mediaType,'0')
 			event.preventDefault()
 		},
 		minLength:1,
@@ -57,14 +54,15 @@ jQuery(document).ready(function ($) {
 		.appendTo(ul)
 	}
 	
-	$('.vmuikit-js-pages').click(function (e) {
+	$('.vmuikit-js-pages').on('click', function (e) {
 		e.preventDefault();
+		console.log('clicked  vmuikit-js-pages',Virtuemart.start);
 		if (searchMedia.val() =='') {
 			searchMedia.val(' ');
-			media.start = 0;
-		} else if ($(this).hasClass('vmuikit-js-next')) media.start = media.start+16 ;
-		else if (media.start > 0) media.start = media.start-16 ;
-		searchMedia.autocomplete( 'option' , 'source' , Virtuemart.medialink+'&start='+media.start );
+			Virtuemart.start = 0;
+		} else if ($(this).hasClass('vmuikit-js-next')) Virtuemart.start = Virtuemart.start+16 ;
+		else if (Virtuemart.start > 0) Virtuemart.start = Virtuemart.start-16 ;
+		searchMedia.autocomplete( 'option' , 'source' , Virtuemart.medialink+'&start='+Virtuemart.start );
 		searchMedia.autocomplete( 'search');
 	});
 	
@@ -132,10 +130,10 @@ jQuery(document).ready(function ($) {
 			})
 		}
 	})
-	
-	$('.vmuikit-js-edit-image').click(function (e) {
+
+	$('#vmuikit-js-medias-container').on('click', '.vmuikit-js-edit-image', function (e) {
 		//var virtuemart_media_id = $(this).parent().find("input").val();
-		//console.log('edit-image', virtuemart_media_id)
+
 		$("#vmuikit-js-medias-container").find('.uk-card-vm').removeClass("vmuikit-js-thumb_image-selected");
 		var closest = $(this).closest('.vmuikit-js-thumb-image')
 		closest.find('.uk-card-vm').addClass("vmuikit-js-thumb_image-selected");
@@ -144,8 +142,8 @@ jQuery(document).ready(function ($) {
 		$.getJSON('index.php?option=com_virtuemart&view=media&format=json&virtuemart_media_id=' + virtuemart_media_id,
 				function (datas, textStatus) {
 					if (datas.msg == 'OK') {
-						$('#vmuikit-js-display-image').attr('src', datas.file_root + datas.file_url)
-						$('#vmuikit-js-display-image').attr('alt', datas.file_title)
+						$('#vmuikit-js-display-info').attr('src', datas.file_root + datas.file_url)
+						$('#vmuikit-js-display-info').attr('alt', datas.file_title)
 						$('#file_title').html(datas.file_title)
 						if (datas.published == 1) $('#adminForm [name=\'media[media_published]\']').attr('checked', true)
 						else $('#adminForm [name=media_published]').attr('checked', false)
@@ -173,61 +171,24 @@ jQuery(document).ready(function ($) {
 					} else $('#file_title').html(datas.msg)
 				})
 	})
-	
+
+	$('#media-dialog').delegate('.vmuikit-js-thumb-image', 'click', function (event) {
+		event.preventDefault()
+		var id = $(this).find('input').val(), ok = 0
+		var inputArray = new Array()
+		$('#vmuikit-js-medias-container input:hidden').each(
+			function () {
+				inputArray.push($(this).val())
+			}
+		)
+	})
+
+	$('#vmuikit-admin-ui-tabs').delegate('.vmuikit-js-remove', 'click', function () {
+		$(this).closest('.vmuikit-js-thumb-image').fadeOut('500', function () {
+			$(this).remove()
+		})
+	})
+
 });
 
-(function ($) {
-	
-	var methods = {
-		media:function (mediatype, total) {
-			var page = 0,
-					max = 24,
-					container = $(this)
-			var pagetotal = Math.ceil(total / max)
-			var cache = new Array()
-			
-			var formatTitle = function (title, currentArray, currentIndex, currentOpts) {
-				var pagination = '', pagetotal = total / max
-				if (pagetotal > 0) {
-					pagination = '<span><<</span><span><</span>'
-					for (i = 0; i < pagetotal; i++) {
-						pagination += '<span>' + (i + 1) + '</span>'
-					}
-					pagination += '<span>></span><span>>></span>'
-				}
-				return '<div class="media-pagination">' + (title && title.length ? '<b>' + title + '</b>' : '') + ' ' + pagination + '</div>'
-			}
-			
-			$('#media-dialog').delegate('.vmuikit-js-thumb-image', 'click', function (event) {
-				event.preventDefault()
-				var id = $(this).find('input').val(), ok = 0
-				var inputArray = new Array()
-				$('#vmuikit-js-medias-container input:hidden').each(
-						function () {
-							inputArray.push($(this).val())
-						}
-				)
-			})
-			
-			$('#vmuikit-admin-ui-tabs').delegate('.vmuikit-js-remove', 'click', function () {
-				$(this).closest('.vmuikit-js-thumb-image').fadeOut('500', function () {
-					$(this).remove()
-				})
-			})
-			
-		}
-	}
-	$.fn.vmuikitmedia = function (method) {
-		
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1))
-		} else if (typeof method === 'object' || !method) {
-			return methods.init.apply(this, arguments)
-		} else {
-			$.error('Method ' + method + ' does not exist on Vm2 admin jQuery library')
-		}
-		
-	}
-})(jQuery)
-//$('#ImagesContainer').media()
 

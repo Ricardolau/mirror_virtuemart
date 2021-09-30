@@ -46,6 +46,47 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 						</div>
 					</div>
+					<?php if(VmConfig::get('stockhandle_products',false)){ ?>
+					    <div class="uk-margin">
+						<label class="uk-form-label"><?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE') ?></label>
+                            <div class="uk-form-controls">
+                                <?php
+                                $options = array(
+	                                '0' => '',
+	                                'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_NONE'),
+	                                'disableit' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT'),
+	                                'disableit_children' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT_CHILDREN'),
+	                                'disableadd' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_ADD'),
+	                                'risetime' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_RISE_AVATIME')
+                                );
+                                $options['0'] = vmText::sprintf('COM_VIRTUEMART_ADMIN_CFG_POOS_GLOBAL', $options[VmConfig::get('stockhandle', 'none')]);
+                                echo VmHTML::selectList('product_stockhandle', $this->product->product_stockhandle, $options);
+                                ?>
+
+                            </div>
+                        </div>
+
+                        <tr class="row1">
+                            <th style="text-align:right;">
+								<?php echo vmText::_('COM_VIRTUEMART_CFG_POOS_ENABLE') ?>
+                            </th>
+                            <td colspan="3">
+								<?php
+								$options = array(
+									'0' => '',
+									'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_NONE'),
+									'disableit' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT'),
+									'disableit_children' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT_CHILDREN'),
+									'disableadd' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_ADD'),
+									'risetime' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_RISE_AVATIME')
+								);
+								$options['0'] = vmText::sprintf('COM_VIRTUEMART_ADMIN_CFG_POOS_GLOBAL', $options[VmConfig::get('stockhandle', 'none')]);
+								echo VmHTML::selectList('product_stockhandle', $this->product->product_stockhandle, $options);
+								?>
+                            </td>
+                        </tr>
+					<?php } ?>
+
 					<div class="uk-margin">
 						<label class="uk-form-label"><?php echo vmText::_('COM_VIRTUEMART_AVAILABILITY') ?></label>
 						<div class="uk-form-controls">

@@ -81,13 +81,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<td colspan="3">
 				<?php
 				$options = array(
-				'0' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_GLOBAL'),
+				'0' => '',
 				'none' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_NONE'),
 				'disableit' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT'),
 				'disableit_children' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_IT_CHILDREN'),
 				'disableadd' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_DISABLE_ADD'),
 				'risetime' => vmText::_('COM_VIRTUEMART_ADMIN_CFG_POOS_RISE_AVATIME')
 				);
+				$options['0'] = vmText::sprintf('COM_VIRTUEMART_ADMIN_CFG_POOS_GLOBAL', $options[VmConfig::get('stockhandle', 'none')]);
 				echo VmHTML::selectList('product_stockhandle', $this->product->product_stockhandle, $options);
 				?>
 			</td>

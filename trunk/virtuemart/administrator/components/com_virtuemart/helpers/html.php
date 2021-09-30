@@ -214,7 +214,7 @@ class VmHtml{
 			$attrib .= ' class="vm-chzn-select"';
 
 		}
-		return VmHtml::genericlist($options,$name,$attrib,$key,$text,$default,false,$tranlsate);
+		return self::genericlist($options,$name,$attrib,$key,$text,$default,false,$tranlsate);
 	}
 
 	/**
@@ -670,15 +670,15 @@ class VmHtml{
 	}
 
 	/**
-	* @author Patrick Kohl
-	* @var $type type of regular Expression to validate
-	* $type can be I integer, F Float, A date, M, time, T text, L link, U url, P phone
-	*@bool $required field is required
-	*@Int $min minimum of char
-	*@Int $max max of char
-	*@var $match original ID field to compare with this such as Email, passsword
-	*@ Return $html class for validate javascript
-	**/
+	 * @author Valérie Isaksen
+	 * @var $type type of regular Expression to validate
+	 * $type can be I integer, F Float, A date, M, time, T text, L link, U url, P phone
+	 * @bool $required field is required
+	 * @Int $min minimum of char
+	 * @Int $max max of char
+	 * @var $match original ID field to compare with this such as Email, passsword
+	 * @ Return $html class for validate javascript
+	 */
 	public static function validate($type='',$required=true, $min=null,$max=null,$match=null) {
 
 		if ($required) $validTxt = 'required';

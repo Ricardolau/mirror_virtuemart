@@ -45,6 +45,7 @@ class GenericTableUpdater extends VmModel{
 
 		$this->reCreaPri = VmConfig::get('reCreaPri',0);
 		$this->reCreaKey = VmConfig::get('reCreaKey',1);
+		$this->debug = false;
 	}
 
 	var $tables = array( 	'products'=>'virtuemart_product_id',
@@ -69,7 +70,7 @@ class GenericTableUpdater extends VmModel{
 				$langs = (array)VmConfig::$defaultLang;
 			}
 		}
-
+		vmdebug('Create/Update Language tables');
 		foreach($langs as $i => $lang){
 			$lang = strtolower(strtr($lang,'-','_'));
 			if(empty($lang))unset($langs[$i]);
@@ -79,8 +80,9 @@ class GenericTableUpdater extends VmModel{
 		//Todo add the mb_ stuff here
 		// 		vmTime('my langs <pre>'.print_r($langs,1).'</pre>');
 		$i = 0;
+		$this->debug=true;
 		foreach($this->tables as $table=>$tblKey){
-
+			vmdebug('Updating language table '.$table);
 // 			if($i>1) continue;
 			$className = 'Table'.ucfirst ($table);
 			if(!class_exists($className)) require(VMPATH_ADMIN.'/tables/'.$table.'.php');
@@ -103,7 +105,7 @@ class GenericTableUpdater extends VmModel{
 			if(VmConfig::get('dblayoutstrict',true)){
 				if($table=='products'){
 					$fields['product_s_desc'] = 'varchar('.VmConfig::get('dbpsdescsize',2000).') '.$linedefault;
-					$fields['product_desc'] = 'text '.$linedefaulttext;
+					$fields['product_desc'] = 'text ';
 
 					$key = array_search('product_desc', $translatableFields);
 					unset($translatableFields[$key]);
@@ -117,13 +119,13 @@ class GenericTableUpdater extends VmModel{
 // 					$fields['vendor_terms_of_service'] = 'varchar('.VmConfig::get('dbtossize',18100).') '.$linedefault;
 // 					$fields['vendor_legal_info'] = 'varchar('.VmConfig::get('dblegalsize',1100).') '.$linedefault;
 
-					$fields['vendor_store_desc'] = 'text '.$linedefaulttext;
-					$fields['vendor_terms_of_service'] = 'mediumtext '.$linedefaulttext;
-					$fields['vendor_legal_info'] = 'text '.$linedefaulttext;
+					$fields['vendor_store_desc'] = 'text ';
+					$fields['vendor_terms_of_service'] = 'mediumtext ';
+					$fields['vendor_legal_info'] = 'text ';
 
-					$fields['vendor_letter_css'] = 'text '.$linedefaulttext;
-					$fields['vendor_letter_header_html'] = "varchar(8000) NOT NULL DEFAULT '<h1>{vm:vendorname}</h1><p>{vm:vendoraddress}</p>'";
-					$fields['vendor_letter_footer_html'] = "varchar(8000) NOT NULL DEFAULT '<p>{vm:vendorlegalinfo}<br />Page {vm:pagenum}/{vm:pagecount}</p>'";
+					$fields['vendor_letter_css'] = 'text ';
+					$fields['vendor_letter_header_html'] = "varchar(6500) NOT NULL DEFAULT '<h1>{vm:vendorname}</h1><p>{vm:vendoraddress}</p>'";
+					$fields['vendor_letter_footer_html'] = "varchar(6500) NOT NULL DEFAULT '<p>{vm:vendorlegalinfo}<br />Page {vm:pagenum}/{vm:pagecount}</p>'";
 
 
 					$key = array_search('vendor_store_desc', $translatableFields);
@@ -147,11 +149,11 @@ class GenericTableUpdater extends VmModel{
 				}
 			} else {
 				vmdebug('dblayoutstrict false');
-				$fields['vendor_terms_of_service'] = 'mediumtext '.$linedefaulttext;
+				$fields['vendor_terms_of_service'] = 'mediumtext ';
 				$key = array_search('vendor_terms_of_service', $translatableFields);
 				unset($translatableFields[$key]);
 
-				$fields['vendor_legal_info'] = 'text '.$linedefaulttext;
+				$fields['vendor_legal_info'] = 'text ';
 				$key = array_search('vendor_legal_info', $translatableFields);
 				unset($translatableFields[$key]);
 			}
@@ -169,16 +171,16 @@ class GenericTableUpdater extends VmModel{
 				} else if(strpos($name,'metaauthor')!==false ){
 					$fields[$name] = 'varchar(64) '.$linedefault;
 				} else if(strpos($name,'slug')!==false ){
-					$fields[$name] = 'varchar('.VmConfig::get('dbslugsize',192).') '.$linedefault;
+					$fields[$name] = 'varchar('.VmConfig::get('dbslugsize',191).') '.$linedefault;
 					$slug = true;
 				}else if(strpos($name,'phone')!==false) {
 					$fields[$name] = 'varchar(26) '.$linedefault;
 				}else if(strpos($name,'desc')!==false) {
-					if(VmConfig::get('dblayoutstrict',true)){
-						$fields[$name] = 'varchar('.VmConfig::get('dbdescsize',19000).') '.$linedefault;
-					} else {
-						$fields[$name] = 'text '.$linedefaulttext;
-					}
+					/*if(VmConfig::get('dblayoutstrict',true)){
+						$fields[$name] = 'varchar('.VmConfig::get('dbdescsize',12500).') '.$linedefault;
+					} else {*/
+						$fields[$name] = 'text ';
+					//}
 
 				} else {
 					$fields[$name] = 'varchar(255) '.$linedefault;
@@ -718,7 +720,7 @@ class GenericTableUpdater extends VmModel{
 			$demandFieldNames[] = $i;
 		}
 
-		$q = 'SHOW FULL COLUMNS  FROM `'.$tablename.'` ';	//$q = 'SHOW CREATE TABLE '.$this->_tbl;
+		$q = 'SHOW FULL COLUMNS  FROM `'.$tablename.'` ';
 		$this->_db->setQuery($q);
 		$fullColumns = $this->_db->loadObjectList();
 		$columns = $this->_db->loadColumn(0);
@@ -756,10 +758,11 @@ class GenericTableUpdater extends VmModel{
 
 				$oldColumn = strtoupper($oldColumn);
 				$alterCommand = strtoupper(trim($alterCommand));
-
+				if($this->debug) vmdebug('alterColumns '.$tablename.' column '.$fieldname,$oldColumn,$alterCommand);
 				if ($oldColumn != $alterCommand ) {
 					$pr = '';
-					vmdebug('alterColumns columns different '.$fieldname,$oldColumn,$alterCommand);
+					//vmdebug('alterColumns columns different '.$fieldname,$oldColumn,$alterCommand);
+					vmdebug('alterColumns columns different ! '.$fieldname);
 					//If the field is an auto_increment, we add to the sql the creation of the primary key
 					if( (strpos($alterCommand,'AUTO_INCREMENT')!==false xor strpos($oldColumn,'AUTO_INCREMENT')!==false)){
 						$pr = ', ADD PRIMARY KEY (`'.$fieldname.'`)';
@@ -782,7 +785,7 @@ class GenericTableUpdater extends VmModel{
 						$query = 'ALTER TABLE `'.$tablename.'` CHANGE COLUMN `'.$fieldname.'` `'.$fieldname.'` '.$alterCommand.' '.$after.$pr;
 						$action = 'CHANGE';
 						$altered++;
-						$lastdebug = 'alterColumns '.$tablename.' from '.$oldColumn.' to '.$fieldname.' '.$alterCommand;
+						$lastdebug = 'alterColumns '.$tablename.' from '.$oldColumn.' to '.$fieldname.' '.$alterCommand.' '.$after.$pr;
 						vmInfo($lastdebug);
 					}
 				}
@@ -804,7 +807,7 @@ class GenericTableUpdater extends VmModel{
 
 			if (!empty($query)) {
 				$this->_db->setQuery($query);
-				$msg = 'alterTable '.$action.' '.$tablename.'.'.$fieldname;
+				$msg = 'alterTable '.$action.' '.$tablename.'.'.$fieldname.' query '.$query;
 				try {
 					if(!$this->_db->execute() ){
 						vmError( $msg, $msg.$query );
@@ -942,7 +945,7 @@ class GenericTableUpdater extends VmModel{
 		return $dropped;
 	}
 
-	private function reCreateColumnByTableAttributes($fullColumn){
+	public function reCreateColumnByTableAttributes($fullColumn){
 
 		$oldColumn = $fullColumn->Type;
 
@@ -990,7 +993,8 @@ class GenericTableUpdater extends VmModel{
 
 	private function getdefault($string){
 		if (isset($string)) {
-			if(strpos(strtolower($string),'current_timestamp')!==FALSE){
+
+			if(strpos($string,'\'')!==FALSE or  strpos(strtolower($string),'current_timestamp')!==FALSE){
 
 				return  " DEFAULT ".trim($string);
 			} else {

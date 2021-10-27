@@ -72,6 +72,59 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$this->setRedirect($this->redirectPath);
 	}
 
+	function updateToUTf8mb4(){
+		$this->checkPermissionForTools();
+
+		$db = JFactory::getDbo();
+
+		$conf = JFactory::getConfig();
+		$database = $conf->get('config.db');
+		$q = 'ALTER DATABASE
+    '.$database.'
+    CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;';
+		$db->setQuery($q);
+		$db->execute();
+
+		$updater = new GenericTableUpdater();
+
+		//First lets get all VM tables
+		$q = 'SHOW TABLES LIKE "'.$db->getPrefix().'virtuemart%" ';
+		$db->setQuery($q);
+		$tables = $db->loadColumn();
+
+		foreach($tables as $key=>$tablename){
+
+			$q = 'ALTER TABLE
+    '.$tablename.'
+    CONVERT TO CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;';
+			$db->setQuery($q);
+			$db->execute();
+
+			$q = 'SHOW FULL COLUMNS  FROM `'.$tablename.'` ';
+			$db->setQuery($q);
+			$fullColumns = $db->loadObjectList();
+
+			foreach($fullColumns as $column){
+				if(!empty($column->Collation) and $column->Collation != 'utf8mb4_unicode_ci'){
+					$myCol = $updater->reCreateColumnByTableAttributes($column);
+					$q = 'ALTER TABLE '.$tablename.' CHANGE '.$column->Field.' '.$column->Field.' ';
+					$q .= $myCol;
+					$q .= 'CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci; ';
+					$db->setQuery($q);
+					try{
+						$db->execute();
+					} catch (Exception $e){
+						vmdebug('FAILED My old column to update to ',$column,$q,$e);
+					}
+				}
+			}
+		}
+
+	}
+
 	/**
 	 * Install sample data into the database
 	 *

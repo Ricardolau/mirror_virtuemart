@@ -26,7 +26,7 @@ if ($searchCustomValue->field_type == "S")
 {
     ?>
     <div class="form-group m-0">
-        <label for="exampleInputEmail1"><?php echo vmText::_($searchCustomValue->custom_title); ?></label>
+        <label for="<?php echo $searchCustomValue->custom_title ?>"><?php echo vmText::_($searchCustomValue->custom_title); ?></label>
         <?php echo JHtml::_(
             'select.genericlist', $searchCustomValue->value_options,
             'customfields[' . $searchCustomValue->virtuemart_custom_id . ']',

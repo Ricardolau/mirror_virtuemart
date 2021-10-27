@@ -4330,7 +4330,7 @@ select.uk-form-width-xsmall {
   content: '.';
 }
 :root {
-  --uk-leader-fill-content: .;
+  --uk-leader-fill-content: '.';
 }
 /* ========================================================================
    Component: Notification
@@ -12504,4 +12504,20 @@ iframe.uk-cover {
   h3 {
     page-break-after: avoid;
   }
+}
+
+/* Custom Reset and Fixes for Chosen - STS */
+/* Standard Reset - STS */
+.virtuemart-admin-area input,
+.virtuemart-admin-area textarea,
+.virtuemart-admin-area select,
+.virtuemart-admin-area option {
+  max-width: 100%;
+}
+.virtuemart-admin-area select {
+  min-width: 100%;max-width: 100%;
+}
+
+.virtuemart-admin-area .chosen-container {
+  min-width: 100%;max-width: 100%;
 }

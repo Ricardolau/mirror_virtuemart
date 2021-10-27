@@ -1,16 +1,14 @@
 /**
  * vmsite.js: General Javascript Library for VirtueMart Frontpage
  *
- *
  * @package    VirtueMart
  * @subpackage Javascript Library
  * @authors    Patrick Kohl, Max Milbers, Abhishek Das
- * @copyright  Copyright (c) 2014-2016 VirtueMart Team. All rights reserved.
+ * @copyright  Copyright (c) 2014-2021 VirtueMart Team. All rights reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
-if (typeof Virtuemart === "undefined")
-	var Virtuemart = {};
-//var Virtuemart = window.Virtuemart || {};
+
+var Virtuemart = window.Virtuemart || {};
 
 (function($) {
 	var methods = {
@@ -98,8 +96,8 @@ if (typeof Virtuemart === "undefined")
 			_addToList: function(data) {
 				var that = this,
 					dataType = $.type(data),
-					i = 0;
-				selected_state_ids = [];
+					i = 0,
+					selected_state_ids = [];
 
 				if (that.opt.selected_state_ids && that.opt.selected_state_ids.length) {
 					if (that.opt.selected_state_ids) {
@@ -157,7 +155,7 @@ if (typeof Virtuemart === "undefined")
 										value: state.virtuemart_state_id
 									}).text(state.state_name);
 
-									if ($.inArray(state.virtuemart_state_id, selected_state_ids) >= 0) {
+									if ($.inArray(state.virtuemart_state_id.toString(), selected_state_ids) >= 0) {
 										option.attr('selected', true);
 									}
 

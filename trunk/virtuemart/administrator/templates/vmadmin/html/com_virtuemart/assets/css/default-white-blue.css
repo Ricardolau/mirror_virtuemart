@@ -351,7 +351,7 @@ fieldset.radio {
 }
 
 .virtuemart-admin-area fieldset.btn-group-yesno label {
-    margin: 0;
+    margin: 0 10px 0 0;
 }
 
 .chzn-container-small .chzn-container {
@@ -610,4 +610,3 @@ input[type="text"].uk-form-width-1-1{
     width: 25px;
     height: 25px;
 }
-

@@ -169,10 +169,7 @@ class VirtuemartViewCategory extends VmView {
 		'recent' => VmConfig::get('recent',0),
 		'recent_rows' => VmConfig::get('recent_rows',1));
 
-
-
 		$categoryModel = VmModel::getModel('category');
-
 
 		// set search and keyword
 		if ($this->productModel->keyword){
@@ -217,16 +214,11 @@ class VirtuemartViewCategory extends VmView {
 
 
 		if(!empty($this->keyword) or $this->showsearch){
-			//vmSetStartTime('getSearchCustom');
 
 			$this->getSearchCustom();
-			//vmTime('getSearchCustom End','getSearchCustom');
 			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
-			//$app->setUserState('com_virtuemart.customfields.searchAllCats',$f);
 		}
-		/*else {
-			$app->setUserState('com_virtuemart.customfields','');
-		}*/
+
 
 		shopFunctionsF::setLastVisitedCategoryId($this->categoryId);
 		shopFunctionsF::setLastVisitedManuId($this->virtuemart_manufacturer_id);
@@ -284,8 +276,8 @@ class VirtuemartViewCategory extends VmView {
 			}
 
 			foreach( $opt as $o ) {
+				$o = trim($o);
 				if($o == 'products') {
-					vmdebug('Lets load the products');
 					VirtueMartModelProduct::$omitLoaded = VmConfig::get('omitLoaded');
 					$ids = $this->productModel->sortSearchListQuery( TRUE, $this->categoryId );
 					VirtueMartModelProduct::$_alreadyLoadedIds = array_merge( VirtueMartModelProduct::$_alreadyLoadedIds, $ids );

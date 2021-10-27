@@ -51,7 +51,7 @@ function vmInfo($publicdescr,$value=NULL){
 	}
 	else {
 		if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
-			$msg = 'Max messages reached';
+			$msg .= ' Max messages reached';
 			$type = 'warning';
 			VmConfig::$maxMessageCount++;
 		} else {
@@ -98,7 +98,7 @@ function vmAdminInfo($publicdescr,$value=NULL){
 		}
 		else {
 			if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
-				$app->enqueueMessage ('Max messages reached', VmConfig::$mType);
+				$app->enqueueMessage ('Max messages reached '.vmText::_($publicdescr), VmConfig::$mType);
 				VmConfig::$maxMessageCount++;
 			}else {
 				return false;
@@ -206,7 +206,7 @@ function vmError($descr,$publicdescr=''){
  * @param unknown_type $values
  */
 function vmdebug($debugdescr,$debugvalues=NULL){
-	//VmConfig::$_debug = true;
+
 	if(VmConfig::$_debug ){
 		if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
 			if($debugvalues!==NULL){

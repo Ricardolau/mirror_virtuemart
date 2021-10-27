@@ -156,21 +156,18 @@ class VirtueMartCart {
 			if (empty($cartData)) {
 
 				if($multixcart!='byproduct'){
-					$cartSession = $session->get('vmcart', 0, 'vm');
+					$sessionCart = $session->get('vmcart', 0, 'vm');
 				}
 				else {
-					$cartSession = $session->get('vmcarts.'.$vendorId, 0, 'vm');
+					$sessionCart = $session->get('vmcarts.'.$vendorId, 0, 'vm');
 
 				}
 
-				if (!empty($cartSession)) {
-					$sessionCart = (object)json_decode( $cartSession ,true);
-
-					//if(empty($sessionCart->cartProductsData) or ($sessionCart->_guest and $sessionCart->_guest!=JFactory::getUser()->guest)){
-
+				if (!empty($sessionCart)) {
+					$sessionCart = (object)json_decode( $sessionCart ,true);
 				}
 			} else {
-				$cartSession=$sessionCart=$cartData;
+				$sessionCart=$cartData;
 			}
 
 			$userModel = VmModel::getModel('user');
@@ -179,7 +176,7 @@ class VirtueMartCart {
 			$lang = vmLanguage::getLanguage();
 			self::$_cart->order_language = $lang->getTag();
 
-			if (!empty($cartSession)) {
+			if (!empty($sessionCart)) {
 
 				if(isset($sessionCart->cartProductsData)){
 					self::$_cart->cartProductsData 				= $sessionCart->cartProductsData;
@@ -219,7 +216,7 @@ class VirtueMartCart {
 				}
 			}
 
-			if(empty(JFactory::getUser()->guest) and !empty($sessionCart->_guest)){
+			if(empty(JFactory::getUser()->guest) and (empty($sessionCart) or !empty($sessionCart->_guest)) ){
 				self::$_cart->loadCart(self::$_cart);
 				self::$_cart->_guest = 0;
 			}
@@ -1067,7 +1064,7 @@ class VirtueMartCart {
 				if ($updateSession== false) return false ;
 				$cart->_dataValidated = false;
 				// End Iteration through Prod id's
-				$cart->setCartIntoSession(true);
+				$cart->setCartIntoSession(true, true);
 
 			}
 		}

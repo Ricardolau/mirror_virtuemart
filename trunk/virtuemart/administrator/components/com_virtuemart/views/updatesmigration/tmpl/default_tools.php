@@ -130,6 +130,9 @@ defined('_JEXEC') or die('Restricted access');
 		<?php echo $this->renderTaskButton('refreshCompleteInstallAndSample','COM_VIRTUEMART_DELETES_ALL_VM_TABLES_AND_SAMPLE'); ?>
 	</td>
 
+    <td align="center">
+		<?php echo $this->renderTaskButton('updateToUTf8mb4','COM_VIRTUEMART_UPDATE_TO_UTF8MB4'); ?>
+    </td>
 
 	<td align="center">
 

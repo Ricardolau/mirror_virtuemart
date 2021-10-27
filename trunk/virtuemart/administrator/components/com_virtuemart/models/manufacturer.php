@@ -185,7 +185,7 @@ class VirtueMartModelManufacturer extends VmModel {
 		return $_manufacturers[$hash];
 	}
 
-	static function getManufacturersOfProductsInCategory($virtuemart_category_id,$vmlang,$mlang = false){
+	static function getManufacturersOfProductsInCategory($virtuemart_category_id){
 
 		//if($mlang){
 		$useFb = vmLanguage::getUseLangFallback();

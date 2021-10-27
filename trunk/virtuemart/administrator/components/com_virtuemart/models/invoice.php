@@ -226,13 +226,15 @@ class VirtueMartModelInvoice extends VmModel {
 
 		$table = $this->getTable('invoices');
 
+		vDispatcher::importVMPlugins('vmpayment');
+		JPluginHelper::importPlugin('vmshopper');
+
 		//QuicknDirty
 		$deliveryNote = vRequest::getCmd('layout','');
 		if($deliveryNote=='deliverynote'){
 			$tmp = self::getInvoiceEntry($data['virtuemart_order_id'], true , '*');
 			$table->invoice_number = isset($tmp['invoice_number'])? $tmp['invoice_number']:'';
 			$table->created_on = isset($tmp['created_on'])? $tmp['created_on']:'';
-			vDispatcher::importVMPlugins('vmpayment');
 
 		} else {
 

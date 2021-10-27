@@ -25,7 +25,7 @@ class VmConfig {
 	public static $loaded = FALSE;
 
 	public static $maxMessageCount = 0;
-	public static $maxMessage = 300;
+	public static $maxMessage = 400;
 	public static $echoDebug = FALSE;
 	public static $logDebug = FALSE;
 	public static $logFileName = 'com_virtuemart';

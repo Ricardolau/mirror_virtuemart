@@ -106,8 +106,7 @@ class VirtueMartViewCart extends VmView {
 
 			$this->currencyDisplay = CurrencyDisplay::getInstance($this->cart->pricesCurrency);
 
-			$customfieldsModel = VmModel::getModel ('Customfields');
-			$this->assignRef('customfieldsModel',$customfieldsModel);
+			$this->customfieldsModel = VmModel::getModel ('Customfields');
 
 			$this->lSelectCoupon();
 

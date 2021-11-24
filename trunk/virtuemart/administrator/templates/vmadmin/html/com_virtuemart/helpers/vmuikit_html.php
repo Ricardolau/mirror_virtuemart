@@ -91,12 +91,12 @@ class VmuikitHtml extends VmHtml {
 			id="' . $args[0] . '-lbl"'.$tooltiptext.'>'.$label."</label>";
 		}else {
 			$label='
-			<div class="uk-form-label">'
+			<div class="uk-form-label'.$popUP.'" '.$tooltiptext.'>'
 				.$label.
 			'</div>';
 		}
 		$html = '';
-		$html .= '<div class="uk-clearfix'.$popUP.'" '.$tooltiptext.'>';
+		$html .= '<div class="uk-clearfix">';
 		//$html .= '<div class="uk-form-label">';
 		$html .= $label;
 		//$html .= '</div>';

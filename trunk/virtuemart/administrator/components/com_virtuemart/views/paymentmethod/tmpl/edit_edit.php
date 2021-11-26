@@ -56,6 +56,7 @@ defined('_JEXEC') or die('Restricted access');
 			echo VmHtml::row('raw', 'COM_VM_SHIPMENTS',$this->shipmentList);
 			echo VmHtml::row('checkbox', 'COM_VM_ENABLE_BY_COUPON', 'byCoupon', $this->payment->byCoupon);
 			echo VmHtml::row('input', 'COM_VM_ENABLE_BY_COUPON_BY_CODE', 'couponCode', $this->payment->couponCode);
+			echo VmHtml::row('checkbox', 'COM_VM_PROGRESSIVE', 'progressive', $this->payment->progressive);
 		}
 
 		echo VmHTML::row('input','COM_VIRTUEMART_LIST_ORDER','ordering',$this->payment->ordering,'class="inputbox"','',4,4); ?>

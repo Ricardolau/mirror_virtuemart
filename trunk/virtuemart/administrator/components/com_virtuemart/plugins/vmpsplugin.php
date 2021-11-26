@@ -55,7 +55,8 @@ abstract class vmPSPlugin extends vmPlugin {
 		$varsToPush['virtuemart_shipmentmethod_ids'] = array('','char');
 		$varsToPush['byCoupon'] = array('','int');
 		$varsToPush['couponCode'] = array('','char');
-
+		if($payment)
+			$varsToPush['progressive'] = array('1','int');
 
 		unset($varsToPush['checkConditionsCore']);
 	}
@@ -1251,6 +1252,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			if(empty($method->cost_percent_total)) $method->cost_percent_total = 0.0;
 			if(empty($method->cost_per_transaction)) $method->cost_per_transaction = 0.0;
 
+			$progressive = isset($method->progressive)? $method->progressive: $progressive;
 			if(!$progressive){
 				//Simple
 				$cartTotalAmount=($cartTotalAmountOrig + $method->cost_per_transaction) * (1 +($method->cost_percent_total * 0.01));

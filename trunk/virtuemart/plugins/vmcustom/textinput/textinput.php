@@ -200,7 +200,7 @@ class plgVmCustomTextinput extends vmCustomPlugin {
 
         if ($customfield->custom_price_by_letter ==1) {
             $modificatorSum += $charCount * $customfield->customfield_price ;
-        } else {
+        } else if($charCount){
             $modificatorSum += $customfield->customfield_price ;
         }
 

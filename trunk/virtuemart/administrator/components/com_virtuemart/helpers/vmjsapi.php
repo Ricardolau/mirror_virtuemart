@@ -384,11 +384,11 @@ class vmJsApi{
 	}
 
 	static function fancybox(){
-		if(JVM_VERSION < 4){
+		/*if(JVM_VERSION < 4){
 			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
-		} else {
+		} else {*/
 			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.2.pack',false,false,false,false,'1.3.4.2');
-		}
+		//}
 
 		vmJsApi::css('jquery.fancybox-1.3.4');
 
@@ -766,7 +766,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 			$formatedDate = $date1->format($dateFormat);*/
 		}
 		else {
-			$formatedDate = vmText::_('COM_VIRTUEMART_NEVER');
+			$formatedDate = vmText::_('COM_VIRTUEMART_DATE_NOTSET');
 		}
 		$display  = '<input class="datepicker-db" id="'.$id.'" type="hidden" name="'.$name.'" value="'.$date.'" />';
 		$display .= '<input id="'.$id.'_text" class="datepicker" type="text" value="'.$formatedDate.'" />';
@@ -790,7 +790,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 				});
 			});
 			$(document).on( "click",".js-date-reset", function() {
-				$(this).prev("input").val("'.vmText::_('COM_VIRTUEMART_NEVER').'").prev("input").val("0");
+				$(this).prev("input").val("'.vmText::_('COM_VIRTUEMART_DATE_NOTSET').'").prev("input").val("0");
 			});
 		});
 		');
@@ -828,7 +828,7 @@ Virtuemart.requiredMsg = '" .addslashes (vmText::_ ('COM_VIRTUEMART_MISSING_REQU
 	static function date($date , $format ='LC2', $joomla=FALSE , $tz=false ){
 
 		if (empty($date) or $date == '0000-00-00 00:00:00') {
-			return vmText::_ ('COM_VIRTUEMART_NEVER');
+			return vmText::_ ('COM_VIRTUEMART_DATE_NOTSET');
 		}
 		If ($joomla) {
 			$formatedDate = JHtml::_('date', $date, vmText::_('DATE_FORMAT_'.$format),$tz);

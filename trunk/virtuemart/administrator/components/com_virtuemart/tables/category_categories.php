@@ -2,12 +2,12 @@
 /**
 *
 * category_categories table ( to map calc rules to shoppergroups)
-*
+* This table is now deprecated and just there for legacy reasons.
 * @package	VirtueMart
 * @subpackage nested categories
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,7 +18,7 @@
 
 defined('_JEXEC') or die();
 
-class TableCategory_categories extends VmTableData {
+class TableCategory_categories extends VmTable {
 
 	var $category_parent_id = 0;
 	var $ordering = 0;

@@ -5,9 +5,9 @@
  *
  * @package	VirtueMart
  * @subpackage Orders
- * @author 	Oscar van Eijk
+ * @author 	Oscar van Eijk, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -19,7 +19,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-class TableOrder_userinfos extends VmTableData {
+class TableOrder_userinfos extends VmTable {
 
     /**
      * @author Max Milbers

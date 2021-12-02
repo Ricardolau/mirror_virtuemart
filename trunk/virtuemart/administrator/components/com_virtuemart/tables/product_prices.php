@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author RolandD
  * @author Max Milbers
  */
-class TableProduct_prices extends VmTableData {
+class TableProduct_prices extends VmTable {
 
     /** @var int Primary key */
     var $virtuemart_product_price_id = 0;
@@ -60,7 +60,6 @@ class TableProduct_prices extends VmTableData {
     function __construct(&$db) {
         parent::__construct('#__virtuemart_product_prices', 'virtuemart_product_price_id', $db);
 
-        $this->setPrimaryKey('virtuemart_product_price_id');
 		$this->setLoggable();
 		$this->setTableShortCut('pp');
 		$this->setConvertDecimal(array('product_price','product_override_price'));

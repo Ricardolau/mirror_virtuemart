@@ -5,9 +5,9 @@
 *
 * @package	VirtueMart
 * @subpackage
-* @author RolandD
+* @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2012 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -48,7 +48,7 @@ class TableRatings extends VmTable {
 	function __construct(&$db) {
 		parent::__construct('#__virtuemart_ratings', 'virtuemart_rating_id', $db);
 		//In a VmTable the primary key is the same as the _tbl_key and therefore not needed
-  		$this->setPrimaryKey('virtuemart_rating_id');
+
 //		$this->setObligatoryKeys('virtuemart_product_id');
 
 		$this->setLoggable();

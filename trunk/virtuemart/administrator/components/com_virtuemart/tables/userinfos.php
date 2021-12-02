@@ -5,9 +5,9 @@
 *
 * @package	VirtueMart
 * @subpackage User
-* @author 	RickG, RolandD
+* @author 	RickG, Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package	VirtueMart
  * @author 	RickG, RolandD, Max Milbers
  */
-class TableUserinfos extends VmTableData {
+class TableUserinfos extends VmTable {
 
 
 	/** @var int Primary key */
@@ -65,7 +65,7 @@ class TableUserinfos extends VmTableData {
 		/* Make sure the custom fields are added */
 		parent::__construct('#__virtuemart_userinfos', 'virtuemart_userinfo_id', $db);
 		parent::showFullColumns();
-		$this->setPrimaryKey('virtuemart_userinfo_id');
+
 		$this->setObligatoryKeys('address_type');
 		$this->setObligatoryKeys('virtuemart_user_id');
 

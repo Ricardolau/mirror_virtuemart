@@ -7,7 +7,7 @@
 * @subpackage User
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,7 +19,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-class TableCarts extends VmTableData {
+class TableCarts extends VmTable {
 
 	/** @var int Vendor ID */
 	var $virtuemart_cart_id		= 0;

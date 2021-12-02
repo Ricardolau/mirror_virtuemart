@@ -680,7 +680,7 @@ abstract class vmPlugin extends JPlugin {
 	protected function createPluginTableObject ($tableName, $tableFields, $primaryKey, $tableId, $loggable = FALSE) {
 
 		$db = JFactory::getDBO ();
-		$table = new VmTableData($tableName, $tableId, $db);
+		$table = new VmTable($tableName, $tableId, $db);
 		foreach ($tableFields as $field) {
 			$table->{$field} = 0;
 		}

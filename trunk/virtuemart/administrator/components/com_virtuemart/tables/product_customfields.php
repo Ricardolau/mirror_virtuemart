@@ -53,9 +53,7 @@ class TableProduct_customfields extends VmTable {
 	function __construct(&$db){
 		parent::__construct('#__virtuemart_product_customfields', 'virtuemart_customfield_id', $db);
 
-		$this->setPrimaryKey('virtuemart_product_id');
-		// $this->setSecondaryKey('virtuemart_customfield_id');
-		$this->setLoggable();
+
 		$this->setOrderable();
 		$this->setConvertDecimal(array('customfield_price'));
 	}

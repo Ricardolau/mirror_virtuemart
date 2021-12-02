@@ -1440,11 +1440,11 @@ class VirtueMartModelOrders extends VmModel {
 				$this->calculatePaidByOS($data,$inputOrder);
 
 			}
-			//$data->invoice_locked = 0;
+			//vmdebug('Going to store the order', $old_o_hash, $data->o_hash, $data->loadFieldValues());
+
 			$data->store();
-			vmdebug('Going to store the order', $old_o_hash, $data->o_hash);
+
 		}
-		vmdebug('Update order status ');
 
 		//Must be below the handling of the order items, else we must add an except as for "customer_notified"
 		if(empty($inputOrder['comments'])){
@@ -1456,7 +1456,7 @@ class VirtueMartModelOrders extends VmModel {
 		//TODO use here needNewInvoiceNumber
 		$inputOrder['order_status'] = $data->order_status;
 
-		vmdebug('updateStatusForOneOrder, a new invoice needed? ',(int)$data->invoice_locked, $old_order_status, $data->order_status, $old_o_hash, $data->o_hash);
+		//vmdebug('updateStatusForOneOrder, a new invoice needed? ',(int)$data->invoice_locked, $old_order_status, $data->order_status, $old_o_hash, $data->o_hash);
 
 		if(!$data->invoice_locked and ($old_order_status!=$data->order_status or $old_o_hash != $data->o_hash) and VirtueMartModelInvoice::isInvoiceToBeAttachByOrderstats($inputOrder['order_status'])){
 

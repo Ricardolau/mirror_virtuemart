@@ -5,9 +5,9 @@
 *
 * @package	VirtueMart
 * @subpackage Orders
-* @author RolandD
+* @author RolandD, Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
  * @package	VirtueMart
  * @author Max Milbers
  */
-class TableOrders extends VmTableData {
+class TableOrders extends VmTable {
 
 	/** @var int Primary key */
 	var $virtuemart_order_id = 0;
@@ -118,6 +118,7 @@ class TableOrders extends VmTableData {
 		$this->setOmittedHashFields(array('order_note','order_pass','order_create_invoice_pass','ip_address','order_status','paid','paid_on','invoice_locked','modified_on','modified_by','locked_on','locked_by'));
 		$this->setTableShortCut('o');
 		$this->setConvertDecimal(array('paid'));
+		$this->setDateFields(array('paid_on'));
 	}
 
 	function check(){

@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 * @author Max Milbers
 * @author mediaDESIGN> St.Kraft 2013-02-24 manufacturer relation added
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -143,7 +143,7 @@ class VirtueMartModelCalc extends VmModel {
 		$startDate = JFactory::getDate($data['publish_up']);
 		$data['publish_up'] = $startDate->toSQL();
 
-		if (empty($data['publish_down']) || trim($data['publish_down']) == vmText::_('COM_VIRTUEMART_NEVER')){
+		if (empty($data['publish_down']) || trim($data['publish_down']) == vmText::_('COM_VIRTUEMART_DATE_NOTSET')){
 			$data['publish_down']	= $db->getNullDate();
 		} else {
 			$expireDate = JFactory::getDate($data['publish_down']);

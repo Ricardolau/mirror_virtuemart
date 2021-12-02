@@ -8,7 +8,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011-2018 VirtueMart Team. All rights reserved by the author.
+ * @copyright Copyright (c) 2011-2021 VirtueMart Team. All rights reserved by the author.
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  */
 
@@ -495,6 +495,7 @@ class VmMediaHandler {
 		$this->file_name = JFile::stripExt($file_name);
 		$this->file_url_folder = self::$stheme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
+		$this->file_path_folder = VMPATH_ROOT.'/'.str_replace('/',DS, $this->file_url_folder);
 		$this->file_url_folder_thumb = self::getStoriesFb('typeless').'/';
 		//$this->file_meta = vmText::_('COM_VIRTUEMART_NO_IMAGE_SET').' '.$this->file_description;
 		$this->file_extension = strtolower(JFile::getExt($file_name));
@@ -519,7 +520,7 @@ class VmMediaHandler {
 		}
 
 		$typelessUrl = '';
-		if(empty($this->file_name)){
+		if(empty($this->file_name) or empty($this->file_url)){
 			$typelessUrl = static::getStoriesFb('typeless').'/';
 			$this->setNoImageSet();
 		}

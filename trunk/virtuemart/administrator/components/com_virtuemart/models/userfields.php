@@ -1006,15 +1006,10 @@ class VirtueMartModelUserfields extends VmModel {
 							break;
 						case 'editorta':
 							jimport( 'joomla.html.editor' );
-							if (JVM_VERSION < 4) {
-								$editor = JFactory::getEditor();
-							} else {
-								$editor = JEditor::getInstance();
-							}
-							
+
 							$_return['fields'][$_fld->name]['value'] = $_return['fields'][$_fld->name]['unescapedvalue']; 
 							$_return['fields'][$_fld->name]['htmlentities'] = false; 
-							$_return['fields'][$_fld->name]['formcode'] = $editor->display($_prefix.$_fld->name,$_return['fields'][$_fld->name]['value'], '150', '100', $_fld->cols, $_fld->rows,  array('pagebreak', 'readmore'));
+							$_return['fields'][$_fld->name]['formcode'] = VmHtml::editor($_prefix.$_fld->name,$_return['fields'][$_fld->name]['value'], '150', '100', $_fld->cols, $_fld->rows,  array('pagebreak', 'readmore'));
 							break;
 						case 'checkbox':
 							$_return['fields'][$_fld->name]['formcode'] = '<input type="checkbox" name="'

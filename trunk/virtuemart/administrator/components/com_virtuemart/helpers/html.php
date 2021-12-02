@@ -648,14 +648,20 @@ class VmHtml{
 	 * @param string $value
 	 */
 	public static function editor($name,$value,$size='100%',$height='300',$hide = array('pagebreak', 'readmore')){
-		if(JVM_VERSION<4){
-			$editor = JFactory::getEditor();
-		} else {
-			$editor = JEditor::getInstance();
-		}
+		$editor = self::getEditor();
 		return $editor->display($name, $value, $size, $height, null, null ,$hide )  ;
 	}
 
+	public static function getEditor(){
+		if(JVM_VERSION<4){
+			$editor = JFactory::getEditor();
+		} else {
+			//$editor = JEditor::getInstance();
+			$editorName = JFactory::getApplication()->get('editor');
+			$editor = JEditor::getInstance($editorName);
+		}
+		return $editor;
+	}
 
 	/**
 	 * renders the hidden input

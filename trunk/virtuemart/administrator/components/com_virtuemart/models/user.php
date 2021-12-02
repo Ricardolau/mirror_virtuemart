@@ -9,7 +9,7 @@
  * @author Max Milbers
  * @author	RickG
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -546,7 +546,7 @@ class VirtueMartModelUser extends VmModel {
 
         if(VmConfig::get('multix','none')!='none'){
             $vendorId = vmAccess::isSuperVendor();
-            vmdebug('checkVendorMaxCustomer grmbl',$vendorId);
+            vmdebug('checkVendorMaxCustomer',$vendorId);
             if($vendorId>1){
                 $vM = VmModel::getModel('vendor');
                 $ven = $vM->getVendor($vendorId);
@@ -560,9 +560,8 @@ class VirtueMartModelUser extends VmModel {
                     }
                 }
             }
-            vmdebug('checkVendorMaxCustomer grmbl seltsam',$vendorId);
         }
-        vmdebug('checkVendorMaxCustomer grmbl return true');
+
         return true;
     }
 

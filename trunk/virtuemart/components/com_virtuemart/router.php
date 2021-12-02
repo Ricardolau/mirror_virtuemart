@@ -1088,7 +1088,7 @@ class vmrouterHelper {
 		if (!isset(self::$_catRoute[$key])){
 
 			if(VmConfig::get('useCacheVmGetCategoryRoute',1)) {
-				vmdebug('getCategoryRoute key '.$key.' not in internal Cache', self::$_catRoute);
+				//vmdebug('getCategoryRoute key '.$key.' not in internal Cache', self::$_catRoute);
 				$cache = VmConfig::getCache('com_virtuemart_cats_route','');
 				self::$_catRoute = $cache->get('com_virtuemart_cats_route');
 				if(isset(self::$_catRoute[$key])){
@@ -1096,7 +1096,7 @@ class vmrouterHelper {
 				} else {
 
 					$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
-					vmdebug('getCategoryRoute store outdated cache', $key, self::$_catRoute);
+					//vmdebug('getCategoryRoute store outdated cache', $key, self::$_catRoute);
 					$cache->store(self::$_catRoute, 'com_virtuemart_cats_route');
 				}
 

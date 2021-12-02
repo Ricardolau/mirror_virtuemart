@@ -61,11 +61,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 
 		if ($layoutName == 'edit' || $layoutName == 'edit_shipto') {
 
-			if(JVM_VERSION<4){
-				$this->editor = JFactory::getEditor();
-			} else {
-				$this->editor = JEditor::getInstance();
-			}
+			$this->editor = VmHtml::getEditor();
 
 			$userDetails = $model->getUser($userId);
 
@@ -161,8 +157,7 @@ class VirtuemartViewUser extends VmViewAdmin {
 					$virtuemart_userinfo_id = 0;
 
 				}
-				$userFieldsST = $userFieldsArray[$virtuemart_userinfo_id];
-				$this->assignRef('shipToFields', $userFieldsST);
+				$this->shipToFields = $userFieldsArray[$virtuemart_userinfo_id];
 			}
 
 			$this->assignRef('shipToId', $virtuemart_userinfo_id);
@@ -280,7 +275,8 @@ class VirtuemartViewUser extends VmViewAdmin {
 		$vendorModel->setId($vendorId);
 		$vendor = $vendorModel->getVendor();
 		$vendorModel->addImages($vendor);
-		$this->assignRef('subject', ($doVendor) ? vmText::sprintf('COM_VIRTUEMART_NEW_USER_MESSAGE_VENDOR_SUBJECT', $this->user->get('email')) : vmText::sprintf('COM_VIRTUEMART_NEW_USER_MESSAGE_SUBJECT',$vendor->vendor_store_name));
+		$this->subject = ($doVendor) ? vmText::sprintf('COM_VIRTUEMART_NEW_USER_MESSAGE_VENDOR_SUBJECT', $this->user->get('email')) : vmText::sprintf('COM_VIRTUEMART_NEW_USER_MESSAGE_SUBJECT',$vendor->vendor_store_name);
+
 		parent::display();
 	}
 

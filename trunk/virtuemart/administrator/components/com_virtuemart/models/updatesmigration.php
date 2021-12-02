@@ -401,11 +401,13 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$query = implode("\n",$queryLines);
 
 			if(!empty($query)){
-
-				$db->setQuery($query);
-				if (!$db->execute()) {
-				    vmWarn( 'JInstaller::install: '.$sqlfile.' '.vmText::_('COM_VIRTUEMART_SQL_ERROR')." ".$db->stderr(true));
-				    $ok = false;
+				try {
+					$db->setQuery($query);
+					$db->execute();
+				}
+				catch(Exception $e) {
+					vmWarn( 'JInstaller::install: '.$sqlfile.' '.$e->getMessage().': '.vmText::_('COM_VIRTUEMART_SQL_ERROR').' Query: '.$query);
+					$ok = false;
 				}
 		    }
 		}

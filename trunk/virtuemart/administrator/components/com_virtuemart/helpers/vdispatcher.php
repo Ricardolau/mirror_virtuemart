@@ -80,15 +80,15 @@ class vDispatcher {
 
 	static function importVMPlugins($ptype){
 
-		vmSetStartTime('importPlugins');
 		static $types = array('vmextended'=>TRUE,'vmuserfield'=>TRUE, 'vmcalculation'=>TRUE, 'vmcustom'=>TRUE, 'vmcoupon'=>TRUE, 'vmshipment'=>TRUE, 'vmpayment'=>TRUE);
 		if(!isset($types[$ptype])) return;
 
 		foreach($types as $type => $v){
+			vmStartTimer('importPlugins');
 			JPluginHelper::importPlugin($type);
 			unset($types[$type]);
+			vmTime('time to import plugins '.$type,'importPlugins');
 			if($type == $ptype){
-				vmTime('time to import plugins '.$ptype,'importPlugins');
 				break;
 			}
 		}

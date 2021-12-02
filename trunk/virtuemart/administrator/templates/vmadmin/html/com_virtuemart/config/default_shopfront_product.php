@@ -7,7 +7,7 @@
  * @subpackage Config
  * @author RickG
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -33,7 +33,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_DISPLAY_STOCK', 'display_stock', VmConfig::get('display_stock', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_SHOW_PRODUCT_CUSTOMS', 'show_pcustoms', VmConfig::get('show_pcustoms', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_SUBCAT_PRODUCTS_SHOW', 'show_subcat_products', VmConfig::get('show_subcat_products', 0));
-		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_TAGS_SEARCH_STRICT', 'strictCustomfieldTags', VmConfig::get('strictCustomfieldTags', 0));
+		echo VmuikitHtml::row('booleanlist', 'COM_VM_TAGS_SEARCH_STRICT', 'strictCustomfieldTags', VmConfig::get('strictCustomfieldTags', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_UNCAT_PARENT_PRODUCTS_SHOW', 'show_uncat_parent_products', VmConfig::get('show_uncat_parent_products', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_UNCAT_CHILD_PRODUCTS_SHOW', 'show_uncat_child_products', VmConfig::get('show_uncat_child_products', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_SHOW_PRODUCTS_UNPUBLISHED_CATEGORIES', 'show_unpub_cat_products', VmConfig::get('show_unpub_cat_products', 1));

@@ -80,7 +80,7 @@ class GenericTableUpdater extends VmModel{
 		//Todo add the mb_ stuff here
 		// 		vmTime('my langs <pre>'.print_r($langs,1).'</pre>');
 		$i = 0;
-		$this->debug=true;
+		//$this->debug=true;
 		foreach($this->tables as $table=>$tblKey){
 			vmdebug('Updating language table '.$table);
 // 			if($i>1) continue;
@@ -761,8 +761,8 @@ class GenericTableUpdater extends VmModel{
 				if($this->debug) vmdebug('alterColumns '.$tablename.' column '.$fieldname,$oldColumn,$alterCommand);
 				if ($oldColumn != $alterCommand ) {
 					$pr = '';
-					//vmdebug('alterColumns columns different '.$fieldname,$oldColumn,$alterCommand);
-					vmdebug('alterColumns columns different ! '.$fieldname);
+					vmdebug('alterColumns columns different '.$fieldname,$oldColumn,$alterCommand);
+					//vmdebug('alterColumns columns different ! '.$fieldname);
 					//If the field is an auto_increment, we add to the sql the creation of the primary key
 					if( (strpos($alterCommand,'AUTO_INCREMENT')!==false xor strpos($oldColumn,'AUTO_INCREMENT')!==false)){
 						$pr = ', ADD PRIMARY KEY (`'.$fieldname.'`)';

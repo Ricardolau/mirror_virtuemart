@@ -9,7 +9,7 @@
  * @author Oscar van Eijk
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -70,12 +70,7 @@ class VirtuemartViewUser extends VmView {
 
 		$this->_model = VmModel::getModel('user');
 
-		//$this->_model->setCurrent(); //without this, the administrator can edit users in the FE, permission is handled in the usermodel, but maybe unsecure?
-	    if (JVM_VERSION < 4) {
-		    $this->editor = JFactory::getEditor();
-	    } else {
-		    $this->editor = JEditor::getInstance();
-	    }
+		$this->editor = VmHtml::getEditor();
 
 		$virtuemart_user_id = vRequest::getInt('virtuemart_user_id',false);
 		if($virtuemart_user_id and is_array($virtuemart_user_id)) $virtuemart_user_id = reset($virtuemart_user_id);

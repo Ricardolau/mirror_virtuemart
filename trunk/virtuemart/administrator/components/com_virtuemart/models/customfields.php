@@ -801,17 +801,11 @@ class VirtueMartModelCustomfields extends VmModel {
         // Not sure why this block is needed to get it to work when editing the customfield (the subsequent block works fine when creating it, ie. in JS)
 				$document = JFactory::getDocument();
 				if (strcasecmp(get_class($document),'JDocumentHTML') === 0) {
-					if (JVM_VERSION < 4) {
-						$editor = JFactory::getEditor();
-					} else {
-						$editor = JEditor::getInstance();
-					}
-					return '</td><td>'.$editor->display('field['.$row.'][customfield_value]',$field->customfield_value, '550', '400', '60', '20', false);
+					return '</td><td>'.VmHtml::editor('field['.$row.'][customfield_params]',$field->customfield_params, '550', '400', '60', '20', false);
 				}
-				return $priceInput . '</td><td><textarea class="mceInsertContentNew" name="field[' . $row . '][customfield_value]" id="field-' . $row . '-customfield_value">' . $field->customfield_value . '</textarea>
-						<script type="text/javascript">// Creates a new editor instance
-							tinymce.execCommand("mceAddControl",true,"field-' . $row . '-customfield_value")
-						</script>';
+				vmJsApi::addJScript('mceAddControl', '// Creates a new editor instance
+							tinymce.execCommand("mceAddControl",true,"field-' . $row . '-customfield_value")', true);
+				return $priceInput . '</td><td><textarea class="mceInsertContentNew" name="field[' . $row . '][customfield_params]" id="field-' . $row . '-customfield_value">' . $field->customfield_params . '</textarea>';
 				//return '<input type="text" value="'.$field->customfield_value.'" name="field['.$row.'][customfield_value]" /></td><td>'.$priceInput;
 				break;
 			//'Y'=>'COM_VIRTUEMART_CUSTOM_TEXTAREA'
@@ -1312,8 +1306,14 @@ class VirtueMartModelCustomfields extends VmModel {
 
 
 		if (isset($datas['customfield_params']) and is_array($datas['customfield_params'])) {
-			foreach ($datas['customfield_params'] as $key => $plugin_param ) {
+			/*foreach ($datas['customfield_params'] as $key => $plugin_param ) {
 				vDispatcher::trigger('plgVmOnStoreProduct', array($datas, $plugin_param, $old_customfield_ids ));
+			}*/
+			foreach ($datas['field'] as $key => $pfield ) {
+				if($pfield['field_type']=="E"){
+
+					vDispatcher::directTrigger( 'vmcustom',$pfield->custom_element, 'plgVmOnStoreProduct', array($datas, $datas['customfield_params'][$key], $old_customfield_ids, $key ));
+				}
 			}
 		}
 
@@ -1322,7 +1322,6 @@ class VirtueMartModelCustomfields extends VmModel {
 	public function storeProductCustomfield($table, $fields){
 
 		$tableCustomfields = $this->getTable($table.'_customfields');
-		$tableCustomfields->setPrimaryKey('virtuemart_product_id');
 
 		$tableCustomfields->_xParams = 'customfield_params';
 		VirtueMartModelCustom::setParameterableByFieldType($tableCustomfields,$fields['field_type'],$fields['custom_element'],$fields['custom_jplugin_id']);

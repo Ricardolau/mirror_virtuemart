@@ -7,7 +7,7 @@
  * @subpackage 	ratings
  * @author
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -99,7 +99,7 @@ echo JHtml::_('select.radiolist', $rating_options, 'vote', 'id="vote" class="inp
             } else {
                 $editor = JEditor::getInstance();
             }
-            echo $editor->display('comment', $this->rating->comment, '100%', '100', '60', '20', false);
+            echo VmHtml::editor('comment', $this->rating->comment, '100%', '100', '60', '20', false);
             ?>
 	</td>
 	</tr>

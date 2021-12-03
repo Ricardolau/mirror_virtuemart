@@ -7,7 +7,7 @@
 * @subpackage Vendor
 * @author Max Milbers
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2009 - 2014 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2009 - 2021 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,7 +18,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class TableVendors extends VmTableData {
+class TableVendors extends VmTable {
 
     // @var int Primary key
     var $virtuemart_vendor_id			= 0;
@@ -51,7 +51,7 @@ class TableVendors extends VmTableData {
 
     function __construct(&$db) {
 		parent::__construct('#__virtuemart_vendors', 'virtuemart_vendor_id', $db);
-		$this->setPrimaryKey('virtuemart_vendor_id');
+
 		$this->setUniqueName('vendor_name');
 		$this->setSlug('vendor_store_name'); //Attention the slug autoname MUST be also in the translatable, if existing
 		$this->setLoggable();
@@ -130,9 +130,14 @@ class TableVendors extends VmTableData {
 
 		$this->setParameterable('vendor_params',$varsToPushParam);
 		$this->setTableShortCut('v');
+		$this->_genericVendorId = false;
     }
 
 	public function check(){
+
+		if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
+			$this->virtuemart_vendor_id = $this->_pvalue;
+		}
 
 		if(!empty($this->virtuemart_vendor_id) and !vmAccess::manager('managevendors')){
 			$mV = VmModel::getModel('vendor');

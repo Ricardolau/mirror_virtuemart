@@ -18,7 +18,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-class TableVmusers extends VmTableData {
+class TableVmusers extends VmTable {
 
 	/** @var int Vendor ID */
 	var $virtuemart_user_id		= 0;
@@ -32,11 +32,10 @@ class TableVmusers extends VmTableData {
 	function __construct(&$db) {
 		parent::__construct('#__virtuemart_vmusers', 'virtuemart_user_id', $db);
 
-		$this->setPrimaryKey('virtuemart_user_id');
-
 		$this->setLoggable();
 
 		$this->setTableShortCut('vmu');
+		$this->_genericVendorId = false;
 	}
 
 	function check() {
@@ -134,6 +133,7 @@ class TableVmusers extends VmTableData {
 			}
 		}
 
+		parent::check();
 		return true;
 	}
 }

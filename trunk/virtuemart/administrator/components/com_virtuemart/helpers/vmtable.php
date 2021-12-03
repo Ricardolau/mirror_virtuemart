@@ -41,6 +41,10 @@ class VmTable extends vObject implements \JTableInterface {
 	protected $_tbl_lang = null;
 	protected $_tbl_key ='';
 	protected $_tbl_keys = '';
+
+	/** @var string the extra primaryKey loads all rows by another column than the real primary,
+	 * for example product_customfields.
+	 */
 	protected $_pkey = '';
 	protected $_pkeyForm = '';
 	public $_obkeys = array();
@@ -58,6 +62,7 @@ class VmTable extends vObject implements \JTableInterface {
 	public $_varsToPushParam = array();
 	var $_translatable = false;
 	protected $_translatableFields = array();
+	protected $_dateFields = array();
 	protected $_hashName = '';
 	protected $_omittedHashFields = array();
 	public $_cryptedFields = false;
@@ -110,13 +115,6 @@ class VmTable extends vObject implements \JTableInterface {
 		// If the access property exists, set the default.
 		if (property_exists($this, 'access')){
 			$this->access = (int) JFactory::getConfig()->get('access');
-		}
-
-		if(JVM_VERSION==2){
-			// Implement JObservableInterface:
-			// Create observer updater and attaches all observers interested by $this class:
-			$this->_observers = new JObserverUpdater($this);
-			JObserverMapper::attachAllObservers($this);
 		}
 
 	}
@@ -325,6 +323,7 @@ class VmTable extends vObject implements \JTableInterface {
 		$this->created_by = 0;
 		$this->modified_on = '';
 		$this->modified_by = 0;
+		$this->setDateFields(array('created_on','modified_on'));
 	}
 
 	/**
@@ -356,6 +355,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		$this->locked_on = '';
 		$this->locked_by = 0;
+		$this->setDateFields(array('locked_on'));
 	}
 
 	function setOrderable($key = 'ordering', $auto = true) {
@@ -448,12 +448,16 @@ class VmTable extends vObject implements \JTableInterface {
 		}
 	}
 
+	/**
+	 * Fields to ensure to be dates, this function uses array_merge
+	 * @param array $dateFields
+	 */
 	public function setDateFields(array $dateFields){
-		$this->_dateFields = $dateFields;
+		$this->_dateFields = array_merge($dateFields, $this->_dateFields);
 	}
 
 	public function convertDateFields(){
-
+		$this->_dateFields = array_unique($this->_dateFields);
 		if($this->_dateFields){
 			foreach($this->_dateFields as $f){
 				if(!empty($this->{$f})){
@@ -513,6 +517,7 @@ class VmTable extends vObject implements \JTableInterface {
 	 */
 	public function bind($src, $ignore = array())
 	{
+		$this->_update = null;
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{
@@ -884,7 +889,7 @@ class VmTable extends vObject implements \JTableInterface {
 			//vmdebug('my today ',$date);
 			$user = JFactory::getUser();
 
-			$pkey = $this->_pkey;
+			$pkey = $this->_pkey;	//or $tblKey?
 			//Lets check if the user is admin or the mainvendor
 
 			$admin = vmAccess::manager('core');
@@ -1250,32 +1255,39 @@ class VmTable extends vObject implements \JTableInterface {
 			unset($this->asset_id);
 		}
 
-		$tblKey = $this->_tbl_key;
-		if(!empty($this->{$tblKey})){
-			$_qry = 'SELECT `'.$tblKey.'` '
-				. 'FROM `'.$this->_tbl.'` '
-				. 'WHERE `'.$tblKey.'` = "' . $this->{$tblKey}.'" ';
-			$this->_db->setQuery($_qry);
-			$this->{$tblKey} = $this->_db->loadResult();
-		}
 
 		if(!empty($this->_hashName)){
 			$this->hashEntry();
 		}
 
-		if(!empty($this->{$tblKey})){
+		$tblKey = $this->_tbl_key;
+		$ok = true;
+		if($this->_update===null){
+			$this->check();
+			//$this->_update = !empty($this->{$tblKey});
+			//$msg = 'vmTable function store was called without prior calling check';
+			//vmTrace($msg.' this is deprecated, call function check now. This fallback will be removed in future', true, 6);
+		}
+		if($this->_update === true){
+			if(empty($this->{$tblKey})){
+				vmdebug('Update has empty $tblKey ', $this->loadFieldValues());
+				return false;
+			}
 			try {
 				$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			} catch (Exception $e){
-				vmError('vmTable store updateObject '.$e->getMessage());
+				$query = $this->_db->getQuery();
+				vmError('vmTable store updateObject '.$e->getMessage().' '.$this->_db->replacePrefix($query), 'vmTable store updateObject ', 4);
 			}
 
 		} else {
 			$p = $this->{$tblKey};
+			vmdebug('vmTable store insertObject Inserting '.$this->{$tblKey}.' ');
 			try {
 				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			} catch (Exception $e){
-				vmError('vmTable store insertObject '.$e->getMessage());
+				$query = $this->_db->getQuery();
+				vmError('vmTable store insertObject '.$this->_tbl.' '.$e->getMessage().' '.$this->_db->replacePrefix($query), 'vmTable store insertObject ', 5);
 			}
 
 			if($ok and !empty($this->_hashName)){
@@ -1292,7 +1304,7 @@ class VmTable extends vObject implements \JTableInterface {
 				}
 			}
 		}
-
+		$this->_update===null;
 		// If the store failed return false.
 		if (!$ok) {
 			vmError(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));
@@ -1309,9 +1321,8 @@ class VmTable extends vObject implements \JTableInterface {
 
 		//decrypt the Fields
 		if($this->_cryptedFields){
-				$this->decryptFields();
+			$this->decryptFields();
 		}
-
 
 
 		// If the table is not set to track assets return true.
@@ -1506,7 +1517,6 @@ class VmTable extends vObject implements \JTableInterface {
 				//Admins are allowed to do anything. We just trhow some messages
 				if (!empty($virtuemart_vendor_id) and $loggedVendorId != $virtuemart_vendor_id) {
 					vmdebug('Admin with vendor id ' . $loggedVendorId . ' is using for storing vendor id ' . $this->virtuemart_vendor_id);
-					VmTrace('Sowas hier');
 				}
 				else if (empty($virtuemart_vendor_id) and empty($this->virtuemart_vendor_id)) {
 					if(strpos($this->_tbl,'virtuemart_vendors')===FALSE and strpos($this->_tbl,'virtuemart_vmusers')===FALSE){
@@ -1560,6 +1570,47 @@ class VmTable extends vObject implements \JTableInterface {
 	 */
 	function check() {
 
+		$tblKey = $this->_tbl_key;
+
+		vmdebug('vmTable check() '.$this->_tbl);
+		$this->_update = null;
+
+		if(!empty($this->{$this->_tbl_key})){
+			$_qry = 'SELECT `'.$this->_tbl_key.'` '
+				. 'FROM `'.$this->_tbl.'` '
+				. 'WHERE `'. $this->_tbl_key.'` = "' . $this->{$this->_tbl_key}.'" ';
+			$this->_db->setQuery($_qry);
+			$res = $this->_db->loadResult();
+
+			if($res){
+				$this->_update = true;
+				vmdebug('vmTable check() loaded existing entry '.$res.' from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
+			} else {
+				$this->_update = false;
+				vmdebug('vmTable check() existing entry not FOUND from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
+			}
+			//vmdebug('Query load existing entry from '.$this->_tbl.'. Got with WHERE `'.$primaryKey.' = "' . $primaryValue.'" and $this->_tbl_key = '.$this->_tbl_key, $res );
+
+			/*if(empty($this->{$this->_tbl_key}) and $res and count($res) == 1 and $this->{$tblKey} != $res[0][$this->_tbl_key]){
+				vmdebug('Table '.$this->_tbl.' Updating existing entry, corrected given '.$this->_tbl_key.' = '.$this->{$this->_tbl_key}.' to '.$res[0][$this->_tbl_key]);
+				$this->{$tblKey} == $res[0][$this->_tbl_key];
+			}*/
+		} else if($this->_tbl_key != $this->_pkey and !empty($this->{$this->_pkey})) {
+			$_qry = 'SELECT `'.$this->_tbl_key.'` '
+				. 'FROM `'.$this->_tbl.'` '
+				. 'WHERE `'. $this->_pkey.'` = "' . $this->{$this->_pkey}.'" ';
+			$this->_db->setQuery($_qry);
+			$res = $this->_db->loadAssocList();
+			vmdebug('vmTable check() loaded on pKey '.$_qry,$res);
+			if($res and count($res) == 1 and $this->{$tblKey} != $res[0][$this->_tbl_key]){
+				vmdebug('Table '.$this->_tbl.' Updating existing entry, corrected given '.$this->_tbl_key.' = '.$this->{$this->_tbl_key}.' to '.$res[0][$this->_tbl_key]);
+				$this->{$tblKey} = $res[0][$this->_tbl_key];
+				$this->_update = true;
+			} else {
+				$this->_update = false;
+			}
+		}
+
 		if (!empty($this->_slugAutoName)) {
 
 			$slugAutoName = $this->_slugAutoName;
@@ -1577,8 +1628,8 @@ class VmTable extends vObject implements \JTableInterface {
 				if (!empty($this->{$slugAutoName})) {
 					$this->{$slugName} = $this->{$slugAutoName};
 				} else {
-					$pkey = $this->_pkey;
-					vmError('VmTable ' . $checkTable . ' Check not passed. Neither slug nor obligatory value at ' . $slugAutoName . ' for auto slug creation is given '.$this->{$pkey});
+
+					vmError('VmTable ' . $checkTable . ' Check not passed. Neither slug nor obligatory value at ' . $slugAutoName . ' for auto slug creation is given '.$this->{$this->_tbl_key});
 					return false;
 				}
 
@@ -1677,9 +1728,13 @@ class VmTable extends vObject implements \JTableInterface {
 
 			$db = JFactory::getDBO();
 			$dataTable = clone($this);
-			$langTable = new VmTableData($this->_tbl_lang, $tblKey, $db);
+			$langTable = new VmTable($this->_tbl_lang, $tblKey, $db);
+			if( strpos($this->_tbl,'virtuemart_vendors')!==FALSE) {
+				$langTable->_genericVendorId = false;
+			}
+			$langTable->{$tblKey} = $this->{$tblKey};
 			$langTable->setLanguage($this->_langTag);
-			$langTable->setPrimaryKey($tblKey);
+			//$langTable->setPrimaryKey($tblKey);
 			$langData = array();
 			$langObKeys = array();
 			$langUniqueKeys = array();
@@ -2253,9 +2308,7 @@ class VmTable extends vObject implements \JTableInterface {
 		}
 		$k = $this->_tbl_key;
 		if(empty($this->{$k})){
-
 			vmdebug('Cannot toggle '.get_class($this).' '.$this->_tbl_key.' empty ',$this->{$this->_pkey});
-			$k = $this->_pkey;
 			return false;
 		}
 		$q = 'UPDATE `' . $this->_tbl . '` SET `' . $field . '` = "' . $this->{$field} . '" WHERE `' . $k . '` = "' . $this->{$k} . '" ';

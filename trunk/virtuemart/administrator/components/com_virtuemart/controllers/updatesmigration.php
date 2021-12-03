@@ -464,33 +464,36 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			//Now lets set some joomla variables
 			//Caching should be enabled, set to files and for 15 minutes
 
-			if (!class_exists( 'ConfigModelCms' )) require(VMPATH_ROOT .'/components/com_config/model/cms.php');
-			if (!class_exists( 'ConfigModelForm' )) require(VMPATH_ROOT .'/components/com_config/model/form.php');
-			if (!class_exists( 'ConfigModelApplication' )) require(VMPATH_ROOT .'/administrator/components/com_config/model/application.php');
+			if(JVM_VERSION<4){
+				if (!class_exists( 'ConfigModelCms' )) require(VMPATH_ROOT .'/components/com_config/model/cms.php');
+				if (!class_exists( 'ConfigModelForm' )) require(VMPATH_ROOT .'/components/com_config/model/form.php');
+				if (!class_exists( 'ConfigModelApplication' )) require(VMPATH_ROOT .'/administrator/components/com_config/model/application.php');
 
 
-			$jConfModel = new ConfigModelApplication();
-			$jConfig = $jConfModel->getData();
+				$jConfModel = new ConfigModelApplication();
+				$jConfig = $jConfModel->getData();
 
-			$jConfig['caching'] = 0;
-			$jConfig['lifetime'] = 60;
-			$jConfig['list_limit'] = 25;
-			$jConfig['MetaDesc'] = 'VirtueMart works with Joomla! - the dynamic portal engine and content management system';
-			$jConfig['MetaKeys'] = 'virtuemart, vm3, joomla, Joomla';
+				$jConfig['caching'] = 0;
+				$jConfig['lifetime'] = 60;
+				$jConfig['list_limit'] = 25;
+				$jConfig['MetaDesc'] = 'VirtueMart works with Joomla! - the dynamic portal engine and content management system';
+				$jConfig['MetaKeys'] = 'virtuemart, vm3, joomla, Joomla';
 
-			$app = JFactory::getApplication();
-			$return = $jConfModel->save($jConfig);
+				$app = JFactory::getApplication();
+				$return = $jConfModel->save($jConfig);
 
-			// Check the return value.
-			if ($return === false) {
-				// Save the data in the session.
-				$app->setUserState('com_config.config.global.data', $jConfig);
-				vmError(vmText::sprintf('JERROR_SAVE_FAILED', 'installComplete'));
-				//return false;
-			} else {
-				// Set the success message.
-				//vmInfo('COM_CONFIG_SAVE_SUCCESS');
+				// Check the return value.
+				if ($return === false) {
+					// Save the data in the session.
+					$app->setUserState('com_config.config.global.data', $jConfig);
+					vmError(vmText::sprintf('JERROR_SAVE_FAILED', 'installComplete'));
+					//return false;
+				} else {
+					// Set the success message.
+					//vmInfo('COM_CONFIG_SAVE_SUCCESS');
+				}
 			}
+
 		}else {
 			$msg = $this->_getMsgDangerousTools();
 		}
@@ -763,7 +766,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$db->setQuery($q);
 		if(!$db->execute()){
 			$m = 'Error updateModuleAssetId ';
-			vmError($m, $m.$q.$db->getError());
+			vmError($m.$q.$db->getError(), $m);
 		}
 	}
 

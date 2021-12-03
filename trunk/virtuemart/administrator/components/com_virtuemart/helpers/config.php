@@ -385,11 +385,11 @@ class VmConfig {
 			return self::$_jpConfig;
 		}
 
-		vmSetStartTime('loadConfig');
+		vmStartTimer('loadConfig');
 		$app = JFactory::getApplication(vmDefines::$_appId);
 		if(!$force){
 			if(!empty(self::$_jpConfig) && !empty(self::$_jpConfig->_params)){
-
+				//vmdebug('Return existing config ', (int)$iniLang, (int)$execTrigger);
 				if($lang and $iniLang){
 					vmLanguage::initialise();
 					$iniLang = false;
@@ -398,12 +398,12 @@ class VmConfig {
 				if($exeTrig and $execTrigger){
 					// try plugins
 					$isSite = VmConfig::isSite();
-					self::importVMPlugins('vmuserfield');
+					vDispatcher::importVMPlugins('vmuserfield');
 					if($isSite){
-
+						//vmdebug('Execute trigger plgVmInitialise');
+						$execTrigger = false;
 						vDispatcher::trigger( 'plgVmInitialise', array() );
 					}
-					$execTrigger = false;
 				}
 				return self::$_jpConfig;
 			}
@@ -457,6 +457,7 @@ class VmConfig {
 
 		if(empty(self::$_jpConfig->_raw)){
 			vmLanguage::initialise();
+			$iniLang = false;
 			$_value = VirtueMartModelConfig::readConfigFile();
 			if (!$_value) {
 				vmError('Serious error, config file could not be read');
@@ -472,7 +473,10 @@ class VmConfig {
 			self::$_jpConfig->setParams(self::$_jpConfig->_raw);
 		}
 
-		if($lang and $iniLang)vmLanguage::initialise();
+		if($lang and $iniLang){
+			vmLanguage::initialise();
+			$iniLang = false;
+		}
 		self::echoAdmin();
 		self::showDebug();
 		vmLanguage::debugLangVars();
@@ -482,7 +486,7 @@ class VmConfig {
 		self::$_jpConfig->_params['sctime'] = microtime(TRUE);
 		self::$_jpConfig->_params['vmlang'] = self::$vmlang;
 
-		vmTime('time to load config','loadConfig');
+		//vmTime('time to load config','loadConfig');
 
 		if(!self::$installed){
 			//$user = JFactory::getUser();
@@ -503,11 +507,11 @@ class VmConfig {
 			$isSite = VmConfig::isSite();
 			vDispatcher::importVMPlugins('vmuserfield');
 			if($isSite){
+				$execTrigger = false;
 				vDispatcher::trigger('plgVmInitialise', array());
 			}
-
-			$execTrigger = false;
 		}
+		vmTime('time to load config param $lang='.$lang.' and iniLang='.(int)$iniLang. '  $exeTrig = '.(int)$exeTrig.' now = '.(int)$execTrigger,'loadConfig');
 
 		return self::$_jpConfig;
 	}

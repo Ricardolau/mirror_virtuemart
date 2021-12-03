@@ -70,7 +70,11 @@ class calculationHelper {
 		$this->_app = JFactory::getApplication();
 		//$this->_cart =& VirtuemartCart::getCart();
 		//We store in UTC and use here of course also UTC
-		$jnow = JFactory::getDate();
+
+		$config = JFactory::getConfig();
+		$offset = $config->get('offset');
+
+		$jnow = JFactory::getDate($offset);
 		$this->_now = $jnow->toSQL();
 		$this->_nullDate = $this->_db->getNullDate();
 
@@ -891,7 +895,6 @@ class calculationHelper {
 
 //When the rule got not active, we remove the rule
 		foreach ($this->_cart->cartData['DATaxRulesBill'] as $k=>&$rule) {
-			vmdebug('calc_categories $darule[\'subTotal\'] ',$rule['subTotal']);
 			if(empty($rule['subTotal'])){
 				unset($this->_cart->cartData['DATaxRulesBill'][$k]);
 			}

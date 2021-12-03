@@ -168,6 +168,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_categories` (
   `locked_on` datetime,
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_category_id`),
+  UNIQUE KEY `category_parent_id` (`category_parent_id`,`virtuemart_category_id`),
   KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `published` (`published`),
   KEY `shared` (`shared`),
@@ -186,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_category_categories` (
   `category_child_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `category_child_id` (`category_child_id`),
+  UNIQUE KEY `category_child_id` (`category_child_id`),
   KEY `ordering` (`ordering`),
   UNIQUE KEY `category_parent_id` (`category_parent_id`,`category_child_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Category child-parent relation list';
@@ -807,7 +808,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_products` (
   `virtuemart_product_id` INT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
   `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '1',
   `product_parent_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
-  `product_sku` varchar(255),
+  `product_sku` varchar(192),
   `product_gtin` varchar(64),
   `product_mpn` varchar(64),
   `product_weight` decimal(10,4),

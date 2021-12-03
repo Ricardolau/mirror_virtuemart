@@ -216,7 +216,7 @@ class VirtueMartCart {
 				}
 			}
 
-			if(empty(JFactory::getUser()->guest) and (empty($sessionCart) or !empty($sessionCart->_guest)) ){
+			if(VmConfig::isSite() and JFactory::getUser()->guest == 0 and (empty($sessionCart) or !empty($sessionCart->_guest)) ){
 				self::$_cart->loadCart(self::$_cart);
 				self::$_cart->_guest = 0;
 			}

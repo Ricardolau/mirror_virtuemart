@@ -176,7 +176,7 @@ class VirtuemartViewCategory extends VmView {
 			$pathway->addItem(strip_tags(htmlspecialchars_decode($this->keyword)));
 		}
 
-		$category = $categoryModel->getCategory($this->categoryId);
+		$category = $categoryModel->getCategory($this->categoryId, false);
 		$this->assignRef('category', $category);
 
 		foreach($paramNames as $k => $v){
@@ -355,6 +355,9 @@ class VirtuemartViewCategory extends VmView {
 
 			$category->children = $categoryModel->getChildCategoryList( $vendorId, $this->categoryId, $categoryModel->getDefaultOrdering(), $categoryModel->_selectedOrderingDir );
 			$categoryModel->addImages($category->children,$catImgAmount);
+			//Whatever fallback
+			$category->haschildren = $category->has_children;
+
 		} else {
 			$category->children = false;
 		}

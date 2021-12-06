@@ -20,7 +20,7 @@
 // Check to ensure this file is included in Joomla!
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
-	if ($this->category->haschildren) {
+	if ($this->category->has_children) {
 	    $iCol = 1;
 	    $iCategory = 1;
 	    $categories_per_row = VmConfig::get('categories_per_row', 3);

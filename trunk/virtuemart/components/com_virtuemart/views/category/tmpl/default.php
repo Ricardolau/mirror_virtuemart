@@ -69,7 +69,7 @@ if (!empty($this->showcategory_desc) and empty($this->keyword)){
 
 // Show child categories
 if ($this->showcategory and empty($this->keyword)) {
-	if (!empty($this->category->haschildren)) {
+	if (!empty($this->category->has_children)) {
 		echo ShopFunctionsF::renderVmSubLayout('categories',array('categories'=>$this->category->children, 'categories_per_row'=>$this->categories_per_row));
 	}
 }

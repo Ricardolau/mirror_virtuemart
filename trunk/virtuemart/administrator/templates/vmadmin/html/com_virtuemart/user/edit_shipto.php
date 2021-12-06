@@ -69,7 +69,7 @@ defined('_JEXEC') or die('Restricted access');
 		}
 
 
-		if (!empty($this->virtuemart_userinfo_id)) {
+		if (!empty($this->shipToId)) {
 			?>
 			<input type="hidden" name="shipto_virtuemart_userinfo_id" value="<?php echo $this->shipToId ?>"/>
 			<?php

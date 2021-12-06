@@ -90,7 +90,7 @@ defined('_JEXEC') or die('Restricted access');
 	}
 	echo $_hiddenFields;
 
-if(!empty($this->virtuemart_userinfo_id)){
+if(!empty($this->shipToId)){
 	echo '<input type="hidden" name="shipto_virtuemart_userinfo_id" value="'.$this->shipToId.'" />';
 }
 ?>

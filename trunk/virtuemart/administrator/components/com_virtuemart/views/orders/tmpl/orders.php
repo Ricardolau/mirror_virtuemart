@@ -146,7 +146,8 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 					}
 					echo JHtml::_ ('select.genericlist', $orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]", 'class="orderstatus_select" style="width:180px;"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE); ?>
 					<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]" value="<?php echo $order->order_status; ?>"/>
-					<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]" value="<?php echo $order->coupon_code; ?>"/>					<br/>
+		<?php /*  	<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]" value="<?php echo $order->coupon_code; ?>"/>    //Coupon code??	*/?>
+                    <br/>
 					<textarea class="element-hidden vm-order_comment vm-showable" name="orders[<?php echo $order->virtuemart_order_id; ?>][comments]" cols="5" rows="5"></textarea>
 					<?php echo JHtml::_ ('link', '#', vmText::_ ('COM_VIRTUEMART_ADD_COMMENT'), array('class' => 'show_comment')); ?>
 				</td>

@@ -336,9 +336,6 @@ if ($canSearch) {
 	</div>
 	<!-- EOF COM_VIRTUEMART_FILE_UPLOAD  -->
 
-
-	<!-- end -->
-
 <?php
 $adminTemplate = VMPATH_ROOT . '/administrator/templates/vmadmin/html/com_virtuemart/';
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
@@ -365,7 +362,7 @@ $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 vmJsApi::addJScript($adminTemplatePath . 'assets/js/vmuikit_mediahandler.js');
 
 
-
+/*
 foreach ($medias as $key => &$image) {
 	$image->key = $key;
 	$media_path = VMPATH_ROOT . DS . str_replace('/', DS, $image->file_url_thumb);
@@ -379,6 +376,7 @@ foreach ($medias as $key => &$image) {
 }
 $images = $medias;
 
+
 $js = "
 	var template = jQuery('#vmuikit-js-thumb-medias-template').html()
 	var rendered = Mustache.render(template,
@@ -390,7 +388,7 @@ $js = "
 
 ";
 
-vmJsApi::addJScript('mediahandler.mustache', $js);
+vmJsApi::addJScript('mediahandler.mustache', $js);*/
 
 
 

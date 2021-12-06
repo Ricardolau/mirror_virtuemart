@@ -163,20 +163,20 @@ $styleDateCol = '';
 								<?php
 								echo JHtml::_ ('select.genericlist',
 									$orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]",
-									'class="orderstatus_select" style="width:180px;"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE); ?>
+									'class="orderstatus_select" style="width:180px;"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE); //*/?>
 								<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]" value="<?php echo $order->order_status; ?>"/>
-								<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]" value="<?php echo $order->coupon_code; ?>"/>
+						<?php /*		<input type="hidden" name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]" value="<?php echo $order->coupon_code; ?>"/> */ ?>
 								</div>
-								<textarea class="element-hidden vm-order_comment vm-showable" name="orders[<?php echo $order->virtuemart_order_id; ?>][comments]" cols="5" rows="5"></textarea>
-								<?php echo JHtml::_ ('link', '#', vmText::_ ('COM_VIRTUEMART_ADD_COMMENT'), array('class' => 'show_comment')); ?>
+								<?php /*		<textarea class="element-hidden vm-order_comment vm-showable" name="orders[<?php echo $order->virtuemart_order_id; ?>][comments]" cols="5" rows="5"></textarea>
+								<?php echo JHtml::_ ('link', '#', vmText::_ ('COM_VIRTUEMART_ADD_COMMENT'), array('class' => 'show_comment')); ?> */ ?>
 
-								<!--
+
 								<span class="uk-hidden@m uk-margin-small-right md-color-grey-500"
 										uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_STATUS') ?>"
 										uk-icon="icon: future"></span>
 								<div class="uk-label  uk-label-vm" style="<?php echo $statuscolorStyle ?>">
-									<?php echo vmText::_($status_name) ?>
-									<span class="" uk-icon="icon:  triangle-down"></span>
+									<?php /* echo  vmText::_($status_name) .' '. vmText::_ ('COM_VIRTUEMART_ADD_COMMENT')*/ ?>
+									<span class="" uk-icon="icon:  triangle-down; ratio: 1.2"></span>
 								</div>
 								<div class="uk-width-large uk-form-horizontal uk-card-tab-content"
 										uk-dropdown="mode: click;animation: uk-animation-slide-bottom-small; duration: 1000">
@@ -188,20 +188,20 @@ $styleDateCol = '';
 										</div>
 										<hr/>
 
-										<div class="uk-clearfix">
+                                        <?php /*		<div class="uk-clearfix">
 											<label class="uk-form-label"><?php echo vmText::_('COM_VIRTUEMART_ORDERSTATUS') ?></label>
 											<div class="uk-form-controls">
 												<?php
 												echo JHtml::_('select.genericlist', $orderStati, "orders[" . $order->virtuemart_order_id . "][order_status]", 'class="orderstatus_select" style="width:180px"', 'order_status_code', 'order_status_name', $order->order_status, 'order_status' . $i, TRUE);
 												?>
 											</div>
-										</div>
+										</div> */ ?>
 										<input type="hidden"
 												name="orders[<?php echo $order->virtuemart_order_id; ?>][current_order_status]"
 												value="<?php echo $order->order_status; ?>"/>
-										<input type="hidden"
+						<?php /*		<input type="hidden"
 												name="orders[<?php echo $order->virtuemart_order_id; ?>][coupon_code]"
-												value="<?php echo $order->coupon_code; ?>"/>
+												value="<?php echo $order->coupon_code; ?>"/> */ ?>
 										<br>
 										<?php
 										echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_ORDER_LIST_NOTIFY', 'orders[' . $order->virtuemart_order_id . '][customer_notified]', 0);
@@ -218,7 +218,7 @@ $styleDateCol = '';
 										</div>
 									</div>
 								</div>
--->
+
 <!-- uk-dropdown -->
 							</td>
 							<td>

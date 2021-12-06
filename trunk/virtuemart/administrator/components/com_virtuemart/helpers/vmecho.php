@@ -151,7 +151,7 @@ function vmWarn($publicdescr,$value=NULL){
  * Shows an error message, sensible information should be only in the first one, the second one is for non BE users
  * @author Max Milbers
  */
-function vmError($descr,$publicdescr=''){
+function vmError($descr, $publicdescr = '', $trace = 0){
 
 	$msg = '';
 	$lang = vmLanguage::getLanguage();
@@ -161,7 +161,19 @@ function vmError($descr,$publicdescr=''){
 		vmTrace ('vmError message empty');
 		return;
 	}
-	logInfo($adminmsg,'error');
+
+	$body = '';
+	if($trace){
+		$body = " \n<br> ";
+		ob_start();
+		echo '<pre>';
+		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,$trace);
+		echo '</pre>';
+		$body = ob_get_contents();
+		ob_end_clean();
+	}
+
+	logInfo($adminmsg.$body,'error');
 	if(VmConfig::$maxMessageCount< (VmConfig::$maxMessage+5)){
 
 		if(VmConfig::$echoAdmin){

@@ -33,7 +33,7 @@ class JFormFieldManufacturer extends JFormField
 			$manufacturers = array($emptyOption);
 		}
 
-		return JHtml::_('select.genericlist', $manufacturers, $this->name, 'class="inputbox"  size="1"', 'virtuemart_manufacturer_id', 'mf_name', $this->value, $this->id);
+		return JHtml::_('select.genericlist', $manufacturers, $this->name, 'class="form-select"', 'virtuemart_manufacturer_id', 'mf_name', $this->value, $this->id);
 	}
 
 

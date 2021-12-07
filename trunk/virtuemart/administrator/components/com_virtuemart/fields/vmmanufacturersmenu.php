@@ -34,7 +34,7 @@ class JFormFieldManufacturersmenu extends JFormField {
 		$model = VmModel::getModel('Manufacturer');
 		$manufacturers = $model->getManufacturers(true, true, false);
 
-		return JHtml::_('select.genericlist', $manufacturers, $this->name, 'class="inputbox"   ', 'value', 'text', $this->value, $this->id);
+		return JHtml::_('select.genericlist', $manufacturers, $this->name, 'class="inputbox"', 'value', 'text', $this->value, $this->id);
 
 	}
 

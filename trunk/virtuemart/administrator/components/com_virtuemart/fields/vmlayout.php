@@ -52,7 +52,7 @@ class JFormFieldVmLayout extends JFormField
 		$gl = $this->getAttribute('allowGlobal',true);
 
 		$vmLayoutList = VirtueMartModelConfig::getLayoutList($view,0,$gl);
-		$html = JHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'size=1 width=200', 'value', 'text', array($this->value));
+		$html = JHtml::_('Select.genericlist',$vmLayoutList, $this->name, 'class="form-select"', 'value', 'text', array($this->value));
 
         return $html;
 

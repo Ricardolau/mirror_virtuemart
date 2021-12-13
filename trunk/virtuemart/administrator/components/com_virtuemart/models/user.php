@@ -1271,19 +1271,20 @@ class VirtueMartModelUser extends VmModel {
 		foreach ($prepareUserFields as $fld) {
 			if(empty($data[$fld->name])) $data[$fld->name] = '';
 
-			if(!$manager and $fld->readonly){
+			if(!$manager and $fld->readonly) {
 				$fldName = $fld->name;
 				unset($data[$fldName]);
-				if($userinfo!==0){
-					if(property_exists($userinfo,$fldName)){
-						$data[$fldName] = $userinfo->{$fldName};
-					} else {
-						vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db');
-					}
-				}
-			} else {
-				$data[$fld->name] = $userFieldsModel->prepareFieldDataSave($fld, $data, $prefix);
 			}
+			if($userinfo!==0){
+				if(property_exists($userinfo,$fldName)){
+					$data[$fldName] = $userinfo->{$fldName};
+				} else {
+					vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db');
+				}
+			}
+
+			$data[$fld->name] = $userFieldsModel->prepareFieldDataSave($fld, $data, $prefix);
+
 		}
 
 		return $data;

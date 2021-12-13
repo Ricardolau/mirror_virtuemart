@@ -78,7 +78,8 @@ class TableUserfield_values extends VmTable {
 		} else {
 			$this->virtuemart_userfield_value_id = $_id;
 		}
-		return true;
+
+		return parent::check();
 	}
 
 	/**

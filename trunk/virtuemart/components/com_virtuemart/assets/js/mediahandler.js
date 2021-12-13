@@ -11,7 +11,7 @@
 jQuery(document).ready(function($){
 
 	var media = $('#searchMedia').data();
-	media.start=0;
+	if(media) media.start=0;
 	var searchMedia = $('input#searchMedia');
 	searchMedia.click(function () {
 		media.start=0;

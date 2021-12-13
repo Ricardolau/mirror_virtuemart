@@ -476,8 +476,11 @@ LEFT JOIN #__virtuemart_vendor_medias as vm ON pm.virtuemart_media_id = m.virtue
 		if(!empty($objects)){
 			if(!is_array($objects)) $objects = array($objects);
 			foreach($objects as $k => $object){
+
 				if(!is_object($object)){
-					$object = $this->createVoidMedia($type,$mime);
+					continue;
+					//$object is not a media
+					//$object = $this->createVoidMedia($type,$mime);
 				}
 
 				if(empty($object->virtuemart_media_id)) $virtuemart_media_id = null; else $virtuemart_media_id = $object->virtuemart_media_id;

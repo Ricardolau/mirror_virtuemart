@@ -74,6 +74,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$this->_maxItems = VmConfig::get ('absMaxProducts', 700);
 
+		$this->setDebugSql(VmConfig::get('debug_Sql',false)); //VmConfig::$echoDebug = true;
 	}
 
 	var $keyword = "0";
@@ -298,13 +299,19 @@ class VirtueMartModelProduct extends VmModel {
 	}
 
 	/**
-	 * New function for sorting, searching, filtering and pagination for product ids.
+	 * Function for sorting, searching, filtering and pagination for product ids.
 	 *
 	 * @author Max Milbers
+	 * @param bool $onlyPublished this is not used anylonger, either blocked by perms or use the Request published or the injection array
+	 * @param false $virtuemart_category_id only products within the given categories
+	 * @param false $group return a group (featured, topten, recent, latest,...)
+	 * @param false $nbrReturnProducts
+	 * @param array $params array to inject parameters, overwrites behaviour by Request variable
+	 * @return array|mixed|null
 	 */
-	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array(), $searchcustoms = null) {
+	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $params = array() ) {
 
-
+		$keyword = isset($params['keyword'])? $params['keyword'] : $this->keyword;
 		/*
 		 * Plugins must return an array with product ids
 		 */
@@ -313,12 +320,11 @@ class VirtueMartModelProduct extends VmModel {
 			array(
 				&$this,
 				&$result,
-				$this->keyword,
+				$keyword,
 				$onlyPublished,
 				$virtuemart_category_id,
 				$group,$nbrReturnProducts,
-				$langFields,
-				$searchcustoms
+				$params,
 			));
 
 		if($used){
@@ -331,7 +337,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		$db = JFactory::getDbo();
-		//$this->setDebugSql(1); //VmConfig::$echoDebug = true;
+
 		//vmdebug('sortSearchListQuery '.$group,$nbrReturnProducts);
 
 		//User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
@@ -348,9 +354,8 @@ class VirtueMartModelProduct extends VmModel {
 		$joinCustom = FALSE;
 		$joinShopper = FALSE;
 		$joinChildren = FALSE;
-		//$virtuemart_category_id = (int)$virtuemart_category_id;
-		//$joinLang = false;
 
+		$langFields = isset($params['langFields'])? $params['langFields']: array();
 
 		$where = array();
 
@@ -362,14 +367,22 @@ class VirtueMartModelProduct extends VmModel {
 		$this->useLback = vmLanguage::getUseLangFallback();
 		$this->useJLback = vmLanguage::getUseLangFallbackSecondary();
 
-		if($searchcustoms===null){
+		if(isset($params['searchcustoms'])){
+			$searchcustoms = $params['searchcustoms'];
+		} else {
 			$searchcustoms = $this->searchcustoms;
 		}
 
-		if (!empty($searchcustoms) or !empty($this->virtuemart_custom_id)) {
+		if(isset($params['virtuemart_custom_id'])){
+			$virtuemart_custom_id = $params['virtuemart_custom_id'];
+		} else if(!empty($this->virtuemart_custom_id))  {
+			$virtuemart_custom_id = $this->virtuemart_custom_id;
+		}
+
+		if (!empty($searchcustoms) or !empty($virtuemart_custom_id)) {
 			$joinCustom = TRUE;
 
-			$and = vRequest::get('combineTags',true);
+			$and = isset($params['combineTags'])? $params['combineTags'] : vRequest::getInt('combineTags',true);
 			if (!empty($searchcustoms)){
 				if($this->debug === 1) vmdebug('sortSearchListQuery',$searchcustoms);
 
@@ -398,10 +411,10 @@ class VirtueMartModelProduct extends VmModel {
 				}
 			}
 
-			if(!empty($this->virtuemart_custom_id)) {
-				foreach ($this->virtuemart_custom_id as $key => $virtuemart_custom_id) {
-					if(empty($virtuemart_custom_id)) continue;
-					$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$virtuemart_custom_id . '" )';
+			if(!empty($virtuemart_custom_id)) {
+				foreach ($virtuemart_custom_id as $key => $virtuemart_customId) {
+					if(empty($virtuemart_customId)) continue;
+					$custom_search[] = '(pf.`virtuemart_custom_id`="' . (int)$virtuemart_customId . '" )';
 				}
 			}
 
@@ -424,14 +437,16 @@ class VirtueMartModelProduct extends VmModel {
 			}
 
 		}
-		$filter_search = array();
-		if (!empty($this->keyword) and $group === FALSE) {
 
-			$keyword = vRequest::filter(html_entity_decode($this->keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+		$filter_search = array();
+
+		if (!empty($keyword) and $group === FALSE) {
+
+			$keyword = vRequest::filter(html_entity_decode($keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
 			$keyword = $db->escape( $keyword, true );
 			$keyword =  '"%' .str_replace(array(' '),'%', $keyword). '%"';
 
-			//$keyword = '"%' . $db->escape ($this->keyword, TRUE) . '%"';
+			//$keyword = '"%' . $db->escape ($keyword, TRUE) . '%"';
 			//vmdebug('Current search field',$this->valid_search_fields);
 
 			foreach ($this->valid_search_fields as $searchField) {
@@ -515,12 +530,12 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if (!empty($virtuemart_category_id )){
-			if( is_array($virtuemart_category_id)) {
-				$virtuemart_category_id = array_filter($virtuemart_category_id);
-			} else {
+			if( !is_array($virtuemart_category_id)) {
 				$virtuemart_category_id = array($virtuemart_category_id);
 			}
+			$virtuemart_category_id = vRequest::filter($virtuemart_category_id, FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE);
 		}
+
 		if (!empty($virtuemart_category_id )) {
 			$joinCategory = TRUE;
 
@@ -570,7 +585,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		if ($isSite) {
 
-			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
+			$virtuemart_shoppergroup_ids = isset($params['virtuemart_shoppergroup_ids']) ? $params['virtuemart_shoppergroup_ids'] : self::getCurrentUserShopperGrps();
 
 			if (is_array ($virtuemart_shoppergroup_ids)) {
 				$sgrgroups = array();
@@ -584,24 +599,26 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
-		if ($this->virtuemart_manufacturer_id) {
+		$virtuemart_manufacturer_id = isset($params['virtuemart_manufacturer_id']) ? $params['virtuemart_manufacturer_id'] : $this->virtuemart_manufacturer_id;
+		if ($virtuemart_manufacturer_id) {
 			$joinMf = TRUE;
-			if(is_array($this->virtuemart_manufacturer_id)){
+			if(is_array($virtuemart_manufacturer_id)){
 				$mans = array();
-				foreach ($this->virtuemart_manufacturer_id as $key => $v) {
+				foreach ($virtuemart_manufacturer_id as $key => $v) {
 					$mans[] = '`#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id`= "' . (int)$v . '" ';
 				}
 				$where[] = " ( " . implode (' OR ', $mans) . " ) ";
 			} else {
-				$where[] = ' `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` = ' . (int)$this->virtuemart_manufacturer_id;
-				//$virtuemart_manufacturer_id = $this->virtuemart_manufacturer_id;
+				$where[] = ' `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` = ' . (int)$virtuemart_manufacturer_id;
 			}
 
 		}
 
 		// Time filter
-		if ($this->search_type != '') {
-			$search_order = $db->escape (vRequest::getCmd ('search_order',$this->search_order) == 'bf' ? '<' : '>');
+		$search_type = isset($params['search_type']) ? $params['search_type'] : $this->search_type;
+		if ($search_type != '') {
+			$search_order = isset($params['search_order']) ? $params['search_order'] : vRequest::getCmd ('search_order',$this->search_order);
+			$search_order = $db->escape ($search_order == 'bf' ? '<' : '>');
 			switch ($this->search_type) {
 				case 'parent':
 					$where[] = 'p.`product_parent_id` = "0"';
@@ -629,11 +646,13 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
-		//vmdebug('my filter ordering ',$this->filter_order);
+
 		// special  orders case
 		$ff_select_price = '';
-		$filterOrderDir = $this->filter_order_Dir;
-		switch ($this->filter_order) {
+		$filterOrderDir = isset($params['filter_order_Dir']) ? $params['filter_order_Dir'] : $this->filter_order_Dir;
+		$filter_order = isset($params['filter_order']) ? $params['filter_order'] : $this->filter_order;
+		//vmdebug('my filter ordering ',$filter_order);
+		switch ($filter_order) {
 			case '`p`.product_special':
 				if($isSite){
 					$where[] = ' p.`product_special`="1" '; // TODO Change  to  a  individual button
@@ -686,12 +705,12 @@ class VirtueMartModelProduct extends VmModel {
 				$orderBy = ' ORDER BY p.`published` '.$filterOrderDir.', p.`virtuemart_product_id` '.$filterOrderDir;
 				break;
 			default:
-				if (!empty($this->filter_order)) {
-					$orderBy = ' ORDER BY '.$this->filter_order.' ' . $filterOrderDir ;
-					if(strpos($this->filter_order, 'virtuemart_product_id')===FALSE){
+				if (!empty($filter_order)) {
+					$orderBy = ' ORDER BY '.$filter_order.' ' . $filterOrderDir ;
+					if(strpos($filter_order, 'virtuemart_product_id')===FALSE){
 						$orderBy .= ', p.`virtuemart_product_id` '.$filterOrderDir;
 					}
-					if($this->filter_order=='product_name'){
+					if($filter_order=='product_name'){
 						$joinLang = true;
 						$langFields[] = 'product_name';
 					}
@@ -707,7 +726,7 @@ class VirtueMartModelProduct extends VmModel {
 		//Group case from the modules
 		if ($group) {
 
-			$latest_products_days = VmConfig::get ('latest_products_days', 7);
+			//$latest_products_days = VmConfig::get ('latest_products_days', 7);
 			$latest_products_orderBy = VmConfig::get ('latest_products_orderBy','created_on');
 			$groupBy = 'group by p.`virtuemart_product_id` ';
 			switch ($group) {
@@ -746,31 +765,40 @@ class VirtueMartModelProduct extends VmModel {
 			// 			$joinMf 		= false ;	//creates error
 			$joinPrice = TRUE;	//Why we set this all the time?
 			$this->searchplugin = FALSE;
-// 			$joinLang = false;
+
 		}
 
 		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1) /*and $isSite*/){
 			$where[] = ' p.`product_discontinued` = "0" ';
 		}
 
-		/*if ($onlyPublished and !empty($this->virtuemart_vendor_id) and vRequest::get('manage',false) and vmAccess::isSuperVendor()) {
-			$where[] = ' p.`virtuemart_vendor_id` = "'.$this->virtuemart_vendor_id.'" ';
-		} else {*/
-		if(!empty($onlyPublished) and $isSite){
+		if(!vmAccess::manager('product')){
 			$where[] = ' p.`published`="1" ';
+		} else {
+			$published = isset($params['published']) ? $params['published'] : vRequest::getInt('published',null);
+			if($published === null){
+				if($isSite and !VmConfig::get('showUnpublishedProducts', true)){
+					$where[] = ' p.`published`="1" ';
+				}
+			} else {
+				if($published){
+					$where[] = ' p.`published`="1" ';
+				} else{
+					$where[] = ' p.`published`="0" ';
+				}
+			}
 		}
 
-		//It would be of course better to use the %onlyPublished Parameter, but maybe widely used, so for BC, we use this quickndirty solution
-		$published = vRequest::getInt('published',false);
-		if(!$isSite and $published!==false){
-
-		    if($this->published==1){
-                $where[] = ' p.`published`="1" ';
-            } else if($this->published==0){
-                $where[] = ' p.`published`="0" ';
-            }
-        }
-
+		$priceLow = isset($params['priceLow'])? $params['priceLow'] : vRequest::getInt('priceLow',null);
+		if(isset($priceLow)){
+			$joinPrice = TRUE;
+			$where[] = 'pp.`product_price` >= "'.$priceLow.'" ';
+		}
+		$priceHigh = isset($params['priceHigh'])? $params['priceHigh'] : vRequest::getInt('priceHigh',null);
+		if(isset($priceHigh)){
+			$joinPrice = TRUE;
+			$where[] = 'pp.`product_price` <= "'.$priceHigh.'" ';
+		}
 
 		if(VmConfig::get('multix','none')!='none'){
 			if(!empty($this->virtuemart_vendor_id)){
@@ -794,15 +822,15 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 
-		//This option switches between showing products without the selected language or only products with language.
 		if($isSite ){
-			if((empty($this->keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
+			if((empty($keyword) or $group !== FALSE) and self::$omitLoaded and self::$_alreadyLoadedIds){
 				$where[] = ' ( p.`virtuemart_product_id` NOT IN ('.implode(',',self::$_alreadyLoadedIds).') ) ';
 			}
-
 		}
 
+
 		$selectLang = '';
+		//This option switches between showing products without the selected language or only products with language.
 		if ($joinLang or count($langFields)>0 or ($isSite and VmConfig::get('prodOnlyWLang',false)) ){
 
 			$joinedTables = self::joinLangTables($this->_maintable,'p','virtuemart_product_id');
@@ -826,7 +854,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if ($joinCategory == TRUE or $joinCatLang) {
-			/*if($app->isSite() and !empty($this->keyword)){ 	//We need an extra boolean to handel this correctly
+			/*if($app->isSite() and !empty($keyword)){ 	//We need an extra boolean to handel this correctly
 				$joink = 'INNER';
 			} else {*/
 				$joink = 'LEFT';
@@ -848,7 +876,8 @@ class VirtueMartModelProduct extends VmModel {
 		}
 
 		if ($joinPrice == TRUE) {
-			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_prices` as pp ON p.`virtuemart_product_id` = pp.`virtuemart_product_id` ';
+			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_prices` as pp ON p.`virtuemart_product_id` = pp.`virtuemart_product_id`   ';
+
 		}
 
 		if ($this->searchplugin !== 0) {
@@ -873,7 +902,7 @@ class VirtueMartModelProduct extends VmModel {
 		else {
 			$whereString = '';
 		}
-		//vmdebug ( ' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $this->filter_order_Dir );		/* jexit();  */
+		//vmdebug ( ' joined ? ',$select, $joinedTables, $whereString, $groupBy, $orderBy, $filter_order_Dir );		/* jexit();  */
 
 		$this->orderByString = $orderBy;
 
@@ -1231,6 +1260,11 @@ class VirtueMartModelProduct extends VmModel {
 				$withPrice = false;
 			}
 			$parentProduct = $this->getProductSingle ($child->product_parent_id, $front,$quantity, false, 0, $withPrice);
+			if(!$parentProduct){
+				$msg = 'Child product id '.$child->virtuemart_product_id. ' is missing parent product with $child->product_parent_id '.$child->product_parent_id;
+				vmError($msg,$msg);
+				break;
+			}
 			if ($child->product_parent_id === $parentProduct->product_parent_id) {
 				vmError('Error, parent product with virtuemart_product_id = '.$parentProduct->virtuemart_product_id.' has same parent id like the child with virtuemart_product_id '.$child->virtuemart_product_id);
 				vmTrace('Error, parent product with virtuemart_product_id = '.$parentProduct->virtuemart_product_id.' has same parent id like the child with virtuemart_product_id '.$child->virtuemart_product_id);
@@ -1602,11 +1636,9 @@ class VirtueMartModelProduct extends VmModel {
 	var $withRating = false;
 	static $_productsSingle = array();
 
-	public function getProductSingle ($virtuemart_product_id = NULL, $front = TRUE, $quantity = 1, $withParent=false,$virtuemart_shoppergroup_ids=0, $prices = true) {
+	public function getProductSingle ($virtuemart_product_id, $front = TRUE, $quantity = 1, $withParent=false,$virtuemart_shoppergroup_ids=0, $prices = true) {
 
-		if (!empty($virtuemart_product_id)) {
-			$virtuemart_product_id = $this->setId ($virtuemart_product_id);
-		}
+		$virtuemart_product_id = $this->setId ($virtuemart_product_id);
 
 		if($virtuemart_shoppergroup_ids===0){
 			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
@@ -2045,7 +2077,7 @@ vmSetStartTime('letsUpdateProducts');
 		}
 
 		$this->setFilter ();
-		if ($filterCategory === TRUE) {
+		if ($filterCategory) {
 			if ($category_id) {
 				$this->virtuemart_category_id = $category_id;
 			}
@@ -2054,7 +2086,7 @@ vmSetStartTime('letsUpdateProducts');
 			$this->virtuemart_category_id = FALSE;
 		}
 
-		if ($filterManufacturer === TRUE) {
+		if ($filterManufacturer) {
 			if ($manufacturer_id) {
 				$this->virtuemart_manufacturer_id = $manufacturer_id;
 			}
@@ -2065,7 +2097,8 @@ vmSetStartTime('letsUpdateProducts');
 		if($group == 'recent'){
 			$ids = self::getRecentProductIds($nbrReturnProducts);	// get recent viewed from browser session
 		} else {
-			$ids = $this->sortSearchListQuery ($onlyPublished, $this->virtuemart_category_id, $group, $nbrReturnProducts, array(), false);
+
+			$ids = $this->sortSearchListQuery ($onlyPublished, $this->virtuemart_category_id, $group, $nbrReturnProducts, array('searchcustoms'=>false,'virtuemart_custom_id'=>false) );
 			if($ids){
 				self::$_alreadyLoadedIds = array_merge(self::$_alreadyLoadedIds,$ids);
 			}
@@ -2216,7 +2249,7 @@ vmSetStartTime('letsUpdateProducts');
 		//We try the method to get exact the next product, the other method would be to get the list of the browse view again and do a match
 		//with the product id and giving back the neighbours
 		$this->_onlyQuery = true;
-		$queryArray =  $this->sortSearchListQuery($onlyPublished,(int)$product->virtuemart_category_id,false,1,array('product_name'));
+		$queryArray =  $this->sortSearchListQuery($onlyPublished,(int)$product->virtuemart_category_id,false,1,array('langFields'=>array('product_name')));
 //vmdebug('my query stuff ',$queryArray);
 		if(isset($queryArray[1])){
 
@@ -3093,6 +3126,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 		$useCache = VmConfig::get('UseCachegetOrderByList',true);
 
+		$manuList = '';
 		if (VmConfig::get ('show_manufacturers',true)) {
 
 			vmSetStartTime('mcaching');
@@ -3130,10 +3164,10 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 		$manuM = VmModel::getModel('manufacturer');
 		vmSetStartTime('mcaching');
-		$mlang= vmLanguage::getUseLangFallback();
 
-		$manufacturers = $manuM ->getManufacturersOfProductsInCategory($virtuemart_category_id,VmConfig::$vmlang,$mlang);
-		$manuList = ShopFunctionsF::renderVmSubLayout('orderbymanu',array('manufacturers' => $manufacturers, 'fieldLink' => $fieldLink, 'orderbyTxt' => $orderbyTxt, 'orderDirLink' => $orderDirLink));
+		$manuList = '';
+		$manufacturers = $manuM ->getManufacturersOfProductsInCategory($virtuemart_category_id);
+		if($manufacturers) $manuList = ShopFunctionsF::renderVmSubLayout('orderbymanu',array('manufacturers' => $manufacturers, 'fieldLink' => $fieldLink, 'orderbyTxt' => $orderbyTxt, 'orderDirLink' => $orderDirLink));
 		return $manuList;
 	}
 

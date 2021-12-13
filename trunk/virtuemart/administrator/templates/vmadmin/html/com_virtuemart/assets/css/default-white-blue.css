@@ -8,6 +8,15 @@
   381f00 381100, 321400
  */
 
+/*stan j4 compat*/
+select, input {
+    max-width: 220px;
+}
+select + .chosen-container {
+    max-width: 220px !important;
+    min-width: 220px;
+}
+
 .md-color-cyan-600 {
     color: #00A1DF!important;
 }
@@ -475,7 +484,7 @@ label.invalid {
     text-transform: none;
     white-space: normal;
     padding: 3px 5px;
-    display: block;
+/*    display: block;*/
     color: unset;
 }
 

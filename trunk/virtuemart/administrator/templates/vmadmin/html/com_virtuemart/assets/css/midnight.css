@@ -44,7 +44,18 @@ body {
 .row1 {
     background-color: #381f00!important;
 }
+/*
+.uk-form-horizontal .uk-form-label {
+    margin-right: 5px;
+    margin-top: 4px;
+    text-align: center;
+    min-width: 120px;
 
+}
+
+.uk-form-controls {
+    margin-left: 0px;
+}*/
 
 .uk-width-expand, .uk-form-label {
     color: #fff7e9!important;

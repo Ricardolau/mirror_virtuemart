@@ -54,28 +54,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo $host ?>
 			</div>
 		</div>
-
 		<div class="uk-clearfix hasPopover" data-content="<?php echo htmlentities(vmText::_('COM_VM_MEMBER_ACCESSNBR_TIP')) ?>">
 			<div class="uk-form-label">
-				<span  ><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR'); ?></span>
-			</div>
-			<div class="uk-form-controls">
-				<?php echo VmuikitHtml::input('member_access_number', VmConfig::get('member_access_number', ''), 'class="uk-form-width-1-1"', '', 55); ?>
-			</div>
-		</div>
-		<div class="uk-clearfix">
-			<div class="uk-form-label">
+				<div  ><?php echo vmText::_('COM_VM_MEMBER_ACCESSNBR'); ?></div>
+            </div>
+        </div>
+        <div>
+            <input type="text" class="uk-form-width-1-1" id="member_access_number" name="member_access_number" size="60" maxlength="255" value="<?php echo VmConfig::get('member_access_number', '') ?>" />
+        </div>
+                <?php //echo VmuikitHtml::input('member_access_number', VmConfig::get('member_access_number', ''), 'class="uk-form-width-1-1"', '', 60); ?>
 
-			</div>
-			<div class="uk-form-controls">
-				<div class="alert">
-					<div
-							uk-tooltip="<?php echo htmlentities(vmText::sprintf($host, 'COM_VM_MEMBER_AGREEMENT_TIP', VmConfig::$vmlangTag, vmVersion::$RELEASE)) ?>'">
-						<?php echo vmText::_('COM_VM_MEMBER_AGREEMENT') ?>
-					</div>
-				</div>
-			</div>
-		</div>
+        <div class="alert">
+            <div
+                    uk-tooltip="<?php echo htmlentities(vmText::sprintf($host, 'COM_VM_MEMBER_AGREEMENT_TIP', VmConfig::$vmlangTag, vmVersion::$RELEASE)) ?>'">
+				<?php echo vmText::_('COM_VM_MEMBER_AGREEMENT') ?>
+            </div>
+        </div>
+
+
 	</div>
 </div>
 

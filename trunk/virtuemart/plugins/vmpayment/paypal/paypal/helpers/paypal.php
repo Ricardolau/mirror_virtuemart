@@ -347,7 +347,7 @@ class PaypalHelperPaypal {
 		return $extraInfo;
 	}
 
-	public function getExtraPluginInfo () {
+	public function getExtraPluginInfo ($method) {
 		$extraInfo = '';
 		return $extraInfo;
 	}
@@ -773,12 +773,19 @@ class PaypalHelperPaypal {
 
 	}
 
-	function  _is_full_refund ($payment, $paypal_data) {
-		if (($payment->payment_order_total == (-1 * $paypal_data['mc_gross']))) {
-			return TRUE;
-		} else {
-			return FALSE;
+	function  _is_full_refund ($payments, $paypal_data) {
+
+		if (!is_array($payments)) $payments = array($payments);
+
+		if (is_array($payments)) {
+			foreach ($payments as $payment) {
+				if (($payment->payment_order_total == (-1 * $paypal_data['mc_gross']))) {
+					return TRUE;
+				}
+			}
 		}
+
+		return FALSE;
 	}
 
 	function RefundTransaction ($payment) {

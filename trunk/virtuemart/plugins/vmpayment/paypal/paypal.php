@@ -1498,8 +1498,12 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 			VmInfo( 'VMPAYMENT_PAYPAL_PAYMENT_NOT_VALID' );
 			return false;
 		} else {
-			$app = JFactory::getApplication();
-			$app->redirect( JRoute::_( 'index.php?option=com_virtuemart&view=cart&Itemid='.vRequest::getInt( 'Itemid' ), false ) );
+			if($currentMethod->paypalproduct != 'exp'){
+				$app = JFactory::getApplication();
+				$app->redirect( JRoute::_( 'index.php?option=com_virtuemart&view=cart&Itemid='.vRequest::getInt( 'Itemid' ), false ) );
+			} else {
+				jExit();
+			}
 		}
 
 

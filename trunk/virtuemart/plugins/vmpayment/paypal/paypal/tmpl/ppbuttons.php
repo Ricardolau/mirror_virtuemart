@@ -38,8 +38,16 @@ class vmPPButton {
 	 * @return string
 	 */
 
-    static function renderCheckoutButton($method, $env = 'production'){
+    static function renderCheckoutButton($method, $env = null){
 
+    	if($env === null){
+		    $env = 'production';
+		    if ($method->sandbox ) { ?>
+			    <span style="color:red;font-weight:bold">Sandbox (<?php echo $method->virtuemart_paymentmethod_id ?>)</span>
+			    <?php
+			    $env = 'sandbox';
+		    }
+	    }
 		$link = JURI::root() . 'index.php?option=com_virtuemart&view=plugin&type=vmpayment&name=' . $method->payment_element . '&action=SetExpressCheckout&pm=' . $method->virtuemart_paymentmethod_id;
 
 		if($method->offer_credit){
@@ -57,6 +65,7 @@ class vmPPButton {
 			$text = vmText::_('VMPAYMENT_PAYPAL_EXPCHECKOUT_BUTTON');
         }
 
+        ob_clean();
 		header('Access-Control-Allow-Origin: https://www.paypalobjects.com');
 		header('Access-Control-Allow-Origin: https://www.paypal.com');
 		header('Access-Control-Allow-Origin: https://www.sandbox.paypal.com');

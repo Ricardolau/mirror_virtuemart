@@ -489,7 +489,7 @@ class PaypalHelperPayPalApi extends PaypalHelperPaypal {
 		} else {
 			//$extraInfo .= '<br/><a href="' . JRoute::_('index.php?option=com_virtuemart&view=cart&task=editpayment&Itemid=' . vRequest::getInt('Itemid'), false) . '">' . vmText::_('VMPAYMENT_PAYPAL_CC_ENTER_INFO') . '</a>';
 		}
-		$extraInfo .= parent::getExtraPluginInfo();
+		$extraInfo .= parent::getExtraPluginInfo($method);
 		return $extraInfo;
 	}
 

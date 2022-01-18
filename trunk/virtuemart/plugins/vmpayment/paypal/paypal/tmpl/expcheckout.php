@@ -46,14 +46,14 @@ header('Access-Control-Allow-Origin: https://www.sandbox.paypal.com');
 		} else
 		if(empty($viewData['offer_credit'])){ ?>
 	<div class="pp-express">
-		<?php echo vmPPButton::renderCheckoutButton($viewData['method']); ?>
+		<?php echo vmPPButton::renderCheckoutButton($viewData['method'],$env); ?>
 	</div>
 	<div class="clear"></div>
 		<?php
 		} else { ?>
 	<div class="pp-credit">
 		<?php
-		echo vmPPButton::renderCheckoutButton($viewData['method']);
+		echo vmPPButton::renderCheckoutButton($viewData['method'],$env);
 		static $frame= false;
 		?>
 		<button class="pp-mark-credit-modal" >

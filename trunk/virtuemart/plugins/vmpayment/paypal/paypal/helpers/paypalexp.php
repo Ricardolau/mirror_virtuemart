@@ -298,7 +298,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 
 		$post_variables['RETURNURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&task=setpayment&expresscheckout=done&virtuemart_paymentmethod_id=' . $this->_method->virtuemart_paymentmethod_id . '&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
 
-		$post_variables['CANCELURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&expresscheckout=cancel&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
+		$post_variables['CANCELURL'] = JURI::root() . 'index.php?option=com_virtuemart&view=cart&task=setpayment&expresscheckout=cancel&virtuemart_paymentmethod_id=0&Itemid=' . vRequest::getInt('Itemid') . '&lang=' . vRequest::getCmd('lang', '');
 
 		if(!empty($this->_method->offer_credit) or !empty($this->_method->enable_smart_buttons)){
 			if(!empty($this->_method->offer_credit)){
@@ -704,7 +704,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 				$public_error = '';
 
 				for ($i = 0; isset($this->response["L_ERRORCODE" . $i]); $i++) {
-					$error .= $this->response["L_ERRORCODE" . $i];
+					$error .= 'PayPal handleResponse: '.$this->response["L_ERRORCODE" . $i];
 					$message = isset($this->response["L_LONGMESSAGE" . $i]) ? $this->response["L_LONGMESSAGE" . $i] : $this->response["L_SHORTMESSAGE" . $i];
 					$error .= ": " . $message . "<br />";
 				}
@@ -712,7 +712,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 					$public_error = $error;
 				}
 				$this->debugLog($this->response, 'handleResponse:', 'debug');
-				VmError($error, $public_error);
+				vmError($error, $public_error);
 
 				return false;
 			} elseif ($this->response['ACK'] == 'Success' || $this->response['ACK'] == 'SuccessWithWarning' || $this->response['TRANSACTIONID'] != NULL || $this->response['PAYMENTINFO_0_TRANSACTIONID'] != NULL) {
@@ -877,7 +877,7 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 	}
 
 
-	function getExtraPluginInfo () {
+	function getExtraPluginInfo ($method) {
 		$extraInfo = '';
 
 		//Are we coming back from Express Checkout?
@@ -890,13 +890,19 @@ class PaypalHelperPayPalExp extends PaypalHelperPaypal {
 			return NULL;
 		}
 
-		if (!$this->customerData->getVar('token')) {
-			$this->getToken();
+		$cart = VirtueMartCart::getCart();
+		if ($cart->_redirect and !$this->customerData->getVar('token')) {
+
+			//if($cart->virtuemart_paymentmethod_id == $method->virtuemart_paymentmethod_id){
+				
+				$this->getToken();
+			//}
+
 		} elseif ($expressCheckout == 'done') {
 			$this->getExpressCheckoutDetails();
 		}
 
-		$extraInfo .= parent::getExtraPluginInfo();
+		$extraInfo .= parent::getExtraPluginInfo($method);
 		return $extraInfo;
 	}
 

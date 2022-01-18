@@ -21,11 +21,15 @@
 if(!class_exists('vmPPButton')) require(VMPATH_PLUGINS .'/vmpayment/paypal/paypal/tmpl/ppbuttons.php');
 
 $plugin = $viewData['method'];
+$env = 'production';
+if ($plugin->sandbox ) {
+	$env = 'sandbox';
+}
 
 if ( $plugin->paypalproduct=='exp' and $plugin->itemise_in_cart ){
 
 	if(true){
-		echo vmPPButton::renderCheckoutButton($plugin).'<div class="clear"></div>';
+		echo vmPPButton::renderCheckoutButton($plugin,$env).'<div class="clear"></div>';
 	} else {
 		if($plugin->offer_credit){
 			$img = vmPPButton::getCreditLogo();

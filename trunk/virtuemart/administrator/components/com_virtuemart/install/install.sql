@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_invoices` (
   `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '1',
   `virtuemart_order_id` int(1) UNSIGNED,
   `invoice_number` varchar(64),
-  `order_status` char(2),
+  `order_status` char(3),
   `xhtml` text,
   `o_hash` varchar(33),
   `created_on` datetime,
@@ -563,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_orders` (
   `coupon_code` varchar(32),
   `order_discount` decimal(12,2) NOT NULL DEFAULT '0.00',
   `order_currency` smallint(1),
-  `order_status` char(1),
+  `order_status` char(3),
   `user_currency_id` smallint(1),
   `user_currency_rate` DECIMAL(12,6) NOT NULL DEFAULT '1.000000',
   `user_shoppergroups` varchar(30),
@@ -590,6 +590,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_orders` (
   KEY `order_number` (`order_number`),
   KEY `virtuemart_paymentmethod_id` (`virtuemart_paymentmethod_id`),
   KEY `virtuemart_shipmentmethod_id` (`virtuemart_shipmentmethod_id`),
+  KEY `order_status` (`order_status`),
   KEY `created_on` (`created_on`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='Used to store all orders' AUTO_INCREMENT=1 ;
 
@@ -640,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_items` (
   `product_subtotal_discount` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `product_subtotal_with_tax` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `order_item_currency` INT(1),
-  `order_status` char(1),
+  `order_status` char(3),
   `product_attribute` mediumtext,
   `delivery_date` varchar(200),
   `paid` decimal(15,5) NOT NULL DEFAULT '0.00000',
@@ -677,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_item_histories` (
   `product_subtotal_discount` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `product_subtotal_with_tax` decimal(15,5) NOT NULL DEFAULT '0.00000',
   `order_item_currency` INT(1),
-  `order_status` char(1),
+  `order_status` char(3),
   `product_attribute` mediumtext,
   `delivery_date` varchar(200),
   `paid` decimal(15,5) NOT NULL DEFAULT '0.00000',
@@ -733,7 +734,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_calc_rules` (
 CREATE TABLE IF NOT EXISTS `#__virtuemart_orderstates` (
   `virtuemart_orderstate_id` tinyint(1) UNSIGNED NOT NULL AUTO_INCREMENT,
   `virtuemart_vendor_id` int(1) UNSIGNED NOT NULL DEFAULT '1',
-  `order_status_code` char(1) NOT NULL DEFAULT '',
+  `order_status_code` char(3) NOT NULL DEFAULT '',
   `order_status_name` varchar(64),
   `order_status_color` varchar(64),
   `order_status_description` varchar(12359),

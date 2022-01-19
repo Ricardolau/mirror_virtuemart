@@ -661,8 +661,9 @@ class ShopFunctions {
 			foreach ($records as $key => $category) {
 
 				if ($category->virtuemart_category_id != $cid) {
+
 					if (in_array ($category->virtuemart_category_id, $selectedCategories)) {
-						$selected = 'selected=\"selected\"';
+						$selected = 'selected="selected"';    //that was selected=\"selected\"
 					} else {
 						$selected = '';
 					}

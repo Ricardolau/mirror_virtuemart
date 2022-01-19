@@ -125,7 +125,7 @@ vmdebug('Found cached cat, but without children');
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->has_children = 1;
 			}
 
-			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = &$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->has_children;
+			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->haschildren = $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->has_children;
 
 			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = false;
 			$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = null;
@@ -197,9 +197,9 @@ vmdebug('Found cached cat, but without children');
 			$orderDir = 'ASC';
 		}
 
-		$onlyPublished = false;
-		if(VmConfig::isSite() or !vmAccess::manager('category')){
-			$onlyPublished = true;
+		$onlyPublished = true;
+		if(!VmConfig::isSite() and (vmAccess::manager(array('category','product','product.edit'),0, 0)) ){
+			$onlyPublished = false;
 		}
 		//$key = (int)$vendorId.'_'.(int)$virtuemart_category_id.$selectedOrdering.$orderDir.VmLanguage::$currLangTag ;
 		//We have here our internal key to preven calling of the cache

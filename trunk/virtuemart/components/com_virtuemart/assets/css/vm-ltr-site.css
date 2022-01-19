@@ -1,3 +1,10 @@
+
+.child-Image-Container {
+  overflow-y: scroll;
+  height:200px;
+  scroll-behavior: smooth;
+}
+
 .productdetails-view .spacer-buy-area{
   padding-left: 16px;
 }

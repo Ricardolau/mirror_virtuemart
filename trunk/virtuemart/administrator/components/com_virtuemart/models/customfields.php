@@ -338,7 +338,7 @@ class VirtueMartModelCustomfields extends VmModel {
 		*/
 		//$html .= 	$child->product_name .'</td>';
 		//$html .=	'<td>'.$child->allPrices[$child->selectedPrice]['product_price'] .'</td>';
-		$html .= '<td><input '.$readonly.' '.$classBox.' type="text" name="childs['.$child->virtuemart_product_id.'][mprices][product_price][]" size="8" value="'. $child->allPrices[$child->selectedPrice]['product_price'] .'" />
+		$html .= '<td><input '.$readonly.' '.$classBox.' style="width:80px;" type="text" name="childs['.$child->virtuemart_product_id.'][mprices][product_price][]" size="5" value="'. trim(trim($child->allPrices[$child->selectedPrice]['product_price'],'0'),'.') .'" />
 		<input type="hidden" name="childs['. $child->virtuemart_product_id .'][mprices][virtuemart_product_price_id][]" value="'. $child->allPrices[$child->selectedPrice]['virtuemart_product_price_id'] .'"  ></td>';
 
 		//We dont want to update always the stock, this would lead to wrong stocks, if the store has activity, while the vendor is editing the product
@@ -349,11 +349,28 @@ class VirtueMartModelCustomfields extends VmModel {
 
 		$product_id = $line['vm_product_id'];
 		if(empty($field->selectoptions)) $field->selectoptions = array();
-		foreach($field->selectoptions as $k=>$selectoption){
-		//	vmdebug('my $field->options',$field->options);
-			//if(!isset($field->options)) continue;
 
-			$class ='';
+		foreach($field->selectoptions as $k=>$selectoption){
+
+			$charCount = 0;
+			$class = array();
+
+			$options = explode("\n",$selectoption->values);
+			foreach($options as $opt){
+				$charCount = max($charCount,strlen($opt));
+			}
+
+			if($charCount){
+				if($charCount<5) $charCount = 5;
+				if($charCount<20) {
+					$width = $charCount * 12;
+				} else {
+					$width = 20 * 12;
+				}
+			} else {
+				$width = 100;
+			}
+
 			if($selectoption->voption=='clabels'){
 				$name = 'field[' . $row . '][options]['.$product_id.']['.$k.']';
 				$myoption = false;
@@ -366,6 +383,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				} else {
 					$value = '';
 				}
+
 				$idTag = 'cvarl.'.$product_id.'s'.$k;
 			} else {
 				$name = 'childs['.$product_id .']['.$selectoption->voption.']';
@@ -374,8 +392,10 @@ class VirtueMartModelCustomfields extends VmModel {
 				$class = array('class'=>'cvard');
 			}
 
+			$class['style'] = 'width:'.$width .'px';
+
 			if(count($selectoption->comboptions)>0){
-				$html .= '<td>'.JHtml::_ ('select.genericlist', $selectoption->comboptions,$name , $class, 'value', 'text',
+				$html .= '<td>'.JHtml::_ ('select.genericlist', $selectoption->comboptions, $name, $class, 'value', 'text',
 				$value ,$idTag);
 				if($selectoption->voption!='clabels'){
 					$html .= '<input type="hidden" name="field[' . $row . '][options]['.$product_id.']['.$k.']" value="'.$value .'" />';
@@ -505,7 +525,6 @@ class VirtueMartModelCustomfields extends VmModel {
 				if(empty($field->selectoptions)) $field->selectoptions = array();
 				foreach($field->selectoptions as $k=>&$soption){
 					$options = array();
-					$options[] = array('value' => '' ,'text' =>vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'));
 
 					$added = array();
 
@@ -560,7 +579,7 @@ class VirtueMartModelCustomfields extends VmModel {
 					}
 
 					$soption->values = implode("\n",$added);
-
+					$options[] = array('value' => '' ,'text' =>vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'));
 					foreach($added as $value){
 						$options[] = array('value' => $value ,'text' =>$value);
 					}
@@ -569,14 +588,19 @@ class VirtueMartModelCustomfields extends VmModel {
 					if(!isset($soption->clabel)) $soption->clabel = '';
 					$soption->slabel = empty($soption->clabel)? vmText::_('COM_VIRTUEMART_'.strtoupper($soption->voption)): vmText::_($soption->clabel);
 
-					if($k==0){
+					if($k==0) {
 						$html .='<div style="float:left">';
+						$html .= '<div style="float:left;width:220px;">Create Matrix (Beta)'.VmHtml::checkbox( 'field[' . $row . '][set_matrix]',  '');
 					} else {
 						$html .='<div class="removable">';
 					}
 
 					$idTag = 'selectoptions'.$k;
 					$html .= JHtml::_ ('select.genericlist', $optAttr, 'field[' . $row . '][selectoptions]['.$k.'][voption]', '', 'value', 'text', $soption->voption,$idTag) ;
+					if($k==0) {
+						$html .= '</div>';
+					}
+
 					$html .= '<input type="text" value="' . $soption->clabel . '" name="field[' . $row . '][selectoptions]['.$k.'][clabel]" style="line-height:2em;margin:5px 5px 0;" />';
 					$html .= '<textarea name="field[' . $row . '][selectoptions]['.$k.'][values]" rows="5" cols="35" style="float:none;margin:5px 5px 0;" >'.$soption->values.'</textarea>';
 
@@ -667,8 +691,16 @@ class VirtueMartModelCustomfields extends VmModel {
 
 				$i=0;
 				if($sorted and is_array($sorted) ){
+					$first = 0;
 					foreach($sorted as $i=>$line){
+
+						if($first == 1){    //We remove with this the "Select option" option, for non parent dropdowns
+							foreach($field->selectoptions as $comboOpt){
+								array_shift($comboOpt->comboptions);
+							}
+						}
 						$html .= self::renderProductChildLine($i,$line,$field,$productModel,$row,$showSku);
+						$first++;
 					}
 				}
 
@@ -852,6 +884,24 @@ class VirtueMartModelCustomfields extends VmModel {
 				else {
 					return 'no result $product_id = '.$product_id.' and '.$field->customfield_value;
 				}
+				break;
+			case 'PB':
+				$html = $priceInput . '</td><td>';
+				$pricingAr = $field->_varsToPushParam['multiplyPrice'][3]['options'];
+
+				foreach ($pricingAr as $key => $val) {
+					$options[] = array('value' => $key, 'text' => vmText::_($val));
+				}
+
+				$html .= JHtml::_('select.genericlist',  $options, 'field[' . $row . '][multiplyPrice]', 'class="inputbox"   ', 'value', 'text', $field->multiplyPrice);
+
+				JLoader::register('JFormFieldProduct', JPATH_ROOT.'/administrator/components/com_virtuemart/fields/product.php');
+
+				$field->bundle_category_id = explode(',',$field->bundle_category_id);
+				$html .= JHtml::_('select.genericlist',  JFormFieldProduct::_getProducts($field->bundle_category_id), 'field[' . $row . '][bundle_product_id]', 'class="inputbox"   ', 'value', 'text', $field->bundle_product_id);
+
+				return $html;
+				break;
 			/* related product*/
 			case 'R':
 				if (!$product_id) {
@@ -1036,26 +1086,34 @@ class VirtueMartModelCustomfields extends VmModel {
 
 	static function renderCustomfieldPrice($productCustom,$product,$calculator){
 
-		$customPrice = self::getCustomFieldPriceModificator($productCustom,$product);
-		if ((float)$customPrice) {
+
+		if(!empty($productCustom->multiplyPrice) and $productCustom->multiplyPrice == 'free'){
+			$customPrice = '';
+		} else {
+			$customPrice = self::getCustomFieldPriceModificator($productCustom,$product);
+		}
+
+		if ( (float)$customPrice) {
 
 			if ($customPrice > 0) {
 				$sign = vmText::_('COM_VM_PLUS');
 			} else {
 				$sign = vmText::_('COM_VM_MINUS');
 			}
-
+			$calculator->setProduct($product);
+			$priceV = $calculator->calculateCustomPriceWithTax ($customPrice);
+			$priceV = strip_tags ($calculator->_currencyDisplay->priceDisplay ( $priceV ));
+			if ($customPrice < 0) {
+				$priceV = trim($priceV,'-');
+			}
 			if(empty($productCustom->multiplyPrice)){
-				$calculator->setProduct($product);
-				$v = strip_tags ($calculator->_currencyDisplay->priceDisplay ($calculator->calculateCustomPriceWithTax ($customPrice)));
-				if ($customPrice < 0) {
-					$v = trim($v,'-');
-				}
-				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PRICE',$sign,$v);
+
+				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PRICE',$sign,$priceV);
 			} else {
+
 				$v = trim($productCustom->customfield_price,0);
 				$v = trim($v,'.');
-				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PERCENTAGE',$sign,$v);
+				$price = vmText::sprintf('COM_VM_CUSTOMFIELD_VARIANT_PERCENTAGE',$sign,$v,$priceV);
 
 			}
 
@@ -1069,14 +1127,30 @@ class VirtueMartModelCustomfields extends VmModel {
 	static function getCustomFieldPriceModificator($productCustom,$product){
 
 		if(empty($productCustom->multiplyPrice)){
-			$p = $productCustom->customfield_price;
+			$p = 0.0;
+			if($productCustom->field_type == 'PB'){
+				$p = VmModel::getModel('product')->getProduct($productCustom->bundle_product_id)->prices['product_price'];
+			}
+			$p += $productCustom->customfield_price;
 		} else {
-			if($productCustom->multiplyPrice == 'base_productprice' or $productCustom->multiplyPrice == 'base_variantprice'){
-				$pVirt = $product->allPrices[$product->selectedPrice]['product_price'];
-				if($productCustom->multiplyPrice == 'base_variantprice'){
-					$pVirt += $product->modificatorSum ;
+			if($productCustom->multiplyPrice == 'base_productprice' or $productCustom->multiplyPrice == 'base_variantprice') {
+				if ($productCustom->field_type == 'PB') {
+					$pVirt = VmModel::getModel('product')->getProduct($productCustom->bundle_product_id)->prices['product_price'];
+				} else {
+					$pVirt = $product->allPrices[$product->selectedPrice]['product_price'];
 				}
-				$p = $pVirt * $productCustom->customfield_price * 0.01;
+				vmdebug('my virtual costs', $pVirt);
+				if ($productCustom->multiplyPrice == 'base_variantprice') {
+					$pVirt += $product->modificatorSum;
+				}
+				if ($productCustom->field_type == 'PB') {
+					$p = $pVirt + $pVirt * $productCustom->customfield_price * 0.01;
+				} else {
+					$p = $pVirt * $productCustom->customfield_price * 0.01;
+				}
+
+			} else if($productCustom->multiplyPrice == 'free'){
+				$p = 0.0;
 			} else {	//base_modificatorprice
 				$p = $product->modificatorSum * $productCustom->customfield_price * 0.01;
 			}
@@ -1215,9 +1289,137 @@ class VirtueMartModelCustomfields extends VmModel {
 				}
 
 				if(!empty($fields['field_type']) and $fields['field_type']=='C' and !isset($datas['clone']) ){
+
 					$cM = VmModel::getModel('custom');
 					$c = $cM->getCustom($fields['virtuemart_custom_id'],'');
 
+					if(!empty($fields['set_matrix'])){
+
+						$productModel = VmModel::getModel ('product');
+						$avail = $productModel->getProductChildIds($id);
+
+						foreach($fields['selectoptions'] as $kv => $selectoptions){
+							if(!empty($selectoptions['values'])){
+								$values[$kv] = preg_split('/\r\n|\r|\n/', $selectoptions['values'],5);
+							}
+						}
+
+						vmdebug('my values',$values,$avail);
+
+						$parentCombo = $fields['options'][$id];
+						$myMatrix = array();
+						$size = 1;
+						//$parentMatrix = array();
+						//Yes, also this may get better written, but I am just happy that it works this way.
+						foreach ($values as $variantKey => $optArray) {
+							$size = $size * sizeof($optArray);
+							//$level++;
+							foreach ($optArray as $option) {
+								//vmdebug('myMatrix $k=>$option',$option);
+								if($variantKey==0){
+									$myMatrix[$option] = null;
+									//$parentMatrix[$parentCombo[0]] = null;
+								} else if($variantKey == 1){
+
+									$myMatrix = self::writeValuesToKeysAddValueArray($myMatrix,$option);
+
+									//$parentMatrix[$parentCombo[0]][$parentCombo[1]]= null;
+								} else if($variantKey == 2){
+									foreach($myMatrix as $k1 => &$option1){
+										$option1 = self::writeValuesToKeysAddValueArray($option1,$option);
+									}
+									//$parentMatrix[$parentCombo[0]][$parentCombo[1]][$parentCombo[2]]= null;
+								} else if($variantKey == 3){
+									foreach($myMatrix as $k1 => &$option1){
+										foreach($option1 as $k2 => &$option2){
+											$option2 = self::writeValuesToKeysAddValueArray($option2,$option);
+										}
+									}
+									//$parentMatrix[$parentCombo[0]][$parentCombo[1]][$parentCombo[2]][$parentCombo[3]]= null;
+								} else if($variantKey == 4){
+									foreach($myMatrix as $k1 => &$option1){
+										foreach($option1 as $k2 => &$option2){
+											foreach($option2 as $k3 => &$option3){
+												$option3 = self::writeValuesToKeysAddValueArray($option3,$option);
+											}
+										}
+									}
+									//$parentMatrix[$parentCombo[0]][$parentCombo[1]][$parentCombo[2]][$parentCombo[3]][$parentCombo[4]]= null;
+								}
+							}
+						}
+						vmdebug('myMatrix 3',$size,$myMatrix);
+
+						vmdebug('myMatrix orig $fields',$fields['options']);
+						$parentComboSerialized = serialize($parentCombo);
+						//reset($avail);
+						for((int)$i=0;$i<$size;$i++){
+							if(empty($avail)){
+								$childId = $productModel->createChild($id);
+							} else {
+								$childId = $avail[$i];
+								unset($avail[$i]);
+							}
+							vmdebug('$childId after unset'.$i,$childId,$avail);
+							$combo = self::writeCombos($myMatrix);
+
+							if(serialize($combo) == $parentComboSerialized){
+								$combo = self::writeCombos($myMatrix);
+								//vmdebug('myMatrix $combo equals $parentCombo',$combo, $parentCombo);
+								$size--;
+							} else {
+								//vmdebug('myMatrix $combo NOT equal',serialize($combo), $parentComboSerialized);
+							}
+							$fields['options'][$childId] = $combo;
+						}
+						vmdebug('myMatrix $fields',$fields['options'],$avail);
+						/*reset($avail);
+						$levelSize = array();
+						$vals = array_reverse( $values, true);
+						vmdebug('Executing $avail',$id,$avail,$values);
+						$lSize = 0;
+						$neededProductNumber = 0;
+						foreach($vals as $k=>$value){
+
+						
+							if($k == (count($vals)-1)){
+								$lSize = $neededProductNumber = count($value);
+							} else {
+								$lSize = count($value) * $lSize;
+								$neededProductNumber += count($value) * $lSize;
+							}
+
+							$levelSize[$k] = $lSize;
+						}
+						$levelSize = array_reverse( $levelSize, true);
+						vmdebug('my levelSize',$levelSize,$fields);
+
+						if(count($avail) < $neededProductNumber){
+							$numberToCreate = $neededProductNumber - count($avail);
+							for((int) $i=0;$i<$numberToCreate;$i++){
+								$avail[] = $productModel->createChild($id);
+							}
+						}
+
+						foreach($values as $k=>$value){
+							//$fields['options'][current($avail)]
+						}*/
+					}
+					//The idea was here to store the images directly. Maybe just the ids.
+					/*if(!empty($c->withImage)){
+						$mediaM = VmModel::getModel('media');
+						$tablePM = $mediaM->getTable('product_medias');
+						foreach($fields['options'] as $prodId => $lvalue){
+							$images = $tablePM->load($prodId);
+							if(isset($images[0])){
+								$media = $mediaM->createMediaByIds($images[0]);
+								$fields['images'][$prodId] = $media[0]->getFileUrlThumb();
+							}
+
+						}
+					}*/
+
+					//Set tags on extra customfield
 					if(!empty($c->sCustomId)){
 
 						$sCustId = $c->sCustomId;
@@ -1231,8 +1433,8 @@ class VirtueMartModelCustomfields extends VmModel {
 							}
 						}
 
-						//for testing
 						foreach($fields['options'] as $prodId => $lvalue){
+
 							if($prodId == $id) continue;
 							$db->setQuery( 'SELECT `virtuemart_customfield_id` FROM `#__virtuemart_'.$table.'_customfields` as `PC` WHERE `PC`.virtuemart_'.$table.'_id ="'.$prodId.'" AND `virtuemart_custom_id`="'.(int)$sCustId.'" '  );
 							$strIds = $db->loadColumn();
@@ -1262,6 +1464,7 @@ class VirtueMartModelCustomfields extends VmModel {
 							}
 						}
 					}
+					//vmdebug('Executing',$id,$fields);
 				}
 
 				if (!empty($datas['customfield_params'][$key]) and !isset($datas['clone']) ) {
@@ -1317,6 +1520,124 @@ class VirtueMartModelCustomfields extends VmModel {
 			}
 		}
 
+	}
+
+	static public function writeValuesToKeysAddValueArray($myMatrix,$option){
+		$myMatrix1 = $myMatrix;
+		foreach($myMatrix as $k=>$option1){
+			$myMatrix1[$k][$option] = null;
+		}
+		return $myMatrix1;
+	}
+
+	/**
+	 * This function creates the different combinations for the Multivariants.
+	 * Yes, this function could be written more abstract and smarter, but so long any tries took almost the same size and were not working.
+	 * @author Max Milbers
+	 * @param $myMatrix
+	 * @return array
+	 */
+
+
+	static public function writeCombos(&$myMatrix){
+
+		$comboArray = array();
+		foreach($myMatrix as $option => $options){
+			$comboArray[] = $option;    //1
+
+			if(is_array($options) and !empty($options)){
+
+				foreach($options as $option1 => $options1){
+					$comboArray[] = $option1;   //2
+
+					if(is_array($options1) and !empty($options1)){
+
+						foreach($options1 as $option2 => $options2){
+							$comboArray[] = $option2;   //3
+
+							if(is_array($options2) and !empty($options2)){
+
+								foreach($options2 as $option3 => $options3){
+									$comboArray[] = $option3;   //4
+
+									if(is_array($options3) and !empty($options3)){
+										foreach($options3 as $option4 => $options4) {
+											$comboArray[] = $option4;   //5
+
+											unset($myMatrix[$option][$option1][$option2][$option3][$option4]);
+
+											if(empty($myMatrix[$option][$option1][$option2][$option3])){
+												unset($myMatrix[$option][$option1][$option2][$option3]);
+												if(empty($myMatrix[$option][$option1][$option2])){
+													unset($myMatrix[$option][$option1][$option2]);
+													if(empty($myMatrix[$option][$option1])){
+														unset($myMatrix[$option][$option1]);
+														if(empty($myMatrix[$option])){
+															unset($myMatrix[$option]);
+														}
+													}
+												}
+											}
+
+
+											vmdebug('level 5', $comboArray);
+											return $comboArray;
+										}
+
+
+									} else {
+										unset($myMatrix[$option][$option1][$option2][$option3]);
+										if(empty($myMatrix[$option][$option1][$option2])){
+											unset($myMatrix[$option][$option1][$option2]);
+											if(empty($myMatrix[$option][$option1])){
+												unset($myMatrix[$option][$option1]);
+												if(empty($myMatrix[$option])){
+													unset($myMatrix[$option]);
+												}
+											}
+										}
+
+										vmdebug('level 4', $comboArray);
+										return $comboArray;
+									}
+
+								}
+
+							} else {
+								unset($myMatrix[$option][$option1][$option2]);
+								if(empty($myMatrix[$option][$option1])){
+									unset($myMatrix[$option][$option1]);
+									if(empty($myMatrix[$option])){
+										unset($myMatrix[$option]);
+									}
+								}
+								vmdebug('level 3', $comboArray);
+								return $comboArray;
+
+							}
+
+						}
+
+					} else {
+
+						unset($myMatrix[$option][$option1]);
+						if(empty($myMatrix[$option])){
+							unset($myMatrix[$option]);
+						}
+						//vmdebug('level 2', $option, $comboArray);
+						return $comboArray;
+
+					}
+				}
+
+			} else {
+				unset($myMatrix[$option]);
+				vmdebug('level 1', $option, $comboArray);
+				return $comboArray;
+
+			}
+
+		}
 	}
 
 	public function storeProductCustomfield($table, $fields){

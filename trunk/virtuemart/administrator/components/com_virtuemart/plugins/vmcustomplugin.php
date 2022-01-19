@@ -195,14 +195,20 @@ abstract class vmCustomPlugin extends vmPlugin {
 	 * @param array  $data form data
 	 * @param int    $id virtuemart_product_id
 	 */
-	function OnStoreProduct ($data, $plugin_param) {
+	function OnStoreProduct ($data, $plugin_param, $old_customfield_ids = array(), $key = -1) {
 
-		if (key ($plugin_param) !== $this->_name) {
-			vmdebug('OnStoreProduct return because key '.key ($plugin_param).'!== '. $this->_name);
+		if($key == -1) {
+			vmdebug ('OnStoreProduct '.get_class($this), $key, $data, $plugin_param );
+			vmError('Plugin '.get_class($this).' must be updated, called in vmcustomplugin.php OnStoreProduct ');
+			return false;
+		}
+
+		if ($data['field'][$key]['custom_element'] !== $this->_name) {
+			vmdebug('OnStoreProduct return because key '.$data['field'][$key]['custom_element'].'!== '. $this->_name);
 			return;
 		}
 
-		$key = key ($plugin_param);
+		//$key = key ($plugin_param);
 		$plugin_param[$key]['virtuemart_product_id'] = $data['virtuemart_product_id'];
 		//vmdebug ('plgData', $plugin_param[$key]);
 		// $this->id = $this->getIdForCustomIdProduct($data['virtuemart_product_id'],$plugin_param[$key]['virtuemart_custom_id']);

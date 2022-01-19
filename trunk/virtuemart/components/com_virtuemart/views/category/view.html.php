@@ -105,13 +105,13 @@ class VirtuemartViewCategory extends VmView {
 		$this->keyword = $this->productModel->keyword;
 
 		$this->virtuemart_manufacturer_id = vRequest::getInt('virtuemart_manufacturer_id', -1 );
-		if($this->virtuemart_manufacturer_id ===-1 and !empty($menu->query['virtuemart_manufacturer_id'])){
+		if($this->virtuemart_manufacturer_id ===-1 and isset($menu->query['virtuemart_manufacturer_id'])){
 			$this->virtuemart_manufacturer_id = $menu->query['virtuemart_manufacturer_id'];
 			vRequest::setVar('virtuemart_manufacturer_id',$this->virtuemart_manufacturer_id);
 		}
 		//vmdebug('caetgory view $this->virtuemart_manufacturer_id',$this->virtuemart_manufacturer_id,$menu->query['virtuemart_manufacturer_id'],vRequest::getInt('virtuemart_manufacturer_id', -1 ),$_REQUEST);
 		$this->categoryId = vRequest::getInt('virtuemart_category_id', -1);
-		if($this->categoryId === -1 and !empty($menu->query['virtuemart_category_id'])){
+		if($this->categoryId === -1 and isset($menu->query['virtuemart_category_id'])){
 			$this->categoryId = $menu->query['virtuemart_category_id'];
 			vRequest::setVar('virtuemart_category_id',$this->categoryId);
 		} else if ( $this->categoryId === -1 and $this->virtuemart_manufacturer_id === -1 and empty($this->keyword)){
@@ -522,6 +522,10 @@ class VirtuemartViewCategory extends VmView {
 
 		if (VmConfig::get ('jdynupdate', TRUE)) {
 			vmJsApi::jDynUpdate();
+		}
+
+		if(VmConfig::get ('ajax_category', false)){
+			vmJsApi::jDynUpdate('.category-view');
 		}
 
 		parent::display($tpl);

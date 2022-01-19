@@ -1977,6 +1977,10 @@ class VirtueMartModelOrders extends VmModel {
 
 								vDispatcher::importVMPlugins( 'vmcustom' );
 								vDispatcher::trigger( 'plgVmGetProductStockToUpdateByCustom', array(&$tableOrderItems, $param, $productCustom) );
+							} else if($productCustom->field_type == "PB"){
+								if(!is_array($tableOrderItems)) $tableOrderItems = array($tableOrderItems);
+								$pr = $productModel->getProductSingle($productCustom->bundle_product_id);
+								$tableOrderItems[] = $pr;
 							}
 						}
 					}

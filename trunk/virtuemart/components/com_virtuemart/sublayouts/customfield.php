@@ -74,15 +74,13 @@ class VirtueMartCustomFieldRenderer {
 					} else {
 						$productSelection = false;
 					}
+
 					$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
-
-
 					$extra = ' and ( published = "1" ';
 					if($stockhandle == 'disableit_children'){
 						$extra .= ' AND (`product_in_stock` - `product_ordered`) > "0" ';
 					}
 					$extra .= ')';
-
 
 					$productModel = VmModel::getModel ('product');
 					$avail = $productModel->getProductChildIds($customfield->virtuemart_product_id, $extra);
@@ -139,17 +137,72 @@ class VirtueMartCustomFieldRenderer {
 
 					$view = 'productdetails';
 					$attribs['data-reload'] = '1';
+					$view = $viewJs = vRequest::getCmd('view','productdetails');
+
 					if(VmConfig::get ('jdynupdate', TRUE)){
-						$view = vRequest::getCmd('view','productdetails');
 						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
 							$attribs['data-dynamic-update'] = '1';
 							unset($attribs['data-reload']);
 						} else {
-							$view = 'productdetails';
+							$viewJs = 'productdetails';
 						}
 					}
 
+					$Itemid = vRequest::getInt('Itemid',''); // '&Itemid=127';
+					if(!empty($Itemid)){
+						$Itemid = '&Itemid='.$Itemid;
+					}
+
+					//create array for js
+					$jsArray = array();
+
+					$url = '';
+
+					if($view == 'productdetails' and $customfield->withImage){
+						$withImage = true;
+						$mediaM = VmModel::getModel('media');
+						$tablePM = $mediaM->getTable('product_medias');
+						$html .= '<div class="child-Image-Container">';
+					} else {
+						$withImage = false;
+					}
+					foreach($customfield->options as $prodId=>$variants){
+
+						if(!in_array($prodId,$avail)){continue;}
+
+						$url = JRoute::_('index.php?option=com_virtuemart&view='.$viewJs.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id='.$prodId.$Itemid,false);
+						$jsArray[] = '["'.$url.'","'.implode('","',$variants).'"]';
+						if($withImage){
+
+							if($prodId == $product->virtuemart_product_id) continue;
+
+							$images = $tablePM->load($prodId);
+
+							if(!isset($images[0]) and isset($product->virtuemart_media_id[0])){
+								$images[0] = $product->virtuemart_media_id[0];  //If the image is missing, the parent has it
+							}
+							if(isset($images[0])){
+								$media = $mediaM->createMediaByIds($images[0]);
+								$html .= '<div class="floatleft">';
+								$html .= '<a href="'.$url.'" >'. $media[0]->displayMediaThumb(array ('class' => 'child-Images'), false, '', true, false, false, VmConfig::get('img_width',90), VmConfig::get('img_height',90)) .'</a>';
+								$html .= '</div>';
+							}
+
+							/*$child = $productModel->getProduct($prodId);
+							if($child->virtuemart_media_id){
+								$productModel->addImages($child);
+								$html .= '<div class="floatright">';
+								$html .= '<a href="'.$url.'" >'. $child->images[0]->displayMediaThumb(array ('class' => 'childImages'), false) .'</a>';
+								$html .= '</div>';
+							}*/
+						}
+					}
+
+					if($view == 'productdetails' and $customfield->withImage){
+						$html .= '</div>';
+					}
 					foreach($customfield->selectoptions as $k => $soption){
+
 						$html .= '<div class="custom_field_C_container">';
 						$options = array();
 						$selected = false;
@@ -211,23 +264,9 @@ class VirtueMartCustomFieldRenderer {
 						$html .= '</div>';
 					}
 
-					$Itemid = vRequest::getInt('Itemid',''); // '&Itemid=127';
-					if(!empty($Itemid)){
-						$Itemid = '&Itemid='.$Itemid;
-					}
 
-					//create array for js
-					$jsArray = array();
 
-					$url = '';
 
-					foreach($customfield->options as $product_id=>$variants){
-
-						if(!in_array($product_id,$avail)){continue;}
-
-						$url = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id='.$product_id.$Itemid,false);
-						$jsArray[] = '["'.$url.'","'.implode('","',$variants).'"]';
-					}
 
 					vmJsApi::addJScript('cvfind');
 
@@ -450,6 +489,7 @@ class VirtueMartCustomFieldRenderer {
 				case 'B':
 				case 'S':
 				case 'M':
+				case 'PB':
 					if(VmConfig::get('hideEmptyCustomfields',false) and empty($customfield->customfield_value)) break;
 					//vmdebug('Example for params ',$customfield);
 					if(isset($customfield->selectType)){
@@ -538,24 +578,36 @@ class VirtueMartCustomFieldRenderer {
 
 							}
 
-							$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
+							$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);//vmdebug('list with empty option',$default, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
+							if(!isset($default->customfield_value)){
+								$default->customfield_value = '';
+							}
 							foreach ($customfields[$selectList[$customfield->virtuemart_custom_id]]->options as $k => $productCustom) {
-								if(!isset($productCustom->customfield_price)) $productCustom->customfield_price = 0.0;
-								if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
-								$price = VirtueMartModelCustomfields::renderCustomfieldPrice($productCustom, $product, $calculator);
-								if($type == 'M'){
-									$productCustom->text = VirtueMartModelCustomfields::displayCustomMedia ($productCustom->customfield_value,'product',$customfield->width,$customfield->height).' '.$price;
+								if($k == 0){
+									//$productCustom->text =
+
 								} else {
-									$trValue = vmText::_($productCustom->customfield_value);
-									if($productCustom->customfield_value!=$trValue and strpos($trValue,'%1')!==false){
-										$productCustom->text = vmText::sprintf($productCustom->customfield_value,$price);
+									if(!isset($productCustom->customfield_price)) $productCustom->customfield_price = 0.0;
+									if(!isset($productCustom->customfield_value)) $productCustom->customfield_value = '';
+									$price = VirtueMartModelCustomfields::renderCustomfieldPrice($productCustom, $product, $calculator);
+									if($type == 'M'){
+										$productCustom->text = VirtueMartModelCustomfields::displayCustomMedia ($productCustom->customfield_value,'product',$customfield->width,$customfield->height).' '.$price;
+									} else if($type == 'PB') {
+										$productB = VmModel::getModel('product')->getProduct($productCustom->bundle_product_id);
+										$productCustom->text = $productB->product_name.' '.$price;
 									} else {
-										$productCustom->text = $trValue.' '.$price;
+										$trValue = vmText::_($productCustom->customfield_value);
+										if($productCustom->customfield_value!=$trValue and strpos($trValue,'%1')!==false){
+											$productCustom->text = vmText::sprintf($productCustom->customfield_value,$price);
+										} else {
+											$productCustom->text = $trValue.' '.$price;
+										}
 									}
+
 								}
 								$customfields[$selectList[$customfield->virtuemart_custom_id]]->options[$k] = $productCustom;
-							}
 
+							}
 
 							$customfields[$selectList[$customfield->virtuemart_custom_id]]->display = JHtml::_ ($selectType, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options,
 							$customfields[$selectList[$customfield->virtuemart_custom_id]]->customProductDataName,
@@ -627,6 +679,7 @@ class VirtueMartCustomFieldRenderer {
 					}
 
 					break;
+
 
 				case 'RC':
 					$pModel = VmModel::getModel('product');
@@ -806,6 +859,12 @@ class VirtueMartCustomFieldRenderer {
 							} else {
 								$value = vmText::_($productCustom->customfield_value);
 							}
+						}
+						elseif (($productCustom->field_type == 'PB')) {
+							///vmdebug('$productCustom->customfield_value',$productCustom);
+							$productDB = VmModel::getModel('product')->getProduct($productCustom->bundle_product_id);
+							//my suggestion, we could even add the price here
+							$value = $productDB->product_name. ' ('.$productDB->product_sku .') - '.$productDB->virtuemart_product_id;
 						}
 						elseif (($productCustom->field_type == 'A')) {
 							if(!property_exists($product,$productCustom->customfield_value)){

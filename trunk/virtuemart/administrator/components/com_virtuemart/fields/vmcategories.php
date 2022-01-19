@@ -34,15 +34,23 @@ class JFormFieldVmcategories extends JFormField {
 		VmConfig::loadConfig();
 		vmLanguage::loadJLang('com_virtuemart');
 
-		if(!is_array($this->value))$this->value = array($this->value);
-		$categorylist = ShopFunctions::categoryListTree($this->value);
+		if(!is_array($this->value)){
+			if(strpos($this->value,',')!==FALSE){
+				$this->value = explode(',',$this->value);
+			} else {
+				$this->value = array($this->value);
+			}
+		}
 
+		$categorylist = ShopFunctions::categoryListTree($this->value);
 		$name = $this->name;
+		$multiple = '';
+		$this->multiple = true;
 		if($this->multiple){
-			$this->multiple = ' multiple="multiple" ';
+			$multiple = ' multiple="multiple" ';
 		}
 		$id = VmHtml::ensureUniqueId('vmcategories');
-		$html = '<select id="'.$id.'" class="form-select" name="' . $name . '" ' . $this->multiple . '>';
+		$html = '<select id="'.$id.'" class="form-select" name="' . $name . '" ' . $multiple . '>';
 		if(!$this->multiple)$html .= '<option value="0">' . vmText::_('COM_VIRTUEMART_CATEGORY_FORM_TOP_LEVEL') . '</option>';
 		$html .= $categorylist;
 		$html .= "</select>";

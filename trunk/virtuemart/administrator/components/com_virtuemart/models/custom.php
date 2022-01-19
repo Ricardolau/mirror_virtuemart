@@ -54,6 +54,7 @@ class VirtueMartModelCustom extends VmModel {
 			'A' => 'COM_VIRTUEMART_CHILD_GENERIC_VARIANT',
 			'E' => 'COM_VIRTUEMART_CUSTOM_EXTENSION',
 			'G' => 'COM_VIRTUEMART_CUSTOM_GROUP',
+			'PB'=> 'COM_VM_PRODUCT_BUNDLED',
 			'R'=>'COM_VIRTUEMART_RELATED_PRODUCTS',
 			'RC'=>'COM_VIRTUEMART_CUSTOM_RELATED_PRODUCTS',
 			'Z'=>'COM_VIRTUEMART_RELATED_CATEGORIES'
@@ -398,6 +399,8 @@ class VirtueMartModelCustom extends VmModel {
 		if($table->field_type == 'S' and !empty($data['transform'])){
 			$this->transformSetStringsList($data);
 			$data['custom_value'] = $data['transform'];
+		} else if($table->field_type == 'PB'){
+			$data['bundle_category_id'] = implode(',',$data['bundle_category_id']);
 		}
 		$data['transform'] = '';
 		//vmdebug(' my data to store',$data);
@@ -508,9 +511,12 @@ class VirtueMartModelCustom extends VmModel {
 				'browseajax'	=> array(0, 'int'),
 				'sCustomId'		=> array(0, 'int', 'scustom'),
 				'selectType'	=> array(0, 'int'),
+				'withImage'     => array(0, 'int'),
+				'images'        => array(0, 'string'),
 				'selectoptions'	=> array(0, 'int'),
 				'clabels'   	=> array(0, 'int'),
 				'options'		=> array(0, 'int')
+
 			);
 		} else if($type=='D'){
 			$varsToPush = array(
@@ -521,7 +527,10 @@ class VirtueMartModelCustom extends VmModel {
 			$varsToPush = array(
 				'addEmpty'		=> array(0, 'int'),
 				'selectType'	=> array(0, 'int'),
-				'multiplyPrice'	=> array('', 'string'),
+				'multiplyPrice'	=> array(0, 'string', 'list', array('options' => array('0'=>'COM_VM_CUSTOM_ADDPRICE',
+					'base_productprice'=>'COM_VM_CUSTOM_PERC_ON_BASEPRICE',
+					'base_variantprice'=>'COM_VM_CUSTOM_PERC_ON_VARIANTPRICE',
+					'-1' => 'COM_VM_CUSTOM_PERC_ON_MODIFICATOR'))),
 				'transform'	=> array('', 'area'),
 				'product_sku' => array('', 'string'),
 				'product_gtin' => array('', 'string'),
@@ -533,10 +542,24 @@ class VirtueMartModelCustom extends VmModel {
 				'height'	=> array('', 'string'),
 				'addEmpty'		=> array(0, 'int'),
 				'selectType'	=> array(1, 'int'),
-				'multiplyPrice'	=> array('', 'string'),
+				'multiplyPrice'	=> array(0, 'string', 'list', array('options' => array('0'=>'COM_VM_CUSTOM_ADDPRICE',
+					'base_productprice'=>'COM_VM_CUSTOM_PERC_ON_BASEPRICE',
+					'base_variantprice'=>'COM_VM_CUSTOM_PERC_ON_VARIANTPRICE',
+					'-1' => 'COM_VM_CUSTOM_PERC_ON_MODIFICATOR'))),
 				'product_sku' => array('', 'string'),
 				'product_gtin' => array('', 'string'),
 				'product_mpn' => array('', 'string')
+			);
+		} else if($type=='PB'){
+			$varsToPush = array(
+				'addEmpty'		=> array(0, 'int'),
+				'bundle_product_id' => array('', 'string'),
+				'bundle_category_id'	=> array(0, 'int', 'vmcategories', array('params' => 'multiple="true"')), //Creates list in BE with products of that category
+				'multiplyPrice'	=> array(0, 'string', 'list', array('options' => array('0'=>'COM_VM_CUSTOM_ADDPRICE',
+					'base_productprice'=>'COM_VM_CUSTOM_PERC_ON_BASEPRICE',
+					'free'  => 'COM_VM_CUSTOM_FREE'/*,
+					'base_variantprice'=>'COM_VM_CUSTOM_PERC_ON_VARIANTPRICE',
+					'-1' => 'COM_VM_CUSTOM_PERC_ON_MODIFICATOR'*/)))
 			);
 		} else if($type=='R' or $type=='RC'){
 			$varsToPush = array(

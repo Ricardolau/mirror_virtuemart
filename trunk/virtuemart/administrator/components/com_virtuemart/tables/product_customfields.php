@@ -58,4 +58,17 @@ class TableProduct_customfields extends VmTable {
 		$this->setConvertDecimal(array('customfield_price'));
 	}
 
+	function check(){
+
+		if(empty($this->virtuemart_product_id)){
+			vmError('Could not store custom id '.$this->virtuemart_custom_id.' no product id given');
+			return false;
+		}
+
+		if(empty($this->virtuemart_custom_id)){
+			vmError('Could not store custom for product id '.$this->virtuemart_product_id.' no custom id given');
+			return false;
+		}
+		return parent::check();
+	}
 }

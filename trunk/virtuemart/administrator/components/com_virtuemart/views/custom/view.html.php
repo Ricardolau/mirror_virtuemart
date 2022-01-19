@@ -85,7 +85,16 @@ class VirtuemartViewCustom extends VmViewAdmin {
 						';
 
 						if(isset($push[2])){
-							$formString .= 'type="'.$push[2].'" >';
+
+							$extra = isset($push[3]['params'])? $push[3]['params']:'';
+							$formString .= 'type="'.$push[2].'" '.$extra.'>';
+							if(isset($push[3]['options'])){
+								if(is_array($push[3]['options'])){
+									foreach($push[3]['options'] as $k=>$desc){
+										$formString .= '<option value="'.$k.'">'.$desc.'</option>';
+									}
+								}
+							}
 						} else if($push[1]=='int'){
 							$formString .= 'type="radio" >
     											<option value="0">JNO</option>

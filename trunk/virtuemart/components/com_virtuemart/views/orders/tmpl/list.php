@@ -92,10 +92,10 @@ if (count($this->orderlist) == 0) {
 </div>
 <?php
 if(VmConfig::get ('ajax_order', TRUE)){
-$j = "Virtuemart.containerSelector = '.vm-orders-information';
+/*$j = "Virtuemart.containerSelector = '.vm-orders-information';
 Virtuemart.container = jQuery(Virtuemart.containerSelector);";
 
-vmJsApi::addJScript('ajax_order',$j);
-vmJsApi::jDynUpdate();
+vmJsApi::addJScript('ajax_order',$j);*/
+vmJsApi::jDynUpdate('.vm-orders-information');
 }
 ?>

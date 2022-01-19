@@ -429,7 +429,7 @@ class VirtueMartViewProductdetails extends VmView {
 
 //This must be loaded after the customfields are rendered (they may need to overwrite the handlers)
 			if (VmConfig::get ('jdynupdate', TRUE) or !VmConfig::isSite()) {
-				vmJsApi::jDynUpdate();
+				vmJsApi::jDynUpdate('.productdetails-view');
 			}
 
 			vmJsApi::jPrice();

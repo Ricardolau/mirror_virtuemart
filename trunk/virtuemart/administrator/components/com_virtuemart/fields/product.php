@@ -38,14 +38,15 @@ class JFormFieldProduct extends JFormField
 		VmConfig::loadConfig();
 		return JHtml::_('select.genericlist',  $this->_getProducts(), $this->name, 'class="inputbox"   ', 'value', 'text', $this->value, $this->id);
 	}
-	private function _getProducts() {
+
+	static public function _getProducts($virtuemart_category_id=0) {
 
 		$productModel = VmModel::getModel('Product');
 		$productModel->_noLimit = true;
 		if(vmAccess::manager('managevendors')){
 			$productModel->virtuemart_vendor_id = 0;
 		}
-		$products = $productModel->getProductListing(false, false, false, false, true,false);
+		$products = $productModel->getProductListing(false, false, false, false, true, $virtuemart_category_id, $virtuemart_category_id);
 		$productModel->_noLimit = false;
 		$i = 0;
 		$list = array();

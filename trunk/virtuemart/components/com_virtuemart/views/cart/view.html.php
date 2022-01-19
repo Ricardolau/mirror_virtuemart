@@ -228,7 +228,7 @@ class VirtueMartViewCart extends VmView {
 		}
 
 		if(VmConfig::get('oncheckout_ajax',false)){
-			vmJsApi::jDynUpdate();
+			vmJsApi::jDynUpdate('#cart-view');
 		}
 
 		parent::display($tpl);

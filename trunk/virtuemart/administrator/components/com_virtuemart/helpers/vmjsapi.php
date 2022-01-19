@@ -438,14 +438,28 @@ class vmJsApi{
 		}
 	}
 
-	static function jDynUpdate() {
+	static function jDynUpdate($containerSelector = null) {
 
+		if($containerSelector === null){
+			$view = vRequest::getCmd('view');
+			if($view == 'category'){
+				$containerSelector = '.category-view';
+			} else if ($view == 'orders'){
+				$containerSelector = '.vm-orders-information';
+			} else if ($view == 'productdetails'){
+				$containerSelector = '.productdetails-view';
+			} else {
+				$containerSelector = '#cart-view';
+			}
+		}
 		self::addJScript('dynupdate',false,false);
 		self::addJScript('updDynamicListeners',"
 jQuery(document).ready(function() { // GALT: Start listening for dynamic content update.
 	// If template is aware of dynamic update and provided a variable let's
 	// set-up the event listeners.
-	//if (Virtuemart.container)
+	if (typeof Virtuemart.containerSelector === 'undefined') { Virtuemart.containerSelector = '".$containerSelector."'; }
+	if (typeof Virtuemart.container === 'undefined') { Virtuemart.container = jQuery(Virtuemart.containerSelector); }
+	if (Virtuemart.container)
 		Virtuemart.updateDynamicUpdateListeners();
 
 }); ");

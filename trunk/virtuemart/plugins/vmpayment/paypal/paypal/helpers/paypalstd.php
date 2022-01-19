@@ -337,7 +337,7 @@ class PaypalHelperPayPalStd extends PaypalHelperPaypal {
 		return $handling;
 	}*/
 
-	function getExtraPluginInfo() {
+	function getExtraPluginInfo($method) {
 		return;
 	}
 

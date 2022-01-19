@@ -698,7 +698,7 @@ class VirtueMartModelUser extends VmModel {
 		// Preformat and control user datas by plugin
 		vDispatcher::importVMPlugins('vmuserfield');
 
-		$valid = true ; vmdebug('my data');
+		$valid = true ;
 		vDispatcher::trigger('plgVmOnBeforeUserfieldDataSave',array(&$valid,$this->_id,&$data,$user ));
 		// $valid must be false if plugin detect an error
 		if( !$valid ) {
@@ -1039,7 +1039,7 @@ class VirtueMartModelUser extends VmModel {
 					$userinfo->load($data['virtuemart_userinfo_id']);
 
 					if($userinfo->virtuemart_user_id!=$user->id){
-						vmError('Hacking attempt as admin?','Hacking attempt storeAddress');
+						vmError('Hacking attempt storeAddress','Hacking attempt storeAddress');
 						return false;
 					}
 				}
@@ -1071,7 +1071,7 @@ class VirtueMartModelUser extends VmModel {
 			//if(!$this->validateUserData($data,'BT')){
 				//return false;	We dont need to stop the storing process here
 			//}
-
+			$dataST['address_type'] = 'BT';
 			$userInfoData = self::_prepareUserFields($data, 'BT',$userinfo);
 			//vmdebug('model user storeAddress',$data);
 			$userinfo->bindChecknStore($userInfoData);
@@ -1252,14 +1252,14 @@ class VirtueMartModelUser extends VmModel {
 		if ($type == 'ST') {
 			$prepareUserFields = $userFieldsModel->getUserFields(
 									 'shipment'
-			, array() // Default toggles
+			, array('delimiter','delimiter_userinfo', 'delimiter_billto') // Default toggles
 			);
 		} else { // BT
 			// The user is not logged in (anonymous), so we need tome extra fields
 			$prepareUserFields = $userFieldsModel->getUserFields(
 										 'account'
 			, array() // Default toggles
-			, array('delimiter_userinfo', 'name', 'username', 'password', 'password2', 'user_is_vendor') // Skips
+			, array('delimiter','delimiter_userinfo', 'delimiter_billto', 'name', 'username', 'password', 'password2', 'user_is_vendor') // Skips
 			);
 
 		}
@@ -1271,15 +1271,17 @@ class VirtueMartModelUser extends VmModel {
 		foreach ($prepareUserFields as $fld) {
 			if(empty($data[$fld->name])) $data[$fld->name] = '';
 
+			$fldName = $fld->name;
 			if(!$manager and $fld->readonly) {
-				$fldName = $fld->name;
+
 				unset($data[$fldName]);
 			}
 			if($userinfo!==0){
 				if(property_exists($userinfo,$fldName)){
-					$data[$fldName] = $userinfo->{$fldName};
-				} else {
-					vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db');
+					//$data[$fldName] = $userinfo->{$fldName};
+				} else if($fldName!='email'){   //No error here, email is part of the fields, but stored in joomla table
+					vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db '.$fldName);
+					//vmdebug('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db ', $prepareUserFields);
 				}
 			}
 
@@ -1287,6 +1289,7 @@ class VirtueMartModelUser extends VmModel {
 
 		}
 
+		$data['address_type'] = $type;
 		return $data;
 	}
 

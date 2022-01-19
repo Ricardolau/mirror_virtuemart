@@ -38,21 +38,24 @@ jQuery(document).ready(function ($) {
 		delay:400,
 		html:true
 	})
-	
-	searchMediaAuto.data('ui-autocomplete')._resizeMenu = function () {
-		var width = $('.search-media-boundary').outerWidth()
-		this.menu.element.outerWidth(width)
+
+	if( typeof searchMediaAuto.data('ui-autocomplete') !== "undefined" ){
+		searchMediaAuto.data('ui-autocomplete')._resizeMenu = function () {
+			var width = $('.search-media-boundary').outerWidth()
+			this.menu.element.outerWidth(width)
+		}
+
+		searchMediaAuto.data('ui-autocomplete')._renderItem = function (ul, item) {
+			// sublayouts/mustache/search_media.php
+			var template = $('#search-media-template').html()
+			var rendered = Mustache.render(template, {'media':item})
+			ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l') //Ul custom class here
+			return $('<li>')
+				.append('<a>' + rendered + '</a>')
+				.appendTo(ul)
+		}
 	}
- 
-	searchMediaAuto.data('ui-autocomplete')._renderItem = function (ul, item) {
-		// sublayouts/mustache/search_media.php
-		var template = $('#search-media-template').html()
-		var rendered = Mustache.render(template, {'media':item})
-	  ul.addClass('uk-child-width-1-2@s uk-child-width-1-4@m uk-child-width-1-6@l') //Ul custom class here
-		return $('<li>')
-		.append('<a>' + rendered + '</a>')
-		.appendTo(ul)
-	}
+
 	
 	$('.vmuikit-js-pages').on('click', function (e) {
 		e.preventDefault();

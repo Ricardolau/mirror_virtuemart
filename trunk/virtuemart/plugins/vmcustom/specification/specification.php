@@ -149,10 +149,10 @@ class plgVmCustomSpecification extends vmCustomPlugin {
 		return true;
 	}
 
-	function plgVmOnStoreProduct($data,$plugin_param){
+	function plgVmOnStoreProduct($data, $plugin_param, $key = -1){
 		// $this->tableFields = array ( 'id', 'virtuemart_product_id', 'virtuemart_custom_id', 'custom_specification_default1', 'custom_specification_default2' );
 
-		return $this->OnStoreProduct($data,$plugin_param);
+		return $this->OnStoreProduct($data, $plugin_param, $key);
 	}
 	/**
 	 * Trigger while storing an object using a plugin to create the plugin internal tables in case

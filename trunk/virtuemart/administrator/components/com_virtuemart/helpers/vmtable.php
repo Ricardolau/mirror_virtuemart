@@ -73,6 +73,7 @@ class VmTable extends vObject implements \JTableInterface {
 	protected $_updateNulls = false;
 	protected $_toConvertDec = false;
 	protected $_genericVendorId = true;
+	protected $_update = null;
 
 	/**
 	 * @param string $table
@@ -1572,7 +1573,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		$tblKey = $this->_tbl_key;
 
-		vmdebug('vmTable check() '.$this->_tbl);
+		//vmdebug('vmTable check() class '.$this->_tbl);
 		$this->_update = null;
 
 		if(!empty($this->{$this->_tbl_key})){
@@ -1584,7 +1585,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 			if($res){
 				$this->_update = true;
-				vmdebug('vmTable check() loaded existing entry '.$res.' from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
+				//vmdebug('vmTable check() loaded existing entry '.$res.' from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
 			} else {
 				$this->_update = false;
 				vmdebug('vmTable check() existing entry not FOUND from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
@@ -1601,7 +1602,7 @@ class VmTable extends vObject implements \JTableInterface {
 				. 'WHERE `'. $this->_pkey.'` = "' . $this->{$this->_pkey}.'" ';
 			$this->_db->setQuery($_qry);
 			$res = $this->_db->loadAssocList();
-			vmdebug('vmTable check() loaded on pKey '.$_qry,$res);
+			//vmdebug('vmTable check() loaded on pKey '.$_qry,$res);
 			if($res and count($res) == 1 and $this->{$tblKey} != $res[0][$this->_tbl_key]){
 				vmdebug('Table '.$this->_tbl.' Updating existing entry, corrected given '.$this->_tbl_key.' = '.$this->{$this->_tbl_key}.' to '.$res[0][$this->_tbl_key]);
 				$this->{$tblKey} = $res[0][$this->_tbl_key];

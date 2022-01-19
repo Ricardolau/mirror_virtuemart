@@ -647,6 +647,25 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 
 						self::$validatedAddresses = $result->getvalidAddresses();
 						$session->set ('vm_avatax_address_checked.' . $hash, TRUE, 'vm');
+
+                        $correctedState = self::$validatedAddresses[0]->getRegion();
+                        //VmConfig::$logDebug = true; //Log our debug from now on
+						vmdebug('fillValidateAvalaraAddress',$correctedState, $vmadd['state']);
+                        if (!empty($correctedState) && $correctedState != $vmadd['state']) {
+                            $correctedStateId = ShopFunctions::getStateIDByName($correctedState);
+	                        vmdebug('fillValidateAvalaraAddress ',$correctedStateId);
+                            $cart = VirtueMartCart::getCart();
+                            if (empty($cart->STsameAsBT) && !empty($cart->ST)) {
+                                $cart->ST['virtuemart_state_id'] = $correctedStateId;
+	                            vmdebug('fillValidateAvalaraAddress ST  case ',$correctedStateId);
+                                $cart->saveAddressInCart($cart->ST, 'ST', true);
+                            } else {
+                                $cart->BT['virtuemart_state_id'] = $correctedStateId;
+	                            vmdebug('fillValidateAvalaraAddress BT  case ',$correctedStateId);
+	                            $cart->saveAddressInCart($cart->BT, 'BT', true);
+                            }
+
+                        }
 					}
 
 				}
@@ -1109,6 +1128,9 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 		if($data->order_status=='X'){
 			avadebug('plgVmOnUpdateOrderPayment cancel order for Avatax '.$old_order_status,$data->order_status);
 			$this->cancelOrder($data,$old_order_status);
+		} elseif($data->order_status=='S'){
+			avadebug('plgVmOnUpdateOrderPayment shipped order for Avatax '.$old_order_status,$data->order_status);
+			$this->commitShippedOrder($data,$old_order_status);
 		} elseif($data->order_status=='R'){
 			$this->creditMemo($data);
 		} else {
@@ -1144,7 +1166,15 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 		$orderDetails = $orderModel->getOrder($data->virtuemart_order_id);
 		$calc = $this->getOrderCalc($orderDetails);
 		if(!$calc) return false;
-
+		
+		// AXIOM , only send commit request to Avalara when 'Committ to Avalara' in Avalara rule is checked
+		if($calc['committ']==0) return false;
+		
+		// AXIOM , only send commit request to Avalara when order_tax has value > 0  
+		if (empty($orderDetails['details']['BT']->order_billTaxAmount) || !($orderDetails['details']['BT']->order_billTaxAmount > 0 )) {
+			return false;
+		}
+		
 		if(!is_array($calc['avatax_virtuemart_country_id'])){
 			$calc['avatax_virtuemart_country_id'] = json_decode($calc['avatax_virtuemart_country_id'],true);
 		}
@@ -1378,7 +1408,102 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 			vmError('AvaTax: cancelOrder Exception: $calc: ' . var_export($calc, true));
 		}
 
+	}	
+
+	// AXIOM: #2058
+	private function commitShippedOrder($data,$old_order_status){
+		// AXIOM - Only attempt to commit shipped order if DocId exists.
+		// This is stored in avalara_doc_id custom shopper field
+		$db = JFactory::getDBO();
+		$query = "SELECT avalara_doc_id" .
+			" FROM #__virtuemart_order_userinfos" . 
+			" WHERE virtuemart_order_id = " . $data->virtuemart_order_id .
+			" AND address_type = 'BT'";
+		$db->setQuery($query);
+		$docId = null;
+		try {
+			$docId = $db->loadResult();
+		} catch (RuntimeException $ex) {
+			vmError('Avatax commitShippedOrder error checking existing DocId: ' . $ex->getMessage());
+		}
+
+		if (empty($docId)) {
+			return false;
+		}
+		
+		//Get order info
+		$orderModel = VmModel::getModel('orders');
+		$orderDetails = $orderModel->getOrder($data->virtuemart_order_id);
+		$calc = $this->getOrderCalc($orderDetails);
+		if(!$calc) return false;
+		
+		if($calc['committ']==0) return false;
+
+		$orderNumber = $orderDetails['details']['BT']->order_number;
+		$nb=count($orderDetails['history']);
+		$trackingNumber = $orderDetails['history'][$nb-1]->comments;
+		$numItems = count($orderDetails['items']);
+		$shipDateString = $orderDetails['history'][$nb-1]->created_on;
+		$shipDate = strtotime($shipDateString);
+		$shipDate = strtotime(date('Y', $shipDate) . '-' . date('m', $shipDate) . '-' . date('d', $shipDate));
+		$totalAmmount = $orderDetails['details']['BT']->order_salesPrice + $orderDetails['details']['BT']->order_shipment;
+		$totalTax = $orderDetails['details']['BT']->order_billTaxAmount; 
+		$utcTimezone = new DateTimeZone('UTC');
+		$orderDate = new DateTime($orderDetails['details']['BT']->created_on, $utcTimezone);
+		$orderDate = $orderDate->getTimestamp();
+		$newDocCode = date('Y', $orderDate) . '-' . date('m', $orderDate) . '-' . date('d', $orderDate) . '-' . date('H', $orderDate) . '-' . date('i', $orderDate) . '-' . date('s', $orderDate) . '.000000';
+		$commitStartDateTime = time();
+		$commitStartDate = strtotime(date('Y', $commitStartDateTime) . '-' . date('m', $commitStartDateTime) . '-' . date('d', $commitStartDateTime));
+
+		// Commit transaction in Avalara
+		if(!function_exists('EnsureIsArray')) require(VMAVALARA_PATH.DS.'AvaTax.php');	// include in all Avalara Scripts
+		if(!class_exists('TaxServiceSoap')) require (VMAVALARA_CLASS_PATH.DS.'TaxServiceSoap.class.php');
+		if(!class_exists('TaxRequest')) require (VMAVALARA_CLASS_PATH.DS.'TaxRequest.class.php');		
+
+		$this->newATConfig($calc);		
+
+		$client = new TaxServiceSoap($this->_connectionType);
+		$request = new PostTaxRequest();
+		$request->setDocType(DocumentType::$SalesInvoice);
+		$request->setCommit(true);		
+		$request->setDocId($docId);
+		$request->setTotalAmount($totalAmmount);
+		$request->setTotalTax($totalTax);
+		$request->setDocDate($commitStartDate);
+		$request->setNewDocCode($newDocCode);		
+
+		try
+		{
+			avadebug('commitShippedOrder used request',$request);
+			$result = $client->postTax($request);
+
+			if ($result->getResultCode() != "Success")
+			{
+				$msg = '';
+				foreach($result->getMessages() as $rmsg)
+				{
+					$msg .= $rmsg->getName().": ".$rmsg->getSummary()."\n";
+				}
+				vmError($msg);
+				vmError('AvaTax: commitShippedOrder Error: $calc: ' . var_export($calc, true));
+			} else {
+				vmInfo('commitShippedOrder ResultCode is: '.$result->getResultCode());
+			}
+		}
+		catch(SoapFault $exception)
+		{
+			$msg = "Exception: ";
+			if($exception)
+				$msg .= $exception->faultstring;
+
+			$msg .="\n";
+			$msg .= $client->__getLastRequest()."\n";
+			$msg .= $client->__getLastResponse()."\n";
+			vmError($msg);
+			vmError('AvaTax: commitShippedOrder Exception: $calc: ' . var_export($calc, true));
+		}
 	}
+	// AXIOM: END #2058
 
 	private function getOrderCalc($orderDetails){
 		$calc = 0;

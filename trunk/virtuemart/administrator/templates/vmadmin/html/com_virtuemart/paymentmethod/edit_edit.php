@@ -30,8 +30,8 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 	<div class="uk-card-body">
 
-		<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_PAYMENTMETHOD_FORM_NAME', 'payment_name', $this->payment->payment_name, 'class="required"'); ?>
-		<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SLUG', 'slug', $this->payment->slug); ?>
+		<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_PAYMENTMETHOD_FORM_NAME', 'payment_name', $this->payment->payment_name, 'class="required"').$this->origLang; ?>
+		<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SLUG', 'slug', $this->payment->slug).$this->origLang; ?>
 		<?php echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->payment->published); ?>
 		<?php echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_PAYMENT_FORM_DESCRIPTION', 'payment_desc', $this->payment->payment_desc,'class="uk-textarea"', 80); ?>
 		<?php echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_PAYMENT_CLASS_NAME', $this->vmPPaymentList);

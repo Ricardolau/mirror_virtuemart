@@ -54,7 +54,7 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 
 			$payment = $model->getPayment();
-
+			$this->setOrigLang($payment);
 			$this->checkConditionsCore = false;
 
 			// Get the payment XML.

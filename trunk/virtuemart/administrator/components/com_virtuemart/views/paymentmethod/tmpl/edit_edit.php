@@ -24,10 +24,10 @@ defined('_JEXEC') or die('Restricted access');
     <fieldset>
         <legend><?php echo vmText::_('COM_VIRTUEMART_PAYMENTMETHOD'); ?></legend>
         <table class="admintable">
-		<?php echo VmHTML::row('input','COM_VIRTUEMART_PAYMENTMETHOD_FORM_NAME','payment_name',$this->payment->payment_name,'class="required"'); ?>
-		<?php echo VmHTML::row('input','COM_VIRTUEMART_SLUG','slug',$this->payment->slug); ?>
+		<?php echo VmHTML::row('input','COM_VIRTUEMART_PAYMENTMETHOD_FORM_NAME','payment_name',$this->payment->payment_name.$this->origLang,'class="required"'); ?>
+		<?php echo VmHTML::row('input','COM_VIRTUEMART_SLUG','slug',$this->payment->slug).$this->origLang; ?>
      	<?php echo VmHTML::row('booleanlist','COM_VIRTUEMART_PUBLISHED','published',$this->payment->published); ?>
-		<?php echo VmHTML::row('textarea','COM_VIRTUEMART_PAYMENT_FORM_DESCRIPTION','payment_desc',$this->payment->payment_desc); ?>
+		<?php echo VmHTML::row('textarea','COM_VIRTUEMART_PAYMENT_FORM_DESCRIPTION','payment_desc',$this->payment->payment_desc.$this->origLang); ?>
 		<?php echo VmHTML::row('raw','COM_VIRTUEMART_PAYMENT_CLASS_NAME', $this->vmPPaymentList );
 
         if($this->checkConditionsCore){

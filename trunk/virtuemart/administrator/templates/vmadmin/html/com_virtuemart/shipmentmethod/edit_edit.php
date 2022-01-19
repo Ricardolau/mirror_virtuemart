@@ -29,8 +29,8 @@ defined('_JEXEC') or die('Restricted access');
 	</div>
 	<div class="uk-card-body">
 
-<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SHIPPING_FORM_NAME', 'shipment_name', $this->shipment->shipment_name, 'class="required"'); ?>
-<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SLUG', 'slug', $this->shipment->slug); ?>
+<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SHIPPING_FORM_NAME', 'shipment_name', $this->shipment->shipment_name, 'class="required"').$this->origLang; ?>
+<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_SLUG', 'slug', $this->shipment->slug).$this->origLang; ?>
 <?php echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->shipment->published); ?>
 <?php echo VmuikitHtml::row('textarea', 'COM_VIRTUEMART_SHIPPING_FORM_DESCRIPTION', 'shipment_desc', $this->shipment->shipment_desc,'class="uk-textarea"'); ?>
 <?php echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_SHIPPING_CLASS_NAME', $this->pluginList);

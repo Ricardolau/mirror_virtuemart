@@ -41,7 +41,7 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 			JForm::addFieldPath(VMPATH_ADMIN .'/fields');
 
 			$shipment = $model->getShipment();
-
+			$this->setOrigLang($shipment);
 			$this->checkConditionsCore = false;
 			// Get the payment XML.
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmshipment/'. $shipment->shipment_element .'/'. $shipment->shipment_element . '.xml');

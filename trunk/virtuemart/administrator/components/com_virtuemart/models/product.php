@@ -421,7 +421,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			if(!empty($custom_search)){
 
-				if(empty($this->searchcustoms)) $this->searchcustoms = true;
+				if(empty($searchcustoms)) $searchcustoms = true;
 				if($and){
 					$andor= ' AND ';
 				} else {
@@ -433,7 +433,7 @@ class VirtueMartModelProduct extends VmModel {
 					$virtuemart_category_id = FALSE;
 				}
 			} else {
-				$this->searchcustoms = false;
+				$searchcustoms = false;
 			}
 
 		}
@@ -552,17 +552,23 @@ class VirtueMartModelProduct extends VmModel {
 					}
 					$cats .= $catId;
 				}
-
-                if(!empty($cats)){
+				$cats = trim($cats,',');
+                /*if(!empty($cats)){
                     $joinCategory = TRUE;
                     $where[] = ' `pc`.`virtuemart_category_id` IN ('.$cats.') ';
-                }
+                }*/
 			} else {
-				$where[] = ' `pc`.`virtuemart_category_id` IN ('.implode(',',$virtuemart_category_id).') ';
+				$cats = implode(',', $virtuemart_category_id);
 			}
+
+			if(!empty($cats)){
+				$joinCategory = TRUE;
+				$where[] = ' `pc`.`virtuemart_category_id` IN ('.$cats.') ';
+			}
+
 		} else if ($isSite) {
 			
-			if($this->searchcustoms or !empty($filter_search)){
+			if($searchcustoms or !empty($filter_search)){
 				if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
 					$joinCategory = TRUE;
 					$where[] = ' ((p.`product_parent_id` = "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` > "0") ';
@@ -619,7 +625,7 @@ class VirtueMartModelProduct extends VmModel {
 		if ($search_type != '') {
 			$search_order = isset($params['search_order']) ? $params['search_order'] : vRequest::getCmd ('search_order',$this->search_order);
 			$search_order = $db->escape ($search_order == 'bf' ? '<' : '>');
-			switch ($this->search_type) {
+			switch ($search_type) {
 				case 'parent':
 					$where[] = 'p.`product_parent_id` = "0"';
 					break;
@@ -845,7 +851,7 @@ class VirtueMartModelProduct extends VmModel {
 		$select = ' p.`virtuemart_product_id`'.$ff_select_price.$selectLang.' 
 		FROM `#__virtuemart_products` as p ';
 
-		if ($this->searchcustoms) {
+		if ($searchcustoms) {
 			$joinedTables[] = ' INNER JOIN `#__virtuemart_product_customfields` as pf ON p.`virtuemart_product_id` = pf.`virtuemart_product_id` ';
 		}
 

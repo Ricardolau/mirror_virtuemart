@@ -121,7 +121,7 @@ class VirtuemartControllerUser extends VmController {
 			if(!$ret){
 				$msg = '';
 			} else {
-				$msg = $ret['message'];
+				vmWarn($ret['message']);
 			}
 
 			if(!isset($data['virtuemart_shoppergroup_id'])){
@@ -137,7 +137,7 @@ class VirtuemartControllerUser extends VmController {
 			if ($lastTask == 'editshop') $redirection = 'index.php?option=com_virtuemart';
 			else $redirection = 'index.php?option=com_virtuemart&view=user';
 		}
-// 		$this->setRedirect($redirection, $ret['message']);
+
 		$this->setRedirect($redirection);
 	}
 

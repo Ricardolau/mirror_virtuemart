@@ -71,23 +71,4 @@ class VirtuemartControllerPlugin extends VmController
 		return true;
 	}
 
-/*	public function getMemberStatus(){
-
-		JLoader::register('JFormFieldReminder', VMPATH_ADMIN .'/fields/reminder.php');
-
-		$element = vRequest::getCmd('name',false);
-		vmdebug('getMemberStatus was geht ab?');
-		if($element){
-
-			$q = 'SELECT * FROM `#__extensions` WHERE `element`="'.$element.'" AND `state`=0';
-			$db = JFactory::getDbo();
-			$db->setQuery($q);
-			$ext = $db->loadAssoc();
-
-			$remField = new JFormFieldReminder();
-			$remField->getMemberStatus($ext);
-		}
-
-	}
-*/
 }

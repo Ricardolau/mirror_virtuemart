@@ -149,11 +149,6 @@ defined('_JEXEC') or die('Restricted access');
 			<?php echo $this->renderTaskButton('deleteVmTables','COM_VIRTUEMART_UPDATE_REMOVETABLES'); ?>
 		</td>
     </tr>
-    <tr>
-    	<td align="center">
-			<?php echo $this->renderTaskButton('updateDatabaseJoomla','Update Joomla Database for pros, use only if you know what you do'); ?>
-		</td>
-	</tr>
 </table>
 
 

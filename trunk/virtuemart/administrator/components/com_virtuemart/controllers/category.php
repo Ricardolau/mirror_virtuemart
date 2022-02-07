@@ -67,7 +67,7 @@ class VirtuemartControllerCategory extends VmController {
 			$id = $cid[0];
 		} else {
 			vmWarn('COM_VIRTUEMART_NO_ITEMS_SELECTED');
-			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=category', vmText::_('COM_VIRTUEMART_NO_ITEMS_SELECTED') );
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=category' );
 			return false;
 		}
 
@@ -105,7 +105,7 @@ class VirtuemartControllerCategory extends VmController {
 			$id = $cid[0];
 		} else {
 			vmWarn('COM_VIRTUEMART_NO_ITEMS_SELECTED');
-			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=category', vmText::_('COM_VIRTUEMART_NO_ITEMS_SELECTED') );
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&view=category' );
 			return false;
 		}
 

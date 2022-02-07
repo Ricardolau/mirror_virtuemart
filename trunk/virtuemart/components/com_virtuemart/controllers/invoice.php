@@ -78,7 +78,8 @@ class VirtueMartControllerInvoice extends JControllerLegacy
 
 			$fileLocation = $this->getInvoicePDF($orderDetails, 'invoice', $layout);
 			if(!$fileLocation){
-				$app->redirect(JRoute::_('index.php?option=com_virtuemart'),'Invoice not created');
+				vmInfo('Invoice not created');
+				$app->redirect(JRoute::_('index.php?option=com_virtuemart'));
 			}
 
 			$fileName = basename ($fileLocation);

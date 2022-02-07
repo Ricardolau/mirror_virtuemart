@@ -242,9 +242,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
 	public function add() {
 		$mainframe = JFactory::getApplication();
 		if (VmConfig::get('use_as_catalog', 0)) {
-			$msg = vmText::_('COM_VIRTUEMART_PRODUCT_NOT_ADDED_SUCCESSFULLY');
-			$type = 'error';
-			$mainframe->redirect('index.php', $msg, $type);
+			vmInfo('COM_VIRTUEMART_PRODUCT_NOT_ADDED_SUCCESSFULLY');
+			$mainframe->redirect('index.php');
 		}
 
 		$cart = VirtueMartCart::getCart();

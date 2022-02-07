@@ -57,9 +57,8 @@ class VirtuemartControllerMedia extends VmController {
 			$data['file_type'] = $data['media_attributes'];
 		}
 
-		$msg = '';
 		if ($id = $fileModel->store($data)) {
-			$msg = vmText::_('COM_VIRTUEMART_FILE_SAVED_SUCCESS');
+			vmInfo('COM_VIRTUEMART_FILE_SAVED_SUCCESS');
 		}
 
 		$cmd = vRequest::getCmd('task');
@@ -69,7 +68,7 @@ class VirtuemartControllerMedia extends VmController {
 			$redirection = 'index.php?option=com_virtuemart&view=media';
 		}
 
-		$this->setRedirect($redirection, $msg);
+		$this->setRedirect($redirection);
 	}
 
 	function synchronizeMedia(){
@@ -83,11 +82,12 @@ class VirtuemartControllerMedia extends VmController {
 
 			$migrator = new Migrator();
 			$result = $migrator->portMedia();
+			vmInfo($result);
 
-			$this->setRedirect($this->redirectPath, $result);
+			$this->setRedirect($this->redirectPath);
 		} else {
-			$msg = 'Forget IT';
-			$this->setRedirect('index.php?option=com_virtuemart', $msg);
+			vmWarn ('Forget IT');
+			$this->setRedirect('index.php?option=com_virtuemart');
 		}
 
 	}
@@ -133,20 +133,20 @@ class VirtuemartControllerMedia extends VmController {
 
 		$type = 'notice';
 		if(count($ids) < 1) {
-			$msg = vmText::_('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
+			vmInfo('COM_VIRTUEMART_SELECT_ITEM_TO_DELETE');
 
 		} else {
 			$model = $this->getModel($this->_cname);
 			$ret = $model->removeFiles($ids);
 
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey);
 			if($ret==false) {
-				$msg = vmText::sprintf('COM_VIRTUEMART_STRING_COULD_NOT_BE_DELETED',$this->mainLangKey);
-				$type = 'error';
+				vmWarn('COM_VIRTUEMART_STRING_COULD_NOT_BE_DELETED',$this->mainLangKey);
+			} else {
+				vmInfo('COM_VIRTUEMART_STRING_DELETED',$this->mainLangKey);
 			}
 		}
 
-		$this->setRedirect($this->redirectPath, $msg,$type);
+		$this->setRedirect($this->redirectPath);
 	}
 
 

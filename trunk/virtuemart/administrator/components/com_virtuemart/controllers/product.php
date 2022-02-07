@@ -142,7 +142,12 @@ class VirtuemartControllerProduct extends VmController {
 				$redirect = 'index.php?option=com_virtuemart&view=product';
 			}
 		}
-		$app->redirect($redirect, $msg, $msgtype);
+		if($msgtype == 'error'){
+			vmError($msg,$msg);
+		} else {
+			vmInfo($msg);
+		}
+		$app->redirect($redirect);
 
 	}
 
@@ -281,8 +286,12 @@ class VirtuemartControllerProduct extends VmController {
 				$msgtype = 'error';
 			}
 		}
-
-		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
+		if($msgtype == 'error'){
+			vmError($msg,$msg);
+		} else {
+			vmInfo($msg);
+		}
+		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l);
 	}
 
 	/**
@@ -313,7 +322,12 @@ class VirtuemartControllerProduct extends VmController {
 			}
 		}
 
-		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l, $msg, $msgtype);
+		if($msgtype == 'error'){
+			vmError($msg,$msg);
+		} else {
+			vmInfo($msg);
+		}
+		$app->redirect('index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id='.$l);
 	}
 
 	/**

@@ -73,17 +73,18 @@ class VirtuemartControllerCalc extends VmController {
 		if (isset($cid[0]) && $cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_virtuemart&view=calc', vmText::_('COM_VIRTUEMART_NO_ITEMS_SELECTED') );
+			vmWarn('COM_VIRTUEMART_NO_ITEMS_SELECTED');
+			$this->setRedirect( 'index.php?option=com_virtuemart&view=calc' );
 			return false;
 		}
 
 		$model = VmModel::getModel('calc');
 
 		if ($model->orderCalc($id, -1)) {
-			$msg = vmText::_('COM_VIRTUEMART_ITEM_MOVED_UP');
+			vmInfo ('COM_VIRTUEMART_ITEM_MOVED_UP');
 		}
 
-		$this->setRedirect( 'index.php?option=com_virtuemart&view=calc', $msg );
+		$this->setRedirect( 'index.php?option=com_virtuemart&view=calc' );
 	}
 
 
@@ -102,7 +103,8 @@ class VirtuemartControllerCalc extends VmController {
 		if (isset($cid[0]) && $cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_virtuemart&view=calc', vmText::_('COM_VIRTUEMART_NO_ITEMS_SELECTED') );
+			vmWarn('COM_VIRTUEMART_NO_ITEMS_SELECTED');
+			$this->setRedirect( 'index.php?option=com_virtuemart&view=calc' );
 			return false;
 		}
 
@@ -110,10 +112,10 @@ class VirtuemartControllerCalc extends VmController {
 		$model = VmModel::getModel('calc');
 		$msg = '';
 		if ($model->orderCalc($id, 1)) {
-			$msg = vmText::_('COM_VIRTUEMART_ITEM_MOVED_DOWN');
+			vmInfo('COM_VIRTUEMART_ITEM_MOVED_DOWN');
 		}
 
-		$this->setRedirect( 'index.php?option=com_virtuemart&view=calc', $msg );
+		$this->setRedirect( 'index.php?option=com_virtuemart&view=calc' );
 	}
 
 
@@ -133,9 +135,9 @@ class VirtuemartControllerCalc extends VmController {
 
 		$msg = '';
 		if ($model->setOrder($cid,$order)) {
-			$msg = vmText::_('COM_VIRTUEMART_NEW_ORDERING_SAVED');
+			vmInfo('COM_VIRTUEMART_NEW_ORDERING_SAVED');
 		}
-		$this->setRedirect('index.php?option=com_virtuemart&view=calc', $msg );
+		$this->setRedirect('index.php?option=com_virtuemart&view=calc');
 	}
 
 }

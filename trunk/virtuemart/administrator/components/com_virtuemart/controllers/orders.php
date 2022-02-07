@@ -213,11 +213,12 @@ class VirtuemartControllerOrders extends VmController {
 		$msg .= vmText::_('COM_VIRTUEMART_ORDER_NOT_UPDATED');
 		if ($result['error'] > 0)
 		$msg .= vmText::sprintf('COM_VIRTUEMART_ORDER_NOT_UPDATED_SUCCESSFULLY', $result['error'] , $result['total']);
+		vmInfo($msg);
 		if ('updatestatus'== $lastTask ) {
-			$app->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$virtuemart_order_id , $msg);
+			$app->redirect('index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$virtuemart_order_id );
 		}
 		else {
-			$app->redirect('index.php?option=com_virtuemart&view=orders', $msg);
+			$app->redirect('index.php?option=com_virtuemart&view=orders');
 		}
 	}
 

@@ -57,7 +57,7 @@ class VirtuemartControllerConfig extends VmController {
 
 		$msg = '';
 		if ($model->store($data)) {
-			$msg = vmText::_('COM_VIRTUEMART_CONFIG_SAVED');
+			vmInfo('COM_VIRTUEMART_CONFIG_SAVED');
 			// Load the newly saved values into the session.
 			VmConfig::loadConfig();
 		}
@@ -67,7 +67,7 @@ class VirtuemartControllerConfig extends VmController {
 			$redir = $this->redirectPath;
 		}
 
-		$this->setRedirect($redir.'&vmms=1&nosafepathcheck=1', $msg);
+		$this->setRedirect($redir.'&vmms=1&nosafepathcheck=1');
 
 
 	}
@@ -80,9 +80,9 @@ class VirtuemartControllerConfig extends VmController {
 	 */
 	function remove(){
 
-		$msg = vmText::_('COM_VIRTUEMART_ERROR_CONFIGS_COULD_NOT_BE_DELETED');
+		vmInfo('COM_VIRTUEMART_ERROR_CONFIGS_COULD_NOT_BE_DELETED');
 
-		$this->setRedirect( $this->redirectPath , $msg);
+		$this->setRedirect( $this->redirectPath );
 	}
 }
 

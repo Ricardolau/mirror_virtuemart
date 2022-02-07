@@ -47,8 +47,9 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		vRequest::vmCheckToken();
 		//Hardcore Block, we may do that better later
 		if(!vmAccess::manager('core') ){
-			$msg = 'Forget IT';
-			$this->setRedirect('index.php?option=com_virtuemart', $msg);
+			$task = vRequest::getCmd('task');
+			vmError('checkPermissionForTools tried execution without permission updatesmigration task '.$task,'Forget IT');
+			$this->setRedirect('index.php?option=com_virtuemart');
 		}
 
 		return true;
@@ -156,15 +157,15 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$storeOwnerId =vRequest::getInt('storeOwnerId');
 		$msg = $model->setStoreOwner($storeOwnerId);
 
-		$this->setRedirect($this->redirectPath, $msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	function reset_Has_x_Fields(){
 
 		$model = $this->getModel('updatesMigration');
 		$model->reset_Has_x_Fields();
-
-		$this->setRedirect($this->redirectPath, 'COM_VM_HASX_FIELDS_RESET');
+		vmInfo('COM_VM_HASX_FIELDS_RESET');
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -188,8 +189,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$msg = $this->_getMsgDangerousTools();
 		}
-
-		$this->setRedirect($this->redirectPath, $msg);
+		vmInfo($msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	public function fixCustomsParams(){
@@ -226,8 +227,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			}
 
 		}
-		$msg = 'Executed';
-		$this->setredirect($this->redirectPath, $msg);
+		VmInfo('Executed fixCustomsParams, updated rows '.count($rows));
+		$this->setredirect($this->redirectPath);
 	}
 
 	/**
@@ -303,7 +304,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$msg = $this->_getMsgDangerousTools();
 		}
-		$this->setredirect($this->redirectPath, $msg);
+		VmInfo($msg);
+		$this->setredirect($this->redirectPath);
 	}
 
 	/**
@@ -326,7 +328,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		}else {
 			$msg = $this->_getMsgDangerousTools();
 		}
-		$this->setRedirect('index.php?option=com_installer', $msg);
+		VmInfo($msg);
+		$this->setredirect($this->redirectPath);
 	}
 
 	/**
@@ -351,7 +354,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$msg = $this->_getMsgDangerousTools();
 		}
 
-		$this->setRedirect($this->redirectPath, $msg);
+		VmInfo($msg);
+		$this->setredirect($this->redirectPath);
 	}
 
 	function refreshCompleteInstallAndSample(){
@@ -427,7 +431,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$msg = $this->_getMsgDangerousTools();
 		}
 
-		$this->setRedirect($this->redirectPath, $msg);
+		VmInfo($msg);
+		$this->setredirect($this->redirectPath);
 	}
 
 	function installCompleteSamples(){
@@ -497,8 +502,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		}else {
 			$msg = $this->_getMsgDangerousTools();
 		}
-
-		$this->setRedirect('index.php?option=com_virtuemart&view=updatesmigration&layout=insfinished&nosafepathcheck=1', $msg);
+		vmInfo($msg);
+		$this->setRedirect('index.php?option=com_virtuemart&view=updatesmigration&layout=insfinished&nosafepathcheck=1');
 	}
 
 	private function addMenuEntries($sample){
@@ -779,7 +784,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		if(!class_exists('com_virtuemartInstallerScript')) require(VMPATH_ADMIN .'/install/script.virtuemart.php');
 		$updater = new com_virtuemartInstallerScript();
 		$updater->update(false);
-		$this->setRedirect($this->redirectPath, 'Database updated');
+		vmInfo('Database updated');
+		$this->setRedirect($this->redirectPath );
 	}
 
 	function optimizeDatabase(){
@@ -793,30 +799,10 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$db->setQuery($q);
 			$db->execute();
 		}
-
-		$this->setRedirect($this->redirectPath, 'Database updated');
+		vmInfo('Database updated');
+		$this->setRedirect($this->redirectPath);
 	}
 
-	/**
-	 * This is executing the update table commands to adjust joomla tables to the latest layout
-	 * @author Max Milbers
-	 */
-	function updateDatabaseJoomla(){
-		vRequest::vmCheckToken();
-		if(JVM_VERSION<3){
-			$p = VMPATH_ADMIN .'/install/joomla2.sql';
-		} else {
-			$p = '';
-		}
-		//$p = VMPATH_ROOT.'/installation/sql/mysql/joomla.sql';
-		$msg = 'You are using joomla 3, or File '.$p.' not found';
-		if(file_exists($p)){
-			$updater = new GenericTableUpdater();
-			$updater->updateMyVmTables($p,'_');
-			$msg = 'Joomla Database updated';
-		}
-		$this->setRedirect($this->redirectPath, $msg);
-	}
 
 	/**
 	 * Delete the config stored in the database and renews it using the file
@@ -830,8 +816,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		//if(VmConfig::get('dangeroustools', true)){
 		$model = $this->getModel('config');
 		$model -> deleteConfig();
-		//	}
-		$this->setRedirect($this->redirectPath, 'Configuration is now restored by file');
+		vmInfo('Configuration is now restored by file');
+		$this->setRedirect($this->redirectPath, );
 	}
 
 	/**
@@ -870,8 +856,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		$migrator = new Migrator();
 		$result = $migrator->portMedia();
-
-		$this->setRedirect($this->redirectPath, $result);
+		vmInfo($result);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	function migrateGeneralFromVmOne(){
@@ -883,11 +869,11 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$migrator = new Migrator();
 		$result = $migrator->migrateGeneral();
 		if($result){
-			$msg = 'Migration general finished';
+			vmInfo('Migration general finished');
 		} else {
-			$msg = 'Migration general was interrupted by max_execution time, please restart';
+			vmWarn('Migration general was interrupted by max_execution time, please restart');
 		}
-		$this->setRedirect($this->redirectPath, $result);
+		$this->setRedirect($this->redirectPath);
 
 	}
 
@@ -900,12 +886,12 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$migrator = new Migrator();
 		$result = $migrator->migrateUsers();
 		if($result){
-			$msg = 'Migration users finished';
+			vmInfo('Migration users finished');
 		} else {
-			$msg = 'Migration users was interrupted by max_execution time, please restart';
+			vmWarn('Migration users was interrupted by max_execution time, please restart');
 		}
 
-		$this->setRedirect($this->redirectPath, $result);
+		$this->setRedirect($this->redirectPath);
 
 	}
 
@@ -918,11 +904,11 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$migrator = new Migrator();
 		$result = $migrator->migrateProducts();
 		if($result){
-			$msg = 'Migration products finished';
+			vmInfo('Migration products finished');
 		} else {
-			$msg = 'Migration products was interrupted by max_execution time, please restart';
+			vmWarn('Migration products was interrupted by max_execution time, please restart');
 		}
-		$this->setRedirect($this->redirectPath, $result);
+		$this->setRedirect($this->redirectPath);
 
 	}
 
@@ -935,11 +921,11 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$migrator = new Migrator();
 		$result = $migrator->migrateOrders();
 		if($result){
-			$msg = 'Migration orders finished';
+			vmInfo('Migration orders finished');
 		} else {
-			$msg = 'Migration orders was interrupted by max_execution time, please restart';
+			vmWarn('Migration orders was interrupted by max_execution time, please restart');
 		}
-		$this->setRedirect($this->redirectPath, $result);
+		$this->setRedirect($this->redirectPath);
 
 	}
 
@@ -954,7 +940,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		if(!VmConfig::get('dangeroustools', true)){
 			$msg = $this->_getMsgDangerousTools();
-			$this->setRedirect($this->redirectPath, $msg);
+			vmInfo($msg);
+			$this->setRedirect($this->redirectPath);
 			return false;
 		}
 
@@ -967,7 +954,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$msg = 'Migration was interrupted by max_execution time, please restart';
 		}
-		$this->setRedirect($this->redirectPath, $msg);
+		vmInfo($msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	function portVmAttributes(){
@@ -976,7 +964,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		if(!VmConfig::get('dangeroustools', true)){
 			$msg = $this->_getMsgDangerousTools();
-			$this->setRedirect($this->redirectPath, $msg);
+			vmInfo($msg);
+			$this->setRedirect($this->redirectPath);
 			return false;
 		}
 
@@ -989,7 +978,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$msg = 'Migration was interrupted by max_execution time, please restart';
 		}
-		$this->setRedirect($this->redirectPath, $msg);
+		vmInfo($msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 	function portVmRelatedProducts(){
@@ -998,7 +988,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		if(!VmConfig::get('dangeroustools', true)){
 			$msg = $this->_getMsgDangerousTools();
-			$this->setRedirect($this->redirectPath, $msg);
+			vmInfo($msg);
+			$this->setRedirect($this->redirectPath);
 			return false;
 		}
 
@@ -1011,7 +1002,8 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		} else {
 			$msg = 'Migration was interrupted by max_execution time, please restart';
 		}
-		$this->setRedirect($this->redirectPath, $msg);
+		vmInfo($msg);
+		$this->setRedirect($this->redirectPath);
 	}
 
 
@@ -1031,13 +1023,15 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 
 		if(!VmConfig::get('dangeroustools', true)){
 			$msg = $this->_getMsgDangerousTools();
-			$this->setRedirect($this->redirectPath, $msg);
+			vmInfo($msg);
+			$this->setRedirect($this->redirectPath);
 			return false;
 		}
 
 		$model = VmModel::getModel('updatesMigration');
 		$result = $model->resetThumbs();
-		$this->setRedirect($this->redirectPath, $result);
+		vmInfo($result);
+		$this->setRedirect($this->redirectPath);
 	}
 }
 

@@ -61,7 +61,7 @@ class VirtuemartControllerPaymentmethod extends VmController {
 
 		$app = JFactory::getApplication();
 		$model = VmModel::getModel('paymentmethod');
-		$msgtype = '';
+
 
 		$cids = vRequest::getInt($this->_cidName, vRequest::getInt('virtuemart_payment_id'));
 		if(!is_array($cids)) $cids = array($cids);
@@ -69,12 +69,11 @@ class VirtuemartControllerPaymentmethod extends VmController {
 		foreach($cids as $cid){
 			if ($model->createClone($cid)) $msg = vmText::_('COM_VIRTUEMART_PAYMENT_CLONED_SUCCESSFULLY');
 			else {
-				$msg = vmText::_('COM_VIRTUEMART_PAYMENT_NOT_CLONED_SUCCESSFULLY');
-				$msgtype = 'error';
+				vmWarn('COM_VIRTUEMART_PAYMENT_NOT_CLONED_SUCCESSFULLY');
 			}
 		}
 
-		$app->redirect('index.php?option=com_virtuemart&view=paymentmethod', $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=paymentmethod');
 	}
 
 }

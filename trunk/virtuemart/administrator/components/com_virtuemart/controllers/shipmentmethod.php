@@ -66,19 +66,17 @@ class VirtuemartControllerShipmentmethod extends VmController {
 		$app = JFactory::getApplication();
 
 		$model = VmModel::getModel('shipmentmethod');
-		$msgtype = '';
 
 		$cids = vRequest::getVar($this->_cidName, vRequest::getInt('virtuemart_shipment_id'));
 
 		foreach($cids as $cid){
 			if ($model->createClone($cid)) $msg = vmText::_('COM_VIRTUEMART_SHIPMENT_CLONED_SUCCESSFULLY');
 			else {
-				$msg = vmText::_('COM_VIRTUEMART_SHIPMENT_NOT_CLONED_SUCCESSFULLY');
-				$msgtype = 'error';
+				vmWarn('COM_VIRTUEMART_SHIPMENT_NOT_CLONED_SUCCESSFULLY');
 			}
 		}
 
-		$app->redirect('index.php?option=com_virtuemart&view=shipmentmethod', $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=shipmentmethod');
 	}
 }
 // pure php no closing tag

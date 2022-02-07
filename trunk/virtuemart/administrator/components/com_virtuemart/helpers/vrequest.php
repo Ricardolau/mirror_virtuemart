@@ -346,7 +346,8 @@ class vRequest {
 			if ($session->isNew()){
 				// Redirect to login screen.
 				$app = JFactory::getApplication();
-				$app->redirect(JRoute::_('index.php'), vmText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
+				vmInfo('JLIB_ENVIRONMENT_SESSION_EXPIRED');
+				$app->redirect(JRoute::_('index.php'));
 				$app->close();
 				return false;
 			}
@@ -354,13 +355,12 @@ class vRequest {
 				if($redirectMsg===0){
 					$redirectMsg = 'Invalid Token, in ' . vRequest::getCmd('options') .' view='.vRequest::getCmd('view'). ' task='.vRequest::getCmd('task');
 					//jexit('Invalid Token, in ' . vRequest::getCmd('options') .' view='.vRequest::getCmd('view'). ' task='.vRequest::getCmd('task'));
-				} else {
-					$redirectMsg =  vmText::_($redirectMsg);
 				}
 				// Redirect to login screen.
 				$app = JFactory::getApplication();
 				$session->close();
-				$app->redirect(JRoute::_('index.php'), $redirectMsg);
+				vmWarn($redirectMsg);
+				$app->redirect(JRoute::_('index.php'));
 				$app->close();
 				return false;
 			}

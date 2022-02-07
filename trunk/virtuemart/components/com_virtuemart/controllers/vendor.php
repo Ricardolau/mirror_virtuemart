@@ -59,7 +59,8 @@ class VirtueMartControllerVendor extends JControllerLegacy
 		//$vendorUser = JFactory::getUser($userId);
 
 		if ( $commentSize<$min || $commentSize>$max || !$validMail ) {
-			$this->setRedirect(JRoute::_ ( 'index.php?option=com_virtuemart&view=vendor&task=contact&virtuemart_vendor_id=' . $virtuemart_vendor_id , FALSE),vmText::_('COM_VIRTUEMART_COMMENT_NOT_VALID_JS'));
+			vmWarn('COM_VIRTUEMART_COMMENT_NOT_VALID_JS');
+			$this->setRedirect(JRoute::_ ( 'index.php?option=com_virtuemart&view=vendor&task=contact&virtuemart_vendor_id=' . $virtuemart_vendor_id , FALSE));
 			return ;
 		}
 
@@ -115,8 +116,8 @@ class VirtueMartControllerVendor extends JControllerLegacy
 
 			$msg = shopFunctionsF::checkCaptcha('ask_captcha');
 			if($msg !== TRUE){
-				$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
-				$this->setRedirect (JRoute::_ ($retUrl . '&captcha=1', FALSE), $errmsg);
+				vmWarn('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+				$this->setRedirect (JRoute::_ ($retUrl . '&captcha=1', FALSE) );
 				return FALSE;
 			} 
 				

@@ -713,7 +713,7 @@ INNER JOIN #__virtuemart_product_categories as cat ON (pc.virtuemart_product_id=
 				$q = 'SELECT `id` FROM `#__menu` WHERE `home`="1" and (language="*" or language = "'.$jLangTag.'" ) ORDER BY `language` DESC';
 				$db->setQuery($q);
 				$this->Itemid = $db->loadResult();
-				$this->app->redirect(JRoute::_('index.php?Itemid=' . $this->Itemid . '&error=404', FALSE));
+				$this->app->redirect( JRoute::_('index.php?Itemid=' . $this->Itemid . '&error=404', FALSE) );
 			} else {
 				//Fallback
 				$catLink = '';

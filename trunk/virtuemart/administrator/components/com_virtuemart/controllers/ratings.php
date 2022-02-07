@@ -120,9 +120,8 @@ class VirtuemartControllerRatings extends VmController {
 		$model = VmModel::getModel($this->_cname);
 		$id = $model->saveRating($data);
 
-		$msg = 'failed';
 		if (!empty($id)) {
-			$msg = vmText::sprintf ('COM_VIRTUEMART_STRING_SAVED', $this->mainLangKey);
+			vmInfo ('COM_VIRTUEMART_STRING_SAVED', $this->mainLangKey);
 		}
 
 		$redir = $this->redirectPath;
@@ -138,7 +137,7 @@ class VirtuemartControllerRatings extends VmController {
 			$redir = 'index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id='.$virtuemart_product_id;
 		}
 
-		$this->setRedirect($redir, $msg);
+		$this->setRedirect($redir);
 	}
 	/**
 	 * Save task for review
@@ -153,8 +152,8 @@ class VirtuemartControllerRatings extends VmController {
 		} else {
 			$virtuemart_product_id = (int)$virtuemart_product_id;
 		}
-		$msg = vmText::sprintf('COM_VIRTUEMART_STRING_CANCELLED',$this->mainLangKey); //'COM_VIRTUEMART_OPERATION_CANCELED'
-		$this->setRedirect('index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id='.$virtuemart_product_id, $msg);
+		vmInfo('COM_VIRTUEMART_STRING_CANCELLED',$this->mainLangKey); //'COM_VIRTUEMART_OPERATION_CANCELED'
+		$this->setRedirect('index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id='.$virtuemart_product_id);
 	}
 
 }

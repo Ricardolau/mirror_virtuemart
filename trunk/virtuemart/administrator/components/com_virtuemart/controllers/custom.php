@@ -66,11 +66,10 @@ class VirtuemartControllerCustom extends VmController {
 		foreach ($cids as $custom_id) {
 			if ($model->createClone($custom_id)) $msg = vmText::_('COM_VIRTUEMART_CUSTOM_CLONED_SUCCESSFULLY');
 			else {
-				$msg = vmText::_('COM_VIRTUEMART_CUSTOM_NOT_CLONED_SUCCESSFULLY').' : '.$custom_id;
-				$msgtype = 'error';
+				vmError('COM_VIRTUEMART_CUSTOM_NOT_CLONED_SUCCESSFULLY').' : '.$custom_id;
 			}
 		}
-		$app->redirect('index.php?option=com_virtuemart&view=custom', $msg, $msgtype);
+		$app->redirect('index.php?option=com_virtuemart&view=custom');
 	}
 }
 // pure php no closing tag

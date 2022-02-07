@@ -267,7 +267,7 @@ class VirtueMartControllerUser extends JControllerLegacy
 					$return = $mainframe->login($credentials);
 				} else if(VmConfig::get('oncheckout_only_registered',0)){
 					$layout = vRequest::getCmd('layout','edit');
-					$this->redirect( JRoute::_('index.php?option=com_virtuemart&view=user&layout='.$layout, FALSE), $msg );
+					$this->redirect( JRoute::_('index.php?option=com_virtuemart&view=user&layout='.$layout, FALSE) );
 				}
 			}
 		}

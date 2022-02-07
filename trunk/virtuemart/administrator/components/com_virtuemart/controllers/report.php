@@ -39,7 +39,8 @@ class VirtuemartControllerReport extends VmController {
 
 		$model = VmModel::getModel('report');
 		$model->updateOrderItems();
-		$this->setRedirect($this->redirectPath, 'Order Items updated');
+		vmInfo('Order Items updated');
+		$this->setRedirect($this->redirectPath);
 	}
 
 }

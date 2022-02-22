@@ -126,6 +126,8 @@ class VirtuemartViewConfig extends VmViewAdmin {
 			$this->cssThemes = VirtuemartModelConfig::getLayouts(array(VMPATH_ROOT.'/administrator/templates/vmadmin/html/com_virtuemart/assets/css'), 0, array('colors.css'), false, 'css');
 		}
 		//$this -> checkClientIP();
+		$this->permissionsIntegrity();
+
 		parent::display($tpl);
 	}
 
@@ -286,6 +288,19 @@ WHERE published="1"';
 			</td>
 		</tr>';
 		return $html;
+	}
+
+	function permissionsIntegrity(){
+		$db = JFactory::getDBO();
+		$q = 'select sum(lft)+sum(rgt) as mysum, count(rgt) as `n` from #__usergroups where 1=1';
+		$db->setQuery($q);
+		$res = $db->loadAssoc();
+		$mysum = (int)$res['mysum'];
+		$n = (int)($res['n']) * 2;
+		$n = $n* ($n+1) / 2;
+		if ($n !== $mysum) {
+			JFactory::getApplication()->enqueueMessage('Serious security issue detected: Your #__usergroups table includes incorrect datas and permissions reported at backend might not be same as permissions applied on frontend. Please adjust your #__usergroups per clean joomla installation or consult your developer', 'error');
+		}
 	}
 }
 // pure php no closing tag

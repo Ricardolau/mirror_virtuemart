@@ -481,6 +481,9 @@ class VirtueMartCustomFieldRenderer {
 					break;
 				/* text area or editor No vmText, only displayed in BE */
 				case 'X':
+					$customfield->display =  $customfield->customfield_params;
+
+					break;
 				case 'Y':
 					$customfield->display =  $customfield->customfield_value;
 

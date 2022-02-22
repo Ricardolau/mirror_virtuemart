@@ -67,8 +67,8 @@ class VmController extends JControllerLegacy{
 	*/
 	public function display($cachable = false, $urlparams = false)
 	{
-		$document	= JFactory::getDocument();
-		$viewType	= $document->getType();
+		$this->document	= JFactory::getDocument();
+		$viewType	= $this->document->getType();
 
 		$viewName	= vRequest::getCmd('view', $this->default_view);
 		$viewLayout	= vRequest::getCmd('layout', 'default');
@@ -87,7 +87,6 @@ class VmController extends JControllerLegacy{
 		// Set the layout
 		$view->setLayout($viewLayout);
 
-		$view->assignRef('document', $document);
 
 		$conf = JFactory::getConfig();
 
@@ -172,12 +171,10 @@ class VmController extends JControllerLegacy{
 		$model = $this->getModel($this->_cname);
 		$id = $model->store($data);
 
-		$msg = 'failed';
 		if(!empty($id)) {
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_SAVED',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_SAVED',$this->mainLangKey);
 			$type = 'message';
 		}
-		else $type = 'error';
 
 		$redir = $this->redirectPath;
 
@@ -191,7 +188,7 @@ class VmController extends JControllerLegacy{
 			$redir .= '&task=edit&'.$this->_cidName.'[]='.$id;
 		}
 
-		$this->setRedirect($redir, $msg,$type);
+		$this->setRedirect($redir);
 	}
 
 	/**
@@ -220,7 +217,12 @@ class VmController extends JControllerLegacy{
 			}
 		}
 
-		$this->setRedirect($this->redirectPath, $msg,$type);
+		if($type == 'error'){
+			vmError($msg,$msg);
+		} else{
+			vmInfo($msg);
+		}
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -229,8 +231,8 @@ class VmController extends JControllerLegacy{
 	 * @author Max Milbers
 	 */
 	public function cancel(){
-		$msg = vmText::sprintf('COM_VIRTUEMART_STRING_CANCELLED',$this->mainLangKey); //'COM_VIRTUEMART_OPERATION_CANCELED'
-		$this->setRedirect($this->redirectPath, $msg, 'message');
+		vmInfo('COM_VIRTUEMART_STRING_CANCELLED',$this->mainLangKey); //'COM_VIRTUEMART_OPERATION_CANCELED'
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**
@@ -252,12 +254,12 @@ class VmController extends JControllerLegacy{
 
 		$model = $this->getModel($this->_cname);
 		if (!$model->toggle($field, $val, $this->_cidName, 0, $this->_cname)) {
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_TOGGLE_ERROR',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_TOGGLE_ERROR',$this->mainLangKey);
 		} else{
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_TOGGLE_SUCCESS',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_TOGGLE_SUCCESS',$this->mainLangKey);
 		}
 
-		$this->setRedirect( $this->getRedirectPath(), $msg);
+		$this->setRedirect( $this->getRedirectPath());
 	}
 
 	/**
@@ -274,14 +276,14 @@ class VmController extends JControllerLegacy{
 		if($cidname === 0) $cidname = $this->_cidName;
 
 		if (!$model->toggle('published', 1, $cidname, $table, $this->_cname)) {
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_PUBLISHED_ERROR',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_PUBLISHED_ERROR',$this->mainLangKey);
 		} else{
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_PUBLISHED_SUCCESS',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_PUBLISHED_SUCCESS',$this->mainLangKey);
 		}
 
 		if($redirect === 0) $redirect = $this->redirectPath;
 
-		$this->setRedirect( $redirect , $msg);
+		$this->setRedirect( $redirect );
 	}
 
 
@@ -299,14 +301,14 @@ class VmController extends JControllerLegacy{
 		if($cidname === 0) $cidname = $this->_cidName;
 
 		if (!$model->toggle('published', 0, $cidname, $table, $this->_cname)) {
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_UNPUBLISHED_ERROR',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_UNPUBLISHED_ERROR',$this->mainLangKey);
 		} else{
-			$msg = vmText::sprintf('COM_VIRTUEMART_STRING_UNPUBLISHED_SUCCESS',$this->mainLangKey);
+			vmInfo('COM_VIRTUEMART_STRING_UNPUBLISHED_SUCCESS',$this->mainLangKey);
 		}
 
 		if($redirect === 0) $redirect = $this->redirectPath;
 
-		$this->setRedirect( $redirect, $msg);
+		$this->setRedirect( $redirect);
 	}
 
 	function orderup() {
@@ -315,8 +317,8 @@ class VmController extends JControllerLegacy{
 
 		$model = $this->getModel($this->_cname);
 		$model->move(-1);
-		$msg = vmText::sprintf('COM_VIRTUEMART_STRING_ORDER_UP_SUCCESS',$this->mainLangKey);
-		$this->setRedirect( $this->redirectPath, $msg);
+		vmInfo('COM_VIRTUEMART_STRING_ORDER_UP_SUCCESS',$this->mainLangKey);
+		$this->setRedirect( $this->redirectPath);
 	}
 
 	function orderdown() {
@@ -325,8 +327,8 @@ class VmController extends JControllerLegacy{
 
 		$model = $this->getModel($this->_cname);
 		$model->move(1);
-		$msg = vmText::sprintf('COM_VIRTUEMART_STRING_ORDER_DOWN_SUCCESS',$this->mainLangKey);
-		$this->setRedirect( $this->redirectPath, $msg);
+		vmInfo('COM_VIRTUEMART_STRING_ORDER_DOWN_SUCCESS',$this->mainLangKey);
+		$this->setRedirect( $this->redirectPath);
 	}
 
 	function saveorder() {
@@ -341,13 +343,13 @@ class VmController extends JControllerLegacy{
 			$msg = 'error';
 		} else {
 			if(!VmConfig::isSite() and VmConfig::showDebug()){
-				$msg = vmText::sprintf('COM_VIRTUEMART_NEW_ORDERING_SAVEDF',$this->mainLangKey);
+				vmInfo('COM_VIRTUEMART_NEW_ORDERING_SAVEDF',$this->mainLangKey);
 			} else {
-				$msg = vmText::sprintf('COM_VIRTUEMART_NEW_ORDERING_SAVED');
+				vmInfo('COM_VIRTUEMART_NEW_ORDERING_SAVED');
 			}
 
 		}
-		$this->setRedirect( $this->redirectPath, $msg);
+		$this->setRedirect( $this->redirectPath);
 	}
 
 	/**
@@ -382,7 +384,7 @@ class VmController extends JControllerLegacy{
 			}
 			$p .= '&'.$this->_cidName.'='.$rId;
 		}
-vmdebug('getRedirectPath',$p);
+
 		return $p;
 	}
 

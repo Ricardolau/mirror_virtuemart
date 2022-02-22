@@ -226,10 +226,14 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 				if (count($args) > 1) {
 					for($i=1;$i<count($args);$i++){
 						if(isset($args[$i])){
-							$methods = print_r(get_class_methods($args[$i]),1);
-							if(!empty($methods)){
-								$methods = '<br />'.$methods;
+							$methods = '';
+							if(is_object($args[$i])){
+								$methods = print_r(get_class_methods($args[$i]),1);
+								if(!empty($methods)){
+									$methods = '<br />'.$methods;
+								}
 							}
+
 							$debugdescr .=' Var'.$i.': <pre>'.print_r($args[$i],1).$methods.'</pre>'."\n";
 						}
 					}

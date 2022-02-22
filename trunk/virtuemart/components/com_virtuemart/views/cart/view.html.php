@@ -282,7 +282,8 @@ class VirtueMartViewCart extends VmView {
 					$ok = false;
 				} else {
 					$mainframe = JFactory::getApplication();
-					$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT'), vmText::_('COM_VIRTUEMART_CART_ENTER_ADDRESS_FIRST'));
+					vmWarn('COM_VIRTUEMART_CART_ENTER_ADDRESS_FIRST');
+					$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT'));
 				}
 			}
 
@@ -337,7 +338,8 @@ class VirtueMartViewCart extends VmView {
 					$ok = false;
 				} else {
 					$mainframe = JFactory::getApplication();
-					$mainframe->redirect( JRoute::_( 'index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' ), vmText::_('COM_VIRTUEMART_CART_ENTER_ADDRESS_FIRST') );
+					vmInfo('COM_VIRTUEMART_CART_ENTER_ADDRESS_FIRST');
+					$mainframe->redirect( JRoute::_( 'index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT' ) );
 				}
 			}
 		}
@@ -380,7 +382,7 @@ class VirtueMartViewCart extends VmView {
         }
 
 		$this->cart->orderdoneHtml = false;
-		$this->cart->setCartIntoSession(false,true);
+		$this->cart->setCartIntoSession();
 	}
 
 	private function checkPaymentMethodsConfigured() {

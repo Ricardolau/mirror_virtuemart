@@ -1,5 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
+
 $categoryModel->addImages($categories);
 $categories_per_row = vmConfig::get('categories_per_row');
 $col_width = floor(100 / $categories_per_row);

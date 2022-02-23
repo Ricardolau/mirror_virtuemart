@@ -29,41 +29,51 @@ VmConfig::loadConfig();
 vmJsApi::jQuery();
 vmJsApi::cssSite();
 
-/* ID for jQuery dropdown */
-$ID = str_replace('.', '_', substr(microtime(true), -8, 8));
-$js="jQuery(document).ready(function() {
-		jQuery('#VMmenu".$ID." li.VmClose ul').hide();
-		jQuery('#VMmenu".$ID." li .VmArrowdown').click(
-		function() {
+/** @var \phpDocumentor\Reflection\Types\Array_ $params */
 
+$layout = $params->get('layout','default');
+vmdebug('Layout category module ',$layout);
+$class_sfx = trim($params->get('class_sfx',''));
+$className = 'VMmenu'.$class_sfx;
+if( strpos($layout, 'default')!==FALSE or strpos($layout,'current')!==FALSE ){
+	/* ID for jQuery dropdown */
+
+	$js="jQuery(document).ready(function() {
+	
+		jQuery('.".$className." li.VmClose ul.menu').hide();
+		jQuery('.".$className." li .VmArrowdown').click(
+		function() {
 			if (jQuery(this).parent().next('ul').is(':hidden')) {
-				jQuery('#VMmenu".$ID." ul:visible').delay(500).slideUp(500,'linear').parents('li').addClass('VmClose').removeClass('VmOpen');
+				jQuery('.".$className." ul:visible').delay(200).slideUp(500,'linear').parents('li').addClass('VmClose').removeClass('VmOpen');
 				jQuery(this).parent().next('ul').slideDown(500,'linear');
 				jQuery(this).parents('li').addClass('VmOpen').removeClass('VmClose');
+			} else {
+				jQuery('.".$className." ul:visible').delay(200).slideUp(500,'linear').parents('li').addClass('VmOpen').removeClass('VmClose');
+				jQuery(this).parents('li').addClass('VmClose').removeClass('VmOpen');	
 			}
 		});
 	});
 " ;
+	vmJsApi::addJScript('catClose', $js);
 
-vmJsApi::addJScript('catClose.'.$ID, $js);
+}
 
 $cache = $params->get( 'vmcache', true );
 $cachetime = $params->get( 'vmcachetime', 300 );
 
 $active_category_id = vRequest::getInt('virtuemart_category_id', '0');
 $category_id = $params->get('Parent_Category_id', 0);
-$layout = $params->get('layout','default');
-
+//vmdebug('Use cached mod category',$params, $active_category_id, $category_id, $layout);
 if($cache){
 	//$key = 'products'.$category_id.'.'.$max_items.'.'.$filter_category.'.'.$display_style.'.'.$products_per_row.'.'.$show_price.'.'.$show_addtocart.'.'.$Product_group.'.'.$virtuemart_currency_id.'.'.$category_id.'.'.$filter_manufacturer.'.'.$manufacturer_id;
 	$cache	= VmConfig::getCache('mod_virtuemart_category');
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
 	$db = JFactory::getDbo();
-	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($params, $ID, $active_category_id, $category_id, $layout));
-	vmdebug('Use cached mod category');
+	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($params, $active_category_id, $category_id, $layout));
+
 } else {
-	echo mod_virtuemart_category::displayCatsMod($params, $ID, $active_category_id, $category_id, $layout);
+	echo mod_virtuemart_category::displayCatsMod($params, $active_category_id, $category_id, $layout);
 }
 
 echo vmJsApi::writeJS();

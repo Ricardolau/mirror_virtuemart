@@ -166,8 +166,8 @@ class calculationHelper {
 			$q .= ' WHERE `calc_kind` IN (' . implode(",",$epoints). ' )
                 AND `published`="1"
                 AND (`virtuemart_vendor_id`="' . $id . '" OR `shared`="1" )
-				AND ( '.VmTable::checkFieldNullDateSQL('publish_up').' OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
-				AND ( '.VmTable::checkFieldNullDateSQL('publish_down').' OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
+				AND ( ISNULL(publish_up) OR '.VmTable::checkFieldNullDateSQL('publish_up').' OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
+				AND ( ISNULL(publish_down) OR '.VmTable::checkFieldNullDateSQL('publish_down').' OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
 
 			$q .= $shopperGrpJoin . $countryGrpJoin . $stateGrpJoin;
 
@@ -731,8 +731,14 @@ class calculationHelper {
 
 			//vmdebug('getCheckoutPrices ',$productPrice['salesPrice']);
 			$selectedPrice = $this->_cart->products[$cprdkey]->selectedPrice;
-			$this->_cart->products[$cprdkey]->allPrices[$selectedPrice] = array_merge($this->_cart->products[$cprdkey]->allPrices[$selectedPrice],$productPrice);
-
+			if(isset($this->_cart->products[$cprdkey]->allPrices[$selectedPrice])){ //I wonder why we need this
+				//vmTrace('Calculationh getCheckoutPrices we do the array_merge');
+				//vmdebug('Hmmm any difference here?',$this->_cart->products[$cprdkey]->allPrices[$selectedPrice],$productPrice);
+				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice] = array_merge($this->_cart->products[$cprdkey]->allPrices[$selectedPrice],$productPrice);
+			} else {
+				//vmdebug('Calculationh getCheckoutPrices we do the WITHOUT array_merge');
+				$this->_cart->products[$cprdkey]->allPrices[$selectedPrice] = $productPrice;
+			}
 			$this->_cart->cartPrices[$cprdkey] = $productPrice; //$this->_cart->products[$cprdkey]->allPrices[$selectedPrice];
 
 			$this->_amountCart += $this->_cart->products[$cprdkey]->quantity;
@@ -1503,8 +1509,8 @@ class calculationHelper {
                 `calc_kind`="' . $entrypoint . '"
                 AND `published`="1"
                 AND (`virtuemart_vendor_id`="' . $cartVendorId . '" OR `shared`="1" )
-				AND ( publish_up = "' . $this->_db->escape($this->_nullDate) . '" OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
-				AND ( publish_down = "' . $this->_db->escape($this->_nullDate) . '" OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
+				AND ( ISNULL(publish_up) or publish_up = "' . $this->_db->escape($this->_nullDate) . '" OR publish_up <= "' . $this->_db->escape($this->_now) . '" )
+				AND ( ISNULL(publish_down) or publish_down = "' . $this->_db->escape($this->_nullDate) . '" OR publish_down >= "' . $this->_db->escape($this->_now) . '" )';
 		$q .= $shopperGrpJoin.$countryGrpJoin.$stateGrpJoin;
 
 		$this->_db->setQuery($q);

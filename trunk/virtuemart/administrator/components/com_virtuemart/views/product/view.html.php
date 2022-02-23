@@ -71,7 +71,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$vendorId = vmAccess::getVendorId();
 
 				if(!empty($product->virtuemart_product_id) and !empty($product->virtuemart_vendor_id) and $superVendor !=1 and $vendorId!=$product->virtuemart_vendor_id){
-					$app->redirect( 'index.php?option=com_virtuemart&view=virtuemart', vmText::_('COM_VIRTUEMART_ALERTNOTAUTHOR'), 'error');
+					$msg = vmText::_(COM_VIRTUEMART_ALERTNOTAUTHOR).' productId:'.$product->virtuemart_product_id;
+					vmError($msg,'COM_VIRTUEMART_ALERTNOTAUTHOR');
+					$app->redirect( 'index.php?option=com_virtuemart&view=virtuemart');
 				}
 				if(!empty($product->product_parent_id)){
 					$product_parent= $model->getProductSingle($product->product_parent_id,false);
@@ -394,7 +396,10 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$productlist = array();
 			} else {
 				//Get the list of products
-				$productlist = $model->getProductListing(false,false,false,false,true);
+				$model->setFilter ();
+				$ids = $model->sortSearchListQuery (false, $model->virtuemart_category_id , false, false);
+				$productlist = $model->getProducts ($ids, false, false, false, true);
+				//$productlist = $model->getProductListing(false,false,false,false,true);
 			}
 			$this->filter_product = $model->filter_product;
 

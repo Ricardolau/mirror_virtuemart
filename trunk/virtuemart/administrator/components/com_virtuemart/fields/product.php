@@ -41,21 +41,38 @@ class JFormFieldProduct extends JFormField
 
 	static public function _getProducts($virtuemart_category_id=0) {
 
-		$productModel = VmModel::getModel('Product');
-		$productModel->_noLimit = true;
-		if(vmAccess::manager('managevendors')){
-			$productModel->virtuemart_vendor_id = 0;
+		static $hash = array();
+		if(is_array($virtuemart_category_id)){
+			$catHash = implode('.',$virtuemart_category_id);
 		}
-		$products = $productModel->getProductListing(false, false, false, false, true, $virtuemart_category_id, $virtuemart_category_id);
-		$productModel->_noLimit = false;
-		$i = 0;
-		$list = array();
-		foreach ($products as $product) {
-			$list[$i]['value'] = $product->virtuemart_product_id;
-			$list[$i]['text'] = $product->product_name. " (". $product->product_sku.")";
-			$i++;
+		if(isset($hash[$catHash])){
+			return $hash[$catHash];
+		} else {
+			$productModel = VmModel::getModel('Product');
+			$productModel->_noLimit = true;
+			if(vmAccess::manager('managevendors')){
+				$productModel->virtuemart_vendor_id = 0;
+			}
+			//$productModel->keyword = '';
+			$onlyPublished = true;
+			$params = array('searchcustoms'=>false,'virtuemart_custom_id'=>false, 'keyword' =>false);
+			$ids = $productModel->sortSearchListQuery ($onlyPublished, $virtuemart_category_id, FALSE, FALSE, $params );
+			$productModel->listing = TRUE;
+			$products = $productModel->getProducts ($ids, false, false, $onlyPublished, true);
+			$productModel->listing = FALSE;
+
+			//$products = $productModel->getProductListing(false, false, false, false, true, $virtuemart_category_id, $virtuemart_category_id);
+			$productModel->_noLimit = false;
+			$i = 0;
+			$hash[$catHash] = array();
+			foreach ($products as $product) {
+				$hash[$catHash][$i]['value'] = $product->virtuemart_product_id;
+				$hash[$catHash][$i]['text'] = $product->product_name. " (". $product->product_sku.")";
+				$i++;
+			}
 		}
-		return $list;
+
+		return $hash[$catHash];
 	}
 
 }

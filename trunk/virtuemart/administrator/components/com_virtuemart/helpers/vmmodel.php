@@ -174,7 +174,8 @@ class VmModel extends vObject{
 		}
 		//$this->_db = JFactory::getDbo();
 		$this->setToggleName('published');
-		$this->debug = FALSE;
+		$this->debug = (int)VmConfig::get('debug_Sql',false);
+
 	}
 
 	function setDebugSql($b){

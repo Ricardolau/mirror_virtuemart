@@ -150,7 +150,7 @@ vmdebug('Found cached cat, but without children');
 			}
 
 			if($updateCategory){
-				self::updateCategory($this->_id,$this->_db);
+				self::updateCategory($this->_id,$this->_db, $this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->children);
 			}
 		}
 
@@ -1126,11 +1126,16 @@ vmdebug('Found cached cat, but without children');
 		}
 	}
 
-	static function updateCategory($catId,$db){
+	static function updateCategory($catId, $db, $hasChildren = 0){
 
 		if(empty($catId) or $catId<0) return;
 
-		$has_children = self::hasChildren($catId, true);
+		if($hasChildren){
+			$has_children = 1;
+		} else {
+			$has_children = self::hasChildren($catId, true);
+		}
+
 		$q = 'SELECT `category_parent_id`, `ordering` FROM #__virtuemart_category_categories WHERE `category_child_id` = "'.(int)$catId.'" ;';
 		$db->setQuery($q);
 		$xrefRes = $db->loadAssoc();

@@ -1280,8 +1280,8 @@ class VirtueMartModelUser extends VmModel {
 				if(property_exists($userinfo,$fldName)){
 					//$data[$fldName] = $userinfo->{$fldName};
 				} else if($fldName!='email'){   //No error here, email is part of the fields, but stored in joomla table
-					vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db '.$fldName);
-					//vmdebug('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db ', $prepareUserFields);
+					//vmError('Your tables seem to be broken, you have fields in your form which have no corresponding field in the db '.$fldName);
+					vmdebug('Your tables may be broken, you have fields in your form which have no corresponding field in the db ', $prepareUserFields);
 				}
 			}
 

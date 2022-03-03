@@ -345,6 +345,28 @@ class VirtueMartModelOrders extends VmModel {
 	 * @param $_ignorePagination boolean If true, ignore the Joomla pagination (for embedded use, default false)
 	 */
 	public function getOrdersList($uid = 0, $noLimit = false) {
+
+		$result = array();
+		$ref =& $this; 
+		$used = vDispatcher::trigger('plgVmMySortSearchListOrderQuery',
+			array(
+				&$ref,
+				&$result,
+				$this->search,
+				$uid,
+				$noLimit
+				
+			));
+
+		if($used){
+			foreach ($used as $ret) {
+				if ($ret === true) {
+					return $result;
+					//if plugin returns true, return it's values from the result
+				}
+			}
+		}
+		
 // 		vmdebug('getOrdersList');
 		$tUserInfos = $this->getTable('userinfos');
 		$this->_noLimit = $noLimit;
@@ -1794,7 +1816,7 @@ class VirtueMartModelOrders extends VmModel {
 	}
 
 	private function getVendorCurrencyId($vendorId){
-		$q = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`="'.$vendorId.'" ';
+		$q = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`="'.(int)$vendorId.'" ';
 		$db = JFactory::getDBO();
 		$db->setQuery($q);
 		$vendorCurrency =  $db->loadResult();
@@ -2088,6 +2110,7 @@ class VirtueMartModelOrders extends VmModel {
 					if(empty($rule[4])){
 						continue;
 					}
+
 					$orderCalcRules = $this->getTable('order_calc_rules');
 					$orderCalcRules->virtuemart_order_calc_rule_id= null;
 					$orderCalcRules->virtuemart_calc_id= $rule[7];

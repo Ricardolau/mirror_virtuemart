@@ -101,7 +101,13 @@ class VirtueMartModelUserfields extends VmModel {
 			case 'multiselect':
 			case 'multicheckbox':
 			case 'select':
-				if (is_array($value)) $value = implode("|*|",$value);
+				if (is_array($value)) {
+					$value = implode("|*|",$value);
+				} else {
+					if($fieldName=='virtuemart_state_id'){
+						$value = (int) $value;
+					}
+				}
 				break;
 			/*case 'age_verification':
 				$value = vRequest::getInt('birthday_selector_year')

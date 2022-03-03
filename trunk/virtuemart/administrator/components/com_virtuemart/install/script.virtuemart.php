@@ -177,6 +177,7 @@ class com_virtuemartInstallerScript {
 		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install.sql');
 		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_essential_data.sql');
 		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_required_data.sql');
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_country_data.sql');
 
 		$this->createFolders();
 
@@ -286,6 +287,7 @@ class com_virtuemartInstallerScript {
 		//$model = new VirtueMartModelUpdatesMigration(); //JModel::getInstance('updatesmigration', 'VirtueMartModel');
 		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install.sql');
 
+
 		$this -> joomlaSessionDBToMediumText();
 
 		$this->updateToVm3 = $this->isUpdateToVm3();
@@ -323,12 +325,19 @@ class com_virtuemartInstallerScript {
 		'virtuemart_vendor_id' => '`virtuemart_vendor_user_id` int(1) UNSIGNED NOT NULL DEFAULT \'0\'',
 		));
 
+		$this->alterTable('#__virtuemart_countries',array(
+			'country_code' => '`country_num_code` char(3)',
+		));
+
+		$this->moveEditorContentToCustomparams();
+
 		JLoader::register('GenericTableUpdater', $this->path .'/administrator/components/com_virtuemart/helpers/tableupdater.php');
 		$updater = new GenericTableUpdater();
 
 		$updater->updateMyVmTables();
 		$this->installLanguageTables();
 
+		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_country_data.sql');
 
 		$this->checkAddDefaultShoppergroups();
 
@@ -378,6 +387,8 @@ class com_virtuemartInstallerScript {
 		$this->deleteSwfUploader();
 		$this->deleteOverridenJoomlaFields();
 		$this->updateOldConfigEntries();
+		$this->updateCountryTableISONumbers();
+
 
 		VirtueMartModelCategory::updateCategories();
 
@@ -390,6 +401,76 @@ class com_virtuemartInstallerScript {
 		if($loadVm) $this->displayFinished(true);
 
 		return true;
+	}
+
+	/** Updates countries to iso-3166-country-codes
+	 * @return false
+	 */
+	private function updateCountryTableISONumbers(){
+
+		$countryM = VmModel::getModel('country');
+
+		//Open country data file
+		$file = $this->path .'/administrator/components/com_virtuemart/install/install_country_data.sql';
+		if(!file_exists($file)){
+			vmError('updateCountryTableISONumbers Could not find file '.$file);
+			return false;
+		}
+		$handle = fopen($file, 'rb');
+		if ($handle) {
+			while (($line = fgets($handle)) !== false) {
+				$line = trim($line);
+				$pos = strpos($line,'(');
+
+				if( $pos !== FALSE){
+
+					if($pos<2){
+						$line = str_replace(array('(',')','"',';'), '', $line);
+						$line = trim ($line,',');
+						$vars = explode(',',$line);
+						//vmdebug('My pos '.$pos.' $line ',$line,$vars);
+						if(count($vars)!=4) continue;
+						//vmdebug('Found entry '.$pos.' $line ',$vars);
+						$country_2_code = trim($vars[2]);
+						$loaded = $countryM->getCountry($country_2_code,'country_2_code');
+						//vmdebug('Found entry $line ',$line,$loaded->country_name, $loaded->country_num_code);
+						if($loaded and empty($loaded->country_num_code)) {
+							//We override always according to
+							$loaded->country_name = trim($vars[0]);
+							$loaded->country_3_code = trim($vars[1]);
+							$loaded->country_num_code = trim($vars[3]);
+							$loaded->store();
+							vmdebug('Storing',$loaded->country_name);
+						}
+					}
+				}
+			}
+
+			fclose($handle);
+		} else {
+			vmError('updateCountryTableISONumbers Could not open file '.$file);
+		}
+
+	}
+
+	private function moveEditorContentToCustomparams(){
+
+		if(empty($this->_db)) {
+			$this->_db = JFactory::getDBO();
+		}
+		$q = 'SELECT `virtuemart_customfield_id`, `customfield_value`
+				FROM `#__virtuemart_product_customfields` as pc
+				LEFT JOIN `#__virtuemart_customs` c ON pc.virtuemart_custom_id = c.virtuemart_custom_id
+				WHERE `field_type` = "X" and customfield_value!=""';
+		$this->_db->setQuery($q);
+		$res = $this->_db->loadAssocList();
+		foreach($res as $customfield){
+			$q = 'UPDATE #__virtuemart_product_customfields SET `customfield_params`="'.$this->_db->escape($customfield['customfield_value']).'", customfield_value="" WHERE virtuemart_customfield_id = "'.$customfield['virtuemart_customfield_id'].'" ';
+			$this->_db->setQuery($q);
+			//vmdebug('my query here',$q);
+			$res = $this->_db->execute();
+		}
+
 	}
 
 	private function addActionLogEntry(){

@@ -54,7 +54,7 @@ class VirtueMartModelCountry extends VmModel {
 		if(!isset(self::$_countries[$id])){
 			$c = VmTable::getInstance('countries');
 			$c->load($id, $fieldname);
-			self::$_countries[$c->virtuemart_country_id] = self::$_countries[strtoupper($c->country_name)] = self::$_countries[$c->country_2_code] = self::$_countries[$c->country_3_code] = $c;
+			self::$_countries[$c->virtuemart_country_id] = self::$_countries[strtoupper($c->country_name)] = self::$_countries[$c->country_2_code] = self::$_countries[$c->country_3_code] = self::$_countries[$c->country_num_code] = $c;
 			//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
 		}
 
@@ -95,7 +95,12 @@ class VirtueMartModelCountry extends VmModel {
 				$fieldname = 'country_2_code';
 			break;
 			case 3:
-				$fieldname = 'country_3_code';
+				if(is_numeric($code)){
+					$fieldname = 'country_num_code';
+				} else {
+					$fieldname = 'country_3_code';
+				}
+				vmdebug('getCountryByCode '.strtoupper($code),$fieldname);
 			break;
 			default:
 				$fieldname = 'country_name';

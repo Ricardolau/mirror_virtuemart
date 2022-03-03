@@ -56,6 +56,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_COUNTRY_DETAILS');
 		</tr>*/ ?>
 					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_COUNTRY_3_CODE', 'country_3_code', $this->country->country_3_code, 'class="required"'); ?>
 					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_COUNTRY_2_CODE', 'country_2_code', $this->country->country_2_code, 'class="required"'); ?>
+					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_COUNTRY_NUM_CODE', 'country_num_code', $this->country->country_num_code, 'class="required"'); ?>
 					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ORDERING', 'ordering', $this->country->ordering, ''); ?>
 					<input type="hidden" name="virtuemart_country_id"
 							value="<?php echo $this->country->virtuemart_country_id; ?>"/>

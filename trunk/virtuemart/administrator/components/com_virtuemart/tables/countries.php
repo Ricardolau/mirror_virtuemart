@@ -38,6 +38,7 @@ class TableCountries extends VmTable {
 	var $country_3_code         = '';
     /** @var char 2 character country code */
 	var $country_2_code         = '';
+	var $country_num_code         = '';
 	var $ordering				= '';
     /** @var int published or unpublished */
 	var $published 		        = 1;

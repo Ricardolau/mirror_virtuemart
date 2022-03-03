@@ -219,6 +219,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_countries` (
   `country_name` varchar(64),
   `country_3_code` char(3),
   `country_2_code` char(2),
+  `country_num_code` char(3),
   `ordering` int(1) NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `created_on` datetime,
@@ -230,6 +231,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_countries` (
   PRIMARY KEY (`virtuemart_country_id`),
   UNIQUE KEY `country_3_code` (`country_3_code`),
   UNIQUE KEY `country_2_code` (`country_2_code`),
+  UNIQUE KEY `country_num_code` (`country_num_code`),
   KEY `country_name` (`country_name`),
   KEY `ordering` (`ordering`),
   KEY `published` (`published`)

@@ -1060,8 +1060,7 @@ class VmTable extends vObject implements \JTableInterface {
 		}
 
 		$query = $select . $from . ' WHERE `' . $whereTable . '`.`' . $k . '` = "' . $oid . '" ' . $andWhere;
-	//	VmConfig::$echoDebug = 1;
-//vmdebug('Muh',$query); die;
+
 		//We dont need the $hashVarsToPush in the has, because the parameteres are later bind to it.
 		$this->_lhash = $this->getHash($oid. $select . $k . $mainTable . $andWhere /*. $hashVarsToPush*/);
 
@@ -1082,7 +1081,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		$db = $this->getDBO();
 		$db->setQuery($query);
-
+//vmdebug('vmTable load ',str_replace('#__',$db->getPrefix(),$db->getQuery()));
 		if($this->_translatable and empty($this->_langTag)) {
 			vmTrace('vmTable the lang tag is empty!');
 			return $this;
@@ -1283,7 +1282,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		} else {
 			$p = $this->{$tblKey};
-			vmdebug('vmTable store insertObject Inserting '.$this->{$tblKey}.' ');
+			vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' '.$this->loadFieldValues(true));
 			try {
 				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			} catch (Exception $e){
@@ -1458,7 +1457,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 	function setCheckVendorId(){
 		if(empty($this->virtuemart_vendor_id) and $this->_pkey=='virtuemart_vendor_id'){
-			$this->virtuemart_vendor_id = $this->_pvalue;
+			$this->virtuemart_vendor_id = $this->{$this->_pkey};
 		}
 
 		$multix = Vmconfig::get('multix', 'none');
@@ -1482,11 +1481,16 @@ class VmTable extends vObject implements \JTableInterface {
 			$admin = vmAccess::manager('managevendors');
 			//Todo removed Quickn Dirty, use check in derived class
 			if (strpos($this->_tbl,'virtuemart_vendors')===FALSE) {
-				$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->{$tbl_key} . '" ';
-				if (!isset(self::$_cache[md5($q)])) {
-					$this->_db->setQuery($q);
-					self::$_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
-				} else $virtuemart_vendor_id = self::$_cache[md5($q)];
+				if(!empty($this->{$tbl_key})){
+					$q = 'SELECT `virtuemart_vendor_id` FROM `' . $this->_tbl . '` WHERE `' . $this->_tbl_key . '`="' . $this->{$tbl_key} . '" ';
+					if (!isset(self::$_cache[md5($q)])) {
+						$this->_db->setQuery($q);
+						self::$_cache[md5($q)] = $virtuemart_vendor_id = $this->_db->loadResult();
+					} else $virtuemart_vendor_id = self::$_cache[md5($q)];
+				} else {
+
+				}
+
 			} else {
 
 				Echo 'very wrong here'; return false;
@@ -1572,45 +1576,56 @@ class VmTable extends vObject implements \JTableInterface {
 	function check() {
 
 		$tblKey = $this->_tbl_key;
-
+		$pKey = $this->_pkey;
 		//vmdebug('vmTable check() class '.$this->_tbl);
 		$this->_update = null;
 
-		if(!empty($this->{$this->_tbl_key})){
-			$_qry = 'SELECT `'.$this->_tbl_key.'` '
-				. 'FROM `'.$this->_tbl.'` '
-				. 'WHERE `'. $this->_tbl_key.'` = "' . $this->{$this->_tbl_key}.'" ';
-			$this->_db->setQuery($_qry);
-			$res = $this->_db->loadResult();
-
-			if($res){
-				$this->_update = true;
-				//vmdebug('vmTable check() loaded existing entry '.$res.' from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
+		if($tblKey != $pKey) {
+			if (empty($this->{$pKey})) {
+				$error = get_class($this) . ' ' .vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_OBLIGATORY_KEY', 'COM_VIRTUEMART_' . strtoupper($pKey) );
+				vmError($error);
+				vmdebug('vmTable check, primary Value empty',$this->_pkey, $this->loadFieldValues());
+				return false;
 			} else {
-				$this->_update = false;
-				vmdebug('vmTable check() existing entry not FOUND from '.$this->_tbl.' WHERE '.$this->_tbl_key.' = '.$this->{$this->_tbl_key});
+				$_qry = 'SELECT `' . $tblKey . '` '
+					. 'FROM `' . $this->_tbl . '` '
+					. 'WHERE `' . $this->_pkey . '` = "' . $this->{$this->_pkey} . '" ';
+				$this->_db->setQuery($_qry);
+				$res = $this->_db->loadAssocList();
+				//vmdebug('vmTable check() loaded on pKey '.$_qry,$res,$this->{$tblKey},$res);
+
+				if ($res and count($res) == 1 and !empty($res[0][$tblKey]) ) {
+					if($this->{$tblKey} != $res[0][$tblKey]){
+						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given ' . $tblKey . ' = ' . $this->{$tblKey} . ' to ' . $res[0][$tblKey] .' because '.$_qry,$this->loadFieldValues(true));
+					}
+					$this->{$tblKey} = $res[0][$tblKey];
+					$this->_update = true;
+
+				} else {
+					$this->_update = false;
+				}
 			}
-			//vmdebug('Query load existing entry from '.$this->_tbl.'. Got with WHERE `'.$primaryKey.' = "' . $primaryValue.'" and $this->_tbl_key = '.$this->_tbl_key, $res );
-
-			/*if(empty($this->{$this->_tbl_key}) and $res and count($res) == 1 and $this->{$tblKey} != $res[0][$this->_tbl_key]){
-				vmdebug('Table '.$this->_tbl.' Updating existing entry, corrected given '.$this->_tbl_key.' = '.$this->{$this->_tbl_key}.' to '.$res[0][$this->_tbl_key]);
-				$this->{$tblKey} == $res[0][$this->_tbl_key];
-			}*/
-		} else if($this->_tbl_key != $this->_pkey and !empty($this->{$this->_pkey})) {
-			$_qry = 'SELECT `'.$this->_tbl_key.'` '
-				. 'FROM `'.$this->_tbl.'` '
-				. 'WHERE `'. $this->_pkey.'` = "' . $this->{$this->_pkey}.'" ';
-			$this->_db->setQuery($_qry);
-			$res = $this->_db->loadAssocList();
-			//vmdebug('vmTable check() loaded on pKey '.$_qry,$res);
-			if($res and count($res) == 1 and $this->{$tblKey} != $res[0][$this->_tbl_key]){
-				vmdebug('Table '.$this->_tbl.' Updating existing entry, corrected given '.$this->_tbl_key.' = '.$this->{$this->_tbl_key}.' to '.$res[0][$this->_tbl_key]);
-				$this->{$tblKey} = $res[0][$this->_tbl_key];
-				$this->_update = true;
-			} else {
+		} else {
+			if(empty($this->{$tblKey})){
 				$this->_update = false;
+			} else {
+				$_qry = 'SELECT `'.$tblKey.'` '
+					. 'FROM `'.$this->_tbl.'` '
+					. 'WHERE `'. $tblKey.'` = "' . $this->{$tblKey}.'" ';
+				$this->_db->setQuery($_qry);
+				$res = $this->_db->loadResult();
+
+				if($res){
+					$this->_update = true;
+					//vmdebug('vmTable check() loaded existing entry '.$res.' from '.$this->_tbl.' WHERE '.$tblKey.' = '.$this->{$tblKey});
+				} else {
+					$this->_update = false;
+					vmdebug('vmTable check() existing entry not FOUND from '.$this->_tbl.' WHERE '.$tblKey.' = '.$this->{$tblKey});
+				}
+				//vmdebug('Query load existing entry from '.$this->_tbl.'. Got with WHERE `'.$this->_tbl_key.' = "' . $this->{$this->_tbl_key}.'" and $_qry '.$_qry, $res );
 			}
 		}
+
 
 		if (!empty($this->_slugAutoName)) {
 
@@ -1816,7 +1831,7 @@ class VmTable extends vObject implements \JTableInterface {
 			if ($ok) {
 				if (!$langTable->check()) {
 					$ok = false;
-					vmdebug('Check returned false ' . get_class($langTable) . ' ' . $this->_tbl );
+					vmdebug('Check $langTable returned false ' . get_class($langTable) . ' ' . $this->_tbl );
 				}
 			}
 
@@ -1895,13 +1910,12 @@ class VmTable extends vObject implements \JTableInterface {
 					$this->load($data[$tblKey]);
 				}
 			}
+		}
 
-			if ($this->_translatable) {
-				foreach ($this->_translatableFields as $name) {
-					unset($this->{$name});
-				}
+		if ($this->_translatable) {
+			foreach ($this->_translatableFields as $name) {
+				unset($this->{$name});
 			}
-			//vmdebug('bindChecknStoreNoLang language unloaded, why?');
 		}
 
 		$ok = true;
@@ -1921,6 +1935,7 @@ class VmTable extends vObject implements \JTableInterface {
 		}
 
 		if ($ok) {
+
 			if (!$this->check()) {
 				$ok = false;
 				$msg .= ' check';
@@ -1948,7 +1963,7 @@ class VmTable extends vObject implements \JTableInterface {
 		}
 
 		//This should return $ok and not the data, because it is already updated due use of reference
-		return $data;
+		return $ok;
 	}
 
 	/**

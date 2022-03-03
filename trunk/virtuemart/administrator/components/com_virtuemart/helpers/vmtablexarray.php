@@ -30,15 +30,7 @@ class VmTableXarray extends VmTable {
 	protected $_orderable = false;
     protected $_skey = '';
     protected $_skeyForm = '';
-	protected $_pvalue = 0;
-	protected $_svalue = 0;
 
-//    function setOrderable($key='ordering', $auto=true){
-//    	$this->_orderingKey = $key;
-//    	$this->_orderable = 1;
-//    	$this->_autoOrdering = $auto;
-//    	$this->$key = 0;
-//    }
 
 	function setSecondaryKey($key,$keyForm=0){
 		$this->_skey 		= $key;
@@ -51,48 +43,6 @@ class VmTableXarray extends VmTable {
 		$this->_okeyForm = $orderAbleFormName;
 	}
 
-
-	/**
-	* swap the ordering of a record in the Xref tables
-	* @param  $direction , 1/-1 The increment to reorder by
-	*/
-/*	function move($direction, $where='', $orderingkey=0) {
-
-    	if(empty($this->_skey) ) {
-    		vmError( 'No secondary keys defined in VmTableXarray '.$this->_tbl );
-    		return false;
-    	}
-		$skeyId = vRequest::getInt($this->_skey, 0);
-		// Initialize variables
-		$db		= JFactory::getDBO();
-		$cid	= vRequest::getInt( $this->_pkey );
-		$order	= vRequest::getInt( 'order' ); //I found now two times "order" instead of ordering.
-
-		//This sql is broken
-		$query = 'SELECT `id` FROM `' . $this->_tbl . '` WHERE '.$this->_pkey.' = '.(int)$cid[0].' AND `virtuemart_category_id` = '.(int)$skeyId ;
-		$db->setQuery( $query );
-		$id = $db->loadResult();
-		$keys = array_keys($order);
-		// TODO next 2 lines not used ????
-		if ($direction >0) $idToSwap = $order[$keys[array_search($id, $keys)]+1];
-		else $idToSwap =  $order[$keys[array_search($id, $keys)]-1];
-
-		if (isset( $cid[0] )) {
-
-			$query = 'UPDATE `'.$this->_tbl.'` '
-			. ' SET `'.$this->_orderingKey.'` = `'.$this->_orderingKey.'` + '. $direction
-			. ' WHERE `'.$this->_pkey.'` = ' . (int)$cid[0].
-			' AND `'.$this->_skey.'`  = ' . (int)$skeyId
-			;
-			$db->setQuery( $query );
-
-			if (!$db->execute())
-			{
-				$err = $db->getErrorMsg();
-				vmError( get_class( $this ).':: move '. $err, get_class( $this ).':: move error' );
-			}
-		}
-	}*/
 
     /**
      * Records in this table are arrays. Therefore we need to overload the load() function.
@@ -150,12 +100,13 @@ class VmTableXarray extends VmTable {
      */
 	public function bind($data, $ignore = array()){
 
+		$this->_update = null;
 		if(!empty($data[$this->_pkeyForm])){
-			$this->_pvalue = $data[$this->_pkeyForm];
+			$this->{$this->_pkey} = $data[$this->_pkeyForm];
 		}
 
 		if(!empty($data[$this->_skeyForm])){
-			$this->_svalue = $data[$this->_skeyForm];
+			$this->{$this->_skey} = $data[$this->_skeyForm];
 		}
 
 		if($this->_orderable){
@@ -169,6 +120,38 @@ class VmTableXarray extends VmTable {
 
 	}
 
+	public function check(){
+
+		foreach ($this->_obkeys as $obkeys => $error) {
+			if (empty($this->{$obkeys})) {
+				$error = get_class($this) . ' ' .vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_OBLIGATORY_KEY', 'COM_VIRTUEMART_' . strtoupper($obkeys) );
+				vmError($error);
+				return false;
+			}
+		}
+
+		if ($this->_unique) {
+			if (empty($this->_db)) $this->_db = JFactory::getDBO();
+			foreach ($this->_unique_name as $obkeys => $error) {
+
+				if (empty($this->{$obkeys})) {
+					$error = vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_NOT_UNIQUE_NAME', 'COM_VIRTUEMART_' . strtoupper($obkeys));
+					vmError('Non unique ' . $this->_unique_name . ' ' . $error);
+					return false;
+				} else {
+
+					$valid = $this->checkCreateUnique($this->_tbl, $obkeys);
+					if (!$valid) {
+						return false;
+					}
+				}
+			}
+		}
+
+		$this->convertDec();
+
+		return true;
+	}
 
     /**
      *
@@ -183,13 +166,10 @@ class VmTableXarray extends VmTable {
 
         $pkey = $this->_pkey;
         $skey = $this->_skey;
-        $pvalue = $this->_pvalue;
-		$svalue = $this->_svalue;
-
         $tblkey = $this->_tbl_key;
 
         // We select all database rows based on our _pkey
-        $q  = 'SELECT * FROM `'.$this->_tbl.'` WHERE `'.$pkey.'` = "'. $pvalue.'" ';
+        $q  = 'SELECT * FROM `'.$this->_tbl.'` WHERE `'.$pkey.'` = "'. $this->{$pkey}.'" ';
         $db->setQuery($q);
         $objList = $db->loadObjectList();
 
@@ -202,10 +182,11 @@ class VmTableXarray extends VmTable {
         }
 
         // We make another database object list with the values that we want to insert into the database
+	    $svalue = $this->{$skey};
         $newArray = array();
 		if(!empty($svalue)){
 	            if(!is_array($svalue)) $svalue = array($svalue);
-	            foreach($svalue as $value) $newArray[] = array($pkey=>$pvalue, $skey=>$value);
+	            foreach($svalue as $value) $newArray[] = array($pkey=>$this->{$pkey}, $skey=>$value);
 		}
 
         // Inserts and Updates
@@ -239,7 +220,7 @@ class VmTableXarray extends VmTable {
         }
         else {
             // There are zero new rows, so the user asked for all the rows to be deleted
-            $q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `' . $pkey.'` = "'. $pvalue .'" ';
+            $q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `' . $pkey.'` = "'. $this->{$pkey} .'" ';
             $db->setQuery($q);
 
             try{
@@ -272,7 +253,7 @@ class VmTableXarray extends VmTable {
              }
         }
 
- 	return $this->_svalue;
+ 	return $this->{$skey};
 
     }
 
@@ -303,7 +284,7 @@ class VmTableXarray extends VmTable {
 
     function deleteRelation(){
 		$db = JFactory::getDbo();
-    	$q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `'.$this->_pkey.'` = "'. $this->_pvalue.'" ';
+    	$q  = 'DELETE FROM `'.$this->_tbl.'` WHERE `'.$this->_pkey.'` = "'. $this->{$this->_pkey}.'" ';
     	$db->setQuery($q);
 	    try{
 		    $db->execute();

@@ -89,7 +89,8 @@ class VirtueMartCart {
 	var $tempCart = false;
 	var $useSSL = 1;
 	var $storeCartSession = true;
-	var $cartLoaded = array();
+	var $productCartLoaded = array();
+	var $loadedCart = false;
 
 	public function __construct() {
 		$this->useSSL = vmURI::useSSL();
@@ -176,6 +177,8 @@ class VirtueMartCart {
 			$lang = vmLanguage::getLanguage();
 			self::$_cart->order_language = $lang->getTag();
 
+			self::$_cart->_guest = true;
+			self::$_cart->loadedCart = false;
 			if (!empty($sessionCart)) {
 
 				if(isset($sessionCart->cartProductsData)){
@@ -212,13 +215,18 @@ class VirtueMartCart {
 					self::$_cart->virtuemart_order_id			= $sessionCart->virtuemart_order_id;
 					self::$_cart->byDefaultBT					= isset($sessionCart->byDefaultBT)? $sessionCart->byDefaultBT: array();
 					self::$_cart->byDefaultST					= isset($sessionCart->byDefaultST)? $sessionCart->byDefaultST: array();
-					self::$_cart->cartLoaded					= isset($sessionCart->cartLoaded)? $sessionCart->cartLoaded: array();
 				}
+				self::$_cart->_guest        				= isset($sessionCart->_guest)? $sessionCart->_guest: true;
+				self::$_cart->productCartLoaded				= isset($sessionCart->productCartLoaded)? $sessionCart->productCartLoaded: array();
+				self::$_cart->loadedCart    				= isset($sessionCart->loadedCart)? $sessionCart->loadedCart: false;
+
 			}
 
-			if(VmConfig::isSite() and JFactory::getUser()->guest == 0 and (empty($sessionCart) or !empty($sessionCart->_guest)) ){
+			if((int)self::$_cart->_guest!=(int)self::$_cart->user->JUser->guest){
+				self::$_cart->loadedCart = false;
+			}
+			if(VmConfig::isSite() and empty(self::$_cart->loadedCart) ){
 				self::$_cart->loadCart(self::$_cart);
-				self::$_cart->_guest = 0;
 			}
 
 			//self::$_cart->selected_shipto = vRequest::getVar('shipto', self::$_cart->selected_shipto);
@@ -532,8 +540,38 @@ class VirtueMartCart {
 	 * @author Max Milbers
 	 */
 	public function loadCart(&$existingSession){
+
 		$currentUser = JFactory::getUser();
-		if(!$currentUser->guest and $existingSession){
+
+		if(!empty($existingSession->loadedCart)){
+			return false;
+		} else {
+			if($existingSession){
+				vmdebug('Executing loadCart set $existingSession->loadedCart = true');
+				$this->loadedCart = true;
+				$this->storeToDB = true;
+			}
+		}
+		vmdebug('Executing loadCart ');
+
+		if( $currentUser->guest ){
+			if(empty(VmConfig::get('cartCookieExpire',0))){
+				return false;
+			} else {
+				$cookie  = JFactory::getApplication()->input->cookie;
+				$cartData = $cookie->get('myCart', null, $filter = 'string');
+
+				if(empty($cartData)){
+					vmdebug('loadCart, there is no CookieData ', $_COOKIE);
+					return;
+				} else {
+					vmdebug('loadCart, CookieData loaded ');
+					$cartData = json_decode(urldecode($cartData),true);
+				}
+			}
+
+
+		} else {
 			$model = new VmModel();
 			$carts = $model->getTable('carts');
 			if(!empty($existingSession->virtuemart_cart_id)){
@@ -541,80 +579,84 @@ class VirtueMartCart {
 			} else {
 				$carts->load($currentUser->id,0,' ORDER BY `modified_on` DESC');
 			}
-
 			$cartData = $carts->loadFieldValues();
 
-			unset($cartData['_inCheckOut']);
-			unset($cartData['_dataValidated']);
-			unset($cartData['_confirmDone']);
-			unset($cartData['_fromCart']);
-			$this->virtuemart_cart_id = $cartData['virtuemart_cart_id'];
-			if($cartData and !empty($cartData['cartData'])){
+			//We dont need this cookie, if the user logged in.
+			if(!empty(VmConfig::get('cartCookieExpire',0))){
+				$this->setCookie('', time() - 10);
+			}
 
-				$cartData['cartData'] = (object)json_decode($cartData['cartData'],true);
-				$add = false;
-				if(!empty($cartData['cartData'])){
+		}
 
+		if(isset($cartData['_inCheckOut'])) unset($cartData['_inCheckOut']);
+		if(isset($cartData['_dataValidated'])) unset($cartData['_dataValidated']);
+		if(isset($cartData['_confirmDone'])) unset($cartData['_confirmDone']);
+		if(isset($cartData['_fromCart'])) unset($cartData['_fromCart']);
+		if(isset($cartData['virtuemart_cart_id'])) $this->virtuemart_cart_id = $cartData['virtuemart_cart_id'];
+		if($cartData and !empty($cartData['cartData'])){
 
-					if(!empty($cartData['cartData']->cartProductsData) and is_array($cartData['cartData']->cartProductsData)){
-						foreach($cartData['cartData']->cartProductsData as $k => $product){
-							foreach($existingSession->cartProductsData as $kses => $productses){
-								//vmdebug('my stored products ',$productses);
-								if($product['virtuemart_product_id']==$productses['virtuemart_product_id']){
+			$cartData['cartData'] = (object)json_decode($cartData['cartData'],true);
+			$add = false;
+			if($existingSession and !empty($cartData['cartData'])){
+				if(!empty($cartData['cartData']->cartProductsData) and is_array($cartData['cartData']->cartProductsData)){
+					foreach($cartData['cartData']->cartProductsData as $k => $product){
+						foreach($existingSession->cartProductsData as $kses => $productses){
+							//vmdebug('my stored products ',$productses);
+							if($product['virtuemart_product_id']==$productses['virtuemart_product_id']){
 
-									//Okey, the id is already the same, so lets check the customProductData
-									$diff = !$this->deepCompare($product['customProductData'],$productses['customProductData']);
+								//Okey, the id is already the same, so lets check the customProductData
+								$diff = !$this->deepCompare($product['customProductData'],$productses['customProductData']);
 
-									if(!$diff){
-										unset($cartData['cartData']->cartProductsData[$k]);
-										//break;
-									} else {
-										$this->storeToDB = true;
-										vmdebug('product variant is different, I add to cart');
-									}
-									//unset($cartData['cartData']->cartProductsData[$k]);
+								if(!$diff){
+									unset($cartData['cartData']->cartProductsData[$k]);
+									//break;
 								} else {
 									$this->storeToDB = true;
+									vmdebug('product variant is different, I add to cart');
 								}
-
-								//vmdebug('my stored products ',$product);
+								//unset($cartData['cartData']->cartProductsData[$k]);
+							} else {
+								$this->storeToDB = true;
 							}
-							$this->cartLoaded[$k] = true;
-						}
 
+							//vmdebug('my stored products ',$product);
+						}
+						$this->productCartLoaded[$k] = true;
 					}
 
-					foreach($cartData['cartData'] as $key=>$value){
+				}
 
-						if ($key == 'byDefaultBT' or $key =='byDefaultST'){
-							//continue;
-						}
-						else if($key == '_triesValidateCoupon'){	//We need this special handling for fallback reasons, we could also just delete stored carts when updating
-							foreach($value as $k=>$v){
-								if($k<100) continue;
-								if(!in_array($v,$existingSession->_triesValidateCoupon)){
-									$existingSession->_triesValidateCoupon[$k] = $v;
-								}
-							}
-						} else {
-							if(is_array($value)){
-								if($key=='cartProductsData' and count($value)>0){
-									VmInfo('COM_VM_LOADED_STORED_CART');
-								} else if ($key=='BT' or $key=='ST'){
-									$existingSession->{$key} = $this->unsetDefaults($key, $existingSession->{$key});
-								}
-								$existingSession->{$key} = array_merge( $value,(array)$existingSession->{$key});
-							} else if(empty($existingSession->{$key})){
-								$existingSession->{$key} = $cartData['cartData']->{$key};
+				foreach($cartData['cartData'] as $key=>$value){
+
+					if ($key == 'byDefaultBT' or $key =='byDefaultST'){
+						//continue;
+					}
+					else if($key == '_triesValidateCoupon'){	//We need this special handling for fallback reasons, we could also just delete stored carts when updating
+						foreach($value as $k=>$v){
+							if($k<100) continue;
+							if(!in_array($v,$existingSession->_triesValidateCoupon)){
+								$existingSession->_triesValidateCoupon[$k] = $v;
 							}
 						}
+					} else {
+						if(is_array($value)){
+							if($key=='cartProductsData' and count($value)>0){
+								VmInfo('COM_VM_LOADED_STORED_CART');
+							} else if ($key=='BT' or $key=='ST'){
+								$existingSession->{$key} = $this->unsetDefaults($key, $existingSession->{$key});
+							}
+							$existingSession->{$key} = array_merge( $value,(array)$existingSession->{$key});
+						} else if(empty($existingSession->{$key})){
+							$existingSession->{$key} = $cartData['cartData']->{$key};
+						}
 					}
-					if(count($cartData['cartData']->cartProductsData)!=$existingSession->cartProductsData){
-						$this->storeToDB = true;
-					}
+				}
+				if(count($cartData['cartData']->cartProductsData)!=$existingSession->cartProductsData){
+					$this->storeToDB = true;
 				}
 			}
 		}
+
 	}
 
 	public function storeCart($cartDataToStore = false){
@@ -636,12 +678,14 @@ class VirtueMartCart {
 
 		$adminID = vmAccess::getBgManagerId();
 		$currentUser = JFactory::getUser();
-		if(!$currentUser->guest && (!$adminID || $adminID == $currentUser->id)){
-			$model = new VmModel();
-			$carts = $model->getTable('carts');
+		//Better to replace the cookie technic against JWT
+		$cartCookieExpire = VmConfig::get('cartCookieExpire',0);
+
+		if( (!$currentUser->guest or !empty($cartCookieExpire) ) && (!$adminID || $adminID == $currentUser->id)){
+
 			if(!$cartDataToStore){
 				$data = $this->getCartDataToStore();
-				unset($data->cartLoaded);
+				unset($data->productCartLoaded);
 				unset($data->BT);
 				unset($data->ST);
 				//quorvia dont store cartfields e.g. TOS, Customer_note
@@ -660,11 +704,53 @@ class VirtueMartCart {
 			$cObj->virtuemart_user_id = (int) $currentUser->id;
 			$cObj->virtuemart_vendor_id = (int) $this->vendorId;
 			$cObj->cartData = $cartDataToStore;
-			$carts->bindChecknStore($cObj);
-			vmdebug('storeCart bindChecknStore executed ');
-			if(!empty($cObj->virtuemart_cart_id)){
-				$this->virtuemart_cart_id = $cObj->virtuemart_cart_id;
+
+
+
+			if(!empty($cartCookieExpire) and $currentUser->guest and !headers_sent()){
+				$this->setCookie($cObj);
+			} else if (!$currentUser->guest){
+				$model = new VmModel();
+				$carts = $model->getTable('carts');
+				vmdebug('<span style="background-color: red;">storeCart by Table</span>',$cObj);
+				$carts->bindChecknStore($cObj);
+
+				if(!empty($cObj->virtuemart_cart_id)){
+					$this->virtuemart_cart_id = $cObj->virtuemart_cart_id;
+				}
+				if(!empty($cartCookieExpire)){
+					$this->setCookie('', time() - 10);
+				}
 			}
+
+		}
+
+	}
+
+	public function setCookie($cObj, $timeout = false){
+		$contEncode = json_encode($cObj);
+		$strlenCE = strlen($contEncode);
+		if( 50 < $strlenCE and $strlenCE < 4000) {
+			$ver = (float)phpversion();
+			if($timeout===false) $timeout = time() + 86400 * VmConfig::get('cartCookieExpire',0);
+			$domain = JUri::getInstance()->getHost();
+			$path = JUri::root(true);
+			if ($ver > 7.2) {
+				$arr_cookie_options = array (
+					'expires' => $timeout,
+					'secure' => true,     // or false //*/
+					'httponly' => true,    // or false
+					'samesite' => 'Strict', // None || Lax  || Strict  //*/
+					'domain'    => $domain,
+					'path'=> $path
+				);
+				@setcookie('myCart', $contEncode, $arr_cookie_options);
+				vmdebug('<span style="background-color: red;">storeCart by Cookie</span>',time(),$arr_cookie_options);
+			} else {
+				@setcookie('myCart', $contEncode, $timeout, $path, $domain, 1, 1);
+				vmdebug('<span style="background-color: red;">storeCart by Cookie</span>');
+			}
+
 		}
 
 	}
@@ -682,6 +768,10 @@ class VirtueMartCart {
 				$carts->delete($currentUser->id);
 			}
 		}
+		if(!empty(VmConfig::get('cartCookieExpire',0))){
+			$this->setCookie('', time() - 10);
+		}
+
 
 	}
 
@@ -761,7 +851,8 @@ class VirtueMartCart {
 		$sessionCart->virtuemart_order_id			= $this->virtuemart_order_id;
 		$sessionCart->byDefaultBT					= $this->byDefaultBT;
 		$sessionCart->byDefaultST					= $this->byDefaultST;
-		$sessionCart->cartLoaded					= $this->cartLoaded;
+		$sessionCart->productCartLoaded				= $this->productCartLoaded;
+		$sessionCart->loadedCart                    = $this->loadedCart;
 		return $sessionCart;
 	}
 
@@ -782,6 +873,11 @@ class VirtueMartCart {
         }
 
 		$session->set('vmcart', 0, 'vm');
+		if(!empty(VmConfig::get('cartCookieExpire',0))){
+			$this->setCookie('', time() - 10);
+		}
+
+
 	}
 
 	public function setDataValidation($valid=false) {
@@ -993,10 +1089,10 @@ class VirtueMartCart {
 							$diff = !$cart->deepCompare( $cartProductData['customProductData'], $productData['customProductData'] );
 
 							if(!$diff) {
-								vmdebug( 'my cartLoaded ', $k, $cart->cartLoaded );
-								if(!empty( $cart->cartLoaded[$k] )) {
+								vmdebug( 'my productCartLoaded ', $k, $cart->productCartLoaded );
+								if(!empty( $cart->productCartLoaded[$k] )) {
 									$newTotal = $productData['quantity'];    //We assume the customer entered a correct new quantity.
-									unset( $cart->cartLoaded[$k] );
+									unset( $cart->productCartLoaded[$k] );
 								} else {
 									$newTotal = $cartProductData['quantity'] + $productData['quantity'];
 								}
@@ -1417,8 +1513,9 @@ class VirtueMartCart {
 		$cHash = $this->getCartHash();
 		if($cHash != $this->_dataValidated){
 			$this->_dataValidated = false;
+			vmInfo('COM_VIRTUEMART_CART_CHECKOUT_DATA_CHANGED');
 			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE), vmText::_('COM_VIRTUEMART_CART_CHECKOUT_DATA_CHANGED'));
+			$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE) );
 		}
 
 		//Final check
@@ -1443,7 +1540,8 @@ class VirtueMartCart {
 		$this->_dataValidated = false;
 		$this->_confirmDone = false;
 		$this->setCartIntoSession();
-		$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE), vmText::_('COM_VIRTUEMART_CART_CHECKOUT_DATA_NOT_VALID'));
+		vmWarn('COM_VIRTUEMART_CART_CHECKOUT_DATA_NOT_VALID');
+		$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$this->getLayoutUrlString(), FALSE) );
 
 	}
 
@@ -1454,7 +1552,8 @@ class VirtueMartCart {
 		if($this->_redirect and !$this->_redirected and !$this->_redirect_disabled){
 			$this->_redirected = true;
 			$this->setCartIntoSession( false, false);
-			$app->redirect(JRoute::_($relUrl,$this->useXHTML,$this->useSSL), $redirectMsg);
+			vmWarn($redirectMsg);
+			$app->redirect(JRoute::_($relUrl,$this->useXHTML,$this->useSSL) );
 			return true;
 		} else {
 			$this->_redirected = false;
@@ -1652,7 +1751,8 @@ class VirtueMartCart {
 			$this->setCartIntoSession(false, false);
 			if ($this->_redirect) {
 				$app = JFactory::getApplication();
-				$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$layoutName, FALSE), vmText::_('COM_VIRTUEMART_CART_CHECKOUT_DONE_CONFIRM_ORDER'));
+				vmInfo('COM_VIRTUEMART_CART_CHECKOUT_DONE_CONFIRM_ORDER');
+				$app->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'.$layoutName, FALSE));
 			} else {
 				return true;
 			}
@@ -2513,5 +2613,49 @@ class VirtueMartCart {
 		$data->billTotal = vmText::sprintf('COM_VIRTUEMART_CART_TOTALP',$data->billTotal);
 
 		return $data ;
+	}
+
+	/**
+	 * Get the total weight for the order, based on which the proper shipping rate
+	 * can be selected.
+	 *
+	 * @param object $cart Cart object
+	 * @return float Total weight for the order
+	 */
+	static public function getCartWeight (VirtueMartCart $cart, $to_weight_unit = 0) {
+
+		static $weight = array();
+		if(!isset($weight[$to_weight_unit])) $weight[$to_weight_unit] = 0.0;
+		if(empty($to_weight_unit)) $to_weight_unit = VmConfig::get('weight_unit_default','KG');
+
+		if(count($cart->products)>0 and empty($weight[$to_weight_unit])){
+
+			foreach ($cart->products as $product) {
+				$weight[$to_weight_unit] += (ShopFunctions::convertWeightUnit ($product->product_weight, $product->product_weight_uom, $to_weight_unit) * $product->quantity);
+			}
+		}
+
+		return $weight[$to_weight_unit];
+	}
+
+	/**
+	 * Get the total weight for the order, based on which the proper shipping rate
+	 * can be selected.
+	 *
+	 * @param object $cart Cart object
+	 * @return float Total weight for the order
+	 */
+	static public function getCartQuantity (VirtueMartCart $cart) {
+
+		static $qu = 0;
+
+		if(count($cart->products)>0 and empty($qu)){
+
+			foreach ($cart->products as $product) {
+				$qu += $product->quantity;
+			}
+		}
+
+		return $qu;
 	}
 }

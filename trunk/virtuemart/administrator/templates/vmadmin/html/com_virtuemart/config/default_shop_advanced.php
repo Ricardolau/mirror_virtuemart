@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		echo VmuikitHtml::row('radiolist', 'COM_VIRTUEMART_ADMIN_CFG_ENABLE_DEBUG', 'debug_enable', VmConfig::get('debug_enable', 'none'), $optDebug);
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_ENABLE_DEBUG_METHODS', 'debug_enable_methods', VmConfig::get('debug_enable_methods', 0));
 		echo VmuikitHtml::row('booleanlist', 'COM_VM_CFG_ENABLE_DEBUG_ROUTER', 'debug_enable_router', VmConfig::get('debug_enable_router', 0));
-		echo VmuikitHtml::row('checkbox','COM_VM_CFG_ENABLE_DEBUG_SQL','debug_Sql',VmConfig::get('debug_Sql',0));
+		echo VmuikitHtml::row('booleanlist','COM_VM_CFG_ENABLE_DEBUG_SQL','debug_Sql',VmConfig::get('debug_Sql',0));
 		echo VmuikitHtml::row('radiolist', 'COM_VIRTUEMART_CFG_DEV', 'vmdev', VmConfig::get('vmdev', 0), $optDebug);
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_CFG_DANGEROUS_TOOLS', 'dangeroustools', VmConfig::get('dangeroustools', 0));
 		echo VmuikitHtml::row('input', 'COM_VIRTUEMART_REV_PROXY_VAR', 'revproxvar', VmConfig::get('revproxvar', ''));

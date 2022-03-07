@@ -47,6 +47,7 @@ defined('_JEXEC') or die('Restricted access');
 
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_REGISTER', 'oncheckout_show_register', VmConfig::get('oncheckout_show_register', 1));
 		echo VmuikitHtml::row('booleanlist', 'COM_VIRTUEMART_ADMIN_ONCHECKOUT_ONLY_REGISTERED', 'oncheckout_only_registered', VmConfig::get('oncheckout_only_registered', 0));
+		echo VmuikitHtml::row('input','COM_VIRTUEMART_CFG_CARTCOOKIEEXPIRE','cartCookieExpire',VmConfig::get('cartCookieExpire',0));
 		//echo VmuikitHtml::row('checkbox','COM_VM_CFG_PROVIDE_ORDER_GUEST_LINK','orderGuestLink',VmConfig::get('orderGuestLink',0));
 
 		$opt = array(

@@ -168,6 +168,7 @@ $this->tables=$tables;
 	<div>
 		<?php
 		$this->relatedType="categories";
+		$this->virtuemart_custom_id = '1';
 		$this->relatedDatas=$relatedcategories;
 		$this->relatedIcon='category';
 		echo $this->loadTemplate('custom_relatedcf');
@@ -178,6 +179,7 @@ $this->tables=$tables;
 	<div>
 		<?php
 		$this->relatedType="products";
+		$this->virtuemart_custom_id = '2';
 		$this->relatedDatas=$relatedproducts;
 		$this->relatedIcon='product';
 		echo $this->loadTemplate('custom_relatedcf') ;

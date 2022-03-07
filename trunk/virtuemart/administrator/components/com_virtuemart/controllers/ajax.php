@@ -109,8 +109,13 @@ class VirtueMartControllerAjax extends JControllerLegacy {
 						$query .=  ' WHERE '.implode (' OR ', $fields) ;
 						$query .= ' OR p.product_sku LIKE '.$filter;
 					}
-
-					$json = self::getRelated($product_id,$query,'R');
+					/*$ctype = vRequest::getInt('ctype',0);
+					if($ctype == 1){*/
+						$type = 'R';
+					/*} else {
+						$type = 'RC';
+					}*/
+					$json = self::getRelated($product_id,$query,$type);
 				}
 				break;
 			case 'fields':

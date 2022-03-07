@@ -91,7 +91,7 @@ if(!VmConfig::isSiteByApp()){
 $j = 'if (typeof Virtuemart === "undefined")
 	var Virtuemart = {};
 	Virtuemart.nextCustom ="'.count($this->product->customfields).'";
-	
+	Virtuemart.jsonLink ="'.$jsonLink.'";   
 	Virtuemart.vmUikitRelatedLink ="'.$vmUikitRelatedLink.'";
 	Virtuemart.virtuemart_product_id ="'.$this->product->virtuemart_product_id.'";
 	Virtuemart.urlDomain = "'.JURI::root ().'";

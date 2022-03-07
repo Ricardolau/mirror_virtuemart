@@ -699,7 +699,8 @@ abstract class vmPSPlugin extends vmPlugin {
 	 */
 	protected function getOrderWeight (VirtueMartCart $cart, $to_weight_unit) {
 
-		static $weight = array();
+		return VirtueMartCart::getCartWeight($cart, $to_weight_unit);
+		/*static $weight = array();
 		if(!isset($weight[$to_weight_unit])) $weight[$to_weight_unit] = 0.0;
 		if(count($cart->products)>0 and empty($weight[$to_weight_unit])){
 
@@ -708,7 +709,7 @@ abstract class vmPSPlugin extends vmPlugin {
 			}
 		}
 
-		return $weight[$to_weight_unit];
+		return $weight[$to_weight_unit];*/
 	}
 
 	/**
@@ -1452,7 +1453,9 @@ abstract class vmPSPlugin extends vmPlugin {
 			// error while processing the payment
 			$mainframe = JFactory::getApplication ();
 			$mainframe->enqueueMessage ($html);
-			$mainframe->redirect (JRoute::_ ('index.php?option=com_virtuemart&view=cart',FALSE), vmText::_ ('COM_VIRTUEMART_CART_ORDERDONE_DATA_NOT_VALID'));
+			$msg = vmText::_('COM_VIRTUEMART_CART_ORDERDONE_DATA_NOT_VALID').' '.$payment_name.' '.$order['details']['BT']->virtuemart_order_id;
+			vmError($msg,'COM_VIRTUEMART_CART_ORDERDONE_DATA_NOT_VALID');
+			$mainframe->redirect (JRoute::_ ('index.php?option=com_virtuemart&view=cart',FALSE));
 		}
 	}
 

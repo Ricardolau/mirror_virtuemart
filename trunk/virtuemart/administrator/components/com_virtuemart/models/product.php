@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Patrick Kohl, Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -315,10 +315,8 @@ class VirtueMartModelProduct extends VmModel {
 		 * Plugins must return an array with product ids
 		 */
 		$result = array();
-		$ref =& $this;
-		$used = vDispatcher::trigger('plgVmMySortSearchListQuery',
+		$used = vDispatcher::trigger('plgVmMySortSearchListProductsQuery',
 			array(
-				&$ref,
 				&$result,
 				$keyword,
 				$onlyPublished,
@@ -661,7 +659,7 @@ class VirtueMartModelProduct extends VmModel {
 				$filter_order = 'product_name';
 			}
 		}
-		vmdebug('my filter ordering ',$filter_order);
+		//vmdebug('my filter ordering ',$filter_order);
 		switch ($filter_order) {
 			case '`p`.product_special':
 				if($isSite){

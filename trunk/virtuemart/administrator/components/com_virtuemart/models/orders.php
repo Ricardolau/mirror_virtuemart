@@ -10,7 +10,7 @@
  * @author Patrick Kohl
  * @author Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -347,15 +347,13 @@ class VirtueMartModelOrders extends VmModel {
 	public function getOrdersList($uid = 0, $noLimit = false) {
 
 		$result = array();
-		$ref =& $this; 
-		$used = vDispatcher::trigger('plgVmMySortSearchListOrderQuery',
+
+		$used = vDispatcher::trigger('plgVmMySortSearchListOrdersQuery',
 			array(
-				&$ref,
 				&$result,
 				$this->search,
 				$uid,
 				$noLimit
-				
 			));
 
 		if($used){

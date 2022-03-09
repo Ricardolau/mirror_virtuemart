@@ -9,7 +9,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
- * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1263,7 +1263,9 @@ class VmTable extends vObject implements \JTableInterface {
 		$tblKey = $this->_tbl_key;
 		$ok = true;
 		if($this->_update===null){
-			$this->check();
+			if(!$this->check()){
+				return false;
+			}
 			//$this->_update = !empty($this->{$tblKey});
 			//$msg = 'vmTable function store was called without prior calling check';
 			//vmTrace($msg.' this is deprecated, call function check now. This fallback will be removed in future', true, 6);
@@ -1581,30 +1583,48 @@ class VmTable extends vObject implements \JTableInterface {
 		$this->_update = null;
 
 		if($tblKey != $pKey) {
+
 			if (empty($this->{$pKey})) {
-				$error = get_class($this) . ' ' .vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_OBLIGATORY_KEY', 'COM_VIRTUEMART_' . strtoupper($pKey) );
-				vmError($error);
+				$_qry = 'SELECT `' . $pKey . '` '
+					. 'FROM `' . $this->_tbl . '` '
+					. 'WHERE `' . $tblKey . '` = "' . $this->{$tblKey} . '" ';
 				vmdebug('vmTable check, primary Value empty',$this->_pkey, $this->loadFieldValues());
-				return false;
+				/*$error = get_class($this) . ' ' .vmText::sprintf('COM_VIRTUEMART_STRING_ERROR_OBLIGATORY_KEY', 'COM_VIRTUEMART_' . strtoupper($pKey) );
+				vmError($error);
+				
+				return false;*/
 			} else {
 				$_qry = 'SELECT `' . $tblKey . '` '
 					. 'FROM `' . $this->_tbl . '` '
 					. 'WHERE `' . $this->_pkey . '` = "' . $this->{$this->_pkey} . '" ';
-				$this->_db->setQuery($_qry);
-				$res = $this->_db->loadAssocList();
-				//vmdebug('vmTable check() loaded on pKey '.$_qry,$res,$this->{$tblKey},$res);
 
+				//vmdebug('vmTable check() loaded on pKey '.$_qry,$res,$this->{$tblKey},$res);
+			}
+			$this->_db->setQuery($_qry);
+			$res = $this->_db->loadAssocList();
+			if (empty($this->{$pKey})) {
+				if ($res and count($res) == 1 and !empty($res[0][$pKey]) ) {
+					if($this->{$pKey} != $res[0][$pKey]){
+						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given pkey ' . $pKey . ' = ' . $this->{$pKey} . ' to ' . $res[0][$pKey] .' because '.$_qry,$this->loadFieldValues(true));
+					}
+					$this->{$pKey} = $res[0][$pKey];
+					$this->_update = true;
+				} else {
+					$this->_update = false;
+				}
+			} else {
 				if ($res and count($res) == 1 and !empty($res[0][$tblKey]) ) {
 					if($this->{$tblKey} != $res[0][$tblKey]){
-						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given ' . $tblKey . ' = ' . $this->{$tblKey} . ' to ' . $res[0][$tblKey] .' because '.$_qry,$this->loadFieldValues(true));
+						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given tblkey' . $tblKey . ' = ' . $this->{$tblKey} . ' to ' . $res[0][$tblKey] .' because '.$_qry,$this->loadFieldValues(true));
 					}
 					$this->{$tblKey} = $res[0][$tblKey];
 					$this->_update = true;
-
 				} else {
 					$this->_update = false;
 				}
 			}
+
+
 		} else {
 			if(empty($this->{$tblKey})){
 				$this->_update = false;

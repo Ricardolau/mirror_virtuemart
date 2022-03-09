@@ -337,8 +337,6 @@ class com_virtuemartInstallerScript {
 		$updater->updateMyVmTables();
 		$this->installLanguageTables();
 
-		$model->execSQLFile($this->path .'/administrator/components/com_virtuemart/install/install_country_data.sql');
-
 		$this->checkAddDefaultShoppergroups();
 
 		$this->addMissingOrderstati();

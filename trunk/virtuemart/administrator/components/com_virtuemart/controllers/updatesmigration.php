@@ -123,7 +123,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 				}
 			}
 		}
-
+		$this->setRedirect($this->redirectPath);
 	}
 
 	/**

@@ -1103,9 +1103,12 @@ abstract class vmPSPlugin extends vmPlugin {
 	}
 
   	/**
+	 * For backward compatibilites reasons we keep this function (setDezimal should do it already)
 	 * @param $method
 	 */
 	function convert_condition_amount (&$method) {
+		if(!isset($method->min_amount)) $method->min_amount = 0.0;
+		if(!isset($method->max_amount)) $method->max_amount = 0.0;
 		$method->min_amount = (float)str_replace(',','.',$method->min_amount);
 		$method->max_amount = (float)str_replace(',','.',$method->max_amount);
 	}

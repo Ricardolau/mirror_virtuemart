@@ -317,13 +317,16 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/install_required_data.sql';
 		$this->execSQLFile($filename);
 
+	    $filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/install_country_data.sql';
+		$this->execSQLFile($filename);
+
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
-	    vDispatcher::trigger('onVmSqlRestore', $this);
-    }
+		vDispatcher::trigger('onVmSqlRestore', $this);
+	}
 
-    function restoreSystemTablesCompletly() {
+	function restoreSystemTablesCompletly() {
 
 		$this->removeAllVMTables();
 
@@ -336,12 +339,15 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/install_required_data.sql';
 		$this->execSQLFile($filename);
 
+	    $filename = VMPATH_ROOT .'/administrator/components/com_virtuemart/install/install_country_data.sql';
+		$this->execSQLFile($filename);
+
 		$updater = new GenericTableUpdater();
 		$updater->createLanguageTables();
 
 		JPluginHelper::importPlugin('vmextended');
-	    vDispatcher::trigger('onVmSqlRestore', array($this));
-    }
+		vDispatcher::trigger('onVmSqlRestore', array($this));
+	}
 
     /**
      * Parse a sql file executing each sql statement found.
@@ -413,7 +419,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		}
 
 		return $ok;
-    }
+	}
 
     /**
      * Delete all Virtuemart tables.

@@ -248,10 +248,10 @@ var Virtuemart = window.Virtuemart || {};
 
 	Virtuemart.sendCurrForm = function(event){
 		event.preventDefault();
-		if(event.currentTarget.length > 0){
+		if(event.currentTarget.length > 0 && $(event.currentTarget[0]).is("form")){
 			$(event.currentTarget[0].form.submit());
 		} else {
-			var f = jQuery(event.currentTarget).closest('form');
+			var f = $(event.currentTarget).closest('form');
 			f.submit();
 		}
 	};

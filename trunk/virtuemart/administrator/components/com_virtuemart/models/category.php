@@ -468,8 +468,7 @@ vmdebug('Found cached cat, but without children');
 
 	}
 
-	static public function rekurseCategories($vendorId, $parentId, &$cats, $level = 2, $limitStart = 0, $limit = 0, $onlyPublished = true, $keyword = '', $selectedOrdering = 'c.ordering, category_name', $selectedOrderingDir = 'ASC', $tree = false, $deep = 0, &$parentCategory = false){
-		$media = false;
+	static public function rekurseCategories($vendorId, $parentId, &$cats, $level = 2, $limitStart = 0, $limit = 0, $onlyPublished = true, $keyword = '', $selectedOrdering = 'c.ordering, category_name', $selectedOrderingDir = 'ASC', $tree = false, $deep = 0, $media = false, &$parentCategory = false){
 
 		if(($deep===0 or empty($level) or $deep <= $level) /*and (empty($limit) or count($cats)<$limit)*/){
 
@@ -493,7 +492,7 @@ vmdebug('Found cached cat, but without children');
 
 					if($category->has_children){
 						//$deep++;
-						self::rekurseCategories($vendorId, $category->virtuemart_category_id, $cats, $level, 0, $limit, $onlyPublished, $keyword, $selectedOrdering, $selectedOrderingDir, $tree, $deep +1, $category);
+						self::rekurseCategories($vendorId, $category->virtuemart_category_id, $cats, $level, 0, $limit, $onlyPublished, $keyword, $selectedOrdering, $selectedOrderingDir, $tree, $deep +1, $media, $category);
 						//$deep--;
 					}
 				}

@@ -2625,8 +2625,8 @@ class VirtueMartCart {
 	static public function getCartWeight (VirtueMartCart $cart, $to_weight_unit = 0) {
 
 		static $weight = array();
-		if(!isset($weight[$to_weight_unit])) $weight[$to_weight_unit] = 0.0;
 		if(empty($to_weight_unit)) $to_weight_unit = VmConfig::get('weight_unit_default','KG');
+		if(!isset($weight[$to_weight_unit])) $weight[$to_weight_unit] = 0.0;
 
 		if(count($cart->products)>0 and empty($weight[$to_weight_unit])){
 

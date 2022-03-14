@@ -1284,7 +1284,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		} else {
 			$p = $this->{$tblKey};
-			vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' '.$this->loadFieldValues(true));
+			vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' ',$this->loadFieldValues(true));
 			try {
 				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			} catch (Exception $e){

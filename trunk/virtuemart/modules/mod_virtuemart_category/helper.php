@@ -27,11 +27,17 @@ class mod_virtuemart_category {
 		$vendorId = '1';
 
 		$level = (int)$params->get('level','2');
-		$media = (int)$params->get('media', 0);
+
+
+		if( strpos($layout, 'wall')!==FALSE ){
+			$media = true;
+		} else {
+			$media = (int)$params->get('media', 0);
+		}
 
 		$categories = array();
 		vmSetStartTime('categories');
-		VirtueMartModelCategory::rekurseCategories($vendorId, $category_id, $categories, $level, 0, 0,true, '', 'c.ordering, category_name', 'ASC', true);
+		VirtueMartModelCategory::rekurseCategories($vendorId, $category_id, $categories, $level, 0, 0,true, '', 'c.ordering, category_name', 'ASC', true, 0, $media);
 		vmTime('my categories module time','categories');
 		//vmdebug('my categories in category module',$categories);
 		$categoryModel->categoryRecursed = 0;

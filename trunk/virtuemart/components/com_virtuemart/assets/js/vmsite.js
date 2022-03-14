@@ -254,5 +254,8 @@ var Virtuemart = window.Virtuemart || {};
 			var f = $(event.currentTarget).closest('form');
 			f.submit();
 		}
+		//If the form has a button, js does not send it, so we must click the button
+		f = $(event.currentTarget).closest('form').find('button');
+		f.click();
 	};
 })(jQuery)

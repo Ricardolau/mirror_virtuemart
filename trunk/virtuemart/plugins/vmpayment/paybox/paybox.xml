@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
-    <name>VM Payment - Paybox</name>
+    <name>VM Payment - Paybox System 3D V2</name>
     <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
@@ -23,6 +23,7 @@
         <fields name="params">
 
             <fieldset name="basic" addfieldpath="/plugins/vmpayment/paybox/paybox/fields">
+                <field name="checkConditionsCore" value="1" default="1" type="hidden"/>
                 <field type="getpaybox" level="level1 "/>
                 <field class="level1 " type="vmtitle" default="VMPAYMENT_PAYBOX_CONF_ACCOUNT_PARAMS"/>
 

@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Direct Access is not allowed.');
  * @subpackage
  * @author Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Direct Access is not allowed.');
  * other free or open source software licenses.
  * @version $Id$
  *
+ * https://www.paybox.com/wp-content/uploads/2021/11/ManuelIntegrationPaybox_DSP2_EN-v1.8.pdf
  * http://www1.paybox.com/telechargements/ManuelIntegrationPaybox_V5.08_FR.pdf
  * Pour accéder au Back-office commerçant: https://preprod-admin.paybox.com
  */
@@ -41,6 +42,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 		$this->_tableId = 'id'; //'virtuemart_paybox_id';
 		$varsToPush = $this->getVarsToPush();
 		//$this->setEncryptedFields(array('params'));
+		$this->addVarsToPushCore($varsToPush, 1);
 		$this->setConfigParameterable($this->_configTableFieldName, $varsToPush);
 
 		$this->setCryptedFields(array('key'));
@@ -350,9 +352,6 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 			$display_logos = $this->displayLogos($logos) . ' ';
 		}
 		$payment_name = $method->payment_name;
-		if (!class_exists('VirtueMartCart')) {
-			require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-		}
 		$this->_currentMethod = $method;
 		$extraInfo = $this->getExtraPluginNameInfo($method);
 
@@ -382,7 +381,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 		return preg_replace('~>\s*\n\s*<~', '><', $buffer);
 	}
 
-	function getCosts(VirtueMartCart $cart, $method, $cart_prices) {
+/*	function getCosts(VirtueMartCart $cart, $method, $cart_prices) {
 
 		if (preg_match('/%$/', $method->cost_percent_total)) {
 			$cost_percent_total = substr($method->cost_percent_total, 0, -1);
@@ -390,7 +389,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 			$cost_percent_total = $method->cost_percent_total;
 		}
 		return ($method->cost_per_transaction + ($cart_prices['salesPrice'] * $cost_percent_total * 0.01));
-	}
+	}*/
 
 	/**
 	 * Check if the payment conditions are fulfilled for this payment method
@@ -408,7 +407,10 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 		//$this->debugLog( $cart_prices['salesPrice'], 'checkConditions','debug');
 		$this->_currentMethod = $method;
 		$payboxInterface = $this->_loadPayboxInterface();
-		return $payboxInterface->checkConditions($cart, $method, $cart_prices);
+		$ok = $payboxInterface->checkConditions($cart, $method, $cart_prices);
+		if($ok){
+			return parent::checkConditions($cart, $method, $cart_prices);
+		}
 	}
 
 

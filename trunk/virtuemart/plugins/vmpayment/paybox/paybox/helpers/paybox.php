@@ -97,6 +97,8 @@ class  PayboxHelperPaybox {
 			"PBX_HASH"        => $this->getHashAlgo(),
 			"PBX_TIME"        => $this->getTime(),
 			"PBX_LANGUE"      => $this->getLangue(),
+			'PBX_SHOPPINGCART'=> $this->getPBX_Shoppingcart(VirtueMartCart::getCartQuantity($cart)),
+			'PBX_BILLING'     => $this->getPBX_Billing( $order['details']['BT']),
 			//"PBX_TYPEPAIEMENT" => $this->getTypePaiement(),
 			//"PBX_TYPECARTE"    => $this->getTypeCarte(),
 			"PBX_EFFECTUE"    => $payboxReturnUrls['url_effectue'],
@@ -105,6 +107,7 @@ class  PayboxHelperPaybox {
 			"PBX_REFUSE"      => $payboxReturnUrls['url_refuse'],
 			"PBX_ERREUR"      => $payboxReturnUrls['url_erreur'],
 			"PBX_REPONDRE_A"  => $payboxReturnUrls['url_notification'],
+			"PBX_VERSION"     => "VirtueMart:".vmVersion::$RELEASE.'.'.vmVersion::$REVISION.'_Joomla:'.JVERSION,
 			"PBX_RUF1"        => 'POST',
 		);
 		if ($this->_method->debit_type == 'authorization_only') {
@@ -663,6 +666,7 @@ jQuery().ready(function($) {
 			'F',
 			'W',
 			'Z',
+			'v',
 			'K', // MUST BE THE LAST ONE
 		);
 		return $fields;
@@ -745,6 +749,33 @@ jQuery().ready(function($) {
 	function getPbxTotal ($total) {
 		return str_pad($total, 3, "0", STR_PAD_LEFT);
 	}
+
+	function getPBX_Shoppingcart($totalQuantity){
+
+		return '<?xml version="1.0" encoding="utf-8"?>
+<shoppingcart>
+ <total>
+ <totalQuantity>'.$totalQuantity.'</totalQuantity>
+ </total>
+</shoppingcart>';
+	}
+
+	function getPBX_Billing($orderDetails){
+		$country_num_code = VmModel::getModel('country')->getCountryFieldByID(1, 'country_num_code');
+		return '<?xml version="1.0" encoding="utf-8"?>
+<Billing>
+ <Address>
+ <FirstName>'.$orderDetails['BT']->first_name.'</FirstName>
+ <LastName>'.$orderDetails['BT']->last_name.'</LastName>
+ <Address1>'.$orderDetails['BT']->address_1.'</Address1>
+ <ZipCode>'.$orderDetails['BT']->zip.'</ZipCode>
+ <City>'.$orderDetails['BT']->city.'</City>
+ <CountryCode>'.$country_num_code.'</CountryCode>
+ <CountryCode>250</CountryCode>
+ </Address>
+</Billing>';
+	}
+
 
 	/**
 	 * @param $value

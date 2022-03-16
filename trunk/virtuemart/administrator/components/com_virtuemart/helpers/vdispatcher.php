@@ -1,8 +1,8 @@
 <?php
 
 /**
- * virtuemart table class, with some additional behaviours.
- * derived from JTable Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * virtuemart dispatcher class
+ *
  *
  * @version $Id$
  * @package    VirtueMart
@@ -54,6 +54,7 @@ class vDispatcher {
 	 * @param $element the element of the plugin as written in the extensions table (usually lowercase)
 	 * @param $trigger the function which was the trigger to execute
 	 * @param $args the arguments (as before for the triggers)
+	 * @param $enabled trigger only enabled plugins
 	 * @return mixed
 	 */
 	static public function directTrigger($type,$element,$trigger, $args, $enabled = TRUE){

@@ -3,13 +3,13 @@
 defined ('_JEXEC') or die();
 
 /**
- * virtuemart table class, with some additional behaviours.
+ * virtuemart javascript class for js script handling.
  *
  *
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -440,8 +440,10 @@ class vmJsApi{
 
 	static function jDynUpdate($containerSelector = null) {
 
+		$updateListener = 'Virtuemart.updateDynamicUpdateListeners();';
 		if($containerSelector === null){
 			$view = vRequest::getCmd('view');
+
 			if($view == 'category'){
 				$containerSelector = '.category-view';
 			} else if ($view == 'orders'){
@@ -452,6 +454,10 @@ class vmJsApi{
 				$containerSelector = '#cart-view';
 			}
 		}
+
+		if($containerSelector == '#cart-view'){
+			$updateListener = 'Virtuemart.updDynFormListeners();';
+		}
 		self::addJScript('dynupdate',false,false);
 		self::addJScript('updDynamicListeners',"
 jQuery(document).ready(function() { // GALT: Start listening for dynamic content update.
@@ -459,9 +465,10 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 	// set-up the event listeners.
 	if (typeof Virtuemart.containerSelector === 'undefined') { Virtuemart.containerSelector = '".$containerSelector."'; }
 	if (typeof Virtuemart.container === 'undefined') { Virtuemart.container = jQuery(Virtuemart.containerSelector); }
-	if (Virtuemart.container)
-		Virtuemart.updateDynamicUpdateListeners();
-
+	if (Virtuemart.container){
+		".$updateListener."
+	}
+	
 }); ");
 	}
 

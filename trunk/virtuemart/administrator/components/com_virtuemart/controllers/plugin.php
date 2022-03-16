@@ -7,7 +7,7 @@ defined('_JEXEC') or die();
 * @package	VirtueMart
 * @subpackage Core
 * @author Max Milbers
-* @link ${PHING.VM.MAINTAINERURL}
+* @link https://virtuemart.net
 * @copyright Copyright (c) 2011 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
@@ -41,34 +41,33 @@ class VirtuemartControllerPlugin extends VmController
 		$type = vRequest::getCmd('type', 'vmcustom');
 		$typeWhiteList = array('vmshopper','vmcustom','vmcalculation','vmpayment','vmshipment', 'vmuserfield', 'vmextended');
 		if(!in_array($type,$typeWhiteList)) return false;
-		$name = vRequest::getString('name','');
+		$name = vRequest::getString('name','none');
 
 		JPluginHelper::importPlugin($type, $name);
 
-		// if you want only one render simple in the plugin use jExit();
-		// or $render is an array of code to echo as html or json Object!
 		$render = null ;
-
-		vDispatcher::trigger('plgVmOnSelfCallBE',array($type, $name, &$render));
-		if ($render ) {
+		vDispatcher::directTrigger($type, $name, 'plgVmOnSelfCallBE', array($type, $name, &$render));
+		if ($render) {
 			$app = JFactory::getApplication();
-			// Get the document object.
-			$document =JFactory::getDocument();
-			if (vRequest::getCmd('cache', 'no')) {
-				$app->setHeader('Cache-Control','no-cache, must-revalidate');
-				$app->setHeader('Expires','Mon, 6 Jul 2000 10:00:00 GMT');
+			$document = JFactory::getDocument ();
+			if (vRequest::getCmd ('cache') == 'no') {
+				$app->setHeader ('Cache-Control', 'no-cache, must-revalidate');
+				$app->setHeader ('Expires', 'Mon, 6 Jul 2000 10:00:00 GMT');
 			}
-			$format = vRequest::getCmd('format', 'json');
+			$format = vRequest::getCmd ('format', 'json');
 			if ($format == 'json') {
-				$document->setMimeEncoding('application/json');
+				$document->setMimeEncoding ('application/json');
 				// Change the suggested filename.
-
-				$app->setHeader('Content-Disposition','attachment;filename="'.$type.'".json"');
-				echo vmJsApi::safe_json_encode($render);
+				$app->setHeader ('Content-Disposition', 'attachment;filename="' . $type . '.json"');
+				$app->setHeader("Content-type","application/json");
+				$app->sendHeaders();
+				echo vmJsApi::safe_json_encode ($render);
 			}
-			else echo $render;
+			else {
+				echo $render;
+			}
 		}
-		return true;
+		die();
 	}
 
 }

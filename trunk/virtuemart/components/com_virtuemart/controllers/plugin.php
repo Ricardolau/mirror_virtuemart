@@ -52,14 +52,10 @@ class VirtuemartControllerPlugin extends JControllerLegacy {
 
 		JPluginHelper::importPlugin ($type, $name);
 
-		// if you want only one render simple in the plugin use jExit();
-		// or $render is an array of code to echo as html or json Objects!
-		$render = NULL;
-		vDispatcher::trigger ('plgVmOnSelfCallFE', array($type, $name, &$render));
+		$render = null ;
+		vDispatcher::directTrigger($type, $name, 'plgVmOnSelfCallFE', array($type, $name, &$render));
 		if ($render) {
-
 			$app = JFactory::getApplication();
-			// Get the document object.
 			$document = JFactory::getDocument ();
 			if (vRequest::getCmd ('cache') == 'no') {
 				$app->setHeader ('Cache-Control', 'no-cache, must-revalidate');
@@ -72,15 +68,12 @@ class VirtuemartControllerPlugin extends JControllerLegacy {
 				$app->setHeader ('Content-Disposition', 'attachment;filename="' . $type . '.json"');
 				$app->setHeader("Content-type","application/json");
 				$app->sendHeaders();
-				echo json_encode ($render);
-				jExit();
+				echo vmJsApi::safe_json_encode ($render);
 			}
 			else {
 				echo $render;
-				jExit();
 			}
-		} else {
 		}
-
+		die();
 	}
 }

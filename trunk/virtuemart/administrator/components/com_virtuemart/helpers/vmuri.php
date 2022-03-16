@@ -7,21 +7,33 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014-2020 VirtueMart Team. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
+ * @copyright Copyright (c) 2014-2022 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  */
 defined('_JEXEC') or die('Restricted access');
 
 class vmURI{
 
-	static function getCurrentUrlBy ($source = 'request',$route = false, $white = true, $ignore = false, $query = false){
+	static function getCurrentUrlBy ($source = 'get',$route = false, $white = true, $ignore = false, $query = false){
 
-		$vars = array('id', 'option', 'view', 'controller', 'task', 'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'virtuemart_vendor_id', 'addrtype', 'virtuemart_user_info', 'virtuemart_currency_id', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search', 'virtuemart_order_id', 'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'customfields', 'lang', 'searchAllCats');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
+		$vars = array('id', 'option', 'view', 'controller', 'task',
+			'virtuemart_category_id', 'virtuemart_manufacturer_id', 'virtuemart_product_id', 'virtuemart_user_id', 'virtuemart_vendor_id',
+			'virtuemart_shipment_id', 'virtuemart_payment_id', 'virtuemart_country_id', 'virtuemart_currency_id', 'virtuemart_order_id',
+			'addrtype', 'virtuemart_user_info', 'layout', 'format', 'limitstart', 'limit', 'language', 'keyword', 'search',
+			'order_number', 'order_pass', 'tmpl', 'usersearch', 'manage', 'orderby', 'dir', 'Itemid', 'customfields', 'lang', 'searchAllCats');	//TODO Maybe better to remove the 'lang', which keeps the SEF suffix
 
 		if($query){
 			$url = array();
 		} else {
 			$url = '';
+		}
+
+		if($source=='get') {
+			$get = vRequest::getGet(FILTER_SANITIZE_URL);
+		} else if($source=='request'){
+			$get = vRequest::getRequest(FILTER_SANITIZE_URL);
+		} else {
+			$get = vRequest::getPost(FILTER_SANITIZE_URL);
 		}
 
 		if($white){
@@ -32,7 +44,17 @@ class vmURI{
 				$vars = array_diff($vars, $ignore);
 			}
 
-			foreach ($vars as $k){
+			$params = array();
+			if(is_array($get) and !empty($get) and is_array($vars) and !empty($vars)){
+				foreach($vars as $var){
+					if(isset($get[$var])){
+						$params[$var] = $get[$var];
+					}
+				}
+				//$vars = array_intersect($vars, $get); //Did not work with it, got PHP-errors
+			}
+			//VmConfig::$echoDebug = true;vmdebug('getCurrentUrlBy', $get, $params);
+			foreach ($params as $k=>$v){
 				$k = vRequest::filterUrl($k);
 				$v = vRequest::getVar($k);
 				if(isset($v)){
@@ -55,13 +77,6 @@ class vmURI{
 			}
 		} else {
 
-			if($source=='request'){
-				$get = vRequest::getRequest(FILTER_SANITIZE_URL);
-			} else if($source=='get'){
-				$get = vRequest::getGet(FILTER_SANITIZE_URL);
-			} else {
-				$get = vRequest::getPost(FILTER_SANITIZE_URL);
-			}
 
 			foreach($get as $k => $v){
 				$k = vRequest::filterUrl($k);

@@ -81,23 +81,6 @@ abstract class vmPSPlugin extends vmPlugin {
 	}
 
 	/**
-	 * Create the table for this plugin if it does not yet exist.
-	 * This functions checks if the called plugin is active one.
-	 * When yes it is calling the standard method to create the tables
-	 *
-	 * @author Valérie Isaksen
-	 *
-	 */
-	public function onStoreInstallPluginTable ($jplugin_id, $name = FALSE) {
-
-		if ($res = $this->selectedThisByJPluginId ($jplugin_id)) {
-			vmdebug('onStoreInstallPluginTable, going to execute onStoreInstallPluginTable');
-			parent::onStoreInstallPluginTable ($this->_psType);
-		}
-		return $res;
-	}
-
-	/**
 	 * This event is fired after the payment method has been selected. It can be used to store
 	 * additional payment info in the cart.
 	 *

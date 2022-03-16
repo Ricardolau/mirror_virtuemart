@@ -28,6 +28,7 @@ $styleDateCol = '';
 		<div id="filterbox" class="filter-bar">
 			<?php
 			$extras[] = '<span class="uk-margin-small-right">' . vmText::_('COM_VIRTUEMART_ORDERSTATUS') . '</span>' . $this->lists['state_list'];
+			$extras[] = $this->lists['vendors'];
 			$tool['title'] = vmText::_('COM_VIRTUEMART_BULK_ORDERSTATUS');
 			$tool['subtitle'] = vmText::_('COM_VIRTUEMART_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 			$tool['fields'] = array(

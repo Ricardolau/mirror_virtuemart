@@ -8,7 +8,7 @@ defined ('_JEXEC') or die('Restricted access');
  * @subpackage Plugins
  * @author Valérie Isaksen, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -390,56 +390,48 @@ abstract class vmPlugin extends JPlugin {
 	/**
 	 * Create the table for this plugin if it does not yet exist.
 	 * Or updates the table, if it exists. Please be aware that this function is slowing and is only called
-	 * storing a method or installing/udpating a plugin.
+	 * storing a method or installing/udpating a plugin. This trigger is called via directTrigger so we dont need to check, if the plugin is active
 	 *
 	 * @param string $psType shipment,payment,custom
 	 * @author Valérie Isaksen
 	 * @author Max Milbers
 	 */
-	public function onStoreInstallPluginTable ($psType,$name=FALSE) {
+	public function onStoreInstallPluginTable () {
+		vmdebug('onStoreInstallPluginTable, going to execute onStoreInstallPluginTable '.$this->_name);
+		$SQLfields = $this->getTableSQLFields();
+		if(empty($SQLfields)) return false;
 
-		if(!empty($name) and $name!=$this->_name){
-			vmdebug('onStoreInstallPluginTable return false, given $name '.$name.' plg name '.$this->_name);
-			return false;
-		}
+		$loggablefields = $this->getTableSQLLoggablefields();
+		$tablesFields = array_merge($SQLfields, $loggablefields);
 
-		//Todo the psType should be name of the plugin.
-		if ($psType == $this->_psType) {
+		$db = JFactory::getDBO();
+		$query = 'SHOW TABLES LIKE "%' . str_replace('#__', $db->getPrefix(), $this->_tablename) . '"';
+		$db->setQuery($query);
+		$result = $db->loadResult();
 
-			$SQLfields = $this->getTableSQLFields();
-			if(empty($SQLfields)) return false;
-
-			$loggablefields = $this->getTableSQLLoggablefields();
-			$tablesFields = array_merge($SQLfields, $loggablefields);
-
-			$db = JFactory::getDBO();
-			$query = 'SHOW TABLES LIKE "%' . str_replace('#__', $db->getPrefix(), $this->_tablename) . '"';
-			$db->setQuery($query);
-			$result = $db->loadResult();
-			vmdebug('onStoreInstallPluginTable result of table already exists? ',$result);
-			if ($result) {
-				$update[$this->_tablename] = array($tablesFields, array(), array());
-				vmdebug(get_class($this) . ':: VirtueMart update ' . $this->_tablename);
-				$updater = new GenericTableUpdater();
-				$updater->updateMyVmTables($update);
-				return true;
+		if ($result) {
+			$update[$this->_tablename] = array($tablesFields, array(), array());
+			vmdebug(get_class($this) . ':: VirtueMart update ' . $this->_tablename);
+			$updater = new GenericTableUpdater();
+			$updater->updateMyVmTables($update);
+			return true;
+		} else {
+			$query = $this->createTableSQL($this->_name,$tablesFields);
+			if(empty($query)){
+				return false;
 			} else {
-				$query = $this->createTableSQL($this->_name,$tablesFields);
-				if(empty($query)){
-					return false;
+				$db->setQuery ($query);
+				if (!$db->execute ()) {
+					vmWarn($this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE));
+					echo $this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE);
 				} else {
-					$db->setQuery ($query);
-					if (!$db->execute ()) {
-						vmWarn($this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE));
-						echo $this->_name . '::onStoreInstallPluginTable: ' . vmText::_ ('COM_VIRTUEMART_SQL_ERROR') . ' ' . $db->stderr (TRUE);
-					} else {
-						vmInfo('created table '.$this->_tablename);
-						return true;
-					}
+					vmInfo('created table '.$this->_tablename);
+					return true;
 				}
 			}
 		}
-		vmdebug('onStoreInstallPluginTable return false, given $psType '.$psType.' plg name '.$this->_psType);
+
+		vmdebug('onStoreInstallPluginTable return false, given plg name '.$this->_name);
 		return false;
 	}
 

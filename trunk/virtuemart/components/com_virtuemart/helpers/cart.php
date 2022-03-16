@@ -730,7 +730,7 @@ class VirtueMartCart {
 	public function setCookie($cObj, $timeout = false){
 		$contEncode = json_encode($cObj);
 		$strlenCE = strlen($contEncode);
-		if( 50 < $strlenCE and $strlenCE < 4000) {
+		if( 50 < $strlenCE and $strlenCE < 3600) {
 			$ver = (float)phpversion();
 			if($timeout===false) $timeout = time() + 86400 * VmConfig::get('cartCookieExpire',0);
 			$domain = JUri::getInstance()->getHost();

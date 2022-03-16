@@ -4,7 +4,7 @@
  * @package	VirtueMart
  * @subpackage Javascript Library
  * @author Max Galt
- * @copyright Copyright (c) 2014 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014 - 2022VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
@@ -99,7 +99,10 @@ jQuery(function($) {
         event.preventDefault();
         var url = $(this).attr('url');
         if (typeof url === typeof undefined || url === false) {
-            url = $(this).val();
+			url = $(this).closest('form').attr('action');
+			if (typeof url === typeof undefined || url === false) {
+				url = $(this).val();
+			}
         }
         if(url!=null){
 			url = url.replace(/amp;/g, '');

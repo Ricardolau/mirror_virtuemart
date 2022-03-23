@@ -385,8 +385,8 @@ class com_virtuemartInstallerScript {
 		$this->deleteSwfUploader();
 		$this->deleteOverridenJoomlaFields();
 		$this->updateOldConfigEntries();
-		$this->updateCountryTableISONumbers();
 
+		$model->updateCountryTableISONumbers(true, $this->path);
 
 		VirtueMartModelCategory::updateCategories();
 
@@ -401,55 +401,7 @@ class com_virtuemartInstallerScript {
 		return true;
 	}
 
-	/** Updates countries to iso-3166-country-codes
-	 * @return false
-	 */
-	private function updateCountryTableISONumbers(){
 
-		$countryM = VmModel::getModel('country');
-
-		//Open country data file
-		$file = $this->path .'/administrator/components/com_virtuemart/install/install_country_data.sql';
-		if(!file_exists($file)){
-			vmError('updateCountryTableISONumbers Could not find file '.$file);
-			return false;
-		}
-		$handle = fopen($file, 'rb');
-		if ($handle) {
-			while (($line = fgets($handle)) !== false) {
-				$line = trim($line);
-				$pos = strpos($line,'(');
-
-				if( $pos !== FALSE){
-
-					if($pos<2){
-						$line = str_replace(array('(',')','"',';'), '', $line);
-						$line = trim ($line,',');
-						$vars = explode(',',$line);
-						//vmdebug('My pos '.$pos.' $line ',$line,$vars);
-						if(count($vars)!=4) continue;
-						//vmdebug('Found entry '.$pos.' $line ',$vars);
-						$country_2_code = trim($vars[2]);
-						$loaded = $countryM->getCountry($country_2_code,'country_2_code');
-						//vmdebug('Found entry $line ',$line,$loaded->country_name, $loaded->country_num_code);
-						if($loaded and empty($loaded->country_num_code)) {
-							//We override always according to
-							$loaded->country_name = trim($vars[0]);
-							$loaded->country_3_code = trim($vars[1]);
-							$loaded->country_num_code = trim($vars[3]);
-							$loaded->store();
-							vmdebug('Storing',$loaded->country_name);
-						}
-					}
-				}
-			}
-
-			fclose($handle);
-		} else {
-			vmError('updateCountryTableISONumbers Could not open file '.$file);
-		}
-
-	}
 
 	private function moveEditorContentToCustomparams(){
 

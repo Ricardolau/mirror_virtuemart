@@ -51,16 +51,25 @@ class VirtueMartModelCountry extends VmModel {
 
 	static public function getCountry($id, $fieldname = 0){
 
-		if(!isset(self::$_countries[$id])){
-			$c = VmTable::getInstance('countries');
+		if(empty($fieldname) or $fieldname == 'virtuemart_country_id'){
+			$h = $id;
+		} else {
+			$h = $fieldname.'.'.$id;
+		}
+
+		$c = VmTable::getInstance('countries');
+		if(!isset(self::$_countries[$h])){
 			$c->load($id, $fieldname);
-			self::$_countries[$c->virtuemart_country_id] = self::$_countries[strtoupper($c->country_name)] = self::$_countries[$c->country_2_code] = self::$_countries[$c->country_3_code] = self::$_countries[$c->country_num_code] = $c;
-			//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
+			self::$_countries[$h] = self::$_countries['country_name.'.$c->country_name] = self::$_countries['country_2_code.'.$c->country_2_code] = self::$_countries['country_3_code.'.$c->country_3_code] = self::$_countries['country_num_code.'.$c->country_num_code] = $c->loadFieldValues();
+			//vmdebug('loaded country '.$h,self::$_countries[$h]);
+		} else {
+			$c->bind(self::$_countries[$h]);
+			//vmdebug('getCountry by Cache '.$h,self::$_countries);
 		}
 
 		//vmdebug('loaded country ',$id,$fieldname,self::$_countries[$id]->loadFieldValues());
-		if(isset(self::$_countries[$id])){
-			return self::$_countries[$id];
+		if($c){
+			return $c;
 		} else {
 			return false;
 		}

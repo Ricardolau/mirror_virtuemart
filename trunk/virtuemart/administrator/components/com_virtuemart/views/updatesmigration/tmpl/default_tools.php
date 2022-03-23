@@ -28,7 +28,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 	<td align="left" colspan="2" >
-             <h3> <?php echo vmText::_('COM_VIRTUEMART_TOOLS_SYNC_MEDIA_FILES'); ?> </h3>
+             <h3> <?php echo vmText::_('COM_VIRTUEMART_TOOLS_MAINTENANCE'); ?> </h3>
 	</td>
 
 
@@ -69,42 +69,23 @@ defined('_JEXEC') or die('Restricted access');
 	  </td>
     </tr>
     <tr>
-        <td align="center">
+        <td align="center" width="25%">
 			<?php echo $this->renderTaskButton('updateDatabase','COM_VIRTUEMART_UPDATEDATABASE'); ?>
         </td>
-        <td align="center">
+        <td align="center" width="25%">
 			<?php echo $this->renderTaskButton('optimizeDatabase','COM_VIRTUEMART_OPTIMIZE_DATABASE'); ?>
         </td>
-
-        <td align="center">
+        <td align="center" width="25%">
+		    <?php echo $this->renderTaskButton('updateToUTf8mb4','COM_VIRTUEMART_UPDATE_TO_UTF8MB4'); ?>
+        </td>
+        <td align="center" width="25%">
 			<?php echo $this->renderTaskButton('reset_Has_x_Fields','COM_VIRTUEMART_RESET_HASX_FIELDS'); ?>
         </td>
     </tr>
 
 </table>
 
-    <form action="index.php" method="post" name="adminForm" enctype="multipart/form-data" >
-        <input type="hidden" name="task" value="setStoreOwner" />
 
-        <table>
-            <tr>
-                <td>
-					<?php echo vmText::_('COM_VIRTUEMART_MIGRATION_STOREOWNERID'); ?>
-                </td>
-                <td>
-                    <input class="inputbox" type="text" name="storeOwnerId" size="15" value="" />
-                </td>
-                <td>
-                    <button class="default" type="submit" ><?php echo vmText::_('COM_VIRTUEMART_SETSTOREOWNER'); ?></button>
-                </td>
-            </tr>
-        </table>
-
-        <!-- Hidden Fields -->
-        <input type="hidden" name="option" value="com_virtuemart" />
-        <input type="hidden" name="view" value="updatesmigration" />
-		<?php echo JHtml::_( 'form.token' ); ?>
-    </form>
 
 <?php
     if(!VmConfig::get('dangeroustools', false)){
@@ -120,6 +101,56 @@ defined('_JEXEC') or die('Restricted access');
     }
 ?>
 
+<div align="left">
+    <h3> <?php echo vmText::_('COM_VIRTUEMART_TOOLS_COUNTRIES'); ?> </h3>
+</div>
+
+<table>
+    <tr>
+        <td style="text-align:left;" colspan="3" ><?php echo vmText::_('COM_VIRTUEMART_UPDATE_COUNTRIES_TO_ISO_TIP'); ?> </td>
+    </tr>
+    <tr>
+        <td align="center" width="25%">
+			<?php echo $this->renderTaskButton('updateCountryTableISONumbersSafe','COM_VIRTUEMART_UPDATE_COUNTRIES_TO_ISO_SAFE'); ?>
+        </td>
+        <!--td style="max-width: 400px;padding-left:50px;" ><?php echo vmText::_('COM_VIRTUEMART_UPDATE_COUNTRIES_TO_ISO_TIP'); ?></td-->
+        <td align="center" width="25%">
+		    <?php echo $this->renderTaskButton('updateCountryTableISONumbers','COM_VIRTUEMART_UPDATE_COUNTRIES_TO_ISO'); ?>
+        </td>
+        <!--td style="max-width: 400px;padding-left:50px;" ><?php echo vmText::_('COM_VIRTUEMART_RESET_COUNTRIES_TO_ISO_TIP'); ?></td-->
+        <td align="center" width="25%">
+		    <?php echo $this->renderTaskButton('resetCountryTableISONumbers','COM_VIRTUEMART_RESET_COUNTRIES_TO_ISO'); ?>
+        </td>
+    </tr>
+</table>
+
+<div align="left">
+    <h3> <?php echo vmText::_('COM_VIRTUEMART_SETSTOREOWNER'); ?> </h3>
+</div>
+
+<form action="index.php" method="post" name="adminForm" enctype="multipart/form-data" >
+    <input type="hidden" name="task" value="setStoreOwner" />
+
+    <table>
+        <tr>
+            <td>
+				<?php echo vmText::_('COM_VIRTUEMART_MIGRATION_STOREOWNERID'); ?>
+            </td>
+            <td>
+                <input class="inputbox" type="text" name="storeOwnerId" size="15" value="" />
+            </td>
+            <td>
+                <button class="default" type="submit" ><?php echo vmText::_('COM_VIRTUEMART_SETSTOREOWNER'); ?></button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Hidden Fields -->
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="view" value="updatesmigration" />
+	<?php echo JHtml::_( 'form.token' ); ?>
+</form>
+
 <table>
     <tr><td align="left" colspan="4"><?php echo vmText::_('COM_VIRTUEMART_UPDATE_MIGRATION_TOOLS_WARNING'); ?></td></tr>
 <tr>
@@ -130,9 +161,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php echo $this->renderTaskButton('refreshCompleteInstallAndSample','COM_VIRTUEMART_DELETES_ALL_VM_TABLES_AND_SAMPLE'); ?>
 	</td>
 
-    <td align="center">
-		<?php echo $this->renderTaskButton('updateToUTf8mb4','COM_VIRTUEMART_UPDATE_TO_UTF8MB4'); ?>
-    </td>
+
 
 	<td align="center">
 

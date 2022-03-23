@@ -44,13 +44,11 @@ if(version_compare(JVERSION,'4.0.0','ge')) {
 		 * @param   AbstractMenu              $menu             The menu object to work with
 		 */
 		public function __construct(SiteApplication $app, AbstractMenu $menu) {
-
 			parent::__construct($app, $menu);
 
 			$this->attachRule(new MenuRules($this));
 			$this->attachRule(new StandardRules($this));
 			$this->attachRule(new NomenuRules($this));
-
 		}
 
 		public function parse(&$segments) {
@@ -71,11 +69,39 @@ if(version_compare(JVERSION,'4.0.0','ge')) {
 
 			return $ret;
 		}
+		
+		public function preprocess($query) {
+			if (!isset($query['Itemid'])) {
+				$menu = SiteApplication::getInstance('site')->getMenu();
+
+				// Search for all menu items for your component
+				$menuItems = $menu->getItems('component', 'com_virtuemart');
+
+				if (!empty($menuItems))
+				{
+					$shopMenuItemId = 0;
+					
+					foreach ($menuItems as $menuItem) {
+						if (!empty($menuItem->query['option']) && $menuItem->query['option'] === 'com_virtuemart' && !empty($menuItem->query['view']) && $menuItem->query['view'] === 'category' && empty($menuItem->query['virtuemart_category_id']) && empty($menuItem->query['virtuemart_manufacturer_id'])) {
+							$shopMenuItemId = $menuItem->id;
+							break;
+						}
+					}
+					
+					if ($shopMenuItemId > 0)
+					{
+						$query['Itemid'] = $shopMenuItemId;
+					}
+				}
+			}
+			
+			return parent::preprocess($query);
+		}
 
 		public function build(&$query) {
-		  require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_virtuemart'.DIRECTORY_SEPARATOR.'router.php');
-		  $ret = virtuemartBuildRoute($query);
-		  return $ret;
+			require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_virtuemart'.DIRECTORY_SEPARATOR.'router.php');
+			$ret = virtuemartBuildRoute($query);
+			return $ret;
 		}
 
 	}

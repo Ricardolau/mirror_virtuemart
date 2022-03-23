@@ -39,6 +39,7 @@
 #invoiceNameInShopLang=1
 #transliterateslugs
 #UseCachegetChildCategoryList
+backendTemplate=1
 
 #order_item_ordering=order_item_sku
 #order_item_ordering_dir

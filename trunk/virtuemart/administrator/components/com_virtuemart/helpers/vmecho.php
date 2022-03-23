@@ -61,7 +61,12 @@ function vmInfo($publicdescr,$value=NULL){
 
 	if(!empty($msg)){
 		VmConfig::$maxMessageCount++;
-		$app ->enqueueMessage($msg,$type);
+		if(VmConfig::$_debug ){
+			vmdebug('vmInfo: '.$msg);
+		} else {
+			$app ->enqueueMessage($msg,$type);
+		}
+
 	} else {
 		vmTrace('vmInfo Message empty '.$msg);
 	}
@@ -214,8 +219,8 @@ function vmError($descr, $publicdescr = '', $trace = 1){
  * A debug dumper for VM, it is only shown to backend users.
  *
  * @author Max Milbers
- * @param unknown_type $descr
- * @param unknown_type $values
+ * @param String $descr
+ * @param various $values
  */
 function vmdebug($debugdescr,$debugvalues=NULL){
 
@@ -229,7 +234,7 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 							$methods = '';
 							if(is_object($args[$i])){
 								$methods = print_r(get_class_methods($args[$i]),1);
-								if(!empty($methods)){
+								if(!empty($methods) and is_array($methods) and count($methods)>0){
 									$methods = '<br />'.$methods;
 								}
 							}

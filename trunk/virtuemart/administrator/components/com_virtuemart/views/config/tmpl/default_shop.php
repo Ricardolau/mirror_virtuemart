@@ -119,10 +119,12 @@ defined('_JEXEC') or die('Restricted access');?>
 	<legend><?php echo vmText::_('COM_VIRTUEMART_ADMIN_CFG_SHOP_ADVANCED'); ?></legend>
 	<table class="admintable">
 		<?php
+			$active=1;
 			if(!$this->admintTemplateInstalled){
 				echo '<tr><td colspan="2">'.vmText::_('COM_VM_CFG_ADMINTEMPLATE_MISSING').'</td></tr>';
+				$active=0;
 			}
-			echo VmHTML::row('checkbox', 'COM_VM_CFG_ADMINTEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', 0));
+			echo VmHTML::row('checkbox', 'COM_VM_CFG_ADMINTEMPLATE', 'backendTemplate', VmConfig::get('backendTemplate', $active));
 
 
 			$optDebug = array(

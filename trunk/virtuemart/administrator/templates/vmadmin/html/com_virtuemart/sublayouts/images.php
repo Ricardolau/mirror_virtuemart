@@ -38,13 +38,14 @@ echo $VmMediaHandler->displayHidden();
 // manuf= media[active_media_id], option
 //	$this->addHidden('media[active_media_id]',$this->virtuemart_media_id);
 //		$this->addHidden('option','com_virtuemart');
+/*
 ?>
 	<!-- MEDIA Hidden comes from mediaHandler->addHiddenByType-->
 	<input type="hidden" name="media[active_media_id]" value="<?php $VmMediaHandler->virtuemart_media_id ?>"/>
 	<input type="hidden" name="option" value="com_virtuemart"/>
 
 
-<?php
+<?php */
 if ($canSearch) {
 	?>
 	<!-- BOF COM_VIRTUEMART_IMAGE_SEARCH  -->
@@ -190,7 +191,8 @@ if ($canSearch) {
 								}
 
 								$VmMediaHandler->addMediaAttributesByType();
-
+								$VmMediaHandler->addHiddenByType();
+								echo $VmMediaHandler->displayHidden();
 								?>
 								<div class="uk-clearfix">
 									<label class="uk-form-label">

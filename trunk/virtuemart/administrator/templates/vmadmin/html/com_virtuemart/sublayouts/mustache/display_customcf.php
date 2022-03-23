@@ -30,9 +30,16 @@ defined('_JEXEC') or die('Restricted access');
 						<div class="uk-grid-small" uk-grid>
 							<div class="uk-width-auto@m">
 								<div class="uk-iconnav uk-iconnav-vertical">
+                                    {{#disableCheckbox }}
+                                    <label class="uk-link"
+                                           uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP') ?>">
+                                        <span class="" uk-icon="icon: disable; ratio: 0.75"></span>
+                                        {{{disableCheckbox}}}
+                                    </label>
+                                    {{/disableCheckbox }}
 									{{#overrideCheckbox }}
 										<label class="uk-link"
-												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP') ?>">
+												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP') ?>">
 											<span class="" uk-icon="icon: disable; ratio: 0.75"></span>
 											{{{overrideCheckbox}}}
 										</label>

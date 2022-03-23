@@ -124,6 +124,14 @@ if (isset($this->product->customfields)) {
 
 			}
 
+			$customcf->disableCheckbox='';
+			if (!empty($title)) {
+				$text .= '<span style="white-space: nowrap;" uk-tooltip="' . htmlentities(vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP')) . '">o:' . VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) . '</span>';
+				$disableCheckbox =  VmHtml::checkbox('field[' . $i . '][disabler]', $customfield->disabler, $checkValue) ;
+				$customcf->disableCheckbox=$disableCheckbox;
+
+			}
+
 			$tables['fields'] .= '<tr class="removable">
 							<td >
 							<b>' . vmText::_($type) . '</b> ' . vmText::_($customfield->custom_title) . '</span><br/>

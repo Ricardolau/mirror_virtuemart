@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access');
 		<div class="floatleft">
 			<?php
 			if(VmConfig::get('add_img_main', 1)) {
-				echo $image->displayMediaThumb('class="product-image" style="cursor: pointer" data-descr="'.$image->file_description.'"',false,'',true,$descr);
+				echo $image->displayMediaThumb(array('class'=>"product-image", 'style'=>"cursor: pointer", 'data-descr'=>$image->file_description), false, '', true,$descr);
 				echo '<a href="'. $image->file_url .'"  class="product-image image-'. $i .'" style="display:none;" title="'. $image->file_meta .'" rel="vm-additional-images"></a>';
 			} else {
 				if(VmConfig::get('add_thumb_use_descr', false)) {

@@ -58,7 +58,7 @@ dl#system-message dd.notice { background: #ededed !important;}
 #system-message dd ul .vmdebug{background: url("../images/icon_32/elements_16.png") no-repeat scroll 0px top transparent !important;display: block;}
 #system-message dd.error ul {background: url("../images/icon_32/exclamation.png") no-repeat scroll 8px center transparent !important;}
 
-fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{float:left;width:auto;margin:5px 5px 5px 0}
+fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{float:left;margin:5px 5px 5px 0}
 input.readonly{  border: 0 none;}
 /*.adminform {border: 0 none;}*/
 .adminform input.readonly{ text-align:right; border: 0 none; font-size: 0.909em;font-weight: normal; color:#000; width:75px }
@@ -182,7 +182,7 @@ font-weight: normal;
 .control-input {float: left;margin: 0 0 0 50px;}
 .control-input textarea{width:100%;min-width:450px;}
 .control-field h3 {font-weight: bold;padding:5px;background-color: #cacaca}
-.control-input input { width: initial;}
+/*.control-input input { width: initial;}*/
 .control-label .level1 {background-color: #7c7d7f !important;font-weight: bold;padding: 5px;float: none;clear: both;}
 
 #limit {width:60px;}

@@ -118,7 +118,14 @@ class VirtuemartViewProduct extends VmViewAdmin {
 							VmWarn('Could not load all children due maxChild setting');
 							break;
 						}
-						$product_childs[] = $model->getProductSingle($id,false);
+						$child = $model->getProductSingle($id,false);
+
+						if(empty($child->allPrices)){
+							$child->selectedPrice = 0;
+							$child->allPrices[0] = array('product_price'=>'', 'virtuemart_product_price_id'=>'');
+							//vmdebug('my child prices',$child->selectedPrice,$child->allPrices,$child->allPrices[$child->selectedPrice]['product_price']);
+						}
+						$product_childs[] = $child;
 					}
 					$this->product_childs = $product_childs;
 				}

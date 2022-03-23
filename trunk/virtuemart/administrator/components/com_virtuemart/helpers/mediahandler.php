@@ -463,16 +463,48 @@ class VmMediaHandler {
 	}
 
 	function filterImageArgs($imageArgs){
-		if(!empty($imageArgs)){
-			if(!is_array($imageArgs)){
-				$imageArgs = str_replace(array('class','"','='),'',$imageArgs);
-				$imageArgs = array('class' => $imageArgs.' '.$this->file_class);
-			} else {
-				if(!isset($imageArgs['class'])) $imageArgs['class'] = '';
-				$imageArgs['class'] .= ' '.$this->file_class;
+
+		if(empty($imageArgs)){
+			$imageArgs = array('class' => $this->file_class);
+		}  else {
+			if(!is_array($imageArgs)) {
+				$parts = explode('=', $imageArgs);
+				vmdebug('filterImageArgs my image $parts ',$imageArgs,$parts);
+				$imageArgs = array();
+				$first = true;
+				$keyV = '';
+				$count = count($parts);
+				$i = 0;
+				foreach ($parts as $part) {
+					if ($first) {
+						$newKey = $keyV = trim($part);
+						$first = false;
+					} else {
+						$tmpParts = explode(' ',$part);
+						if(is_array($tmpParts)){
+							if($i<($count-1)){
+								$newKey = array_pop($tmpParts);
+								$value = trim(implode(' ',$tmpParts));
+								$imageArgs[$keyV] = trim($value,'"');
+								$keyV = $newKey;
+							} else {
+								$value = trim(implode(' ',$tmpParts));
+								$imageArgs[$newKey] = trim($value,'"');
+							}
+						}
+					}
+					$i++;
+				}
+				vmdebug('filterImageArgs my image args filtered',$imageArgs);
 			}
-		} else {
-			$imageArgs = array('class' => $imageArgs.' '.$this->file_class);
+
+			//vmdebug('my image args u',$imageArgs);
+			//$imageArgs = str_replace(array('class','"','=',"'"),'',$imageArgs);
+			if(empty($this->file_class)){
+				$imageArgs = array('class' => $imageArgs);
+			} else {
+				$imageArgs = array('class' => $imageArgs['class'].' '.$this->file_class);
+			}
 		}
 		return $imageArgs;
 	}
@@ -1050,7 +1082,7 @@ class VmMediaHandler {
 	 * Adds the hidden fields which are needed for the form in every case
 	 * @author Max Milbers
 	 */
-	private function addHiddenByType(){
+	public function addHiddenByType(){
 
 		$this->addHidden('media[active_media_id]',$this->virtuemart_media_id);
 		$this->addHidden('option','com_virtuemart');
@@ -1421,7 +1453,8 @@ class VmMediaHandler {
 	 * renders the hiddenfields added in the layout before (used to make the displayFileHandle reusable)
 	 * @author Max Milbers
 	 */
-	private function displayHidden(){
+	public function displayHidden(){
+		vmdebug('displayHidden',$this->_hidden);
 		$html='';
 		foreach($this->_hidden as $k=>$v){
 			$html .= '<input type="hidden" name="'.$k.'" value="'.$v.'" />';

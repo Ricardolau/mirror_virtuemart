@@ -20,12 +20,7 @@
  */
 
 
-
-
 defined('_JEXEC') or die();
-
-
-
 
 
 class VmuikitMediaHandler  {

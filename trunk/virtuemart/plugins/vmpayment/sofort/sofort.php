@@ -709,7 +709,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 		return $logoLink;
 	}
 	/*
-		 * plgVmonSelectedCalculatePricePayment
+		 * plgVmOnSelectedCalculatePricePayment
 		 * Calculate the price (value, tax_id) of the selected method
 		 * It is called by the calculator
 		 * This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
@@ -789,7 +789,7 @@ class plgVmPaymentSofort extends vmPSPlugin {
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
-	function plgVmonShowOrderPrintPayment ($order_number, $method_id) {
+	function plgVmOnShowOrderPrintPayment ($order_number, $method_id) {
 
 		return $this->onShowOrderPrint($order_number, $method_id);
 	}

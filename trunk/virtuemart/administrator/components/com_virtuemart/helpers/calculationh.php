@@ -1645,7 +1645,7 @@ class calculationHelper {
 			if(empty($this->_cart->{$method_id_name})) return;
 		//}
 
-		$returnValues = vDispatcher::trigger('plgVmonSelectedCalculatePrice'.ucfirst($type),array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData[$type.'Name']  ));
+		$returnValues = vDispatcher::trigger('plgVmOnSelectedCalculatePrice'.ucfirst($type),array( $this->_cart, &$this->_cart->cartPrices, &$this->_cart->cartData[$type.'Name']  ));
 
 		// Plugin return true if payment plugin is  valid false if not  valid anymore only one value is returned
 		$methodValid=0;

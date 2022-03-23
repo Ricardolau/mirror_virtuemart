@@ -1080,7 +1080,7 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 	}
 
 	/**
-	 * plgVmonSelectedCalculatePricePayment
+	 * plgVmOnSelectedCalculatePricePayment
 	 * Calculate the price (value, tax_id) of the selected method
 	 * It is called by the calculator
 	 * This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
@@ -1091,7 +1091,7 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 	 *
 	 */
 
-	public function plgVmonSelectedCalculatePricePayment (VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
+	public function plgVmOnSelectedCalculatePricePayment (VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
 		return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
 	}
 
@@ -1191,7 +1191,7 @@ class plgVmPaymentRealex_hpp_api extends vmPSPlugin {
 	 * @param integer $method_id  method used for this order
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 */
-	public function plgVmonShowOrderPrintPayment ($order_number, $method_id) {
+	public function plgVmOnShowOrderPrintPayment ($order_number, $method_id) {
 		return $this->onShowOrderPrint($order_number, $method_id);
 	}
 

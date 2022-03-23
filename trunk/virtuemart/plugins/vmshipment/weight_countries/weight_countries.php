@@ -500,7 +500,7 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 	 * @return mixed Null when for payment methods that were not selected, text (HTML) otherwise
 	 * @author Valerie Isaksen
 	 */
-	function plgVmonShowOrderPrint ($order_number, $method_id) {
+	function plgVmOnShowOrderPrint ($order_number, $method_id) {
 		return $this->onShowOrderPrint ($order_number, $method_id);
 	}
 

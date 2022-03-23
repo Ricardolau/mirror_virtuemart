@@ -2838,7 +2838,7 @@ $('.amazonDetailsOpener').click(function() {
 	}
 
 	/**
-	 * plgVmonSelectedCalculatePricePayment
+	 * plgVmOnSelectedCalculatePricePayment
 	 * Calculate the price (value, tax_id) of the selected method
 	 * It is called by the calculator
 	 * This function does NOT to be reimplemented. If not reimplemented, then the default values from this function are taken.
@@ -2850,7 +2850,7 @@ $('.amazonDetailsOpener').click(function() {
 	 */
 	private static $cartPriceUpdatedDone = false;
 
-	public function plgVmonSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices,
+	public function plgVmOnSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices,
 		&$cart_prices_name) {
 
 		if(!($this->selectedThisByMethodId($cart->virtuemart_paymentmethod_id))) {
@@ -3075,7 +3075,7 @@ $('.amazonDetailsOpener').click(function() {
 
 		$destination = $orderReferenceDetails->GetOrderReferenceDetailsResult->getOrderReferenceDetails()->getDestination();
 		if(empty($destination)) {
-			// plgVmonSelectedCalculatePricePayment is also called in the module
+			// plgVmOnSelectedCalculatePricePayment is also called in the module
 			//$this->debug('Destination is empty, noot saving', 'saveAmazonPartialShipmentAddressIncart', 'debug');
 			return false;
 		}

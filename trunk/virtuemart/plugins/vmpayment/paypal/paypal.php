@@ -1544,7 +1544,7 @@ class plgVmPaymentPaypal extends vmPSPlugin {
 
 	// This method is fired when showing when priting an Order
 	// It displays the the payment method-specific data.
-	function plgVmonShowOrderPrintPayment($order_number, $method_id) {
+	function plgVmOnShowOrderPrintPayment($order_number, $method_id) {
 		return $this->onShowOrderPrint($order_number, $method_id);
 	}
 

@@ -418,7 +418,7 @@ class plgVmPaymentTco extends vmPSPlugin {
         return $this->displayListFE($cart, $selected, $htmlIn);
     }
 
-    public function plgVmonSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
+    public function plgVmOnSelectedCalculatePricePayment(VirtueMartCart $cart, array &$cart_prices, &$cart_prices_name) {
         return $this->onSelectedCalculatePrice($cart, $cart_prices, $cart_prices_name);
     }
 
@@ -430,7 +430,7 @@ class plgVmPaymentTco extends vmPSPlugin {
         $this->onShowOrderFE($virtuemart_order_id, $virtuemart_paymentmethod_id, $payment_name);
     }
 
-    function plgVmonShowOrderPrintPayment($order_number, $method_id) {
+    function plgVmOnShowOrderPrintPayment($order_number, $method_id) {
         return $this->onShowOrderPrint($order_number, $method_id);
     }
 

@@ -8,7 +8,7 @@
  * @subpackage updatesMigration
  * @author Max Milbers, RickG
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -560,8 +560,16 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$this->storeMenuEntry($menuModel,$feHomeMenu,'Cart','cart'.$aliasSuffix,'cart','index.php?option=com_virtuemart&view=cart','','{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}');
 		}
 
+		$q = 'SELECT template FROM #__template_styles WHERE home=1 and client_id=0';
+		$db->setQuery($q);
+		$templateDefault = $db->loadResult($q);
 		//Update Modules
-		$q = 'UPDATE #__modules SET `position`="position-1" WHERE module="mod_menu" and access="1" and client_id=0';
+		if($templateDefault == 'horme_3'){
+			$position = 'menu';
+		} else {
+			$position = 'position-1';
+		}
+		$q = 'UPDATE #__modules SET `position`="'.$position.'" WHERE module="mod_menu" and access="1" and client_id=0';
 		$db ->setQuery($q);
 		$db->execute();
 		//vmdebug('addMenuEntries',$data);

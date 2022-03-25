@@ -7,7 +7,7 @@
 * @subpackage updatesMigration
 * @author Max Milbers, RickG
 * @link ${PHING.VM.MAINTAINERURL}
-* @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -119,6 +119,10 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	    $userId = $this->determineStoreOwner();
 	}
 
+    if(!VmConfig::$vmlang){
+	    vmLanguage::initialise();
+    }
+
 	$fields['username'] =  $this->_user->username;
 	$fields['virtuemart_user_id'] =  $userId;
 	$fields['address_type'] =  'BT';
@@ -164,10 +168,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 	//Save the VM user stuff
 	if(!$usermodel->store($fields)){
 		vmError(vmText::_('COM_VIRTUEMART_NOT_ABLE_TO_SAVE_USER_DATA')  );
-	}
-
-	if(!VmConfig::$vmlang){
-		vmLanguage::initialise();
 	}
 
 	$lang = VmConfig::$vmlang;
@@ -823,16 +823,18 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		return ;
 	}
 
-	private function addDropKeys($db, $key, $drop = true){
+	private function addDropKeys($db, $key, $drop = true, $unique = true){
 
 		$q = 'ALTER TABLE `#__virtuemart_countries` ';
 		if($drop){
 			$q .= 'DROP INDEX `'.$key.'` ;';
 		} else {
-			$q .= 'ADD UNIQUE KEY `'.$key.'` (`'.$key.'`) ;';
+			$uniqueStr = '';
+			if($unique) $uniqueStr = 'UNIQUE';
+			$q .= 'ADD '.uniqueStr.' KEY `'.$key.'` (`'.$key.'`) ;';
 		}
 		$db->setQuery($q);
-		vmdebug('Executing '.$q);
+		//vmdebug('Executing '.$q);
 		try{
 			$db->execute();
 		} catch (Exception $e){
@@ -865,50 +867,6 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$country = new stdClass();
 		$country->country_name = "%-1";     //remove accidently doubled countries
 		$this->removeNotUniqueCountries($db, $country, 'country_name', 'LIKE');
-
-		/*$deleted = $this->checkDeleteCountryEntry($db, 'XET');
-		if($deleted){
-			$oldEntry = array('country_2_code'=>"TP", 'country_3_code'=>"TMP");
-			$toDeleteEntry = '';
-		} else {
-			$oldEntry = array('country_2_code'=>"XE", 'country_3_code'=>"XET");
-			$deleted = $this->checkDeleteCountryEntry($db, 'TMP');
-		}
-		$this->updateCountry( $db, $oldEntry,array('country_2_code'=>"TL", 'country_3_code'=>"TLS",'country_name'=>"Timor-Leste", 'country_num_code'=>"626"));
-
-		$oldEntry = array('country_2_code'=>"DC", 'country_3_code'=>"DRC");
-		$newCongoEntry = array('country_2_code'=>"CD", 'country_3_code'=>"COD",'country_name'=>"Congo (the Democratic Republic of the)", 'country_num_code'=>"180");
-		$this->updateCountry( $db, $oldEntry, $newCongoEntry);
-		$oldEntry = array('country_2_code'=>"CD", 'country_3_code'=>"RCB");
-		$this->updateCountry( $db, $oldEntry, $newCongoEntry);
-
-		//Jersey
-		$oldEntry = array('country_2_code'=>"XJ", 'country_3_code'=>"XJE");
-		$newEntry = array('country_2_code'=>"JE", 'country_3_code'=>"JEY", 'country_num_code'=>"832");
-		$this->updateCountry( $db, $oldEntry, $newEntry);
-
-		//Saint Barthélemy
-		$oldEntry = array('country_2_code'=>"XB", 'country_3_code'=>"XSB");
-		$newEntry = array('country_2_code'=>"BL", 'country_3_code'=>"BLM", 'country_num_code'=>"652",'country_name'=>"Saint Barthélemy");
-		$this->updateCountry( $db, $oldEntry, $newEntry);
-
-		//St. Eustatius
-		$oldEntry = array('country_2_code'=>"XU", 'country_3_code'=>"XSE");
-		$newEntry = array('country_2_code'=>"BQ", 'country_3_code'=>"BES", 'country_num_code'=>"535",'country_name'=>"Bonaire, Sint Eustatius and Saba");
-		$this->updateCountry( $db, $oldEntry, $newEntry);
-
-		//Canary Islands (Inofficial)
-		$oldEntry = array('country_2_code'=>"XC", 'country_3_code'=>"XCA");
-		$newEntry = array('country_2_code'=>"IC", 'country_3_code'=>"XCA", 'country_num_code'=>"725");
-		$this->updateCountry( $db, $oldEntry, $newEntry);
-
-		//$this->checkDeleteCountryEntry('RCB');
-		$this->checkDeleteCountryEntry($db, 'YUG');
-
-		$this->checkDeleteCountryEntry($db, 'FXX');*/
-
-		//$this->removeNotUniqueCountries($db, $country, 'country_name', 'LIKE');
-
 
 		$iso = array();
 		foreach($countries as $country){
@@ -945,17 +903,19 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 				}
 
 				//Always unpublish outdated countries, but do not publish already unpublished
-				if(empty($country->published)){
-					if(!empty($loaded->published)) vmInfo('Overwriting '.$country->virtuemart_country_id.' '.$loaded->country_name.' country published '.(int)$loaded->published.' to '.(int)$country->published);
+				if(empty($country->published) and !empty($loaded->published)){
+					vmInfo('Overwriting '.$country->virtuemart_country_id.' '.$loaded->country_name.' country published '.(int)$loaded->published.' to '.(int)$country->published);
 					$loaded->published = $country->published;
 					$overwritten = true;
 				}
+
 				if( $overwritten ) {
 					vmdebug('Overwriting ',$loaded->loadFieldValues(), $country);
 					$this->cleanDoubledEntries($db, $loaded);
+					$loaded->store();
+					$iso[] = $loaded->virtuemart_country_id;
 				}
-				$loaded->store();
-				$iso[] = $loaded->virtuemart_country_id;
+
 			}
 		}
 
@@ -1115,54 +1075,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		$table->toggle('published', 0);
 	}
 
-	private function updateCountry($db, $old, $new){
-		if(!empty($old['country_3_code'])){
-			$country = $this->countryM->getCountry($old['country_3_code'], 'country_3_code');
-		}
 
-		if(empty($country->virtuemart_country_id) and !empty($old['country_2_code']) ){
-			$country = $this->countryM->getCountry($old['country_2_code'], 'country_2_code');
-		}
-
-		if(!empty($country->virtuemart_country_id)){
-			$store = false;
-			if(!empty($new['country_2_code'])){
-				$country->country_2_code = $new['country_2_code'];
-				$store = true;
-			}
-
-			if(!empty($new['country_3_code'])){
-				$country->country_3_code = $new['country_3_code'];
-				$store = true;
-			}
-
-			if(!empty($new['country_num_code'])){
-				$country->country_num_code = $new['country_num_code'];
-				$store = true;
-			}
-
-			if(!empty($new['country_name'])){
-				$country->country_name = $new['country_name'];
-				$store = true;
-			}
-
-			$uniqueAttribs = array('country_2_code', 'country_3_code', 'country_num_code', 'country_name');
-			foreach($uniqueAttribs as $attrib){
-				$q = 'SELECT * FROM #__virtuemart_countries WHERE '.$attrib.' = "'.$country->{$attrib}.'" ';
-				$db->setQuery($q);
-				$res = $db->loadObjectList();
-				if($res){
-					foreach($res as $cntry){
-						VmWarn('Cannot update country '.$country->country_name.', the '.$attrib.' = '.$country->{$attrib}.' is already used by Country '.$cntry->country_name.' and id '.$cntry->virtuemart_country_id);
-					}
-					$this->unpublishCountry($country->virtuemart_country_id);
-					return false;
-				}
-			}
-			if($store) $country->store();
-		}
-
-	}
 }
 
 //pure php no tag

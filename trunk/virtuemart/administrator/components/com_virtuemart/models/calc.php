@@ -140,8 +140,8 @@ class VirtueMartModelCalc extends VmModel {
 
 		$db = JFactory::getDBO();
 		// Convert selected dates to MySQL format for storing.
-		$startDate = JFactory::getDate($data['publish_up']);
-		$data['publish_up'] = $startDate->toSQL();
+		//$startDate = JFactory::getDate($data['publish_up']);
+		//$data['publish_up'] = $startDate->toSQL();
 
 		if (empty($data['publish_down']) || trim($data['publish_down']) == vmText::_('COM_VIRTUEMART_DATE_NOTSET')){
 			$data['publish_down']	= $db->getNullDate();

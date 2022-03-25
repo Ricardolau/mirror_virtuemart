@@ -461,11 +461,17 @@ class VmTable extends vObject implements \JTableInterface {
 		$this->_dateFields = array_unique($this->_dateFields);
 		if($this->_dateFields){
 			foreach($this->_dateFields as $f){
-				if(!empty($this->{$f})){
+				if(!empty($this->{$f}) and $this->{$f}!= '0000-00-00 00:00:00'){
 					$date = new JDate($this->{$f});
 					$this->{$f} = $date->toSQL();
 				} else {
-					$this->{$f} = null;
+					if(JVM_VERSION<4){
+						$this->{$f} = $this->_db->getNullDate();	//Works maybe also in j4
+					} else {
+						$this->{$f} = null;
+					}
+
+
 				}
 			}
 		}
@@ -1270,6 +1276,7 @@ class VmTable extends vObject implements \JTableInterface {
 			//$msg = 'vmTable function store was called without prior calling check';
 			//vmTrace($msg.' this is deprecated, call function check now. This fallback will be removed in future', true, 6);
 		}
+		vmdebug('vmTable Storing ',$this->loadFieldValues());
 		if($this->_update === true){
 			if(empty($this->{$tblKey})){
 				vmdebug('Update has empty $tblKey ', $this->loadFieldValues());
@@ -1615,7 +1622,7 @@ class VmTable extends vObject implements \JTableInterface {
 			} else {
 				if ($res and count($res) == 1 and !empty($res[0][$tblKey]) ) {
 					if($this->{$tblKey} != $res[0][$tblKey]){
-						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given tblkey' . $tblKey . ' = ' . $this->{$tblKey} . ' to ' . $res[0][$tblKey] .' because '.$_qry,$this->loadFieldValues(true));
+						vmdebug('Table ' . $this->_tbl . ' Updating existing entry, corrected given tblkey ' . $tblKey . ' = ' . $this->{$tblKey} . ' to ' . $res[0][$tblKey] .' because '.$_qry,$this->loadFieldValues(true));
 					}
 					$this->{$tblKey} = $res[0][$tblKey];
 					$this->_update = true;

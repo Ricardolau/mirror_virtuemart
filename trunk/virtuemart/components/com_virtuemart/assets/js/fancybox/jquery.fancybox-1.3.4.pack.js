@@ -646,7 +646,7 @@
 	 */
 
 	$.fn.fancybox = function(options) {
-		console.log('fancy contructor'); 
+		//console.log('fancy contructor');
 		if (!$(this).length) {
 			return this;
 		}

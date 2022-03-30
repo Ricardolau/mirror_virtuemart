@@ -1276,7 +1276,7 @@ class VmTable extends vObject implements \JTableInterface {
 			//$msg = 'vmTable function store was called without prior calling check';
 			//vmTrace($msg.' this is deprecated, call function check now. This fallback will be removed in future', true, 6);
 		}
-		vmdebug('vmTable Storing ',$this->loadFieldValues());
+		//vmdebug('vmTable Storing ',$this->loadFieldValues());
 		if($this->_update === true){
 			if(empty($this->{$tblKey})){
 				vmdebug('Update has empty $tblKey ', $this->loadFieldValues());
@@ -1291,7 +1291,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 		} else {
 			$p = $this->{$tblKey};
-			vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' ',$this->loadFieldValues(true));
+			//vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' ',$this->loadFieldValues(true));
 			try {
 				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			} catch (Exception $e){

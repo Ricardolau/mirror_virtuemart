@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved by the author.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved by the author.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1049,18 +1049,24 @@ class VirtueMartModelCustomfields extends VmModel {
 
 
 		if(self::$customfieldRenderer){
-			self::$customfieldRenderer = false;
 
 			$lPath = VmView::getVmSubLayoutPath ('customfield');
-
 			if($lPath){
 				require ($lPath);
 			} else {
 				vmdebug('displayProductCustomfieldFE layout not found customfield');
 			}
+
+			if(class_exists('VirtueMartCustomFieldRenderer')) {
+				self::$customfieldRenderer = false;
+			} else {
+				vmError('VirtueMartCustomFieldRenderer not found');
+			}
+
 		}
 
 		VirtueMartCustomFieldRenderer::renderCustomfieldsFE($product, $customfields, $virtuemart_category_id);
+
 
 	}
 	/**

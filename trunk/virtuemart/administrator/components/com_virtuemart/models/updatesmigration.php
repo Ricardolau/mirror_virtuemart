@@ -778,7 +778,7 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		} else {
 			vmError('updateCountryTableISONumbers Could not open file '.$file);
 		}
-		vmdebug('My countries from SQL file '.$file, $countries);
+		//vmdebug('My countries from SQL file '.$file, $countries);
 		//return false;
 		return $countries;
 	}
@@ -829,9 +829,9 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 		if($drop){
 			$q .= 'DROP INDEX `'.$key.'` ;';
 		} else {
-			$uniqueStr = '';
-			if($unique) $uniqueStr = 'UNIQUE';
-			$q .= 'ADD '.uniqueStr.' KEY `'.$key.'` (`'.$key.'`) ;';
+			$uniqueStr = 'INDEX';
+			if($unique) $uniqueStr = 'UNIQUE KEY';
+			$q .= 'ADD '.$uniqueStr.' `'.$key.'` (`'.$key.'`) ;';
 		}
 		$db->setQuery($q);
 		//vmdebug('Executing '.$q);
@@ -925,17 +925,24 @@ class VirtueMartModelUpdatesMigration extends VmModel {
 			$this->addDropKeys( $db, 'country_num_code', false);
 		}
 
-		$q = 'SELECT * FROM #__virtuemart_countries WHERE virtuemart_country_id IS NOT NULL AND virtuemart_country_id NOT IN('.implode(',',$iso).')';
-		$db->setQuery($q);
-		$nonIsoCountries = $db->loadObjectList();
+		if(!empty($iso)){
+			$q = 'SELECT * FROM #__virtuemart_countries WHERE virtuemart_country_id IS NOT NULL AND virtuemart_country_id NOT IN('.implode(',',$iso).')';
+			$db->setQuery($q);
+			$nonIsoCountries = $db->loadObjectList();
 
-		if(!empty($nonIsoCountries)){
-			$strA = array();
-			foreach($nonIsoCountries as $nonIsoCountry){
-				$strA[] = $nonIsoCountry->country_name;
+			if(!empty($nonIsoCountries)) {
+				$strA = array();
+				foreach ($nonIsoCountries as $nonIsoCountry) {
+					$strA[] = $nonIsoCountry->country_name;
+				}
+				vmInfo('Not updated Countries (either up to date or not ISO-3166: ' . implode(', ', $strA) . "\n" . $q);
+			} else {
+				vmInfo( 'All countries are up to date');
 			}
-			vmInfo(' updateCountryTableISONumbers not updated Countries: '.implode(', ',$strA)."\n".$q);
+		} else {
+			vmInfo( 'All countries are up to date');
 		}
+
 
 	}
 

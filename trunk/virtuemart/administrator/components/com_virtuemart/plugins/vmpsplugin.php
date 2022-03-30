@@ -1463,7 +1463,7 @@ abstract class vmPSPlugin extends vmPlugin {
 	/**
 	 * @param $amount
 	 * @param $currencyId
-	 * @return array
+	 * @return number
 	 */
 	static function getAmountValueInCurrency($amount, $currencyId){
 		$return= vmPSPlugin::getAmountInCurrency($amount, $currencyId);

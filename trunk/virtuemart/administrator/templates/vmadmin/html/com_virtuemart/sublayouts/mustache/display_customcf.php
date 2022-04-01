@@ -28,39 +28,37 @@ defined('_JEXEC') or die('Restricted access');
 				<div class="uk-width-auto@m">
 					<div class="">
 						<div class="uk-grid-small" uk-grid>
-							<div class="uk-width-auto@m">
-								<div class="uk-iconnav uk-iconnav-vertical">
-                                    {{#disableCheckbox }}
-                                    <label class="uk-link"
-                                           uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP') ?>">
-                                        <span class="" uk-icon="icon: ban; ratio: 0.75"></span>
-                                        {{{disableCheckbox}}}
-                                    </label>
-                                    {{/disableCheckbox }}
+
+							<div class="uk-width-1-1">
+								<div class="uk-iconnav uk-">
+									{{#disableCheckbox }}
+									<label class="uk-link"
+											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_CUSTOMFLD_DIS_DER_TIP') ?>">
+										<span class="" uk-icon="icon: ban; ratio: 0.75"></span>
+										{{{disableCheckbox}}}
+									</label>
+									{{/disableCheckbox }}
 									{{#overrideCheckbox }}
-										<label class="uk-link"
-												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP') ?>">
-											<span class="" uk-icon="icon: warning; ratio: 0.75"></span>
-											{{{overrideCheckbox}}}
-										</label>
+									<label class="uk-link"
+											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_DIS_DER_CUSTOMFLD_OVERR_DER_TIP') ?>">
+										<span class="" uk-icon="icon: warning; ratio: 0.75"></span>
+										{{{overrideCheckbox}}}
+									</label>
 									{{/overrideCheckbox }}
 									{{#canMove}}
-										<a uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_SORTABLE') ?>"
-												href="#"
-												class="uk-sortable-handle">
-											<span class="" uk-icon="icon: move; ratio: 0.75"></span>
-										</a>
+									<a uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_SORTABLE') ?>"
+											href="#"
+											class="uk-sortable-handle">
+										<span class="" uk-icon="icon: move; ratio: 0.75"></span>
+									</a>
 									{{/canMove}}
 									{{#canRemove}}
-										<div class="uk-link vmuikit-js-remove"
-												uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_REMOVE') ?>">
-											<span class="" uk-icon="icon: trash; ratio: 0.75"></span>
-										</div>
+									<div class="uk-link vmuikit-js-remove"
+											uk-tooltip="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_CUSTOMFIELD_REMOVE') ?>">
+										<span class="" uk-icon="icon: trash; ratio: 0.75"></span>
+									</div>
 									{{/canRemove}}
 								</div>
-							</div>
-
-							<div class="uk-width-expand@m">
 								<div class="">
 
 									<div class="uk-text-bold">{{title}}</div>

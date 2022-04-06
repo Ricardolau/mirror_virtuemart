@@ -4,7 +4,7 @@
  * @package	VirtueMart
  * @subpackage Javascript Library
  * @author Max Galt
- * @copyright Copyright (c) 2014 - 2022VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2014 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
@@ -97,13 +97,16 @@ jQuery(function($) {
 
     Virtuemart.upd = function(event) {
         event.preventDefault();
-        var url = $(this).attr('url');
-        if (typeof url === typeof undefined || url === false) {
+        var url = $(this).attr('url');//console.log("Url "+url,$(this));
+        if(url == 'value'){
+			url = $(this).val(); //console.log("Url by value");
+		} else if (typeof url === typeof undefined || url === false) {
 			url = $(this).closest('form').attr('action');
-			if (typeof url === typeof undefined || url === false) {
+			if (typeof url === typeof undefined || url === false || url === "#") {
 				url = $(this).val();
 			}
         }
+
         if(url!=null){
 			url = url.replace(/amp;/g, '');
             Virtuemart.setBrowserNewState(url);
@@ -119,7 +122,7 @@ jQuery(function($) {
 			carturl = $(this).attr('url');
 			console.log('my form no action url, try attr url ',cartform);
 			if (typeof carturl === typeof undefined || carturl === false) {
-				carturl = 'index.php?option=com_virtuemart&view=cart'; console.log('my form no action url, try attr url ',carturl);
+				carturl = 'index.php?option=com_virtuemart&view=cart'; console.log('my form no action url, tried attr url ',carturl);
 			}
 		}
 		urlSuf='tmpl=component';

@@ -250,6 +250,7 @@ class vmJsApi{
 
 		$document = JFactory::getDocument();
 		$document->addStyleSheet($file.'?vmver='.VM_JS_VER);
+
 		$loaded[$namespace] = TRUE;
 
 	}

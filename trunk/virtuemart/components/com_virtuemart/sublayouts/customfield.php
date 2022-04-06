@@ -7,9 +7,9 @@
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2015 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2015 - 2022 The VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * @version $Id: addtocartbtn.php 8024 2014-06-12 15:08:59Z Milbo $
+ * @version $Id: customfield.php 8024 2014-06-12 15:08:59Z Milbo $
  */
 // Check to ensure this file is included in Joomla!
 defined ('_JEXEC') or die('Restricted access');
@@ -140,6 +140,7 @@ class VirtueMartCustomFieldRenderer {
 					$view = $viewJs = vRequest::getCmd('view','productdetails');
 
 					if(VmConfig::get ('jdynupdate', TRUE)){
+
 						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
 							$attribs['data-dynamic-update'] = '1';
 							unset($attribs['data-reload']);
@@ -312,6 +313,7 @@ class VirtueMartCustomFieldRenderer {
 					$view = 'productdetails';
 					$attribs['data-reload'] = '1';
 					if(VmConfig::get ('jdynupdate', TRUE)){
+						$attribs['url'] = 'value';
 						$view = vRequest::getCmd('view','productdetails');
 						if($view == 'productdetails' or ($customfield->browseajax and $view == 'category')){
 							$attribs['data-dynamic-update'] = '1';
@@ -394,7 +396,7 @@ class VirtueMartCustomFieldRenderer {
 						$och = ' onchange="window.top.location.href=this.options[this.selectedIndex].value" data-reload=1';
 						unset($attribs['data-reload']);
 					} else {
-						$och = ' data-dynamic-update="1"';
+						$och = ' data-dynamic-update="1" url="value"';
 						unset($attribs['data-dynamic-update']);
 					}
 

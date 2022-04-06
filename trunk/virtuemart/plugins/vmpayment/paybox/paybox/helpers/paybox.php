@@ -7,7 +7,7 @@
  * @version $Id$
  * @package VirtueMart
  * @subpackage payment
- * @copyright Copyright (c) 2004 - 2018 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -54,14 +54,6 @@ class  PayboxHelperPaybox {
 
 	function confirmedOrder ($cart, $order) {
 
-		if (!class_exists('VirtueMartModelOrders')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
-		}
-		if (!class_exists('VirtueMartModelCurrency')) {
-			require(VMPATH_ADMIN . DS . 'models' . DS . 'currency.php');
-		}
-
-
 		$this->plugin->getPaymentCurrency($this->_method);
 		$q = 'SELECT `currency_numeric_code` FROM `#__virtuemart_currencies` WHERE `virtuemart_currency_id`="' . $this->_method->payment_currency . '" ';
 		$db = JFactory::getDBO();
@@ -97,8 +89,8 @@ class  PayboxHelperPaybox {
 			"PBX_HASH"        => $this->getHashAlgo(),
 			"PBX_TIME"        => $this->getTime(),
 			"PBX_LANGUE"      => $this->getLangue(),
-			'PBX_SHOPPINGCART'=> $this->getPBX_Shoppingcart(VirtueMartCart::getCartQuantity($cart)),
-			'PBX_BILLING'     => $this->getPBX_Billing( $order['details']['BT']),
+			'PBX_SHOPPINGCART'=> str_replace("\n","",$this->getPBX_Shoppingcart(VirtueMartCart::getCartQuantity($cart))),
+			'PBX_BILLING'     => str_replace("\n","",$this->getPBX_Billing( $order['details']['BT'])),
 			//"PBX_TYPEPAIEMENT" => $this->getTypePaiement(),
 			//"PBX_TYPECARTE"    => $this->getTypeCarte(),
 			"PBX_EFFECTUE"    => $payboxReturnUrls['url_effectue'],
@@ -110,6 +102,7 @@ class  PayboxHelperPaybox {
 			"PBX_VERSION"     => "VirtueMart:".vmVersion::$RELEASE.'.'.vmVersion::$REVISION.'_Joomla:'.JVERSION,
 			"PBX_RUF1"        => 'POST',
 		);
+
 		if ($this->_method->debit_type == 'authorization_only') {
 			$post_variables["PBX_DIFF"] = str_pad($this->_method->diff, 2, '0', STR_PAD_LEFT);
 		}
@@ -378,7 +371,12 @@ jQuery().ready(function($) {
 		}
 
 		foreach ($post_variables as $name => $value) {
-			$html .= '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
+			if($name == 'PBX_SHOPPINGCART' or $name == 'PBX_BILLING'){	//For the xml in the form
+				$html .= '<textarea type="hidden" name="' . $name . '" >'.$value.'</textarea>';
+			} else {
+				$html .= '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
+			}
+
 		}
 
 		if ($this->_method->debug) {
@@ -754,25 +752,24 @@ jQuery().ready(function($) {
 
 		return '<?xml version="1.0" encoding="utf-8"?>
 <shoppingcart>
- <total>
- <totalQuantity>'.$totalQuantity.'</totalQuantity>
- </total>
+<total>
+<totalQuantity>'.$totalQuantity.'</totalQuantity>
+</total>
 </shoppingcart>';
 	}
 
 	function getPBX_Billing($orderDetails){
-		$country_num_code = VmModel::getModel('country')->getCountryFieldByID(1, 'country_num_code');
+		$country_num_code = VmModel::getModel('country')->getCountryFieldByID($orderDetails->virtuemart_country_id, 'country_num_code');
 		return '<?xml version="1.0" encoding="utf-8"?>
 <Billing>
- <Address>
- <FirstName>'.$orderDetails['BT']->first_name.'</FirstName>
- <LastName>'.$orderDetails['BT']->last_name.'</LastName>
- <Address1>'.$orderDetails['BT']->address_1.'</Address1>
- <ZipCode>'.$orderDetails['BT']->zip.'</ZipCode>
- <City>'.$orderDetails['BT']->city.'</City>
- <CountryCode>'.$country_num_code.'</CountryCode>
- <CountryCode>250</CountryCode>
- </Address>
+<Address>
+<FirstName>'.$orderDetails->first_name.'</FirstName>
+<LastName>'.$orderDetails->last_name.'</LastName>
+<Address1>'.$orderDetails->address_1.'</Address1>
+<ZipCode>'.$orderDetails->zip.'</ZipCode>
+<City>'.$orderDetails->city.'</City>
+<CountryCode>'.$country_num_code.'</CountryCode>
+</Address>
 </Billing>';
 	}
 

@@ -5,7 +5,7 @@
 * @version $Id: SKRILL.php 7487 2013-12-17 15:03:42Z alatak $
 * @package VirtueMart
 * @subpackage payment
-* @copyright Copyright (c) 2014 - 2019 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2014 - 2022 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -1047,7 +1047,7 @@ class plgVmpaymentSkrill extends vmPSPlugin {
 	 * @return null if no plugin was found, 0 if more then one plugin was found,  virtuemart_xxx_id if only one plugin is found
 	 *
 	 */
-	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices = array(), &$paymentCounter) {
+	function plgVmOnCheckAutomaticSelectedPayment (VirtueMartCart $cart, array $cart_prices, &$paymentCounter) {
 
 		return parent::onCheckAutomaticSelected ($cart, $cart_prices, $paymentCounter);
 	}

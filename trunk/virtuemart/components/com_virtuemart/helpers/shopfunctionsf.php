@@ -8,7 +8,7 @@
  *
  * @author Max Milbers, StAn
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1245,7 +1245,7 @@ class shopFunctionsF {
 
 			try 
 			{
-				vDispatcher::trigger('onInit', $id);
+				vDispatcher::trigger('onInit', array($id));
 				$output = vDispatcher::trigger('onDisplay', array($reCaptchaName, $id, 'class="g-recaptcha required"'));
 			}
 			catch (Exception $e) {

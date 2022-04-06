@@ -7,7 +7,7 @@
  * @subpackage
  * @author VirtueMart Team, Max Milbers
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2016 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -122,6 +122,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 				<?php echo $order->shipment_method; ?></td>
 				<!-- Print view -->
 				<?php
+					$print_link = ''; $deliverynote_link = ''; $invoice_link = '';
 					$this->createPrintLinks($order,$print_link,$deliverynote_link,$invoice_link);
 				?>
 				<td><?php echo $print_link; echo $deliverynote_link; echo $invoice_link; ?></td>

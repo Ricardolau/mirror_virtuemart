@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers, Valérie Isaksen
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -370,7 +370,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
 			$invoice_links_array[]= "<a href=\"$invoice_url\"  >".'<span class="hasTooltip invoicenew_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
 		} else {
 			foreach ($order->invoiceNumbers as $invoiceNumber) {
-				if (!shopFunctions::InvoiceNumberReserved ($invoiceNumber)) {
+				if (!shopFunctionsF::InvoiceNumberReserved ($invoiceNumber)) {
 					$invoice_url = $baseUrl .'&layout=invoice&format=pdf'.$pdfDummi.'&invoiceNumber='.$invoiceNumber;
 					$invoice_links_array[] = "<a href=\"$invoice_url\"  >" . '<span class="hasTooltip invoice_32" title="' . vmText::_ ('COM_VIRTUEMART_INVOICE') .' '.$invoiceNumber. '"></span></a>';
 				}

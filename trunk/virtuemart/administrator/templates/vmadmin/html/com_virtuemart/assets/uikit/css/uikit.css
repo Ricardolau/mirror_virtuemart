@@ -948,7 +948,7 @@ a.uk-link-reset,
   font-size: 0.875rem;
   font-weight: normal;
   color: #999;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 /* Cell
  ========================================================================== */

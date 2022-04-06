@@ -495,7 +495,7 @@ class VirtueMartModelOrders extends VmModel {
 	/**
 	 * List of tables to include for the product query
 	 */
-	private function getOrdersListQuery($byOrderItem = false)	{
+	public function getOrdersListQuery($byOrderItem = false)	{
 		$q = ' FROM #__virtuemart_orders as o
 				LEFT JOIN #__virtuemart_order_userinfos as u
 				ON u.virtuemart_order_id = o.virtuemart_order_id AND u.address_type="BT"

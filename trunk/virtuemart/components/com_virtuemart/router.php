@@ -266,9 +266,15 @@ function virtuemartBuildRoute(&$query) {
 					}
 					$catId = empty($query['virtuemart_category_id'])? 0:(int)$query['virtuemart_category_id'];
 					$manId = empty($query['virtuemart_manufacturer_id'])? 0:(int)$query['virtuemart_manufacturer_id'];
+					//GJC handle $ref
+					$ref = empty($query['ref'])? 0:(int)$query['ref'];
 					if(!empty( $catId)){
-						$categoryRoute = $helper->getCategoryRoute($catId,$manId);
+						// GJC here it goes wrong - it ignores the canonical cat
+						// GJC fix in setMenuItemId() by choosing the desired url manually in the menu template overide parameter
+						$categoryRoute = $helper->getCategoryRoute($catId,$manId,$ref);
 						if ($categoryRoute->route) $segments[] = $categoryRoute->route;
+
+						//Maybe the ref should be just handled by the rItemid?
 						/*if($helper->useGivenItemid and $helper->rItemid){
 							if($helper->checkItemid($helper->rItemid)){
 								$Itemid = $helper->rItemid;
@@ -307,6 +313,8 @@ function virtuemartBuildRoute(&$query) {
 				unset($query['limit']);
 				unset($query['virtuemart_category_id']);
 				unset($query['virtuemart_manufacturer_id']);
+				//GJC remove ref on canonical
+				unset($query['ref']);
 
 				if($virtuemart_product_id)
 					$segments[] = $helper->getProductName($virtuemart_product_id);
@@ -1106,11 +1114,11 @@ class vmrouterHelper {
 		return self::$limit;
 	}
 
-	public function getCategoryRoute($catId,$manId){
+	public function getCategoryRoute($catId,$manId,$ref=0){
 
 		vmSetStartTime('getCategoryRoute');
 
-		$key = $catId. VmConfig::$vmlang . $manId; // internal cache key
+		$key = $catId. VmConfig::$vmlang . $manId.'r'.$ref; // internal cache key
 		if (!isset(self::$_catRoute[$key])){
 
 			if(VmConfig::get('useCacheVmGetCategoryRoute',1)) {
@@ -1121,13 +1129,13 @@ class vmrouterHelper {
 					$CategoryRoute = self::$_catRoute[$key];
 				} else {
 
-					$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
+					$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId,$ref);
 					//vmdebug('getCategoryRoute store outdated cache', $key, self::$_catRoute);
 					$cache->store(self::$_catRoute, 'com_virtuemart_cats_route');
 				}
 
 			} else {
-				$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId);
+				$CategoryRoute = $this->getCategoryRouteNocache($catId,$manId,$ref);
 			}
 
 		} else {
@@ -1139,47 +1147,90 @@ class vmrouterHelper {
 	}
 
 	/* Get Joomla menu item and the route for category */
-	public function getCategoryRouteNocache($catId,$manId){
+	public function getCategoryRouteNocache($catId,$manId,$ref){
 
-		$key = $catId. VmConfig::$vmlang . $manId;
+		$key = $catId. VmConfig::$vmlang . $manId.'r'.$ref;
 		if (!isset(self::$_catRoute[$key])){
-			$category = new stdClass();
-			$category->route = '';
-			$category->Itemid = 0;
-			$menuCatid = 0 ;
-			$ismenu = false ;
-			$catModel = VmModel::getModel('category');
-			// control if category is joomla menu
-			if(isset($this->menu['virtuemart_category_id'][$catId][$manId])) {
-				$ismenu = true;
-				$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId];
-			} else if (isset($this->menu['virtuemart_category_id'])) {
-				if (isset( $this->menu['virtuemart_category_id'][$catId][$manId])) {
+			if(!$ref){ // not a canonical request
+				$category = new stdClass();
+				$category->route = '';
+				$category->Itemid = 0;
+				$menuCatid = 0 ;
+				$ismenu = false ;
+				$catModel = VmModel::getModel('category');
+				// control if category is joomla menu
+
+				if(isset($this->menu['virtuemart_category_id'][$catId][$manId])) {
 					$ismenu = true;
-					$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId] ;
-				} else {
-					$catModel->categoryRecursed = 0;
-					$CatParentIds = $catModel->getCategoryRecurse($catId,0) ;
-					/* control if parent categories are joomla menu */
-					foreach ($CatParentIds as $CatParentId) {
-						// No ? then find the parent menu categorie !
-						if (isset( $this->menu['virtuemart_category_id'][$CatParentId][$manId]) ) {
-							$category->Itemid = $this->menu['virtuemart_category_id'][$CatParentId][$manId] ;
-							$menuCatid = $CatParentId;
-							break;
+					$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId];
+				} else if (isset($this->menu['virtuemart_category_id'])) {
+					if (isset( $this->menu['virtuemart_category_id'][$catId][$manId])) {
+						$ismenu = true;
+						$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId] ;
+					} else {
+						$catModel->categoryRecursed = 0;
+						$CatParentIds = $catModel->getCategoryRecurse($catId,0) ;
+						/* control if parent categories are joomla menu */
+						foreach ($CatParentIds as $CatParentId) {
+							// No ? then find the parent menu categorie !
+							if (isset( $this->menu['virtuemart_category_id'][$CatParentId][$manId]) ) {
+								$category->Itemid = $this->menu['virtuemart_category_id'][$CatParentId][$manId] ;
+								$menuCatid = $CatParentId;
+								break;
+							}
 						}
 					}
 				}
-			}
-			if ($ismenu==false) {
-				if ( $this->use_id ) $category->route = $catId.'/';
-				if (!isset ($this->CategoryName[$this->slang][$catId])) {
-					$this->CategoryName[$this->slang][$catId] = $this->getCategoryNames($catId, $menuCatid );
+
+				if ($ismenu==false) {
+					if ( $this->use_id ) $category->route = $catId.'/';
+					if (!isset ($this->CategoryName[$this->slang][$catId])) {
+						$this->CategoryName[$this->slang][$catId] = $this->getCategoryNames($catId, $menuCatid );
+					}
+					$category->route .= $this->CategoryName[$this->slang][$catId] ;
+					if ($menuCatid == 0  && $this->menu['virtuemart']) $category->Itemid = $this->menu['virtuemart'] ;
 				}
-				$category->route .= $this->CategoryName[$this->slang][$catId] ;
-				if ($menuCatid == 0  && $this->menu['virtuemart']) $category->Itemid = $this->menu['virtuemart'] ;
+				self::$_catRoute[$key] = $category;
+
+			} else { //GJC there is $ref so canonical query
+				$category = new stdClass();
+				$category->route = '';
+				$category->Itemid = 0;
+				$menuCatid = 0;
+				$ismenu = false;
+				$catModel = VmModel::getModel('category');
+				// control if category is joomla menu
+				if (isset($this->menu['virtuemart_category_id'][$catId][$manId])) {
+					$ismenu = true;
+					$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId];
+				} else if (isset($this->menu['virtuemart_category_id'])) {
+					if (isset($this->menu['virtuemart_category_id'][$catId][$manId])) {
+						$ismenu = true;
+						$category->Itemid = $this->menu['virtuemart_category_id'][$catId][$manId];
+					} else {
+						$catModel->categoryRecursed = 0;
+						$CatParentIds = $catModel->getCategoryRecurse($catId, 0);
+						/* control if parent categories are joomla menu */
+						foreach ($CatParentIds as $CatParentId) {
+							// No ? then find the parent menu categorie !
+							if (isset($this->menu['virtuemart_category_id'][$CatParentId][$manId])) {
+								$category->Itemid = $this->menu['virtuemart_category_id'][$CatParentId][$manId];
+								$menuCatid = $CatParentId;
+								break;
+							}
+						}
+					}
+				}
+				if ($ismenu == false) {
+					if ($this->use_id) $category->route = $catId . '/';
+					if (!isset ($this->CategoryName[$this->slang][$catId])) {
+						$this->CategoryName[$this->slang][$catId] = $this->getCategoryNames($catId, $menuCatid);
+					}
+					$category->route .= $this->CategoryName[$this->slang][$catId];
+					if ($menuCatid == 0 && $this->menu['virtuemart']) $category->Itemid = $this->menu['virtuemart'];
+				}
+				self::$_catRoute[$key] = $category;
 			}
-			self::$_catRoute[$key] = $category;
 		}
 
 		return self::$_catRoute[$key] ;

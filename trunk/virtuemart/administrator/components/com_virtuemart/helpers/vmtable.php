@@ -457,21 +457,21 @@ class VmTable extends vObject implements \JTableInterface {
 		$this->_dateFields = array_merge($dateFields, $this->_dateFields);
 	}
 
+	protected static $nullDate = null;
 	public function convertDateFields(){
 		$this->_dateFields = array_unique($this->_dateFields);
+		if(!isset(self::$nullDate)) self::$nullDate = $this->_db->getNullDate();
 		if($this->_dateFields){
 			foreach($this->_dateFields as $f){
-				if(!empty($this->{$f}) and $this->{$f}!= '0000-00-00 00:00:00'){
+				if(!empty($this->{$f}) and $this->{$f}!= self::$nullDate){
 					$date = new JDate($this->{$f});
 					$this->{$f} = $date->toSQL();
 				} else {
 					if(JVM_VERSION<4){
-						$this->{$f} = $this->_db->getNullDate();	//Works maybe also in j4
+						$this->{$f} = self::$nullDate;	//Works maybe also in j4
 					} else {
 						$this->{$f} = null;
 					}
-
-
 				}
 			}
 		}
@@ -602,7 +602,10 @@ class VmTable extends vObject implements \JTableInterface {
 		if(is_object($obj)){
 
 			if (!empty($obj->{$xParams})) {
-
+				if (!is_string($obj->{$xParams})){
+					vmError('vmTable Error, $obj->{$xParams} is not a string ');
+					return;
+				}
 				$params = explode('|', $obj->{$xParams});
 				foreach ($params as $item) {
 
@@ -614,9 +617,7 @@ class VmTable extends vObject implements \JTableInterface {
 						$item = implode('=', $item);
 						$item = json_decode($item);
 						if ($item != null){
-								$obj->{$key} = $item;
-
-
+							$obj->{$key} = $item;
 						} else {
 							//vmdebug('bindParameterable $item ==null '.$key,$varsToPushParam[$key]);
 						}
@@ -888,58 +889,55 @@ class VmTable extends vObject implements \JTableInterface {
 
 		if ($this->_loggable) {
 
-			// set default values always used
-
 			//We store in UTC time, dont touch it!
 			$date = JFactory::getDate();
 			$today = $date->toSQL();
 			//vmdebug('my today ',$date);
-			$user = JFactory::getUser();
 
-			$pkey = $this->_pkey;	//or $tblKey?
-			//Lets check if the user is admin or the mainvendor
+			$userId = JFactory::getUser()->id;
 
 			$admin = vmAccess::manager('core');
+			if (!isset(self::$nullDate)) self::$nullDate = $this->_db->getNullDate();
 
-			if($admin){
-				if (empty($this->{$pkey}) and empty($this->created_on)) {
-					$this->created_on = $today;
-				} else if (empty($this->created_on)) {
-					//If nothing is there, dont update it
-					unset($this->created_on);
-				} else //ADDED BY P2 PETER
-					if (empty($this->created_on) or $this->created_on == "0000-00-00 00:00:00") {
-						$this->created_on = $today;
-						$this->created_by = $user->id;
+			if (!$admin) {
+				unset($this->created_on);
+				unset($this->created_by);
+				unset($this->modified_on);
+				unset($this->modified_by);
+			}
+			if ($this->_update === true) {
+
+				$this->modified_on = $today;
+				$this->modified_by = $userId;
+
+				if ($admin) {
+					if (empty($this->created_on) or $this->created_on == self::$nullDate) {
+						unset($this->created_on);
 					}
-				//END ADD
-
-				if (empty($this->{$pkey}) and empty($this->created_by)) {
-					$this->created_by = $user->id;
-				} else if (empty($this->created_by)) {
-					//If nothing is there, dont update it
-					unset($this->created_by);
+					if (empty($this->created_by)) {
+						unset($this->created_by);
+					}
 				}
 
 			} else {
 
-				if (empty($this->{$pkey})) {
-					$this->created_on = $today;
-					$this->created_by = $user->id;
-				} else {
-					//If nothing is there, dont update it
-					unset($this->created_on);
-					unset($this->created_by);
+				$this->created_on = $today;
+				$this->created_by = $userId;
+
+				if ($admin) {
+					if (empty($this->modified_on) or $this->modified_on == self::$nullDate) {
+						unset($this->modified_on);
+					}
+					if (empty($this->modified_by)) {
+						unset($this->modified_by);
+					}
 				}
 			}
 
-			$this->modified_on = $today;
-			$this->modified_by = $user->id;
-		}
-
-		if (isset($this->locked_on)) {
-			//Check if user is allowed to store, then disable or prevent storing
-			$this->locked_on = 0;
+			if (isset($this->locked_on)) {
+				//Check if user is allowed to store, then disable or prevent storing
+				$this->locked_on = 0;
+			}
 		}
 	}
 
@@ -1238,8 +1236,6 @@ class VmTable extends vObject implements \JTableInterface {
 	 */
 	function store($updateNulls = false) {
 
-		$this->setLoggableFieldsForStore();
-
 		if($this->_cryptedFields){
 			foreach($this->_cryptedFields as $field){
 				if(isset($this->{$field})){
@@ -1277,11 +1273,15 @@ class VmTable extends vObject implements \JTableInterface {
 			//vmTrace($msg.' this is deprecated, call function check now. This fallback will be removed in future', true, 6);
 		}
 		//vmdebug('vmTable Storing ',$this->loadFieldValues());
+
+		$this->setLoggableFieldsForStore();
+
 		if($this->_update === true){
 			if(empty($this->{$tblKey})){
 				vmdebug('Update has empty $tblKey ', $this->loadFieldValues());
 				return false;
 			}
+
 			try {
 				$ok = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 			} catch (Exception $e){
@@ -1292,6 +1292,7 @@ class VmTable extends vObject implements \JTableInterface {
 		} else {
 			$p = $this->{$tblKey};
 			//vmdebug('vmTable '.get_class($this).' store insertObject Inserting '.$this->{$tblKey}.' ',$this->loadFieldValues(true));
+
 			try {
 				$ok = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 			} catch (Exception $e){
@@ -1313,6 +1314,7 @@ class VmTable extends vObject implements \JTableInterface {
 				}
 			}
 		}
+
 		$this->_update===null;
 		// If the store failed return false.
 		if (!$ok) {

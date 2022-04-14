@@ -337,7 +337,7 @@ function virtuemartBuildRoute(&$query) {
 			}
 			break;
 		case 'user';
-
+			//vmdebug('virtuemartBuildRoute case user query and jmenu',$query, $jmenu);
 			if ( isset($jmenu['user'])) $query['Itemid'] = $jmenu['user'];
 			else {
 				$segments[] = $helper->lang('user') ;
@@ -377,6 +377,9 @@ function virtuemartBuildRoute(&$query) {
 					$segments[] =  $helper->lang($query['task']);
 				}
 				unset ($query['task'] , $query['addrtype']);
+			}
+			if(JVM_VERSION>3 and isset($jmenu['user'])){
+				array_unshift($segments, $helper->lang('user') );
 			}
 			//vmdebug('Router buildRoute case user query and segments',$query,$segments);
 			break;

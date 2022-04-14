@@ -478,6 +478,14 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 			$model->installSampleData($sid);
 		}
 
+		$config = VmConfig::loadConfig();
+		$config->set('bootstrap','bs3');
+
+		if($raw = VirtueMartModelConfig::storeConfig( $config->toString() )){
+			//self::$_jpConfig->_raw = $raw;
+			VmConfig::loadConfig(true);
+		}
+
 		//Now lets set some joomla variables
 		//Caching should be enabled, set to files and for 15 minutes
 

@@ -13,7 +13,7 @@ defined ('_JEXEC') or  die('Direct Access to ' . basename (__FILE__) . ' is not 
 
 class mod_virtuemart_category {
 
-	static function displayCatsMod($params, $active_category_id, $category_id, $layout){
+	static function displayCatsMod($module, $params, $active_category_id, $category_id, $layout){
 
 		vmLanguage::loadJLang('mod_virtuemart_category', true);
 

@@ -42,10 +42,10 @@ if($cache and $Product_group!='recent'){
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
 	$db = JFactory::getDbo();
-	echo $cache->get( array( 'mod_virtuemart_product', 'displayProductsMod' ), array($params, $Product_group));
+	echo $cache->get( array( 'mod_virtuemart_product', 'displayProductsMod' ), array($module, $params, $Product_group));
 	vmdebug('Use cached mod products');
 } else {
-	echo mod_virtuemart_product::displayProductsMod($params, $Product_group);
+	echo mod_virtuemart_product::displayProductsMod($module, $params, $Product_group);
 }
 
 echo vmJsApi::writeJS();

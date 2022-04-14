@@ -21,7 +21,7 @@ class mod_virtuemart_product {
 		echo shopFunctionsF::renderVmSubLayout('addtocart',array('product'=>$product));
 	}
 
-	static function displayProductsMod($params, $Product_group){
+	static function displayProductsMod($module, $params, $Product_group){
 
 		vmLanguage::loadJLang('mod_virtuemart_product', true);
 

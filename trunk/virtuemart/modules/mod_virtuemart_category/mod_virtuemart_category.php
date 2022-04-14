@@ -70,10 +70,10 @@ if($cache){
 	$cache->setCaching(1);
 	$cache->setLifeTime($cachetime);
 	$db = JFactory::getDbo();
-	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($params, $active_category_id, $category_id, $layout));
+	echo $cache->get( array( 'mod_virtuemart_category', 'displayCatsMod' ), array($module, $params, $active_category_id, $category_id, $layout));
 
 } else {
-	echo mod_virtuemart_category::displayCatsMod($params, $active_category_id, $category_id, $layout);
+	echo mod_virtuemart_category::displayCatsMod($module, $params, $active_category_id, $category_id, $layout);
 }
 
 echo vmJsApi::writeJS();

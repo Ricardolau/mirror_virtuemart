@@ -35,16 +35,25 @@ if (!empty($vmView->langList)) {
 	$vmView->langList = str_replace('id="vmlang"', '', $vmView->langList);
 }
 
-$hideMenu = false;
+/*if(JVM_VERSION<4){*/
+	$hideMenu = false;
+/*} else {
+	$hideMenu = true;
+}*/
 
-$menuCookie = JFactory::getApplication()->input->cookie->getString('vmmenu', 'visible');
-// the previous template uses the value 'show' / 'hide'
+
+$menuCookie = JFactory::getApplication()->input->cookie->getString('vmmenu', 'show');
+// the previous template uses the value 'show' / 'hide', or users without cookie
 if ($menuCookie == 'show') {
-	$menuCookie = 'visible';
-}
-if ($menuCookie == 'hide') {
+	if(JVM_VERSION<4){
+		$menuCookie = 'visible';
+	} else {
+		$menuCookie = 'hidden';
+	}
+} else if ($menuCookie == 'hide') {
 	$menuCookie = 'hidden';
 }
+
 $vmMenuCookie = ($menuCookie == 'visible') ? 'uk-visible@m' : 'uk-hidden@m';
 $offcanvasMenuCookie = ($menuCookie == 'hidden') ? 'uk-visible@m' : 'uk-hidden@m';
 

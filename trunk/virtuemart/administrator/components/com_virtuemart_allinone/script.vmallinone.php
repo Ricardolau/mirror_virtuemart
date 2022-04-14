@@ -92,10 +92,11 @@ class com_virtuemart_allinoneInstallerScript {
 
 
 		//We do this dirty here, is just the finish page for installation, we must know if we are allowed to add sample data
-		$db = JFactory::getDbo();
+		$this->db = JFactory::getDBO ();
+
 		$q = 'SELECT count(*) FROM `#__virtuemart_products` WHERE `virtuemart_product_id`!="0" ';
-		$db->setQuery($q);
-		$productsExists = $db->loadResult();
+		$this->db->setQuery($q);
+		$productsExists = $this->db->loadResult();
 		if (!$productsExists) {
 			$file = 'components/com_virtuemart/assets/css/toolbar_images.css';
 			$document = JFactory::getDocument();
@@ -177,7 +178,6 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$this->updateShipmentWeight_countries_keys();
 
-
 		$task = vRequest::getCmd ('task');
 		if ($task != 'updateDatabase') {
 			self::$html .= "<tr><th>Modules</th><td></td></tr>";
@@ -185,12 +185,15 @@ class com_virtuemart_allinoneInstallerScript {
 			$src = $this->path .'/modulesBE';
 			$dst = JPATH_ROOT .'/administrator/modules';
 			$this->recurse_copy ($src, $dst);
-			$alreadyInstalled = $this->VmModulesAlreadyInstalled();
-			//echo "Checking VirtueMart modules...";
+
+			if(JVM_VERSION<4){
+				$alreadyInstalled = $this->VmModulesAlreadyInstalled();
+				//echo "Checking VirtueMart modules...";
 				$defaultParams = '{"show_vmmenu":"1"}';
 				$this->installModule ('VM - Administrator Module', 'mod_vmmenu', 5, $defaultParams, $dst,1,'menu',3,$alreadyInstalled);
-
-
+			} else {
+				$this->uninstallModule('mod_vmmenu');
+			}
 
 			// modules auto move
 			$src = $this->path .'/modules';
@@ -236,7 +239,9 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$dst = JPATH_ROOT .'/administrator/modules';
 		$umimodel = VmModel::getModel('updatesmigration');//$model = new VirtueMartModelUpdatesMigration();
-		$umimodel->updateJoomlaUpdateServer( 'module', 'mod_vmmenu', $dst   );
+		if(JVM_VERSION<4){
+			$umimodel->updateJoomlaUpdateServer( 'module', 'mod_vmmenu', $dst);
+		}
 
 		$modules = array(
 		'mod_virtuemart_currencies',
@@ -266,32 +271,32 @@ class com_virtuemart_allinoneInstallerScript {
 	 * Replaces the old stockable plugin by the native method of vm
 	 */
 	public function replaceStockableByDynamicChilds(){
-		$db = JFactory::getDbo();
-		$db->setQuery('SELECT `extension_id` FROM `#__extensions` WHERE `type` = "plugin" AND `folder` = "vmcustom" AND `element`="stockable"');
-		$jId = $db->loadResult();
+
+		$this->db->setQuery('SELECT `extension_id` FROM `#__extensions` WHERE `type` = "plugin" AND `folder` = "vmcustom" AND `element`="stockable"');
+		$jId = $this->db->loadResult();
 
 		if($jId){
-			$db->setQuery('SELECT `virtuemart_custom_id` FROM #__virtuemart_customs WHERE `custom_jplugin_id` = "'.$jId.'" ');
-			$cId = $db->loadResult();
+			$this->db->setQuery('SELECT `virtuemart_custom_id` FROM #__virtuemart_customs WHERE `custom_jplugin_id` = "'.$jId.'" ');
+			$cId = $this->db->loadResult();
 
-			$db->setQuery('SELECT `virtuemart_custom_id` FROM #__virtuemart_customs WHERE `field_type` = "A" ');
-			$acId = $db->loadResult();
+			$this->db->setQuery('SELECT `virtuemart_custom_id` FROM #__virtuemart_customs WHERE `field_type` = "A" ');
+			$acId = $this->db->loadResult();
 
 			if($cId){
-				$db->setQuery('UPDATE #__virtuemart_product_customfields SET `virtuemart_custom_id` = "'.$acId.'" WHERE `virtuemart_custom_id` = "'.$cId.'" ');
-				$db->execute();
+				$this->db->setQuery('UPDATE #__virtuemart_product_customfields SET `virtuemart_custom_id` = "'.$acId.'" WHERE `virtuemart_custom_id` = "'.$cId.'" ');
+				$this->db->execute();
 			}
 		}
-		$db->setQuery('UPDATE #__extensions SET `enabled` = "0" WHERE `extension_id` = "'.$jId.'" ');
+		$this->db->setQuery('UPDATE #__extensions SET `enabled` = "0" WHERE `extension_id` = "'.$jId.'" ');
 
 	}
 
 
 	private function updateMoneyBookersToSkrill() {
-		$db = JFactory::getDBO ();
+
 		$q="SELECT `extension_id` FROM `#__extensions` WHERE `#__extensions`.`folder` =  'vmpayment' AND `#__extensions`.`element` LIKE  'skrill'";
-		$db->setQuery ($q);
-		$skrill_jplugin_id = $db->loadResult()  ;
+		$this->db->setQuery ($q);
+		$skrill_jplugin_id = $this->db->loadResult()  ;
 		$app = JFactory::getApplication ();
 
 		$q="SELECT *
@@ -299,8 +304,8 @@ class com_virtuemart_allinoneInstallerScript {
 			JOIN `#__extensions` ON `#__extensions`.`extension_id` = `#__virtuemart_paymentmethods`.`payment_jplugin_id`
 			WHERE `#__extensions`.`folder` =  'vmpayment'
 			AND `#__extensions`.`element` LIKE  'moneybookers_%'";
-		$db->setQuery ($q);
-		$moneybookers = $db->loadObjectList()  ;
+		$this->db->setQuery ($q);
+		$moneybookers = $this->db->loadObjectList()  ;
 		if ($moneybookers) {
 			self::$html .= "<h3>Updating MoneyBookers plugin to Skrill</h3>";
 			foreach ($moneybookers as $moneybooker) {
@@ -310,8 +315,8 @@ class com_virtuemart_allinoneInstallerScript {
 				$q = 'UPDATE `#__virtuemart_paymentmethods`
 								SET `payment_params`= "'.$payment_params.'" , `payment_jplugin_id` = '.$skrill_jplugin_id.' , `payment_element`= "skrill"
 								 WHERE `virtuemart_paymentmethod_id` ='.$moneybooker->virtuemart_paymentmethod_id;
-				$db->setQuery($q);
-				$db->execute();
+				$this->db->setQuery($q);
+				$this->db->execute();
 				$app->enqueueMessage ("Updated payment method: ".$moneybooker->payment_element.". Uses skrill now");
 			}
 
@@ -320,8 +325,8 @@ class com_virtuemart_allinoneInstallerScript {
 
 		$q="DELETE FROM  `#__extensions` WHERE  `#__extensions`.`folder` =  'vmpayment'
 			AND `#__extensions`.`element` LIKE  'moneybookers%'";
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 
 		$path =JPATH_ROOT .'/plugins/vmpayment';
 		$moneybookers_variants=array('', '_acc', '_did','_gir','_idl','_obt', '_pwy','_sft', '_wlt');
@@ -345,40 +350,36 @@ class com_virtuemart_allinoneInstallerScript {
 
 	private function updateShipmentWeight_countries_keys(){
 
-		$db = JFactory::getDBO ();
 		$q = 'UPDATE `#__virtuemart_shipmentmethods` SET `shipment_params`= REPLACE(`shipment_params`, "orderamount_start", "min_amount") WHERE `shipment_element` ="weight_countries"';
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 
 		$q = 'UPDATE `#__virtuemart_shipmentmethods` SET `shipment_params`= REPLACE(`shipment_params`, "orderamount_stop", "max_amount") WHERE `shipment_element` ="weight_countries"';
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 	}
 
 
 	private function updateOrderingExtensions(){
 
-
-		$db = JFactory::getDBO ();
-
 		$q = 'UPDATE `#__extensions` SET `ordering`= 20 WHERE `folder` ="vmpayment"';
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 
 		$order = array('paypal','tco','sofort','sofort_ideal','klarna','paybox','heidelpay','skrill','klikandpay','realex_hpp_api','amazon');
 		foreach($order as $o=>$el){
 			$q = 'UPDATE `#__extensions` SET `ordering`= "'.$o.'" WHERE `element` ="'.$el.'"';
-			$db->setQuery($q);
-			$db->execute();
+			$this->db->setQuery($q);
+			$this->db->execute();
 		}
 
 		$q = 'UPDATE `#__extensions` SET `ordering`= 100 WHERE `element` ="payzen"';
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 
 		$q = 'UPDATE `#__extensions` SET `ordering`= 100 WHERE `element` ="systempay"';
-		$db->setQuery($q);
-		$db->execute();
+		$this->db->setQuery($q);
+		$this->db->execute();
 	}
 
 	/**
@@ -414,18 +415,18 @@ class com_virtuemart_allinoneInstallerScript {
 				$data['client_id'] = 0;
 				$data['package_id'] = 0; 
 				$data['locked'] = 0; 
-				$db = JFactory::getDBO();
+
 				$q = 'SELECT COUNT(*) FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ';
-				$db->setQuery($q);
-				$count = $db->loadResult();
+				$this->db->setQuery($q);
+				$count = $this->db->loadResult();
 
 				if ($count == 2) {
 					$q = 'SELECT ' . $idfield . ' FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ORDER BY  `' . $idfield . '` DESC  LIMIT 0,1';
-					$db->setQuery($q);
-					$duplicatedPlugin = $db->loadResult();
+					$this->db->setQuery($q);
+					$duplicatedPlugin = $this->db->loadResult();
 					$q = 'DELETE FROM `' . $tableName . '` WHERE ' . $idfield . ' = ' . $duplicatedPlugin;
-					$db->setQuery($q);
-					$db->execute();
+					$this->db->setQuery($q);
+					$this->db->execute();
 				}
 
 				//We write ALWAYS in the table,like this the version number is updated
@@ -433,13 +434,13 @@ class com_virtuemart_allinoneInstallerScript {
 
 				if ($count == 1) {
 					$q = 'SELECT ' . $idfield . ' FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ORDER BY  `' . $idfield . '`';
-					$db->setQuery($q);
-					$ext_id = $db->loadResult();
-					$q = 'UPDATE `#__extensions`  SET `manifest_cache` ="' . $db->escape($data['manifest_cache']) . '" WHERE extension_id=' . $ext_id . ';';
-					$db->setQuery($q);
+					$this->db->setQuery($q);
+					$ext_id = $this->db->loadResult();
+					$q = 'UPDATE `#__extensions`  SET `manifest_cache` ="' . $this->db->escape($data['manifest_cache']) . '" WHERE extension_id=' . $ext_id . ';';
+					$this->db->setQuery($q);
 
 					try {
-						if (!$db->execute()) {
+						if (!$this->db->execute()) {
 							$app = JFactory::getApplication();
 							$app->enqueueMessage(get_class($this) . '::  Error');
 						}
@@ -523,17 +524,17 @@ class com_virtuemart_allinoneInstallerScript {
 			}
 			catch (Exception $e) {
 				//errros in sql during plugin instalalation and updates
-				$app->enqueueMessage (get_class ($this) . ':: vDispatcher::createPlugin ' . $e->getMessage());
+				$app->enqueueMessage (get_class ($this) . ':: vDispatcher::createPlugin '.$pluginfilename.' '. $e->getMessage());
 			}
 
 			$_psType = substr ($group, 2);
 
 			$tablename = '#__virtuemart_' . $_psType . '_plg_' . $element;
-			$db = JFactory::getDBO ();
-			$prefix = $db->getPrefix ();
+
+			$prefix = $this->db->getPrefix ();
 			$query = 'SHOW TABLES LIKE "' . str_replace ('#__', $prefix, $tablename) . '"';
-			$db->setQuery ($query);
-			$result = $db->loadResult ();
+			$this->db->setQuery ($query);
+			$result = $this->db->loadResult ();
 
 			if ($result) {
 				$SQLfields = $plugin->getTableSQLFields ();
@@ -558,14 +559,14 @@ class com_virtuemart_allinoneInstallerScript {
 
 	public function installModule ($title, $module, $ordering, $params, $src, $client_id = 0, $position = 'position-4', $access = 1, $alreadyInstalled = true) {
 		$table = JTable::getInstance('module');
-		$db = $table->getDBO();
+
 		$src .= '/' . $module;
 		if (!$alreadyInstalled) {
 			$params = '';
 
 			$q = 'SELECT id FROM `#__modules` WHERE `module` = "' . $module . '" ';
-			$db->setQuery($q);
-			$id = $db->loadResult();
+			$this->db->setQuery($q);
+			$id = $this->db->loadResult();
 
 			if (!empty($id)) {
 				return;
@@ -618,8 +619,8 @@ class com_virtuemart_allinoneInstallerScript {
 			$lastUsedId = $table->id;
 
 			$q = 'SELECT moduleid FROM `#__modules_menu` WHERE `moduleid` = "' . $lastUsedId . '" ';
-			$db->setQuery($q);
-			$moduleid = $db->loadResult();
+			$this->db->setQuery($q);
+			$moduleid = $this->db->loadResult();
 
 			$action = '';
 			if (empty($moduleid)) {
@@ -627,14 +628,14 @@ class com_virtuemart_allinoneInstallerScript {
 			} else {
 				//$q = 'UPDATE `#__modules_menu` SET `menuid`= "0" WHERE `moduleid`= "'.$moduleid.'" ';
 			}
-			$db->setQuery($q);
-			$db->execute();
+			$this->db->setQuery($q);
+			$this->db->execute();
 		}
 
 
 		$q = 'SELECT extension_id FROM `#__extensions` WHERE `element` = "' . $module . '" ';
-		$db->setQuery($q);
-		$ext_id = $db->loadResult();
+		$this->db->setQuery($q);
+		$ext_id = $this->db->loadResult();
 
 		//				$manifestCache = str_replace('"', '\'', $data["manifest_cache"]);
 		$action = '';
@@ -697,22 +698,18 @@ class com_virtuemart_allinoneInstallerScript {
 	public function VmModulesAlreadyInstalled () {
 
 		// when the modules are already installed publish=-2
-		$table = JTable::getInstance ('module');
-		$db = $table->getDBO ();
 		$q = 'SELECT count(*) FROM `#__modules` WHERE `module` LIKE "mod_virtuemart_%"';
-		$db->setQuery ($q);
-		$count = $db->loadResult ();
+		$this->db->setQuery ($q);
+		$count = $this->db->loadResult ();
 		return $count;
 	}
 
 	public function VmAdminModulesAlreadyInstalled () {
 
 		// when the modules are already installed publish=-2
-		$table = JTable::getInstance ('module');
-		$db = $table->getDBO ();
 		$q = 'SELECT count(*) FROM `#__modules` WHERE `module` LIKE "mod_vmmenu"';
-		$db->setQuery ($q);
-		$count = $db->loadResult ();
+		$this->db->setQuery ($q);
+		$count = $this->db->loadResult ();
 		return $count;
 	}
 
@@ -832,6 +829,22 @@ class com_virtuemart_allinoneInstallerScript {
 		return true;
 	}
 
+	public function uninstallModule($module){
+
+		$q = 'DELETE FROM #__extensions WHERE element="'.$module.'" ';
+		$this->db->setQuery ($q);
+		try {
+			$this->db->execute();
+		} catch (Exception $e) {
+			vmError('Error uninstallModule '.$e->getMessage().' '.$q);
+		}
+
+		$p = VMPATH_ADMIN .'modules/'.$module;
+		if(JFolder::exists($p)){
+			JFolder::delete($p);
+		}
+
+	}
 
 	public function uninstall () {
 

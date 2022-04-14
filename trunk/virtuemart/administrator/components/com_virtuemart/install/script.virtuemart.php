@@ -242,9 +242,6 @@ class com_virtuemartInstallerScript {
 	public function createIndexFolder($path){
 
 		if(JFolder::create($path)) {
-			/*if(!JFile::exists($path .'/index.html')){
-				JFile::copy(VMPATH_ROOT .'/components/index.html', $path .'/index.html');
-			}*/
 			return true;
 		}
 		return false;

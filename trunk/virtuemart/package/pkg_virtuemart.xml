@@ -12,11 +12,11 @@
   <update>https://virtuemart.net/downloads</update>
   <scriptfile>script.vmpackage.php</scriptfile>
   <files>
+    <file type="template" id="vmadmin" client="administrator" >vmadmin.zip</file>
     <file type="component" id="com_virtuemart" >${component.name}.${vm.version}.${PHING.VM.REVISION}.zip</file>
     <file type="component" id="com_virtuemart_allinone" >${component.name}.${vm.version}.${PHING.VM.REVISION}_ext_aio.zip</file>
-    <file type="component" id="com_tcpdf" >com_tcpdf_1.2.0.zip</file>
+    <file type="component" id="com_tcpdf" >com_tcpdf_1.2.2.zip</file>
     <file type="template" id="vmbeez3" client="site" >vmbeez3_3.4.2.zip</file>
     <file type="template" id="horme_3" client="site" >horme_3_v2.0.0.zip</file>
-    <file type="template" id="vmadmin" client="administrator" >vmadmin.zip</file>
   </files>
  </extension>

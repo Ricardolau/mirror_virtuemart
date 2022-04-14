@@ -65,13 +65,13 @@ class vDispatcher {
 			$plugins = JPluginHelper::getPlugin($type);
 			foreach($plugins as $plugin){
 				$plg = self::createPlugin($type, $plugin->name, $enabled);
-				if($plg){
+				if($plg and method_exists($plg, $trigger)){
 					call_user_func_array(array($plg,$trigger),$args);
 				}
 			}
 		} else {
 			$plg = self::createPlugin($type,$element, $enabled);
-			if($plg){
+			if($plg and method_exists($plg, $trigger)){
 				return call_user_func_array(array($plg,$trigger),$args);
 			} else {
 				return false;

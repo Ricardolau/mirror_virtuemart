@@ -203,7 +203,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_category_medias` (
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `ordering` (`virtuemart_category_id`, `ordering`),
-  UNIQUE KEY `virtuemart_category_id` (`virtuemart_category_id`,`virtuemart_media_id`)
+  UNIQUE KEY `virtuemart_category_id` (`virtuemart_category_id`,`virtuemart_media_id`),
+  UNIQUE KEY `virtuemart_media_id` (`virtuemart_media_id`,`virtuemart_category_id`),
+  KEY `virtuemart_media_id_uid` (`virtuemart_media_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 
@@ -363,8 +365,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_customs` (
   `locked_on` datetime,
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_custom_id`),
+  UNIQUE KEY field_type_searchable_published  (`field_type`, `searchable`, `published`),
   KEY `custom_parent_id` (`custom_parent_id`),
-	KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
+  KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `custom_element` (`custom_element`),
   KEY `field_type` (`field_type`),
   KEY `is_cart_attribute` (`is_cart_attribute`),
@@ -431,7 +434,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_manufacturer_medias` (
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `ordering` (`ordering`),
-  UNIQUE KEY `virtuemart_manufacturer_id` (`virtuemart_manufacturer_id`,`virtuemart_media_id`)
+  UNIQUE KEY `virtuemart_manufacturer_id` (`virtuemart_manufacturer_id`,`virtuemart_media_id`),
+  UNIQUE KEY `virtuemart_media_id` (`virtuemart_media_id`,`virtuemart_manufacturer_id`),
+  KEY `virtuemart_media_id_uid` (`virtuemart_media_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -751,6 +756,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_orderstates` (
   `locked_on` datetime,
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_orderstate_id`),
+  UNIQUE KEY `order_status_code` (`order_status_code`),
   KEY `ordering` (`ordering`),
   KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `published` (`published`)
@@ -880,6 +886,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_categories` (
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `virtuemart_product_id` (`virtuemart_product_id`,`virtuemart_category_id`),
+  UNIQUE KEY `virtuemart_category_id` (`virtuemart_category_id`,`virtuemart_product_id`),
+  KEY `virtuemart_product_id_uid` (`virtuemart_product_id`),
+  KEY `virtuemart_category_id_uid` (`virtuemart_category_id`),
   KEY `ordering` (`ordering`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Maps Products to Categories';
 
@@ -939,8 +948,9 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_medias` (
   `virtuemart_media_id` int(1) UNSIGNED NOT NULL DEFAULT '0',
   `ordering` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `virtuemart_media_id` (`virtuemart_media_id`),
+  KEY `virtuemart_media_id_uid` (`virtuemart_media_id`),
   UNIQUE KEY `virtuemart_product_id` (`virtuemart_product_id`,`virtuemart_media_id`),
+  UNIQUE KEY `virtuemart_media_id` (`virtuemart_media_id`,`virtuemart_product_id`),
   KEY `ordering` (`virtuemart_product_id`, `ordering`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
@@ -955,7 +965,8 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_manufacturers` (
   `virtuemart_product_id` int(1),
   `virtuemart_manufacturer_id` int(1) UNSIGNED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `virtuemart_product_id` (`virtuemart_product_id`,`virtuemart_manufacturer_id`)
+  UNIQUE KEY `virtuemart_product_id` (`virtuemart_product_id`,`virtuemart_manufacturer_id`),
+  UNIQUE KEY `virtuemart_manufacturer_id` (`virtuemart_manufacturer_id`,`virtuemart_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Maps a product to a manufacturer';
 
 
@@ -1139,7 +1150,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_shoppergroups` (
   `locked_on` datetime,
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_shoppergroup_id`),
-  KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
+  UNIQUE KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`,`virtuemart_shoppergroup_id`),
   KEY `shopper_group_name` (`shopper_group_name`),
   KEY `ordering` (`ordering`),
   KEY `shared` (`shared`),

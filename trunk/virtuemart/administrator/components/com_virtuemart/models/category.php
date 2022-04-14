@@ -412,7 +412,18 @@ vmdebug('Found cached cat, but without children');
 		return $childList;
 	}
 
-
+	/**
+	 * Returns the category Tree
+	 * @param int $parentId ParentId
+	 * @param int $level Level
+	 * @param bool $onlyPublished only published
+	 * @param string $keyword search keyword
+	 * @param string $limitStart limitStart for Pagination
+	 * @param string $limit
+	 * @param false $tree
+	 * @param int $vendorId
+	 * @return array|mixed
+	 */
 	public function getCategoryTree($parentId=0, $level = 2, $onlyPublished = true,$keyword = '', $limitStart = '',$limit = '', $tree = false, $vendorId = 0){
 
 		$sortedCats = array();

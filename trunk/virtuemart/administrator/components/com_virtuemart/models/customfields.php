@@ -1585,9 +1585,8 @@ class VirtueMartModelCustomfields extends VmModel {
 				vDispatcher::trigger('plgVmOnStoreProduct', array($datas, $plugin_param, $old_customfield_ids ));
 			}*/
 			foreach ($datas['field'] as $key => $pfield ) {
-				if($pfield['field_type']=="E"){
-
-					vDispatcher::directTrigger( 'vmcustom',$pfield->custom_element, 'plgVmOnStoreProduct', array($datas, $datas['customfield_params'][$key], $old_customfield_ids, $key ));
+				if($pfield['field_type']=="E" and !empty($pfield['custom_element'])){
+					vDispatcher::directTrigger( 'vmcustom',$pfield['custom_element'], 'plgVmOnStoreProduct', array($datas, $datas['customfield_params'][$key], $old_customfield_ids, $key ));
 				}
 			}
 		}

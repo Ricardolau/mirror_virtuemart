@@ -976,12 +976,122 @@ class VmModel extends vObject{
 		$r = array();
 		foreach ($langFields as $langField) {
 			$t = self::joinLangLikeField($langField, $keyword);
-			$r = array_merge($r, $t);
+			if (!empty($t)) {
+				$r = array_merge($r, $t);
+			}
 		}
 		return $r;
 	}
 
+	//stAn - added support for search of title:audi via public variable might help adjusting this map via 3rd party
+	public static $searchMap = array(
+			'title:' => '_name',
+			'name:' => '_name',
+			'desc:' => '_desc', 
+			'metadesc:' => 'metadesc',
+			'metakey:' => 'metakey', 
+			'slug:' => 'slug'
+			);
+
+	/**
+	 * returns new searchFields per map found in input searchFields or original searchFields
+	 * @param $searchFields
+	 * @param $keyword
+	 * @param string $returnedKeyword
+	 * @return array
+	 */
+	function filterMapSearchFields($searchFields, $keyword, &$returnedKeyword='') {
+		
+		//support for search of id: when enabled
+		self::$searchMap['id:'] = $this->_idName; 
+		
+		$mapFound = false; 
+		$returnedKeyword = $keyword;
+		$filterLangFields = array(); 
+		if (!empty($keyword)) {
+
+			foreach (self::$searchMap as $search=>$langFieldPart) {
+				if (strpos($keyword, $search) > 0) { //has with title:audi
+					$mapFound = true; 
+					
+					foreach ($searchFields as $searchField) {
+						if (is_string($langFieldPart)) {  //is not an array of _name or customtitle
+							if (strpos($searchField, $langFieldPart) !== false) {
+								$filterLangFields[$searchField] = $searchField;
+								//removes title:
+								$toRemoveSearch[$search] = $search;
+								$toSetEmpty[$search] = '';
+
+							}
+						}
+						else {
+							foreach ($langFieldPart as $lfSearch) {
+								if (strpos($searchField, $lfSearch) !== false) {
+									$filterLangFields[$searchField] = $searchField;
+
+									$toRemoveSearch[$search] = $search;
+									$toSetEmpty[$search] = '';
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if ($mapFound) {
+			//checked field is not the one we want to filter
+			if (empty($filterLangFields)) {
+				return array(); 
+			}
+			else {
+				$returnedKeyword = str_replace($toRemoveSearch, $toSetEmpty, $keyword); 
+				return $filterLangFields; 
+			}
+		}
+			
+		return $searchFields; 
+			
+	}
+
 	static public function joinLangLikeField($searchField, $keyword){
+		
+		$mapFound = false; 
+		if (!empty($keyword)) {
+				
+			foreach (self::$searchMap as $search=>$langFieldPart) {
+				if (strpos($keyword, $search) > 0) { //has with title:audi
+					$mapFound = true;
+					if (is_string($langFieldPart)) {  //is not an array of _name or customtitle
+						if (strpos($searchField, $langFieldPart) !== false) {
+							$filterLangFields[$searchField] = $searchField;
+							//removes title:
+							$toRemoveSearch[$search] = $search;
+							$toSetEmpty[$search] = '';
+						}
+					}
+					else {
+						foreach ($langFieldPart as $lfSearch) {
+							if (strpos($searchField, $lfSearch) !== false) {
+								$filterLangFields[$searchField] = $searchField;
+								$toRemoveSearch[$search] = $search;
+								$toSetEmpty[$search] = '';
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if ($mapFound) {
+			//checked field is not the one we want to filter
+			if (empty($filterLangFields)) {
+				return array();
+			}
+			else {
+				$keyword = str_replace($toRemoveSearch, $toSetEmpty, $keyword);
+			}
+		}
 
 		$useFb = vmLanguage::getUseLangFallback();
 		$useFb2 = vmLanguage::getUseLangFallbackSecondary();
@@ -1013,7 +1123,6 @@ class VmModel extends vObject{
 	 * @author Max Milbers
 	 *
 	 */
-
 	public function getData($id = 0){
 
 		if($id!=0) $this->_id = (int)$id;

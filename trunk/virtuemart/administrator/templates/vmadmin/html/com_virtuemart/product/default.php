@@ -64,7 +64,8 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 					'search' => array(
 						'label' => 'COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT',
 						'name' => 'filter_product',
-						'value' => $this->filter_product
+						'value' => $this->filter_product,
+                        'tooltip' => 'COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT_TT'
 					),
 					'extras' => $extras,
 					'resultsCounter' => $this->pagination->getResultsCounter(),

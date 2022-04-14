@@ -44,7 +44,7 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 					?>
 
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE') ?>&nbsp;
-					<input type="text" value="<?php echo $this->filter_product ?>" name="filter_product" size="25" />
+					<input class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT_TT') ?>" type="text" value="<?php echo $this->filter_product ?>" name="filter_product" size="25" />
 				<?php
                     echo $this->lists['published'];
 					echo $this->lists['search_type'];

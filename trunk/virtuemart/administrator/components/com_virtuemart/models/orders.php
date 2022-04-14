@@ -43,6 +43,19 @@ class VirtueMartModelOrders extends VmModel {
 		$this->populateState();
 
 		vDispatcher::importVMPlugins('vmpayment');
+
+		self::$searchMap = array(
+			'name:' => array('_name','username'),
+			'last_name:' => 'last_name',
+			'surname:' => 'last_name',
+			'street:' => 'address_',
+			'email:' => 'email',
+			'city:' => 'city',
+			'zip:' => 'zip',
+			'order:' => 'order_number',
+			'invoice:' => 'invoice_number'
+		);
+
 	}
 
 	function populateState () {

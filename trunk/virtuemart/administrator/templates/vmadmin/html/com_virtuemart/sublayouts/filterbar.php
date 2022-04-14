@@ -28,11 +28,18 @@ $tools = isset($viewData['tools']) ? $viewData['tools'] : array();
 $extras = isset($viewData['extras']) ? $viewData['extras'] : array();
 $resultsCounter = isset($viewData['resultsCounter']) ? $viewData['resultsCounter'] : false;;
 $limitBox = isset($viewData['limitBox']) ? $viewData['limitBox'] : false;
+$classSearch = '';
 if ($search) {
 	$label = $search['label'];
 	$name = $search['name'];
 	$value = $search['value'];
 	$placeholder = vmText::_('COM_VIRTUEMART_FILTER') . ' ' . vmText::_($label);
+	if(isset($search['tooltip'])){
+		$tooltip ='title="'.vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT_TT').'"';
+		$classSearch = ' toolTip';
+    } else {
+		$tooltip = '';
+    }
 }
 
 
@@ -47,7 +54,7 @@ if ($search) {
 				<div class="uk-button-group vmuikit-filter-search">
 					<input type="text" value="<?php echo $value; ?>"
 							placeholder="<?php echo $placeholder ?>"
-							class="vmuikit-filter-search-input"
+							class="vmuikit-filter-search-input<?php echo $classSearch?>" <?php echo $tooltip ?>
 							name="<?php echo $name ?>" id="<?php echo $name ?>"/>
 
 					<button class="uk-button uk-button-small uk-button-default"

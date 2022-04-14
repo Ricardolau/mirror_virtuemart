@@ -52,6 +52,18 @@ class VirtueMartModelUser extends VmModel {
 		$this->setMainTable('vmusers');
 		$this->removevalidOrderingFieldName('virtuemart_user_id');
 		array_unshift($this->_validOrderingFieldName,'ju.id');
+
+		self::$searchMap = array(
+			'name:' => array('_name','username'),
+			'last_name:' => 'last_name',
+			'surname:' => 'last_name',
+			'company:' => 'company',
+			'street:' => 'address_',
+			'email:' => 'email',
+			'city:' => 'city',
+			'zip:' => 'zip'
+		);
+
 	}
 
 	/**

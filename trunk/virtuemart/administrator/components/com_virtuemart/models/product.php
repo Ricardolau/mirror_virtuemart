@@ -74,6 +74,18 @@ class VirtueMartModelProduct extends VmModel {
 
 		$this->_maxItems = VmConfig::get ('absMaxProducts', 700);
 
+		self::$searchMap = array(
+			'title:' => '_name',
+			'name:' => '_name',
+			'customtitle:' => 'customtitle',
+			'desc:' => '_desc',
+			'metadesc:' => 'metadesc',
+			'metakey:' => 'metakey',
+			'slug:' => 'slug',
+			'sku:' => '_sku',
+			'mpn:'=> '_mpn',
+			'gtin:'=> '_gtin'
+		);
 	}
 
 	var $keyword = "0";
@@ -85,7 +97,7 @@ class VirtueMartModelProduct extends VmModel {
 	var $searchplugin = 0;
 	var $filter_order = 'p.virtuemart_product_id';
 	var $filter_order_Dir = 'DESC';
-	var $valid_BE_search_fields = array('product_name', '`p`.product_sku','`l`.`slug`', 'product_s_desc', '`l`.`metadesc`');
+	var $valid_BE_search_fields = array('product_name', '`p`.product_sku','slug', 'product_s_desc', '`l`.`metadesc`');
 	var $_autoOrder = 0;
 	var $orderByString = 0;
 	var $listing = FALSE;
@@ -163,6 +175,8 @@ class VirtueMartModelProduct extends VmModel {
 
 		$valid_search_fields = VmConfig::get ('browse_search_fields',array());
 		$task = '';
+
+		$this->published = vRequest::getInt('published',null);
 		if (VmConfig::isSite()) {
 			$filter_order = vRequest::getString ('orderby', "0");
 
@@ -301,7 +315,7 @@ class VirtueMartModelProduct extends VmModel {
 	 * Function for sorting, searching, filtering and pagination for product ids.
 	 *
 	 * @author Max Milbers
-	 * @param bool $onlyPublished this is not used anylonger, either blocked by perms or use the Request published or the injection array
+	 * @param bool $onlyPublished this is not used anylonger, either blocked by perms or use the published by populated state or the injection array
 	 * @param false $virtuemart_category_id only products within the given categories
 	 * @param false $group return a group (featured, topten, recent, latest,...)
 	 * @param false $nbrReturnProducts
@@ -309,7 +323,7 @@ class VirtueMartModelProduct extends VmModel {
 	 * @return array|mixed|null
 	 */
 	function sortSearchListQuery ($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $params = array() ) {
-
+		if($this->debug === 1) vmTrace('sortSearchListQuery',FALSE,3);
 		$keyword = isset($params['keyword'])? $params['keyword'] : $this->keyword;
 		/*
 		 * Plugins must return an array with product ids
@@ -446,8 +460,13 @@ class VirtueMartModelProduct extends VmModel {
 
 			//$keyword = '"%' . $db->escape ($keyword, TRUE) . '%"';
 			//vmdebug('Current search field',$this->valid_search_fields);
-
-			foreach ($this->valid_search_fields as $searchField) {
+			$adjustedKeyword = ''; 
+			$newSearchfields = $this->filterMapSearchFields($this->valid_search_fields, $keyword, $adjustedKeyword); 
+			if ((!empty($adjustedKeyword) && ($adjustedKeyword !== $keyword))) {
+				$keyword = $adjustedKeyword;
+			}
+			vmdebug('Current search field',$newSearchfields,$this->valid_search_fields);
+			foreach ($newSearchfields as $searchField) {
 				$prodLangFB = false;
 				if ($searchField == 'category_name' || $searchField == 'category_description') {
 					$joinCatLang = true;
@@ -458,7 +477,7 @@ class VirtueMartModelProduct extends VmModel {
 				else if ($searchField == 'product_price') {
 					$joinPrice = TRUE;
 				}
-				else if ($searchField == 'product_name' or $searchField == 'product_s_desc' or $searchField == 'product_desc' or $searchField == 'slug' ){
+				else if ($searchField == 'product_name' or $searchField == 'product_s_desc' or $searchField == 'product_desc' or $searchField == 'slug' or $searchField == 'metadesc' /*strpos($searchField, 'slug')!== FALSE or strpos($searchField, 'metadesc')!== FALSE*/){
 					$langFields[] = $searchField;
 					$prodLangFB = true;
 				}
@@ -783,15 +802,14 @@ class VirtueMartModelProduct extends VmModel {
 		if(!vmAccess::manager('product')){
 			$where[] = ' p.`published`="1" ';
 		} else {
-			$published = isset($params['published']) ? $params['published'] : vRequest::getInt('published',null);
-			if($published === null){
-				if($isSite and !VmConfig::get('showUnpublishedProducts', true)){
-					$where[] = ' p.`published`="1" ';
-				}
+			if($isSite and !VmConfig::get('showUnpublishedProducts', true)){
+				$where[] = ' p.`published`="1" ';
 			} else {
-				if($published){
+				$published = isset($params['published']) ? $params['published'] : $this->published;
+				vmdebug('my published ',$published,$params);
+				if($published>0){
 					$where[] = ' p.`published`="1" ';
-				} else{
+				} else if(!$isSite and $published=='0'){
 					$where[] = ' p.`published`="0" ';
 				}
 			}
@@ -1480,11 +1498,11 @@ class VirtueMartModelProduct extends VmModel {
 		return $loadedProductPrices[$hash];
 	}
 
-	public function getRawProductPrices(&$product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent=0){
+	public function getRawProductPrices(&$product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent=0, $optimised = true){
 
 		$productId = $product->virtuemart_product_id===0? $this->_id:$product->virtuemart_product_id;
 
-		if(!isset($product->has_prices) or $product->has_prices){
+		if(!$optimised or !isset($product->has_prices) or $product->has_prices){
 			$product->allPrices = $this->loadProductPrices($productId,$virtuemart_shoppergroup_ids,$front);
 			$product->has_prices = 0;
 		} else {
@@ -1675,7 +1693,7 @@ class VirtueMartModelProduct extends VmModel {
 
 				self::$_productsSingle[$checkedProductKey[1]] = false;
 				if(empty($product->slug)){
-					$msg = 'Could not find product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmLanguage::$currLangTag;
+					$msg = 'Empty slug product with id '.$product->virtuemart_product_id.', entries exists for language? '.VmConfig::$vmlangTag;
 					vmError($msg,$msg.' You may contact the administrator');
 				} else {
 					vmError('Could not find product with id '.$product->virtuemart_product_id.', still existing?');
@@ -1728,7 +1746,7 @@ class VirtueMartModelProduct extends VmModel {
 				if(!isset($product->has_prices)){
 					$storeHasPrices = 1;
 				}
-				$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent);
+				$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent,$optimised);
 			}
 
 			$storeHasManufacturers = false;
@@ -1853,18 +1871,19 @@ vmSetStartTime('letsUpdateProducts');
 								$this->categoryId = ShopFunctionsF::getLastVisitedCategoryId();
 							}
 						}
+					}
 
-						//$last_category_id = shopFunctionsF::getLastVisitedCategoryId ();
-						if ($this->categoryId!==0 and in_array ($this->categoryId, $product->categories)) {
+					//$last_category_id = shopFunctionsF::getLastVisitedCategoryId ();
+					if ($this->categoryId!==0 and in_array ($this->categoryId, $product->categories)) {
+						$product->virtuemart_category_id = $this->categoryId;
+					}
+
+					if ($this->categoryId!==0 and $this->categoryId!=$product->canonCatId){
+						if(in_array($this->categoryId,$public_cats)){
 							$product->virtuemart_category_id = $this->categoryId;
 						}
-
-						if ($this->categoryId!==0 and $this->categoryId!=$product->canonCatId){
-							if(in_array($this->categoryId,$public_cats)){
-								$product->virtuemart_category_id = $this->categoryId;
-							}
-						}
 					}
+
 
 				}
 				//vmdebug('$product->virtuemart_category_id',$product->virtuemart_category_id);

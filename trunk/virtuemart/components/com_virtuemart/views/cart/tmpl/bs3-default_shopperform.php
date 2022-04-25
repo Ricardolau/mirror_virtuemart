@@ -21,6 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 
 vmJsApi::chosenDropDowns();
 
+$currentUser = $this->cart->user->virtuemart_user_id;
 ?>
 
 <div class="form-group">

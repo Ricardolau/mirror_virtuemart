@@ -6,8 +6,8 @@
  * @package	VirtueMart
  * @subpackage Cart
  * @author Max Milbers
- * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -413,9 +413,9 @@ class VirtueMartControllerCart extends JControllerLegacy {
 		/* Load the cart helper */
 		$cart = VirtueMartCart::getCart();
 		if ($cart->removeProductCart())
-		$mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY'));
+			$mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY'));
 		else
-		$mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_REMOVED_SUCCESSFULLY'), 'error');
+			$mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_REMOVED_SUCCESSFULLY'), 'error');
 
 		$this->display();
 	}
@@ -457,7 +457,7 @@ class VirtueMartControllerCart extends JControllerLegacy {
 
 			} else if(vmAccess::manager('core',$userID)){
 				vmdebug('Manager want to change to  '.$userID,$id,$current);
-			//if($newUser->authorise('core.admin', 'com_virtuemart') or $newUser->authorise('vm.user', 'com_virtuemart')){
+				//if($newUser->authorise('core.admin', 'com_virtuemart') or $newUser->authorise('vm.user', 'com_virtuemart')){
 				$app->enqueueMessage(vmText::sprintf('COM_VIRTUEMART_CART_CHANGE_SHOPPER_NO_PERMISSIONS', $current->name .' ('.$current->username.')'), 'error');
 				$app->redirect($red);
 			}
@@ -500,16 +500,11 @@ class VirtueMartControllerCart extends JControllerLegacy {
 			$usermodel = VmModel::getModel('user');
 			$data = $usermodel->getUserAddressList($userID, 'BT');
 
-			if(isset($data[0])){
-				foreach($data[0] as $k => $v) {
-					$data[$k] = $v;
-				}
-			} else {
-				$cart->BT = array();
-			}
-
+			$cart->BT = array();
 			$cart->BT['email'] = $newUser->email;
-			$cart->saveAddressInCart($data, 'BT');
+			if(isset($data[0])){
+				$cart->saveAddressInCart($data[0], 'BT');
+			}
 		} else {
 			$cart->BT = 0;
 		}

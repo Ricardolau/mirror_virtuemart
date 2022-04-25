@@ -174,7 +174,12 @@ class com_virtuemart_allinoneInstallerScript {
 		$this->installPlugin ('VirtueMart Product', 'plugin', 'virtuemart', 'search');
 		$this->updateMoneyBookersToSkrill();
 
-		$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmLoaderPluginUpdate', 'system', 1);
+		$p = VMPATH_ROOT .'/plugins/system/vmLoaderPluginUpdate';
+		if(JFolder::exists($p)){
+			JFolder::delete($p);
+		}
+
+		$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmloaderpluginupdate', 'system', 1);
 
 		$this->updateShipmentWeight_countries_keys();
 
@@ -420,13 +425,14 @@ class com_virtuemart_allinoneInstallerScript {
 				$this->db->setQuery($q);
 				$count = $this->db->loadResult();
 
-				if ($count == 2) {
+				if ($count > 1) {
 					$q = 'SELECT ' . $idfield . ' FROM `' . $tableName . '` WHERE `element` = "' . $element . '" and folder = "' . $group . '" ORDER BY  `' . $idfield . '` DESC  LIMIT 0,1';
 					$this->db->setQuery($q);
 					$duplicatedPlugin = $this->db->loadResult();
 					$q = 'DELETE FROM `' . $tableName . '` WHERE ' . $idfield . ' = ' . $duplicatedPlugin;
 					$this->db->setQuery($q);
 					$this->db->execute();
+					$count--;
 				}
 
 				//We write ALWAYS in the table,like this the version number is updated
@@ -511,7 +517,7 @@ class com_virtuemart_allinoneInstallerScript {
 
 		if (class_exists ('VmConfig')) {
 			$pluginfilename = $dst . '/' . $element . '.php';
-			if(file_exists($pluginfilename)){
+			if(file_exists($pluginfilename) and !class_exists('plg'.ucfirst($group).ucfirst($element))){
 				require_once ($pluginfilename);	//require_once cause is more failproof and is just for install
 			} else {
 				$app = JFactory::getApplication ();
@@ -839,7 +845,7 @@ class com_virtuemart_allinoneInstallerScript {
 			vmError('Error uninstallModule '.$e->getMessage().' '.$q);
 		}
 
-		$p = VMPATH_ADMIN .'modules/'.$module;
+		$p = VMPATH_ADMIN .'/modules/'.$module;
 		if(JFolder::exists($p)){
 			JFolder::delete($p);
 		}

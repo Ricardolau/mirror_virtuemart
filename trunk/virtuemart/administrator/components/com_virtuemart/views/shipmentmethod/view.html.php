@@ -110,6 +110,9 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 			$this->pagination = $model->getPagination();
 
+			if($this->showVendors()){
+				$this->lists['vendors'] = Shopfunctions::renderVendorList($model->virtuemart_vendor_id, 'virtuemart_vendor_id', true);
+			}
 		}
 
 		parent::display($tpl);

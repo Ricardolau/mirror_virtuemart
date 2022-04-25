@@ -141,6 +141,40 @@ class VirtueMartModelShipmentmethod extends VmModel {
 		if ($onlyPublished) {
 			$where[] = ' `published` = 1';
 		}
+		/*stAn search mod*/
+		$option	= 'com_virtuemart';
+		$view = vRequest::getCmd('view','');
+		$keyword = JFactory::getApplication()->getUserStateFromRequest( $option.'.'.$view.'.search', 'search', '', 'string' );
+		
+		if (!empty($keyword)) {
+
+			$whereOr = array(); 
+			
+			$db = JFactory::getDBO();
+			$keyword = $db->escape( $keyword, true );
+			$keyword =  '"%' .str_replace(array(' ','-'),'%', $keyword). '%"';
+			//$keyword = $db->escape( $keyword, true );
+			$fields = self::joinLangLikeFields($langFields,$keyword);
+			if (!empty($fields)) {
+				$whereOr = array_merge($whereOr, $fields);
+
+
+				if (!empty($whereOr)) {
+					$where[] = ' ('.implode(' or ', $whereOr).') ';
+				}
+			}
+		}
+		/*end - stAn search mod*/
+
+		if(!VmConfig::isSite()){
+			$this->virtuemart_vendor_id = JFactory::getApplication()->getUserStateFromRequest( $option.'.'.$view.'.virtuemart_vendor_id', 'virtuemart_vendor_id', '', 'int' );
+			if(empty($this->virtuemart_vendor_id) and !vmAccess::manager('managevendors')){
+				$this->virtuemart_vendor_id = vmAccess::isSuperVendor();
+			}
+			if(!empty($this->virtuemart_vendor_id)){
+				$where[] = ' `virtuemart_vendor_id` = '.(int)$this->virtuemart_vendor_id;
+			}
+		}
 
 		$whereString = '';
 		if (count($where) > 0) $whereString = ' WHERE '.implode(' AND ', $where) ;

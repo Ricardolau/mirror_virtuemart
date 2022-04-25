@@ -7,7 +7,7 @@
  * @subpackage Paymentmethod
  * @author Max Milbers
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - ${PHING.VM.COPYRIGHT} VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 The VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -26,6 +26,31 @@ vmuikitAdminUIHelper::startAdminArea($this);
 ?>
 
 	<form action="index.php" method="post" name="adminForm" id="adminForm">
+		<div id="filterbox" class="filter-bar">
+		<?php
+		$extras = array();
+		if ($this->showVendors()) {
+			$extras[] = $this->lists['vendors'];
+		}
+		
+		echo adminSublayouts::renderAdminVmSubLayout('filterbar',
+			array(
+				'search' => array(
+					'label' => 'COM_VIRTUEMART_NAME',
+					'name' => 'search',
+					'value' => vRequest::getVar('search')
+				),
+				'extras' => $extras,
+				'resultsCounter' => $this->pagination->getResultsCounter(),
+				'limitBox' => $this->pagination->getLimitBox()
+			));
+
+
+		?>
+		
+
+		</div>
+	
 		<div id="editcell">
 			<table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
 				<thead>
@@ -149,13 +174,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 					$k = 1 - $k;
 				}
 				?>
-				<tfoot>
-				<tr>
-					<td colspan="21">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-				</tfoot>
+				
 			</table>
 		</div>
 

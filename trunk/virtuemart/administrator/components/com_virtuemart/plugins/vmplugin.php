@@ -313,6 +313,13 @@ abstract class vmPlugin extends JPlugin {
 				if (VmConfig::isSite() ) {
 					$q .= 'AND vm.published = 1 ';
 				}
+				//Todo test this against the one above, maybe we do not need the extension table?
+				/*$q = 'SELECT vm.* FROM `' . $this->_configTable . '` AS vm
+					WHERE vm.' . $this->_psType . '_jplugin_id > 0 ';
+				if (VmConfig::isSite() ) {
+					$q .= 'AND vm.published = 1 ';
+				}*/
+
 				$db->setQuery ($q);
 				self::$c[$this->_psType] = $db->loadObjectList ($this->_idName);
 				//vmdebug('selectedThisByMethodId loaded '.$this->_psType,self::$c);

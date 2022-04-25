@@ -117,7 +117,7 @@ class VirtueMartControllerProductdetails extends JControllerLegacy {
 				return;
 		}
 		else {
-			$session->set('askquestion', 0, 'vm');
+			$session->set('askquestion', array());
 		}
 		
 

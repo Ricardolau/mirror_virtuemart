@@ -41,7 +41,7 @@ if (empty ( $this->product )) {
 	echo '<br /><br />  ' . $this->continue_link_html;
 } else {
 	$session = JFactory::getSession();
-	$sessData = $session->get('askquestion', 0, 'vm');
+	$sessData = $session->get('askquestion', array());
 	if(!empty($this->login)){
 		echo $this->login;
 	?>

@@ -154,18 +154,18 @@ if ($canSearch) {
 								}
 								echo VmuikitHtml::row('checkbox', 'COM_VIRTUEMART_FILES_FORM_FILE_PUBLISHED', 'media[media_published]', $checked);
 								if (!vmAccess::manager('media')) {
-									$readonly = 'readonly';
+									$readonly = 'readonly ';
 								} else {
 									$readonly = '';
 								}
 								if ($VmMediaHandler->noImageSet) {
 									$VmMediaHandler->file_url = '';
 								}
-								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_TITLE', 'file_title', 'class="inputbox input-xxlarge"', $VmMediaHandler->file_title);
-								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_DESCRIPTION', 'file_description', 'class="inputbox input-xxlarge"', $VmMediaHandler->file_description);
-								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_META', 'file_meta', 'class="inputbox input-xxlarge"', $VmMediaHandler->file_meta);
-								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_CLASS', 'file_class', 'class="inputbox input-xxlarge"', $VmMediaHandler->file_class);
-								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_URL', 'file_url', 'class="inputbox input-xxlarge"', $VmMediaHandler->file_url);
+								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_TITLE', 'file_title', $readonly.'class="inputbox input-xxlarge"', $VmMediaHandler->file_title);
+								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_DESCRIPTION', 'file_description', $readonly.'class="inputbox input-xxlarge"', $VmMediaHandler->file_description);
+								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_META', 'file_meta', $readonly.'class="inputbox input-xxlarge"', $VmMediaHandler->file_meta);
+								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_CLASS', 'file_class', $readonly.'class="inputbox input-xxlarge"', $VmMediaHandler->file_class);
+								echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_URL', 'file_url', $readonly.'class="inputbox input-xxlarge"', $VmMediaHandler->file_url);
 
 
 								$file_url_thumb = $VmMediaHandler->getFileUrlThumb();
@@ -187,7 +187,7 @@ if ($canSearch) {
 									<?php
 
 								} else {
-									echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_URL_THUMB', 'file_url_thumb', $readonly, $file_url_thumb);
+									echo VmuikitHtml::mediaRow($VmMediaHandler, 'COM_VIRTUEMART_FILES_FORM_FILE_URL_THUMB', 'file_url_thumb', $readonly.'class="inputbox input-xxlarge"', $file_url_thumb);
 								}
 
 								$VmMediaHandler->addMediaAttributesByType();

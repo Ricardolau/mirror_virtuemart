@@ -7,7 +7,7 @@
  * @subpackage
  * @author
  * @link ${PHING.VM.MAINTAINERURL}
- * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -456,7 +456,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 				$vendor_model->setId($product->virtuemart_vendor_id);
 				$vendor = $vendor_model->getVendor();
 
-				$currencyDisplay = CurrencyDisplay::getInstance($vendor->vendor_currency,$vendor->virtuemart_vendor_id);
+				$currencyDisplayVendor = CurrencyDisplay::getInstance($vendor->vendor_currency,$vendor->virtuemart_vendor_id);
 
 
 				$product->product_price_display = '';
@@ -472,7 +472,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 						//Use price currency instead of vendor currency */
                         $currencyDisplay = CurrencyDisplay::getInstance($price['product_currency']);
-						//vmdebug('my price',$price);
+						//vmdebug('my $currencyDisplay',$currencyDisplay);
 						if($vat){
 							$product->selectedPrice = $k;
 							$this->calculatedPrices = $this->calculator->getProductPrices ($product);
@@ -481,7 +481,13 @@ class VirtuemartViewProduct extends VmViewAdmin {
 						} else {
 							$pric = $price['product_price'];
 						}
-						$product->product_price_display .= $currencyDisplay->priceDisplay($pric,(int)$price['product_currency'],1,true) .'<br>';
+
+						$product->product_price_display .= $currencyDisplayVendor->priceDisplay($pric,(int)$price['product_currency'],1,true) ;
+						if($price['product_currency'] != $vendor->vendor_currency){
+							$product->product_price_display .= ' ('.$currencyDisplay->priceDisplay($pric,(int)$price['product_currency'],1,false).')';
+						}
+
+						$product->product_price_display .= '<br>';
 					}
 					$product->product_price_display = substr($product->product_price_display,0,-4) . '</span>';
 					/*$product->product_price_display = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['product_price'],(int)$product->allPrices[$product->selectedPrice]['product_currency'],1,true);*/

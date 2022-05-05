@@ -86,7 +86,7 @@ class VmuikitHtml extends VmHtml {
 		}
 		$label = vmText::_($label);
 		if ($func[1]=="checkbox" OR $func[1]=="input") {
-			$label = "\n\t" . '<label class="uk-form-label" 
+			$label = "\n\t" . '<label class="uk-form-label'.$popUP.'" 
 			for="'. $args[0] . '" 
 			id="' . $args[0] . '-lbl"'.$tooltiptext.'>'.$label."</label>";
 		}else {

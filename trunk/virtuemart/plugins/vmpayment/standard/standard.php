@@ -137,7 +137,10 @@ class plgVmPaymentStandard extends vmPSPlugin {
 			}
 		}
 
-		$dbValues['payment_name'] = $this->renderPluginName ($method) . '<br />' . $method->payment_info;
+		$dbValues['payment_name'] = $this->renderPluginName ($method);
+		if ( !empty($method->payment_info) ) $dbValues['payment_name'] .= '<br />' . $method->payment_info;
+
+
 		$dbValues['order_number'] = $order['details']['BT']->order_number;
 		$dbValues['virtuemart_paymentmethod_id'] = $order['details']['BT']->virtuemart_paymentmethod_id;
 		$dbValues['cost_per_transaction'] = $method->cost_per_transaction;

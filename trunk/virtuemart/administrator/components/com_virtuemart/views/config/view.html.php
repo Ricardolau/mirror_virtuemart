@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Config
  * @author RickG
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2019 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -299,7 +299,7 @@ WHERE published="1"';
 		$n = (int)($res['n']) * 2;
 		$n = $n* ($n+1) / 2;
 		if ($n !== $mysum) {
-			JFactory::getApplication()->enqueueMessage('Serious security issue detected: Your #__usergroups table includes incorrect datas and permissions reported at backend might not be same as permissions applied on frontend. Please adjust your #__usergroups per clean joomla installation or consult your developer', 'error');
+			JFactory::getApplication()->enqueueMessage('Serious security issue detected: Your #__usergroups table includes incorrect datas and permissions reported at backend might not be same as permissions applied on frontend. Please fix your #__usergroups. Just edit a joomla user group and store it. This should update the table.', 'error');
 		}
 	}
 }

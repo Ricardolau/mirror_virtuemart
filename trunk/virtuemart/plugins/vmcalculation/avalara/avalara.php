@@ -1150,7 +1150,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 				try {
 					$docId = $db->loadResult();
 				} catch (RuntimeException $ex) {
-					vmError('Avatax plgVmOnUpdateOrderPayment error checking existing DocId: ' . $ex->getMessage());
+					//vmError('Avatax plgVmOnUpdateOrderPayment error checking existing DocId: ' . $ex->getMessage());
 				}
 				
 				if (empty($docId)) {

@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage
  * @author
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -458,7 +458,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 				$currencyDisplayVendor = CurrencyDisplay::getInstance($vendor->vendor_currency,$vendor->virtuemart_vendor_id);
 
-
 				$product->product_price_display = '';
 				$class = '';
 				if(empty($product->allPrices)) {
@@ -484,7 +483,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 						$product->product_price_display .= $currencyDisplayVendor->priceDisplay($pric,(int)$price['product_currency'],1,true) ;
 						if($price['product_currency'] != $vendor->vendor_currency){
-							$product->product_price_display .= ' ('.$currencyDisplay->priceDisplay($pric,(int)$price['product_currency'],1,false).')';
+							$product->product_price_display .= ' ('.$currencyDisplay->getFormattedCurrency($pric).')';
 						}
 
 						$product->product_price_display .= '<br>';

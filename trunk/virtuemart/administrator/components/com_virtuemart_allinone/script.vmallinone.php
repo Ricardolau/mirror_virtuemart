@@ -8,7 +8,7 @@ defined ('_JEXEC') or die('Restricted access');
  * This file is executed during install/upgrade and uninstall
  *
  * @author Max Milbers, Valérie Isaksen, stAn
- * @copyright (c) 2012 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright (c) 2012 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @package VirtueMart
  */
@@ -178,6 +178,15 @@ class com_virtuemart_allinoneInstallerScript {
 		if(JFolder::exists($p)){
 			JFolder::delete($p);
 		}
+
+		try {
+			$q = 'UPDATE #__extensions SET `element` = "vmloaderpluginupdate" WHERE `element`= "vmLoaderPluginUpdate" ';
+			$this->db->setQuery($q);
+			$this->db->execute();
+		} catch (Exception $e){
+			vmError('There was an error updating the vmloaderpluginupdate element in extensions table');
+		}
+
 
 		$this->installPlugin ('VM Framework Loader during Plugin Updates', 'plugin', 'vmloaderpluginupdate', 'system', 1);
 
@@ -517,8 +526,10 @@ class com_virtuemart_allinoneInstallerScript {
 
 		if (class_exists ('VmConfig')) {
 			$pluginfilename = $dst . '/' . $element . '.php';
-			if(file_exists($pluginfilename) and !class_exists('plg'.ucfirst($group).ucfirst($element))){
-				require_once ($pluginfilename);	//require_once cause is more failproof and is just for install
+			if(file_exists($pluginfilename)){
+				if(!class_exists('plg'.ucfirst($group).ucfirst($element))){
+					require_once ($pluginfilename);	//require_once cause is more failproof and is just for install
+				}
 			} else {
 				$app = JFactory::getApplication ();
 				$app->enqueueMessage (get_class ($this) . ':: VirtueMart3 could not find file '.$pluginfilename);

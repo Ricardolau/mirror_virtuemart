@@ -984,7 +984,7 @@ class KlarnaHandler {
 	/**
 	 * Return pclasses stored in json file.
 	 */
-	public static function getPClasses ($type = NULL, $mode, $settings) {
+	public static function getPClasses ($type, $mode, $settings) {
 
 		//$settings = self::countryData($method, $country);
 		try {

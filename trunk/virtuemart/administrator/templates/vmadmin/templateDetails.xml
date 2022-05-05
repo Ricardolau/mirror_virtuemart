@@ -6,14 +6,17 @@
 	<author>by the VirtueMart team</author>
 	<authorEmail>max@virtuemart.net</authorEmail>
 	<authorUrl>http://virtuemart.net</authorUrl>
-	<copyright>Copyright (C) 2004 - 2021 Virtuemart Team, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2004 - 2022 Virtuemart Team, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.8.9</version>
+	<version>4.0.0</version>
 	<description>New administration template for VirtueMart for testing and development. Enable the template in the virtuemart config on the first tab, section "Advanced".</description>
 
 	<files>
 		<folder>html</folder>
 	</files>
-
+    <updateservers>
+        <!-- Note: No spaces or linebreaks allowed between the server tags -->
+        <server type="extension" name="VirtueMart Administrator Template Update Site"><![CDATA[http://virtuemart.net/releases/vm3/vmadmin.xml]]></server>
+    </updateservers>
 
 </extension>

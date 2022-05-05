@@ -6,7 +6,7 @@
  * @package     VirtueMart
  * @subpackage
  * @author      The VirtueMart Team
- * @link        ${PHING.VM.MAINTAINERURL}
+ * @link        https://virtuemart.net
  * @copyright   Copyright (c) 2015 - 2019 VirtueMart Team. All rights reserved.
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  * @version     $Id: snippets.php 8024 2014-06-12 15:08:59Z Milbo $
@@ -51,25 +51,29 @@ if ($DownDate > $DownCalcDate) {
 	$priceUntil = '';
 }
 
-//GJC look for parent & for child stock
-$stockog = 'OutofStock';
+//GJC and Roderic look for parent & for child stock
+//$stockog = 'InStock';
 $stockhandle = VmConfig::get ('stockhandle', 'none');
-$finalstk = 0;
+$finalstk = $product->product_in_stock - $product->product_ordered;
 if ($stockhandle == 'none') {
 	$stockog = 'InStock';
 } elseif ($stockhandle == 'disableit_children' and $product->product_parent_id == 0) {
 	$prodmodel = VmModel::getModel ('product');
 	$children = $prodmodel->getProductChilds($product->virtuemart_product_id);
-	$finalstk = '0';
+	$finalstk = $product->product_in_stock - $product->product_ordered;
 	foreach($children as $child){
-		$finalstk += $child->product_in_stock;
+		$finalstk += $child->product_in_stock - $child->product_ordered;
 	}
 } else {
-	$finalstk = $product->product_in_stock;
+	$finalstk = $product->product_in_stock - $product->product_ordered;
 }
-if ($finalstk > 0) {
+if ($finalstk != 0) {
 	$stockog = 'InStock';
 }
+if ($finalstk == 0) {
+	$stockog = 'OutOfStock';
+}
+
 
 //check for meta if empty move onto using product data
 if (!empty($document->getMetaData('description'))) {

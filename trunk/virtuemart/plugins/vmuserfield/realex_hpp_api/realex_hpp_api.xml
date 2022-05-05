@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmuserfield" method="upgrade">
     <name>Realex_hpp_api</name>
-    <creationDate>${PHING.VM.RELDATE}</creationDate>
+    <creationDate>April 26 2022</creationDate>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
-    <copyright>${PHING.VM.COPYRIGHT}</copyright>
+    <authorUrl>https://virtuemart.net</authorUrl>
+    <copyright>Copyright (C) 2004 - 2022 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>${PHING.VM.RELEASE}</version>
+    <version>4.0.0</version>
     <description>Card storage plugin for Realex</description>
     <files>
         <filename plugin="realex_hpp_api">realex_hpp_api.php</filename>
@@ -18,6 +18,6 @@
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->
         <server type="extension" name="VirtueMart plg_vmuserfield_realex_hpp_api Update Site">
-            <![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_vmuserfield_realex_hpp_api_update.xml]]></server>
+            <![CDATA[http://virtuemart.net/releases/vm3/plg_vmuserfield_realex_hpp_api_update.xml]]></server>
     </updateservers>
 </extension>

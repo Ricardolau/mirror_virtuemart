@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
     <name>Standard</name>
-    <creationDate>${PHING.VM.RELDATE}</creationDate>
+    <creationDate>April 26 2022</creationDate>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
+    <authorUrl>https://virtuemart.net</authorUrl>
     <copyright>Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>${PHING.VM.RELEASE}</version>
+    <version>4.0.0</version>
     <description>Standard payment plugin</description>
 
     <files>
@@ -59,7 +59,7 @@
     </vmconfig>
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->
-        <server type="extension" name="VirtueMart plg_vmpayment_standard Update Site"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_vmpayment_standard_update.xml]]></server>
+        <server type="extension" name="VirtueMart plg_vmpayment_standard Update Site"><![CDATA[http://virtuemart.net/releases/vm3/plg_vmpayment_standard_update.xml]]></server>
     </updateservers>
 
 </extension>

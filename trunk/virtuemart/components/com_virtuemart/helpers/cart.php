@@ -7,7 +7,7 @@
  * @package	VirtueMart
  * @subpackage Cart
  * @author Max Milbers
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -640,7 +640,7 @@ class VirtueMartCart {
 						}
 					} else {
 						if(is_array($value)){
-							if($key=='cartProductsData' and count($value)>0){
+							if($key=='cartProductsData' and count($value)>0 and VmConfig::get('showCartLoadedMsg',1)){
 								VmInfo('COM_VM_LOADED_STORED_CART');
 							} else if ($key=='BT' or $key=='ST'){
 								$existingSession->{$key} = $this->unsetDefaults($key, $existingSession->{$key});
@@ -686,8 +686,11 @@ class VirtueMartCart {
 			if(!$cartDataToStore){
 				$data = $this->getCartDataToStore();
 				unset($data->productCartLoaded);
-				unset($data->BT);
-				unset($data->ST);
+				if(!$currentUser->guest){
+					unset($data->BT);
+					unset($data->ST);
+				}
+
 				//quorvia dont store cartfields e.g. TOS, Customer_note
 				$CartsdontsaveCartfields = VmConfig::get('CartsDontSaveCartFields', 0 );
 				if($CartsdontsaveCartfields) {

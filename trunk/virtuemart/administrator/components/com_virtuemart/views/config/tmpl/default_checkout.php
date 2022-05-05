@@ -5,7 +5,7 @@
  * @package	VirtueMart
  * @subpackage Config
  * @author Oscar van Eijk
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2011 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -40,6 +40,7 @@ defined('_JEXEC') or die('Restricted access');
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_SHOW_REGISTER','oncheckout_show_register',VmConfig::get('oncheckout_show_register',1));
 		echo VmHTML::row('checkbox','COM_VIRTUEMART_ADMIN_ONCHECKOUT_ONLY_REGISTERED','oncheckout_only_registered',VmConfig::get('oncheckout_only_registered',0));
 		echo VmHTML::row('input','COM_VIRTUEMART_CFG_CARTCOOKIEEXPIRE','cartCookieExpire',VmConfig::get('cartCookieExpire',0));
+		echo VmHTML::row('checkbox','COM_VIRTUEMART_CFG_SHOWCARTLOADED','showCartLoadedMsg',VmConfig::get('showCartLoadedMsg',1));
 		//echo VmHTML::row('checkbox','COM_VM_CFG_PROVIDE_ORDER_GUEST_LINK','orderGuestLink',VmConfig::get('orderGuestLink',0));
 
 		$opt = array(

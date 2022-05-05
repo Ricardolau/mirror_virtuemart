@@ -9,7 +9,7 @@
  * @author Max Milbers
  * @author Oscar van Eijk
  * @author RolandD
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant

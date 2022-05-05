@@ -6,9 +6,9 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers, Claes Norin, Valérie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @release ${PHING.VM.MAINRELEASE}
- * @copyright ${PHING.VM.COPYRIGHT}
+ * @copyright Copyright (C) 2004 - 2022 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or

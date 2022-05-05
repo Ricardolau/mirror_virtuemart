@@ -6,7 +6,7 @@
  * @subpackage Cart
  * @author Max Milbers
  *
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2016 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  * @version $Id: cart.php 2551 2010-09-30 18:52:40Z milbo $

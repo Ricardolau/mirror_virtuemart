@@ -7,7 +7,7 @@
 * @subpackage Config
 * @auhtor Max Milbers
 * @author RickG
-* @link ${PHING.VM.MAINTAINERURL}
+* @link https://virtuemart.net
 * @copyright Copyright (c) 2004 - 2021 VirtueMart Team and authors. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant

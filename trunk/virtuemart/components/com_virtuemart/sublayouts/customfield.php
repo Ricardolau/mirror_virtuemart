@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage
  * @author Max Milbers, Valerie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2015 - 2022 The VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * @version $Id: customfield.php 8024 2014-06-12 15:08:59Z Milbo $

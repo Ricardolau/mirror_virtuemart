@@ -5,7 +5,7 @@
  * @subpackage Plugins  - Eway
  * @package VirtueMart
  * @subpackage Payment
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  *
  * @copyright Copyright (c) 2015 Web Active Corporation Pty Ltd
  *

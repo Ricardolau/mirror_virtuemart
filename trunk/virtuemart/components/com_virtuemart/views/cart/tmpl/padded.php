@@ -7,7 +7,7 @@
 * @subpackage Cart
 * @author Max Milbers
 *
-* @link ${PHING.VM.MAINTAINERURL}
+* @link https://virtuemart.net
 * @copyright Copyright (c) 2013 - 2019 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant

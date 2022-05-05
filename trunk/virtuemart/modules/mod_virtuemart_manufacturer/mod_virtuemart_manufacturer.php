@@ -11,7 +11,7 @@ defined('_JEXEC') or  die( 'Direct Access to '.basename(__FILE__).' is not allow
 * VirtueMart is Free Software.
 * VirtueMart comes with absolute no warranty.
 *
-* @link ${PHING.VM.MAINTAINERURL}
+* @link https://virtuemart.net
 */
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');

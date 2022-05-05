@@ -7,7 +7,7 @@
  * @package     VirtueMart
  * @subpackage
  * @author      Max Milbers, Eugen Stranz
- * @link        ${PHING.VM.MAINTAINERURL}
+ * @link        https://virtuemart.net
  * @copyright   Copyright (c) 2015 VirtueMart Team. All rights reserved.
  * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  * @version     $Id: bs4-categories.php 8024 2014-06-12 15:08:59Z Milbo $

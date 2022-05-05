@@ -9,7 +9,7 @@ defined('_JEXEC') or die('');
  * @subpackage User
  * @author Max Milbers
  * @author Valérie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant

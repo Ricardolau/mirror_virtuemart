@@ -10,7 +10,7 @@ if (!empty($text_before)) { ?>
 
 <form action="<?php echo vmURI::getCurrentUrlBy('get',true) ?>" method="post" class="<?php echo $moduleclass_sfx; ?>">
 	<div class="input-group input-group-xs">
-		<?php echo JHTML::_('select.genericlist', $currencies, 'virtuemart_currency_id', 'class="changeSendForm inputbox form-control input-sm"', 'virtuemart_currency_id', 'currency_txt', $virtuemart_currency_id) ; ?>
+		<?php echo JHTML::_('select.genericlist', $currencies, 'virtuemart_currency_id', 'class="inputbox  form-control input-sm"', 'virtuemart_currency_id', 'currency_txt', $virtuemart_currency_id) ; ?>
 		<span class="input-group-btn">
 			<button class="btn btn-primary btn-xs" type="submit" name="submit" title="<?php echo vmText::_('MOD_VIRTUEMART_CURRENCIES_CHANGE_CURRENCIES') ?>">
 				<span class="glyphicon glyphicon-refresh"></span>
@@ -18,14 +18,3 @@ if (!empty($text_before)) { ?>
 		</span>
 	</div>
 </form>
-
-<?php
-$j = 'jQuery(document).ready(function() {
-
-jQuery(".changeSendForm")
-	.off("change",Virtuemart.sendCurrForm)
-    .on("change",Virtuemart.sendCurrForm);
-})';
-
-vmJsApi::addJScript('sendFormChange',$j);
-echo vmJsApi::writeJS();

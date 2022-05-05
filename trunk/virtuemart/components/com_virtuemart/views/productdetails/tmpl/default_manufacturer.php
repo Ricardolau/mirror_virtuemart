@@ -5,7 +5,7 @@
  *
  * @package	VirtueMart
  * @author Max Milbers, Valerie Isaksen
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * @version $Id$

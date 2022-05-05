@@ -9,7 +9,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  * @package	VirtueMart
  * @subpackage Plugins
  * @author Christopher Roussel, Max Milbers
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL
  */

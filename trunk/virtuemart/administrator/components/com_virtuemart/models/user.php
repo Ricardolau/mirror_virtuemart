@@ -8,7 +8,7 @@
  * @author Oscar van Eijk
  * @author Max Milbers
  * @author	RickG
- * @link ${PHING.VM.MAINTAINERURL}
+ * @link https://virtuemart.net
  * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
  * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

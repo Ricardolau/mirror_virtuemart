@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension version="2.5" type="plugin" group="vmpayment" method="upgrade">
     <name>Sofort</name>
-    <creationDate>April 26 2022</creationDate>
+    <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
-    <authorUrl>https://virtuemart.net</authorUrl>
+    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>Copyright (C) 2004 - 2019 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version>4.0.0</version>
+    <version>${PHING.VM.RELEASE}</version>
     <description><![CDATA[<a href="http:/www.sofort.com" target="_blank">Sofort</a> is a popular
 	payment provider and available in many countries. ]]>
     </description>
@@ -101,7 +101,7 @@
 
     <updateservers>
         <!-- Note: No spaces or linebreaks allowed between the server tags -->
-        <server type="extension" name="VirtueMart plg_vmpayment_sofort Update Site"><![CDATA[http://virtuemart.net/releases/vm3/plg_vmpayment_sofort_update.xml]]></server>
+        <server type="extension" name="VirtueMart plg_vmpayment_sofort Update Site"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_vmpayment_sofort_update.xml]]></server>
     </updateservers>
 
 </extension>

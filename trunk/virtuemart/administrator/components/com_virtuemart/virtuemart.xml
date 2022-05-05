@@ -2,13 +2,13 @@
 <extension method="upgrade" type="component" version="2.5">
     <name>VIRTUEMART</name>
     <element>com_virtuemart</element>
-    <creationDate>April 26 2022</creationDate>
+    <creationDate>${PHING.VM.RELDATE}</creationDate>
     <author>The VirtueMart Development Team</author>
     <authorEmail>max|at|virtuemart.net</authorEmail>
-    <authorUrl>https://virtuemart.net</authorUrl>
+    <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>Copyright (C) 2004-2018 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <version status="BUGFIX">4.0.0</version>
+    <version status="${PHING.VM.DEV_STATUS}">${PHING.VM.RELEASE}</version>
     <description></description>
 
     <scriptfile>install/script.virtuemart.php</scriptfile>

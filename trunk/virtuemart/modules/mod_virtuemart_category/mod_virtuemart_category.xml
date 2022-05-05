@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5.0">
   <name>mod_virtuemart_category</name>
-  <creationDate>April 26 2022</creationDate>
+  <creationDate>${PHING.VM.RELDATE}</creationDate>
   <author>The VirtueMart Development Team</author>
-  <authorUrl>https://virtuemart.net</authorUrl>
-  <copyright>Copyright (C) 2004 - 2022 Virtuemart Team. All rights reserved.</copyright>
-  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-  <version>4.0.0</version>
+  <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
+  <copyright>${PHING.VM.COPYRIGHT}</copyright>
+  <license>${PHING.VM.LICENSE}</license>
+  <version>${PHING.VM.RELEASE}</version>
   <description>MOD_VIRTUEMART_CATEGORY_DESC</description>
   <files>
     <filename module="mod_virtuemart_category">mod_virtuemart_category.php</filename>
@@ -76,6 +76,6 @@
   </config>
   <updateservers>
     <!-- Note: No spaces or linebreaks allowed between the server tags -->
-    <server type="extension" name="VirtueMart3 mod_virtuemart_category Update Site"><![CDATA[http://virtuemart.net/releases/vm3/mod_virtuemart_category_update.xml]]></server>
+    <server type="extension" name="VirtueMart3 mod_virtuemart_category Update Site"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/mod_virtuemart_category_update.xml]]></server>
   </updateservers>
 </extension>

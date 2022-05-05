@@ -8,7 +8,7 @@
 	<copyright>Copyright (C) 2018 - 2020 The VirtueMart Development Team.</copyright>
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3+</license>
 	<authorUrl>http://www.virtuemart.net/</authorUrl>
-	<version>4.0.0</version>
+	<version>${PHING.VM.RELEASE}</version>
 	<description>PLG_SYSTEM_VMLOADERPLUGINUPDATE_DESC</description>
 	<files>
 		<filename plugin="vmloaderpluginupdate">vmLoaderPluginUpdate.php</filename>
@@ -41,6 +41,6 @@
 		</fields>
 	</config>
 	<updateservers>
-		<server type="extension" name="VM Framework Loader during Plugin Updates"><![CDATA[http://virtuemart.net/releases/vm3/plg_system_vmLoaderPluginUpdate_update.xml]]></server>
+		<server type="extension" name="VM Framework Loader during Plugin Updates"><![CDATA[http://virtuemart.net/releases/${PHING.VM.UPDATEFOLDER}/plg_system_vmLoaderPluginUpdate_update.xml]]></server>
 	</updateservers>
 </extension>

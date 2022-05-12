@@ -1,11 +1,16 @@
 <?php
+
+use Joomla\CMS\Http\Http;
+use Joomla\CMS\Version;
+use Joomla\Registry\Registry;
+
 if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
  *
  * @version $Id:connection.php 431 2006-10-17 21:55:46 +0200 (Di, 17 Okt 2006) soeren_nb $
  * @package VirtueMart
  * @subpackage classes
- * @copyright Copyright (C) 2004-2007 soeren, 2009-2011 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (C) 2004-2007 soeren, 2009-2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -23,6 +28,60 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
  * @since VirtueMart 1.1.0
  */
 class VmConnector {
+
+	/**
+	 * method to receive Http instance. Mixed j3 and j4, they are not compatible
+	 * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
+	 * @license    GNU General Public License version 2 or later; see LICENSE.txt
+	 * @param   Registry  $options   Client options object.
+	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
+	 *
+	 * @return  Http      Joomla Http class
+	 *
+	 * @throws  \RuntimeException
+	 *
+	 * @since   3.0.0
+	 */
+	static function getHttp($options = [], $adapters = null){
+
+		if(JVM_VERSION < 4){
+			if (empty($options))
+			{
+				$options = new Registry;
+			}
+
+			if (!$driver = JHttpFactory::getAvailableDriver($options, $adapters))
+			{
+				throw new \RuntimeException('No transport driver available.');
+			}
+
+			return new Http($options, $driver);
+		} else {
+			if ($options === null) {
+				$options = array();
+			} else if (!\is_array($options) && !($options instanceof \ArrayAccess))
+			{
+				throw new \InvalidArgumentException(
+					'The options param must be an array or implement the ArrayAccess interface.'
+				);
+			}
+
+			// Set default userAgent if nothing else is set
+			if (!isset($options['userAgent']))
+			{
+				$version = new Version;
+				$options['userAgent'] = $version->getUserAgent('Joomla', true, false);
+			}
+
+			if (!$driver = JHttpFactory::getAvailableDriver($options, $adapters))
+			{
+				throw new \RuntimeException('No transport driver available.');
+			}
+
+			return new Http($options, $driver);
+		}
+
+	}
 
     var $handle = null;
 
@@ -328,5 +387,7 @@ class VmConnector {
 
 	return array($start,$tot);
     }
+
+
 }
 // pure php no closing tag

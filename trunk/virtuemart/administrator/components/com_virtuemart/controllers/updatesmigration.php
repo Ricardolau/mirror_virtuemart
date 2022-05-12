@@ -840,7 +840,7 @@ class VirtuemartControllerUpdatesMigration extends VmController{
 		$model -> deleteConfig();
 		vmInfo('Configuration is now restored by file');
 		$this->setDangerousToolsOff();
-		$this->setRedirect($this->redirectPath, );
+		$this->setRedirect($this->redirectPath );
 	}
 
 	/**

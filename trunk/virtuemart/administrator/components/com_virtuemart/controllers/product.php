@@ -7,7 +7,7 @@
  * @subpackage
  * @author Max Milbers
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -180,7 +180,8 @@ class VirtuemartControllerProduct extends VmController {
 			} else {
 				$massxref_sgrps = $virtuemart_shoppergroup_ids;
 			}
-			$data = array('virtuemart_product_id' => $pid, 'virtuemart_shoppergroup_id' => $massxref_sgrps);
+			$has_sgrps = !empty($massxref_sgrps);
+			$data = array('virtuemart_product_id' => $pid, 'virtuemart_shoppergroup_id' => $massxref_sgrps, 'has_shoppergroups' => $has_sgrps);
 			$data = $productModel->updateXrefAndChildTables ($data, 'product_shoppergroups');
 		}
 
@@ -214,7 +215,8 @@ class VirtuemartControllerProduct extends VmController {
 			} else {
 				$massxref_cats = $virtuemart_cat_ids;
 			}
-			$data = array('virtuemart_product_id' => $pid, 'virtuemart_category_id' => $massxref_cats);
+			$has_categories = !empty($massxref_cats);
+			$data = array('virtuemart_product_id' => $pid, 'virtuemart_category_id' => $massxref_cats, 'has_categories' => $has_categories);
 			$data = $productModel->updateXrefAndChildTables ($data, 'product_categories',TRUE);
 		}
 

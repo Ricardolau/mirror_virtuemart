@@ -7,7 +7,7 @@ if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not
  * @author Max Milbers
  * @subpackage router
  * @version $Id$
- * @copyright Copyright (C) 2009 - 2020 by the VirtueMart Team and authors
+ * @copyright Copyright (C) 2009 - 2022 by the VirtueMart Team and authors
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -110,9 +110,14 @@ if(version_compare(JVERSION,'4.0.0','ge')) {
 
 function virtuemartBuildRoute(&$query) {
 
+
 	$segments = array();
 
 	$helper = vmrouterHelper::getInstance($query);
+	if(vmrouterHelper::$debug){
+		//vmInfo('Set router debugging true');
+		VmConfig::$_debug = true;
+	}
 	// simple route , no work , for very slow server or test purpose
 	if ($helper->router_disabled) {
 		foreach ($query as $key => $value){
@@ -462,6 +467,10 @@ function virtuemartBuildRoute(&$query) {
 		unset($query['layout']);
 	}
 	vmrouterHelper::resetLanguage();
+	if(vmrouterHelper::$debug){
+		//vmInfo('Set debugging ');
+		VmConfig::$_debug = false; //vmrouterHelper::$debugSet;
+	}
 	return $segments;
 }
 
@@ -471,6 +480,10 @@ function virtuemartParseRoute($segments) {
 	$vars = array();
 
 	$helper = vmrouterHelper::getInstance();
+
+	if(vmrouterHelper::$debug){
+		VmConfig::$_debug = true;
+	}
 
 	//$helper->setActiveMenu();
 
@@ -906,13 +919,17 @@ function virtuemartParseRoute($segments) {
 		}
 	}
 
-	if(vmrouterHelper::$debug) vmdebug('my vars from router',$vars);
+	if(vmrouterHelper::$debug){
+		vmdebug('my vars from router',$vars);
+		VmConfig::$_debug = vmrouterHelper::$debugSet;
+	}
 	return $vars;
 }
 
 class vmrouterHelper {
 
 	public static $debug = false;
+	public static $debugSet = false;
 	public $slang = '';
 	public $query = array();
 
@@ -999,9 +1016,9 @@ class vmrouterHelper {
 
 			self::$debug = VmConfig::get('debug_enable_router',0);
 			if(self::$debug){
+				self::$debugSet = VmConfig::$_debug;
 				VmConfig::$_debug = true;
 			}
-
 		}
 	}
 

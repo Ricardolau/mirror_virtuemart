@@ -503,6 +503,9 @@ class VmMediaHandler {
 			if(empty($this->file_class)){
 				$imageArgs = array('class' => $imageArgs);
 			} else {
+				if(!isset($imageArgs['class'])){
+					$imageArgs['class'] = '';
+				}
 				$imageArgs = array('class' => $imageArgs['class'].' '.$this->file_class);
 			}
 		}

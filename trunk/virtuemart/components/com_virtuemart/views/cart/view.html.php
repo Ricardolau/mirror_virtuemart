@@ -248,32 +248,28 @@ class VirtueMartViewCart extends VmView {
 	*/
 
 	private function lSelectShipment() {
-		$found_shipment_method=false;
-		$shipment_not_found_text = vmText::_('COM_VIRTUEMART_CART_NO_SHIPPING_METHOD_PUBLIC');
-		$this->assignRef('shipment_not_found_text', $shipment_not_found_text);
-		$this->assignRef('found_shipment_method', $found_shipment_method);
 
-		$shipments_shipment_rates=array();
+		$this->found_shipment_method = false;
+		$this->shipment_not_found_text = vmText::_('COM_VIRTUEMART_CART_NO_SHIPPING_METHOD_PUBLIC');
+
+		$this->shipments_shipment_rates = array();
 		if (!$this->checkShipmentMethodsConfigured()) {
-			$this->assignRef('shipments_shipment_rates',$shipments_shipment_rates);
 			return;
 		}
 
 		$selectedShipment = (empty($this->cart->virtuemart_shipmentmethod_id) ? 0 : $this->cart->virtuemart_shipmentmethod_id);
 
-		$shipments_shipment_rates = array();
-
 		$d = VmConfig::$_debug;
 		if(VmConfig::get('debug_enable_methods',false)){
 			VmConfig::$_debug = 1;
 		}
-		$returnValues = vDispatcher::trigger('plgVmDisplayListFEShipment', array( $this->cart, $selectedShipment, &$shipments_shipment_rates));
+		$returnValues = vDispatcher::trigger('plgVmDisplayListFEShipment', array( $this->cart, $selectedShipment, &$this->shipments_shipment_rates));
 		VmConfig::$_debug = $d;
 		// if no shipment rate defined
-		$found_shipment_method =count($shipments_shipment_rates);
+		$this->found_shipment_method = count($this->shipments_shipment_rates);
 
 		$ok = true;
-		if ($found_shipment_method == 0)  {
+		if ($this->found_shipment_method == 0)  {
 			$validUserDataBT = $this->cart->validateUserData();
 
 			if ($validUserDataBT===-1) {
@@ -289,11 +285,6 @@ class VirtueMartViewCart extends VmView {
 
 		}
 
-		$shipment_not_found_text = vmText::_('COM_VIRTUEMART_CART_NO_SHIPPING_METHOD_PUBLIC');
-		$this->assignRef('shipment_not_found_text', $shipment_not_found_text);
-		$this->assignRef('shipments_shipment_rates', $shipments_shipment_rates);
-		$this->assignRef('found_shipment_method', $found_shipment_method);
-
 		return $ok;
 	}
 
@@ -306,8 +297,8 @@ class VirtueMartViewCart extends VmView {
 
 	private function lSelectPayment() {
 
-		$this->payment_not_found_text='';
-		$this->payments_payment_rates=array();
+		$this->payment_not_found_text = '';
+		$this->payments_payment_rates = array();
 
 		$this->found_payment_method = 0;
 		$selectedPayment = empty($this->cart->virtuemart_paymentmethod_id) ? 0 : $this->cart->virtuemart_paymentmethod_id;
@@ -525,7 +516,7 @@ jQuery(function($) {
     	var hit = 0;
     	$.each($(".required"), function (key, value){
     		count++;
-    		if($(this).attr("checked")){
+    		if($(this).prop("checked")){
         		hit++;
        		}
     	});

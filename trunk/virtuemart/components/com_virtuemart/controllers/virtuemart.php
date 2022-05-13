@@ -21,7 +21,6 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * VirtueMart Component Controller
- * @deprecated
  * @package		VirtueMart
  */
 class VirtueMartControllerVirtuemart extends JControllerLegacy
@@ -34,7 +33,7 @@ class VirtueMartControllerVirtuemart extends JControllerLegacy
 
 	/**
 	 * Override of display to prevent caching
-	 *
+	 * @deprecated
 	 * @return  JController  A JController object to support chaining.
 	 */
 	public function display($cachable = false, $urlparams = false){

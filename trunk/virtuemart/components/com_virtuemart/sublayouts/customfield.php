@@ -583,7 +583,14 @@ class VirtueMartCustomFieldRenderer {
 
 							}
 
-							$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);//vmdebug('list with empty option',$default, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
+							if (isset($customfields[$selectList[$customfield->virtuemart_custom_id]])) {
+								$default = reset($customfields[$selectList[$customfield->virtuemart_custom_id]]->options);//vmdebug('list with empty option',$default, $customfields[$selectList[$customfield->virtuemart_custom_id]]->options);
+							}
+							else {
+								$customfields[$selectList[$customfield->virtuemart_custom_id]] = new stdClass();
+								$customfields[$selectList[$customfield->virtuemart_custom_id]]->options = array();
+								$default = new stdClass();
+							}
 							if(!isset($default->customfield_value)){
 								$default->customfield_value = '';
 							}

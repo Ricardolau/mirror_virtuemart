@@ -400,8 +400,13 @@ class VirtueMartModelCustom extends VmModel {
 			$this->transformSetStringsList($data);
 			$data['custom_value'] = $data['transform'];
 		} else if($table->field_type == 'PB'){
-			$data['bundle_category_id'] = implode(',',$data['bundle_category_id']);
+			if(empty($data['bundle_category_id'])){
+				$data['bundle_category_id'] = '';
+			} else {
+				$data['bundle_category_id'] = implode(',',$data['bundle_category_id']);
+			}
 		}
+
 		$data['transform'] = '';
 		//vmdebug(' my data to store',$data);
 		if(empty($data['virtuemart_shoppergroup_id'])){

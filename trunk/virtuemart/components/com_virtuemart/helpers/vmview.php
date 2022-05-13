@@ -16,7 +16,8 @@ defined('_JEXEC') or die('');
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
  * See /administrator/components/com_virtuemart/COPYRIGHT.php for copyright notices and details.
- *
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * http://virtuemart.net
  */
 // Load the view framework
@@ -29,7 +30,18 @@ class VmView extends JViewLegacy{
 	var $isPdf = false;
 	var $writeJs = true;
 	var $useSSL = 0;
+	static protected $bs = null;
+	static protected $override = null;
 
+	function __construct(){
+
+		if(!isset(VmView::$bs)){
+			VmView::$bs = VmConfig::get('bootstrap','');
+			VmView::$override = VmConfig::get('useLayoutOverrides',1);
+			vmdebug('VmView loaded with override and bootstrap version',(int) VmView::$override, VmView::$bs);
+		}
+		parent::__construct();
+	}
 	/**
 	 * @depreacted
 	 * @param string $key
@@ -47,34 +59,8 @@ class VmView extends JViewLegacy{
 		}
 		$this->useSSL = vmURI::useSSL();
 
-		$override = VmConfig::get('useLayoutOverrides',1);
-		$bs = VmConfig::get('bootstrap','');
 
-		if($bs!==''){
-			$l = $this->getLayout();
-			$bsLayout = $bs.'-'.$l;
-			$vmStyle = VmTemplate::loadVmTemplateStyle();
-			$template = $vmStyle['template'];
-			vmdebug('my $template here ',$template);
-			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/'.$this->_name.'/';//. $bsLayout .'.php';
-			$nP = VMPATH_SITE .'/views/'.$this->_name.'/tmpl/'. $bsLayout . '.php';
-
-			if( $override and JFile::exists($tP. $bsLayout .'.php') ){
-				$this->setLayout($bsLayout);
-				vmdebug('I use a layout by template override',$l);
-			} else if ( $override and JFile::exists ($tP. $l .'.php') ) {
-				//$this->setLayout($l);
-				vmdebug('I use a layout BOOTSTRAP '.$bs.' by template override',$bsLayout);
-			} else if ( JFile::exists ($nP) ){
-				vmdebug('I use a CORE Bootstrap layout my layout here ',$bsLayout);
-				$this->setLayout($bsLayout);
-			} else {
-				vmdebug('No layout found, that should not happen',$bsLayout);
-			}
-
-		}
-
-		if(!$override){
+		if(!VmView::$override){
 			//we just add the default again, so it is first in queque
 			$this->addTemplatePath(VMPATH_ROOT .'/components/com_virtuemart/views/'.$this->_name.'/tmpl');
 		}
@@ -136,11 +122,11 @@ class VmView extends JViewLegacy{
 
 	}
 
+
+
 	static public function getVmSubLayoutPath($name){
 
 		static $layouts = array();
-		static $bs = null;
-		static $useOverrides = null;
 
 		if(isset($layouts[$name])){
 			return $layouts[$name];
@@ -149,35 +135,32 @@ class VmView extends JViewLegacy{
 			$template = $vmStyle['template'];
 
 			// get the template and default paths for the layout if the site template has a layout override, use it
-			if(!isset($bs)){
-				$bs = VmConfig::get('bootstrap','');
-				$useOverrides = VmConfig::get('useLayoutOverrides',1);
-			}
+
 
 			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/sublayouts/';//. $name .'.php';
 			$nP = VMPATH_SITE .'/sublayouts/';
 
 
-			if($bs!=='') {
-				$bsLayout = $bs . '-' . $name;
-				if ($useOverrides and JFile::exists($tP . $bsLayout . '.php')) {
+			if(VmView::$bs!=='') {
+				$bsLayout = VmView::$bs . '-' . $name;
+				if (VmView::$override and JFile::exists($tP . $bsLayout . '.php')) {
 					$layouts[$name] = $tP . $bsLayout . '.php';
-					//vmdebug(' getVmSubLayoutPath using '.$bs.' tmpl layout override ',$layouts[$name]);
+					//vmdebug(' getVmSubLayoutPath using '.VmView::$bs.' tmpl layout override ',$layouts[$name]);
 					return $layouts[$name];
 				}
 			}
 
 			//If a normal template overrides exists, use the template override
-			if ( $useOverrides and JFile::exists ($tP. $name .'.php')) {
+			if ( VmView::$override and JFile::exists ($tP. $name .'.php')) {
 				$layouts[$name] = $tP . $name . '.php';
 				//vmdebug(' getVmSubLayoutPath using tmpl layout override ',$layouts[$name]);
 				return $layouts[$name];
 			}
 
-			if($bs!=='') {
+			if(VmView::$bs!=='') {
 				if (JFile::exists ($nP. $bsLayout . '.php')) {
 					$layouts[$name] = $nP. $bsLayout . '.php';
-					//vmdebug(' getVmSubLayoutPath using '.$bs.' core layout ',$layouts[$name]);
+					//vmdebug(' getVmSubLayoutPath using '.VmView::$bs.' core layout ',$layouts[$name]);
 					return $layouts[$name];
 				}
 			}
@@ -195,8 +178,135 @@ class VmView extends JViewLegacy{
 			return $layouts[$name];
 		}
 
-
 	}
+
+	public function setLayoutAndSub($layout, $sub){
+
+		$previous = $this->_layout;
+
+		if (strpos($layout, ':') === false)
+		{
+			$this->_layout = $layout;
+		}
+		else
+		{
+			// Convert parameter to array based on :
+			$temp = explode(':', $layout);
+			$this->_layout = $temp[1];
+
+			// Set layout template
+			$this->_layoutTemplate = $temp[0];
+		}
+
+		if(VmView::$bs!==''){
+			if(substr($this->_layout,0,4) == VmView::$bs.'-'){
+				//$this->_layout = VmView::$bs.'-'.$this->_layout;
+				$this->_layout = substr($this->_layout,4);
+			} /*else {
+
+			}*/
+			$l = $this->_layout .'_'. $sub;//$this->_layout;//$this->getLayout();
+
+			$bsLayout = VmView::$bs.'-'.$l;
+			$vmStyle = VmTemplate::loadVmTemplateStyle();
+			$template = $vmStyle['template'];
+			VmConfig::$echoDebug = 1;
+			vmdebug('my bootstrap layout here ',$bsLayout, $l);
+			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/'.$this->_name.'/';//. $bsLayout .'.php';
+			$nP = VMPATH_SITE .'/views/'.$this->_name.'/tmpl/'. $bsLayout . '.php';
+
+			if( VmView::$override and JFile::exists($tP. $bsLayout .'.php') ){
+				$this->_layout =  VmView::$bs.'-'.$this->_layout;
+				vmdebug('I use a layout BOOTSTRAP '.VmView::$bs.' by template override',$bsLayout);
+			} else if ( VmView::$override and JFile::exists ($tP. $l .'.php') ) {
+				//$this->setLayout($l);
+				vmdebug('I use a layout by template override',$l);
+			} else if ( JFile::exists ($nP) ){
+				vmdebug('I use a CORE Bootstrap layout my layout here ',$bsLayout);
+				$this->_layout = VmView::$bs.'-'.$this->_layout;
+			} else {
+				$this->_layout = VmView::$bs.'-'.$this->_layout;
+				vmdebug('No layout found, that should not happen '.$this->_name,$bsLayout);
+			}
+
+		}
+
+		return $previous;
+	}
+
+	public function getLayout()
+	{
+		if(!empty(VmView::$bs)){
+			if(substr($this->_layout,0,4) == VmView::$bs.'-'){
+				return substr($this->_layout,4);
+			}
+		}
+
+		return $this->_layout;
+	}
+
+	/**
+	 * Sets the layout name to use. Adjusted to the vm system to load bsX layouts
+	 * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+	 * @license    GNU General Public License version 2 or later; see LICENSE.txt
+	 * @param   string  $layout  The layout name or a string in format <template>:<layout file>
+	 *
+	 * @return  string  Previous value.
+	 *
+	 * @since   3.0
+	 */
+	public function setLayout($layout)
+	{
+		$previous = $this->_layout;
+
+		if (strpos($layout, ':') === false)
+		{
+			$this->_layout = $layout;
+		}
+		else
+		{
+			// Convert parameter to array based on :
+			$temp = explode(':', $layout);
+			$this->_layout = $temp[1];
+
+			// Set layout template
+			$this->_layoutTemplate = $temp[0];
+		}
+
+		if(VmView::$bs!==''){
+			$l = $this->getLayout();
+			//if(substr($l,0,4) != VmView::$bs.'-'){
+				$bsLayout = VmView::$bs.'-'.$l;
+			/*} else {
+				$bsLayout = $l;
+				$l = substr($l,4);
+			}*/
+
+			$vmStyle = VmTemplate::loadVmTemplateStyle();
+			$template = $vmStyle['template'];
+			vmdebug('my bootstrap layout here ',$bsLayout, $l);
+			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/'.$this->_name.'/';//. $bsLayout .'.php';
+			$nP = VMPATH_SITE .'/views/'.$this->_name.'/tmpl/'. $bsLayout . '.php';
+
+			if( VmView::$override and JFile::exists($tP. $bsLayout .'.php') ){
+				$this->_layout = $bsLayout;
+				vmdebug('I use a layout BOOTSTRAP '.VmView::$bs.' by template override',$bsLayout);
+			} else if ( VmView::$override and JFile::exists ($tP. $l .'.php') ) {
+				//$this->setLayout($l);
+				vmdebug('I use a layout by template override',$l);
+			} else if ( JFile::exists ($nP) ){
+				vmdebug('I use a CORE Bootstrap layout my layout here ',$bsLayout);
+				$this->_layout = $bsLayout;
+			} else {
+				$this->_layout = $bsLayout;
+				vmdebug('No layout found, that should not happen '.$this->_name,$bsLayout);
+			}
+
+		}
+
+		return $previous;
+	}
+
 
 	function prepareContinueLink($product=false){
 

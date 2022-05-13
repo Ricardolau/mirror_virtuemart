@@ -225,7 +225,7 @@
 						echo '<hr>';
 						if (!empty($this->layoutName) and $this->layoutName == $this->cart->layout) {
 							if (VmConfig::get('oncheckout_opc', 0)) {
-								$previouslayout = $this->setLayout('select');
+								$previouslayout = $this->setLayoutAndSub('select','shipment');
 								echo $this->loadTemplate('shipment');
 								$this->setLayout($previouslayout);
 							} else {
@@ -272,7 +272,7 @@
 				echo '<hr>';
 				if (!empty($this->layoutName) && $this->layoutName == $this->cart->layout) {
 					if (VmConfig::get('oncheckout_opc', 0)) {
-						$previouslayout = $this->setLayout('select');
+						$previouslayout = $this->setLayoutAndSub('select','payment');
 						echo $this->loadTemplate('payment');
 						$this->setLayout($previouslayout);
 					} else {

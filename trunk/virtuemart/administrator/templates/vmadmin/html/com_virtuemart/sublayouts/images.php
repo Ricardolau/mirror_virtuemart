@@ -363,15 +363,14 @@ vmJsApi::addJScript('mediahandler.vars', $j);
 $adminTemplatePath = '/administrator/templates/vmadmin/html/com_virtuemart/';
 vmJsApi::addJScript($adminTemplatePath . 'assets/js/vmuikit_mediahandler.js');
 
-
 if ($canSearch) {
 	foreach ($medias as $key => &$image) {
 		$image->key = $key;
 		$media_path = VMPATH_ROOT . DS . str_replace('/', DS, $image->file_url_thumb);
 		if ((empty($image->file_url_thumb) || !file_exists($media_path)) && is_a($image, 'VmImage')) {
-			$file_url_thumb = $image->createThumb();
+			$image->file_url_thumb = $image->createThumb();
 		}
-		$image->file_url_thumb = JURI::root(true) . '/' . $file_url_thumb;
+		$image->file_url_thumb = JURI::root(true) . '/' . $image->file_url_thumb;
 		$image->file_url = JURI::root(true) . '/' . $image->file_url;
 		$image->file_url_thumb_img = '<img src="' . $image->file_url_thumb . '" alt="' . $image->file_title . '"/>';
 		$image->file_url_img = '<img src="' . $image->file_url . '" alt="' . $image->file_title . '"/>';

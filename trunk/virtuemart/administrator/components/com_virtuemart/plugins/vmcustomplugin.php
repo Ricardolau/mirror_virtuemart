@@ -208,11 +208,9 @@ abstract class vmCustomPlugin extends vmPlugin {
 			return;
 		}
 
-		//$key = key ($plugin_param);
-		$plugin_param[$key]['virtuemart_product_id'] = $data['virtuemart_product_id'];
-		//vmdebug ('plgData', $plugin_param[$key]);
+		$pluginName = key ($plugin_param);
 		// $this->id = $this->getIdForCustomIdProduct($data['virtuemart_product_id'],$plugin_param[$key]['virtuemart_custom_id']);
-		$this->storePluginInternalDataProduct ($plugin_param[$key], 'id', $data['virtuemart_product_id']);
+		$this->storePluginInternalDataProduct ($plugin_param[$pluginName], 'id', $data['virtuemart_product_id']);
 	}
 
 	/**
@@ -225,16 +223,23 @@ abstract class vmCustomPlugin extends vmPlugin {
 	 * @param string $tableKey an additionally unique key
 	 */
 	protected function storePluginInternalDataProduct (&$values, $primaryKey = 0, $product_id = 0) {
-		$custom_id = $values['virtuemart_custom_id'];
-		$db = JFactory::getDBO ();
-		if (!empty($custom_id) && !empty($product_id)) {
-			$_qry = 'SELECT `id` FROM `#__virtuemart_product_custom_plg_' . $this->_name . '` WHERE `virtuemart_product_id`=' . (int)$product_id . ' and `virtuemart_custom_id`=' . (int)$custom_id;
+
+		if(!isset($values['virtuemart_product_id'])){
+			$values['virtuemart_product_id'] = $product_id;
+		}
+
+		if(!empty($values['virtuemart_custom_id']) and !empty($values['virtuemart_product_id'])){
+			$db = JFactory::getDBO ();
+
+			$_qry = 'SELECT `id` FROM `#__virtuemart_product_custom_plg_' . $this->_name . '` WHERE `virtuemart_product_id`=' . (int)$product_id . ' and `virtuemart_custom_id`=' . (int)$values['virtuemart_custom_id'];
 			$db->setQuery ($_qry);
 			$id = $db->loadResult ();
+
+			$values['id'] = $id ? $id : 0;
+			$this->storePluginInternalData ($values);
+		} else {
+			vmdebug('storePluginInternalDataProduct customId or productId missing to store plugin internal data '.$this->_name,$values['virtuemart_custom_id'],$values['virtuemart_product_id']);
 		}
-		$values['id'] = $id ? $id : 0;
-		// vmdebug('$value',$values, $id);
-		$this->storePluginInternalData ($values);
 
 		return $values;
 

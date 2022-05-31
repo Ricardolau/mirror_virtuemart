@@ -4272,7 +4272,7 @@ class TCPDF {
 		if (!TCPDF_STATIC::empty_string($fontfile) AND (@TCPDF_STATIC::file_exists($fontfile))) {
 			include($fontfile);
 		} else {
-			$this->Error('Could not include font definition file: '.$family.'');
+			$this->Error('Could not include font '.$family.' definition file: '.$fontfile);
 		}
 		// check font parameters
 		if ((!isset($type)) OR (!isset($cw))) {

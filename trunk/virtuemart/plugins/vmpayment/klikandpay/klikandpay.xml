@@ -6,7 +6,6 @@
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>Copyright (C) 2004 - 2018 Virtuemart Team. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <!--version>${PHING.VM.RELEASE}</version-->
     <version>${PHING.VM.RELEASE}</version>
     <description><![CDATA[<a href="http://klikandpay.com" target="_blank">klikandpay</a> ]]>
     </description>

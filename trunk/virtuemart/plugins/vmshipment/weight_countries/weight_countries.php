@@ -504,10 +504,6 @@ class plgVmShipmentWeight_countries extends vmPSPlugin {
 		return $this->onShowOrderPrint ($order_number, $method_id);
 	}
 
-	function plgVmDeclarePluginParamsShipment ($name, $id, &$dataOld) {
-		return $this->declarePluginParams ('shipment', $name, $id, $dataOld);
-	}
-
 	function plgVmDeclarePluginParamsShipmentVM3 (&$data) {
 		return $this->declarePluginParams ('shipment', $data);
 	}

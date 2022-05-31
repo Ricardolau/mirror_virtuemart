@@ -1445,37 +1445,7 @@ class VirtueMartModelCustomfields extends VmModel {
 							$fields['options'][$childId] = $combo;
 						}
 						vmdebug('myMatrix $fields',$fields['options'],$avail);
-						/*reset($avail);
-						$levelSize = array();
-						$vals = array_reverse( $values, true);
-						vmdebug('Executing $avail',$id,$avail,$values);
-						$lSize = 0;
-						$neededProductNumber = 0;
-						foreach($vals as $k=>$value){
 
-						
-							if($k == (count($vals)-1)){
-								$lSize = $neededProductNumber = count($value);
-							} else {
-								$lSize = count($value) * $lSize;
-								$neededProductNumber += count($value) * $lSize;
-							}
-
-							$levelSize[$k] = $lSize;
-						}
-						$levelSize = array_reverse( $levelSize, true);
-						vmdebug('my levelSize',$levelSize,$fields);
-
-						if(count($avail) < $neededProductNumber){
-							$numberToCreate = $neededProductNumber - count($avail);
-							for((int) $i=0;$i<$numberToCreate;$i++){
-								$avail[] = $productModel->createChild($id);
-							}
-						}
-
-						foreach($values as $k=>$value){
-							//$fields['options'][current($avail)]
-						}*/
 					}
 					//The idea was here to store the images directly. Maybe just the ids.
 					/*if(!empty($c->withImage)){

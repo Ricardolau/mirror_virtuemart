@@ -399,6 +399,7 @@ class VirtueMartModelCustom extends VmModel {
 		if($table->field_type == 'S' and !empty($data['transform'])){
 			$this->transformSetStringsList($data);
 			$data['custom_value'] = $data['transform'];
+			$data['transform'] = '';
 		} else if($table->field_type == 'PB'){
 			if(empty($data['bundle_category_id'])){
 				$data['bundle_category_id'] = '';
@@ -407,7 +408,6 @@ class VirtueMartModelCustom extends VmModel {
 			}
 		}
 
-		$data['transform'] = '';
 		//vmdebug(' my data to store',$data);
 		if(empty($data['virtuemart_shoppergroup_id'])){
 			$data['virtuemart_shoppergroup_id'] = '';
@@ -422,7 +422,7 @@ class VirtueMartModelCustom extends VmModel {
 
 		$table->bindChecknStore($data);
 
-		if($table->field_type == 'E'){
+		if($table->field_type == 'E' and !empty($table->custom_jplugin_id) ){
 			JPluginHelper::importPlugin('vmcustom');
 			vDispatcher::directTrigger('vmcustom', $data['custom_element'], 'plgVmOnStoreInstallPluginTable', array('custom' , $data, $table));
 		}

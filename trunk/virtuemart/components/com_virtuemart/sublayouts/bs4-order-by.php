@@ -5,7 +5,7 @@
  * @package    VirtueMart
  * @author     Max Milbers
  * @link       https://virtuemart.net
- * @copyright  Copyright (c) 2014 VirtueMart Team. All rights reserved.
+ * @copyright  Copyright (c) 2014 - 2022 VirtueMart Team. All rights reserved.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU/GPL2, see LICENSE.php
  * @version    $Id: cart.php 7682 2014-02-26 17:07:20Z Milbo $
  */
@@ -20,7 +20,7 @@ $productModel = VmModel::getModel('product');
 // get the virtuemart category id
 $virtuemart_category_id = vRequest::getInt('virtuemart_category_id', -1);
 
-$getArray = vRequest::getGet(FILTER_SANITIZE_STRING);
+$getArray = vRequest::getGet(FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 if (!isset($getArray['view'])) {
 	$getArray['view'] = 'category';
 }

@@ -9,7 +9,7 @@
  * @author Max Milbers
  * @author	RickG
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
  * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -604,14 +604,14 @@ class VirtueMartModelUser extends VmModel {
             }
 
         } else {
-            $data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+            $data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
 
         }
         $data['name'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['name']);
 
         $can_change_username = (int)$usersConfig->get('change_login_name', false);
 
-        $data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+        $data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
 
         $username = $user->get('username');
         if(!empty($username)){

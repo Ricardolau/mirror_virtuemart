@@ -139,7 +139,7 @@ class VirtueMartModelUserfields extends VmModel {
 
 			// no HTML TAGS but permit all alphabet
 
-			$value = vRequest::filter( $value,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+			$value = vRequest::filter( $value,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 			$value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags
 			$value = (string)preg_replace('#on[a-z](.+?)\)#si','',$value);//replace start of script onclick() onload()...
 			$value = trim(str_replace('"', ' ', $value),"'") ;

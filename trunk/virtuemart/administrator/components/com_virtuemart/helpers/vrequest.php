@@ -6,7 +6,7 @@
  * @package    VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014 - 2021 iStraxx UG (haftungsbeschränkt). All rights reserved.
+ * @copyright Copyright (c) 2014 - 2022 iStraxx UG (haftungsbeschränkt). All rights reserved.
  * @license MIT, see http://opensource.org/licenses/MIT
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -90,7 +90,7 @@ class vRequest {
 			$str  = str_replace('..', '', $str);
 		};
 		$str  = preg_replace('#[/\\\\]+#', DS, $str);
-		$str = filter_var($str, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+		$str = filter_var($str, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW);
 		return $str;
 	}
 
@@ -117,7 +117,7 @@ class vRequest {
 	 * - Strips all html.
 	 */
 	public static function getCmd($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
+		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class vRequest {
 	 * - Strips all html.
 	 */
 	public static function getWord($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
+		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
 	}
 
 	/**
@@ -141,7 +141,7 @@ class vRequest {
 	 * - strips html
 	 */
 	public static function getString($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 	}
 
 	public static function recurseFilterText(&$tmp){
@@ -186,7 +186,7 @@ class vRequest {
 		$url = strip_tags($url);
 
 		//$url = self::filter($url,FILTER_SANITIZE_URL,'');
-		return self::filter($url,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+		return self::filter($url,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class vRequest {
 	public static function recurseFilter(&$var, $filter, $flags = FILTER_FLAG_STRIP_LOW){
 		foreach($var as $k=>&$v){
 			if(!empty($k) and !is_numeric($k)){
-				$t = filter_var($k, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+				$t = filter_var($k, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW);
 				if($t!=$k){
 					$var[$t] = $v;
 					unset($var[$k]);
@@ -294,7 +294,7 @@ class vRequest {
 		return self::filter($source, $filter, $flags,true);
 	}
 	
-	public static function getFiles( $name, $filter = FILTER_SANITIZE_STRING, $flags = FILTER_FLAG_STRIP_LOW){
+	public static function getFiles( $name, $filter = FILTER_SANITIZE_FULL_SPECIAL_CHARS, $flags = FILTER_FLAG_STRIP_LOW){
 		if(empty($_FILES[$name])) return false;
 		return  self::filter($_FILES[$name], $filter, $flags);
 	}

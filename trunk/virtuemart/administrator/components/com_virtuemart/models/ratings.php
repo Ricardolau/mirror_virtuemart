@@ -7,7 +7,7 @@
 * @subpackage
 * @author RolandD, Max Milbers
 * @link https://virtuemart.net
-* @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+* @copyright Copyright (c) 2004 - 2022 VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * VirtueMart is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -517,7 +517,7 @@ class VirtueMartModelRatings extends VmModel {
 		if($allowReview and !empty($data['comment'])){
 			//if(!empty($data['comment'])){
 
-			$data['comment'] = vRequest::filter($data['comment'],FILTER_SANITIZE_STRING, array());
+			$data['comment'] = vRequest::filter($data['comment'],FILTER_SANITIZE_FULL_SPECIAL_CHARS, array());
 			$data['comment'] = ShopfunctionsF::vmSubstr($data['comment'], 0, VmConfig::get('reviews_maximum_comment_length', 2000)) ;
 			$data['comment'] = nl2br($data['comment']);
 

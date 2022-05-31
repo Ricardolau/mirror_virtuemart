@@ -466,7 +466,7 @@ class plgVmpaymentPaybox extends vmPSPlugin {
 				/**
 				* File used by the Paybox VirtueMart Payment plugin
 				**/
-				$get=filter_var_array($_GET, FILTER_SANITIZE_STRING);
+				$get=filter_var_array($_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 				$_GET["option"]="com_virtuemart";
 				$_GET["element"]="paybox";
 				$_GET["pm"]=' . $virtuemart_paymentmethod_id . ';

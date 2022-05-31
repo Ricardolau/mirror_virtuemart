@@ -165,7 +165,14 @@ class VmImage extends VmMediaHandler {
 			$exists = file_exists($fullSizeFilenamePath);
 
 		}
-		$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension);
+	//GJC replace jpeg for jpg
+	if(strtolower($this->file_extension == 'jpeg')){
+		$file_ext = 'jpg';
+	}else{
+		$file_ext = $this->file_extension;
+	}
+		//$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension);
+		$resizedFilenamePath = vRequest::filterPath(VMPATH_ROOT.'/'.$this->file_url_folder_thumb.$this->file_name_thumb.'.'.$file_ext);
 
 		$this->checkPathCreateFolders(vRequest::filterPath($this->file_url_folder_thumb));
 
@@ -176,7 +183,9 @@ class VmImage extends VmMediaHandler {
 						return 0;
 				}
 			}
-			return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
+		//GJC replaced ext
+			//return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$this->file_extension;
+			return $this->file_url_folder_thumb.$this->file_name_thumb.'.'.$file_ext;
 		} else {
 			vmError('Couldnt create thumb, file not found '.$fullSizeFilenamePath);
 			return 0;

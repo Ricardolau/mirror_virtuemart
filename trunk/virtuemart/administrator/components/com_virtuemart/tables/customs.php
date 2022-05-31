@@ -98,6 +98,14 @@ class TableCustoms extends VmTable {
 		$this->setParameterable('custom_params',array());
 	}
 
+	function check(){
+
+		if($this->field_type == 'E' and empty($this->custom_jplugin_id) ){
+			vmInfo('Please select the plugin on bottom of the page at "Additional Parameters"');
+			return false;
+		}
+		return parent::check();
+	}
 
 	/*
 	* field from 3 table have to be checked at delete

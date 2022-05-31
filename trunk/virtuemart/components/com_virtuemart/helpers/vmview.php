@@ -33,15 +33,16 @@ class VmView extends JViewLegacy{
 	static protected $bs = null;
 	static protected $override = null;
 
-	function __construct(){
+	function __construct($config = array()){
 
 		if(!isset(VmView::$bs)){
 			VmView::$bs = VmConfig::get('bootstrap','');
 			VmView::$override = VmConfig::get('useLayoutOverrides',1);
 			vmdebug('VmView loaded with override and bootstrap version',(int) VmView::$override, VmView::$bs);
 		}
-		parent::__construct();
+		parent::__construct($config);
 	}
+
 	/**
 	 * @depreacted
 	 * @param string $key
@@ -140,6 +141,11 @@ class VmView extends JViewLegacy{
 			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/sublayouts/';//. $name .'.php';
 			$nP = VMPATH_SITE .'/sublayouts/';
 
+			if(!isset(VmView::$bs)){
+				VmView::$bs = VmConfig::get('bootstrap','');
+				VmView::$override = VmConfig::get('useLayoutOverrides',1);
+				vmdebug('VmView loaded with override and bootstrap version',(int) VmView::$override, VmView::$bs);
+			}
 
 			if(VmView::$bs!=='') {
 				$bsLayout = VmView::$bs . '-' . $name;
@@ -210,7 +216,7 @@ class VmView extends JViewLegacy{
 			$bsLayout = VmView::$bs.'-'.$l;
 			$vmStyle = VmTemplate::loadVmTemplateStyle();
 			$template = $vmStyle['template'];
-			VmConfig::$echoDebug = 1;
+			//VmConfig::$echoDebug = 1;
 			vmdebug('my bootstrap layout here ',$bsLayout, $l);
 			$tP = VMPATH_ROOT .'/templates/'. $template .'/html/com_virtuemart/'.$this->_name.'/';//. $bsLayout .'.php';
 			$nP = VMPATH_SITE .'/views/'.$this->_name.'/tmpl/'. $bsLayout . '.php';

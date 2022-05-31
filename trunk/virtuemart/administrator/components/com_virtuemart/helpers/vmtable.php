@@ -1298,6 +1298,7 @@ class VmTable extends vObject implements \JTableInterface {
 			} catch (Exception $e){
 				$query = $this->_db->getQuery();
 				vmError('vmTable store insertObject '.$this->_tbl.' '.$e->getMessage().' '.$this->_db->replacePrefix($query), 'vmTable store insertObject ', 5);
+				vmTrace('vmTable store insertObject with error');
 			}
 
 			if($ok and !empty($this->_hashName)){
@@ -1315,7 +1316,7 @@ class VmTable extends vObject implements \JTableInterface {
 			}
 		}
 
-		$this->_update===null;
+		$this->_update = null;
 		// If the store failed return false.
 		if (!$ok) {
 			vmError(vmText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $e->getMessage()));

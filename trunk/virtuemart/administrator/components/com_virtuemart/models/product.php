@@ -198,7 +198,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			$this->keyword = vRequest::getString('keyword','');
 			$this->keyword = urldecode($this->keyword);
-			$this->keyword = vRequest::filter($this->keyword,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+			$this->keyword = vRequest::filter($this->keyword,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 
 			vRequest::setVar('keyword',urlencode($this->keyword));
 			$this->search_type = vRequest::getVar ('search_type', '');
@@ -218,7 +218,7 @@ class VirtueMartModelProduct extends VmModel {
 				}
 
 					if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
-					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 				foreach($this->searchcustoms as $k=>$v){
 					if(empty($v)) unset($this->searchcustoms[$k]);
 				}
@@ -454,7 +454,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		if (!empty($keyword) and $group === FALSE) {
 
-			$keyword = vRequest::filter(html_entity_decode($keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_STRING,FILTER_FLAG_ENCODE_LOW);
+			$keyword = vRequest::filter(html_entity_decode($keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 			$keyword = $db->escape( $keyword, true );
 			$keyword =  '"%' .str_replace(array(' '),'%', $keyword). '%"';
 
@@ -802,7 +802,7 @@ class VirtueMartModelProduct extends VmModel {
 		if(!vmAccess::manager('product')){
 			$where[] = ' p.`published`="1" ';
 		} else {
-			if($isSite and !VmConfig::get('showUnpublishedProducts', true)){
+			if($isSite and !VmConfig::get('showUnpublishedProducts', !$onlyPublished)){
 				$where[] = ' p.`published`="1" ';
 			} else {
 				$published = isset($params['published']) ? $params['published'] : $this->published;
@@ -3149,7 +3149,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 	 **/
 	function getOrderByList ($virtuemart_category_id = FALSE) {
 
-		$getArray = vRequest::getGet(FILTER_SANITIZE_STRING);
+		$getArray = vRequest::getGet(FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 		if (!isset($getArray['view'])) {
 			$getArray['view'] = 'category';

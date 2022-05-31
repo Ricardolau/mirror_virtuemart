@@ -47,6 +47,14 @@ class VirtuemartControllerCustom extends VmController {
 		if(isset($data['params'])){
 			$data['params'] = vRequest::getHtml('params','');
 		}
+
+		if($data['field_type'] == 'E' and empty($data['custom_jplugin_id']) ){
+			vmInfo('Please select the plugin on bottom of the page at "Additional Parameters"');
+			$app = JFactory::getApplication();
+			$app->redirect('index.php?option=com_virtuemart&view=custom');
+			return false;
+		}
+
 		// onSaveCustom plugin;
 		parent::save($data);
 	}

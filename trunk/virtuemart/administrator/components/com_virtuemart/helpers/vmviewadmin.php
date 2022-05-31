@@ -11,7 +11,7 @@ defined ('_JEXEC') or die();
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers, Stan Scholz
- * @copyright Copyright (C) 2014-2017 Virtuemart Team. All rights reserved.
+ * @copyright Copyright (C) 2014-2022 Virtuemart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -51,15 +51,26 @@ class VmViewAdmin extends JViewLegacy {
 			//or $this->canDo->get('core.admin')
 			//or $this->canDo->get('vm.'.$view) ) { //Super administrators always have access
 
-			if(VmConfig::get('useLayoutOverrides',1) and VmConfig::isSiteByApp()){
-				$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
-				$template = VmTemplate::getDefaultTemplate();
-				if(!in_array($this->_name,$unoverridable)){
-					$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
-				}
-				$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name.'Admin');
+			if(VmConfig::get('backendTemplate')){
+				$this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/'. $this->_name);
 			}
-			if(VmConfig::get('backendTemplate')) $this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/vmadmin/html/com_virtuemart/'. $this->_name);
+			if(VmConfig::get('useLayoutOverrides',1)){
+				$template = VmTemplate::getDefaultTemplate(1);
+
+				if(VmConfig::isSiteByApp()){
+					$unoverridable = array('category','manufacturer','user');	//This views have the same name and must not be overridable
+					$this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
+
+					$template = VmTemplate::getDefaultTemplate(0);
+					//So we need "the Admin" suffix only for unoverridable views, but it can be used for any view
+					if(!in_array($this->_name,$unoverridable)){
+						$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
+					}
+					$this->addTemplatePath (VMPATH_ROOT .'/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name.'Admin');
+				} else {
+					$this->addTemplatePath (VMPATH_ROOT .'/administrator/templates/'. $template['template'] .'/html/com_virtuemart/'. $this->_name);
+				}
+			}
 
 			$result = $this->loadTemplate($tpl);
 			if ($result instanceof Exception) {

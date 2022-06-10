@@ -990,7 +990,7 @@ abstract class vmPSPlugin extends vmPlugin {
 		$cat_cond = true;
 		if( !empty($method->categories) or !empty($method->blocking_categories) ){
 			if(!empty($method->categories)) $cat_cond = false;
-			//vmdebug('hmm, my $cat_cond',$method);
+
 			//if at least one product is  in a certain category, display this shipment
 			if(!empty($method->categories) and !is_array($method->categories)) $method->categories = array($method->categories);
 			if(!empty($method->blocking_categories) and !is_array($method->blocking_categories)) $method->blocking_categories = array($method->blocking_categories);

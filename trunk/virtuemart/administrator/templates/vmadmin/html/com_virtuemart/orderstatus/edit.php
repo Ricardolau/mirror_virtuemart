@@ -54,7 +54,7 @@ vmuikitAdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDERSTATUS_DETAILS')
 
 					<?php echo VmuikitHtml::row('select', 'COM_VIRTUEMART_ORDER_STATUS_STOCK_HANDLE', 'order_stock_handle', $this->stockHandelList, $this->orderStatus->order_stock_handle, '', 'value', 'text', false); ?>
 					<?php echo VmuikitHtml::row('color', 'COM_VIRTUEMART_ORDER_STATUS_COLOR', 'order_status_color', $this->orderStatus->order_status_color, '', 'value', 'text', false); ?>
-					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ORDER_STATUS_CODE', 'order_status_code', $this->orderStatus->order_status_code, 'class="inputbox ' . $readonly . '" ' . $readonly . '', '', 3, 1); ?>
+					<?php echo VmuikitHtml::row('input', 'COM_VIRTUEMART_ORDER_STATUS_CODE', 'order_status_code', $this->orderStatus->order_status_code, 'class="inputbox ' . $readonly . '" ' . $readonly . '', '', 3, 3); ?>
 					<?php echo VmuikitHtml::row('input','COM_VIRTUEMART_ORDER_STATUS_EMAIL_LAYOUT', 'order_status_email_layout', $this->orderStatus->order_status_email_layout ,'class="inputbox"', '', 80, 80, $text); ?>
 					<?php echo VmuikitHtml::row('editor', 'COM_VIRTUEMART_DESCRIPTION', 'order_status_description', $this->orderStatus->order_status_description, '100%;', '250', array('image', 'pagebreak', 'readmore')); ?>
 					<?php echo VmuikitHtml::row('raw', 'COM_VIRTUEMART_VENDOR', $this->lists['vendors']); ?>

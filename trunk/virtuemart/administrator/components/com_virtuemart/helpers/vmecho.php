@@ -7,8 +7,8 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2014-2018 VirtueMart Team. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
+ * @copyright Copyright (c) 2014-2022 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL 2, see COPYRIGHT.php
  */
 defined('_JEXEC') or die('Restricted access');
 
@@ -316,7 +316,7 @@ function vmSetStartTime($n='cur', $t = 0){
 	}
 }
 
-function vmTime( $descr, $name='cur', $reset = true, $output = true){
+function vmTime( $descr, $name='cur', $sum = true, $output = true){
 	static $dt = 0.0;
 	if (empty($descr)) {
 		$descr = $name;
@@ -336,7 +336,7 @@ function vmTime( $descr, $name='cur', $reset = true, $output = true){
 			VmConfig::$_starttime[$name]['Z'] += $dt;
 		}
 
-		if(!$reset) $dt = VmConfig::$_starttime[$name]['Z'];
+		if($sum) $dt = VmConfig::$_starttime[$name]['Z'];
 
 		if ($name == 'cur') {
 			if($output) vmdebug ('vmTime: ' . $descr . ' time consumed ' . $dt);
@@ -345,7 +345,7 @@ function vmTime( $descr, $name='cur', $reset = true, $output = true){
 		else {
 			$tmp = 'vmTime: ' . $descr . ': ' . $dt;
 			if($output) vmdebug ($tmp);
-			if($reset) VmConfig::$_starttime[$name]['t'] = $t;
+			//if($reset) VmConfig::$_starttime[$name]['t'] = $t;
 		}
 	}
 	return $dt;

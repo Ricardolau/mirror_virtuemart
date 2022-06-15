@@ -16,7 +16,9 @@ defined ('_JEXEC') or die();
 class vmLanguage {
 
 	/** @var string Joomla Default Site Language Tag */
-	public static $jDefLangTag = '';
+	public static $jDefLangTag = null;
+	public static $vmDefLangTag = null;
+	public static $vmDefLang = null;
 
 	/** @var string Joomla Selected Site Language Tag*/
 	public static $jSelLangTag = false;
@@ -25,6 +27,7 @@ class vmLanguage {
 	public static $currLangTag = false;
 	public static $jLangCount = 1;
 	public static $languages = array();
+
 
 	/**
 	 * Initialises the vm language class. Attention the vm debugger is not working in this function, because the right checks are done after the language
@@ -41,7 +44,7 @@ class vmLanguage {
 
 		//Determine the shop default language (default joomla site language)
 		if(VmConfig::$jDefLang===false){
-			VmConfig::$jDefLangTag = self::getShopDefaultSiteLangTagByJoomla();
+			VmConfig::$jDefLangTag = self::getShopDefaultOrSiteLangTagByJoomla();
 			VmConfig::$jDefLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 		}
 
@@ -50,7 +53,7 @@ class vmLanguage {
 		self::$jSelLangTag = $l->getTag();
 		self::$languages[self::$jSelLangTag] = $l;
 		vmText::$language = $l;
-
+		vmdebug('vmLanguage initialise '.self::$jSelLangTag);
 		$siteLang = self::$currLangTag = self::$jSelLangTag;
 		if( !VmConfig::isSite()){
 			$siteLang = vRequest::getString('vmlang',$siteLang );
@@ -63,24 +66,23 @@ class vmLanguage {
 
 	}
 
-	static public function getShopDefaultSiteLangTagByJoomla(){
+	static public function getShopDefaultOrSiteLangTagByJoomla(){
 
 		$l= VmConfig::get('vmDefLang','');
-
-		if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
-			$params = JComponentHelper::getParams('com_languages');
-			self::$jDefLangTag = $params->get('site', 'en-GB');
-			if(empty($l)) {
+		if(empty($l)) {
+			if (class_exists('JComponentHelper') && (method_exists('JComponentHelper', 'getParams'))) {
+				$params = JComponentHelper::getParams('com_languages');
+				self::$jDefLangTag = $params->get('site', 'en-GB');
 				$l = self::$jDefLangTag;
+			} else {
+				$l = 'en-GB';//use default joomla
+				vmError('JComponentHelper not found');
 			}
-		} else {
-			$l = 'en-GB';//use default joomla
-			vmError('JComponentHelper not found');
 		}
 		return $l;
 	}
 
-	static public function setLanguageByTag($siteLang, $alreadyLoaded = true, $jLObjToApp = false){
+	static public function setLanguageByTag($siteLang, $alreadyLoaded = true){
 
 		if(empty($siteLang)){
 			$siteLang = self::$currLangTag;
@@ -91,7 +93,7 @@ class vmLanguage {
 			}
 		}
 
-		self::setLanguage($siteLang, $jLObjToApp);
+		self::setLanguage($siteLang);
 
 		// this code is uses logic derived from language filter plugin in j3 and should work on most 2.5 versions as well
 		if (class_exists('JLanguageHelper') && (method_exists('JLanguageHelper', 'getLanguages'))) {
@@ -108,11 +110,6 @@ class vmLanguage {
 
 		$langs = (array)VmConfig::get('active_languages',array(VmConfig::$jDefLangTag));
 		VmConfig::$langCount = count($langs);
-
-		if(!in_array($siteLang, $langs)) {
-			vmError('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
-			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
-		}
 
 		VmConfig::$vmlangTag = $siteLang;
 		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
@@ -156,7 +153,12 @@ class vmLanguage {
 			}
 		}
 
-
+		if(!in_array($siteLang, $langs)) {
+			//vmError('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
+			vmdebug('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
+			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
+			VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
+		}
 
 
 		//JLangTag if also activevmlang set as FB, ShopLangTag($jDefLangTag), vmLangTag, vm_lfbs overwrites
@@ -273,7 +275,7 @@ class vmLanguage {
 	static public function getLanguage($tag = 0){
 
 		if(empty($tag)) {
-			$tag = VmConfig::$vmlangTag;	//When the tag was changed, the jSelLangTag would be wrong
+			$tag = vmLanguage::$jSelLangTag;	//This is the joomla language, the used tag must not change
 		}
 
 		//We dont need the case for the standard language, because it is set in the initialise function
@@ -298,7 +300,7 @@ class vmLanguage {
 	static public function loadJLang($name, $site = false, $tag = 0, $cache = true){
 
 		static $loaded = array();
-		//VmConfig::$echoDebug  = 1;
+
 		if(empty($tag)) {
 			$tag = self::$currLangTag;
 		}

@@ -498,7 +498,7 @@ class VirtueMartModelConfig extends VmModel {
 
 		$active_langs = $data['active_languages'];
 		if(empty($active_langs)){
-			$active_langs = (array) vmLanguage::getShopDefaultSiteLangTagByJoomla();
+			$active_langs = (array) vmLanguage::getShopDefaultOrSiteLangTagByJoomla();
 			//$active_langs = (array)strtolower(strtr($active_langs,'-','_'));
 		}
 		$active_langs[] = $defl;
@@ -545,7 +545,7 @@ class VirtueMartModelConfig extends VmModel {
 		$config = VmConfig::loadConfig();
 		$config->set('active_languages',array());
 
-		$lang = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+		$lang = vmLanguage::getShopDefaultOrSiteLangTagByJoomla();
 		$config->set('vmDefLang',$lang);
 
 		$data['virtuemart_config_id'] = 1;
@@ -559,7 +559,7 @@ class VirtueMartModelConfig extends VmModel {
 
 	static public function getActiveVmLanguages(){
 		$langs = (array)VmConfig::get('active_languages',array());
-		$deflang = vmLanguage::getShopDefaultSiteLangTagByJoomla();
+		$deflang = vmLanguage::getShopDefaultOrSiteLangTagByJoomla();
 		$langs[] = $deflang;
 		$langs = array_unique($langs);
 		return $langs;

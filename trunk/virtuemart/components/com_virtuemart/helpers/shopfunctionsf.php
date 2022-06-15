@@ -187,13 +187,13 @@ class shopFunctionsF {
 
     static function kSortUmlaut($objArray, $prefix, $code, $name, $optKey, $optText){
 
-		$lang = vmLanguage::getLanguage();
+		$lang = vmLanguage::getLanguage(vmLanguage::$jSelLangTag);
 
-		$default_locale = 'en-GB';
+		$default_locale = vmLanguage::$jSelLangTag;
 		if (class_exists('ResourceBundle')) {
+
 			$locales = ResourceBundle::getLocales('');
-			$l = JFactory::getLanguage();
-			$x = $l->getLocale();
+			$x = $lang->getLocale();
 
 			foreach ($x as $locale) {
 				if (in_array($locale, $locales)) {
@@ -201,6 +201,8 @@ class shopFunctionsF {
 					break;
 				}
 			}
+		} else {
+			//vmdebug('Country list withOUT ResourceBundle ');
 		}
 
 		$ret = array();

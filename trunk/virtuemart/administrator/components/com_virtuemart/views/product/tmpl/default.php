@@ -46,7 +46,7 @@ if ($product_parent_id=vRequest::getInt('product_parent_id', false))   $col_prod
 				<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE') ?>&nbsp;
 					<input class="hasTooltip" title="<?php echo vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_PRODUCT_TT') ?>" type="text" value="<?php echo $this->filter_product ?>" name="filter_product" size="25" />
 				<?php
-                    echo $this->lists['published'];
+                    echo $this->lists['list.published'];
 					echo $this->lists['search_type'];
 					echo $this->lists['search_order'];
 					echo vmJsApi::jDate($this->search_date, 'search_date');
@@ -103,7 +103,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 		<th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S') ; ?></th>
 		<th width="40px" ><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
 		<th width="40px" ><?php echo $this->sort('product_special', 'COM_VIRTUEMART_PRODUCT_FORM_SPECIAL'); ?> </th>
-		<th width="40px" ><?php echo $this->sort('published') ; ?></th>
+		<th width="40px" ><?php echo $this->sort('list.published') ; ?></th>
 	    <th><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID')  ?></th>
 	</tr>
 	</thead>

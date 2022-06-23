@@ -560,7 +560,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 			$opt = array('-1'=> vmText::_('COM_VIRTUEMART_ALL'), '1' => vmText::_('COM_VIRTUEMART_PUBLISHED'), '0' => vmText::_('COM_VIRTUEMART_UNPUBLISHED'));
 
-			$this->lists['published'] = VmHTML::selectList('published', $model->published, $opt,1,false,'class="changeSendForm"');
+			$this->lists['list.published'] = VmHTML::selectList('list.published', $model->listpublished, $opt,1,false,'class="changeSendForm"');
 
 			// Toolbar
 			if (vmAccess::manager('product.edit')) {

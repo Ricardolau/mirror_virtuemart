@@ -53,7 +53,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 			$extras[] = JHtml::_('select.genericlist', $this->manufacturers, 'virtuemart_manufacturer_id', 'class="inputbox" onchange="document.adminForm.submit(); return false;"', 'value', 'text',
 				$this->model->virtuemart_manufacturer_id);
 
-			$extras[] = $this->lists['published'];
+			$extras[] = $this->lists['list.published'];
 			$extras[] = $this->lists['search_type'];
 			$extras[] = $this->lists['search_order'];
 			$extras[] = vmJsApi::jDate($this->search_date, 'search_date');

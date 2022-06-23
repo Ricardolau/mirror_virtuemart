@@ -176,7 +176,7 @@ class VirtueMartModelProduct extends VmModel {
 		$valid_search_fields = VmConfig::get ('browse_search_fields',array());
 		$task = '';
 
-		$this->published = vRequest::getInt('published',null);
+		$this->published = null;///vRequest::getInt('published',null);
 		if (VmConfig::isSite()) {
 			$filter_order = vRequest::getString ('orderby', "0");
 
@@ -239,7 +239,7 @@ class VirtueMartModelProduct extends VmModel {
 			$valid_search_fields = array_unique(array_merge($this->valid_BE_search_fields, $valid_search_fields));
 
 			$view = vRequest::getCmd ('view');
-			$stateTypes = array('virtuemart_category_id'=>'int','virtuemart_manufacturer_id'=>'int',/*'product_parent_id'=>'int',*/'filter_product'=>'string','search_type'=>'string','search_order'=>'string','search_date'=>'string','virtuemart_vendor_id' => 'int', 'published' => 'int');
+			$stateTypes = array('virtuemart_category_id'=>'int','virtuemart_manufacturer_id'=>'int',/*'product_parent_id'=>'int',*/'filter_product'=>'string','search_type'=>'string','search_order'=>'string','search_date'=>'string','virtuemart_vendor_id' => 'int', 'listpublished' => 'int');
 
 			$this->product_parent_id = vRequest::getInt ('product_parent_id', FALSE);
 			foreach($stateTypes as $type => $filter){
@@ -552,16 +552,20 @@ class VirtueMartModelProduct extends VmModel {
 			}
 			$virtuemart_category_id = vRequest::filter($virtuemart_category_id, FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE);
 		}
+		//stAn - if the new state is caused by vRequest::filter we need to re-check the new empty value if invalid input is provided
+		if ($virtuemart_category_id === array(0 => 0)) {
+			$virtuemart_category_id = false; 
+		}
 
 		if (!empty($virtuemart_category_id )) {
-			$joinCategory = TRUE;
+			//$joinCategory = TRUE;
 
-			if(VmConfig::get('show_subcat_products',false)){
+			if($isSite and VmConfig::get('show_subcat_products',false) ){
 				/*GJC add subcat products*/
 				$catmodel = VmModel::getModel ('category');
 				$cats = '';
 				foreach($virtuemart_category_id as $catId){
-					$childcats = $catmodel->getChildCategoryList(1, $catId,null, null, true);
+					$childcats = $catmodel->getChildCategoryList(1, $catId, null, null, true);
 					foreach($childcats as $k=>$childcat){
 						if(!empty($childcat->virtuemart_category_id)){
 							$cats .= $childcat->virtuemart_category_id .',';
@@ -2622,7 +2626,7 @@ vmSetStartTime('letsUpdateProducts');
 
 				if ($isChild) $childPrices = $this->loadProductPrices($this->_id,array(0),false);
 
-				if ((isset($pricesToStore['product_price']) and $pricesToStore['product_price']!='' and $pricesToStore['product_price']!=='0') || (isset($childPrices) and count($childPrices)>1)) {
+				if ((isset($pricesToStore['product_price']) and $pricesToStore['product_price']!='' and $pricesToStore['product_price']!=='0') || (isset($childPrices) and is_array($childPrices) and count($childPrices)>1)) {
 
 					if ($isChild) {
 

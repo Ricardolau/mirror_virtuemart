@@ -53,9 +53,9 @@ class JFormFieldProduct extends JFormField
 			if(vmAccess::manager('managevendors')){
 				$productModel->virtuemart_vendor_id = 0;
 			}
-			//$productModel->keyword = '';
+
 			$onlyPublished = true;
-			$params = array('searchcustoms'=>false,'virtuemart_custom_id'=>false, 'keyword' =>false);
+			$params = array('searchcustoms'=>false,'virtuemart_custom_id'=>false, 'keyword' =>false, 'published' =>1);
 			$ids = $productModel->sortSearchListQuery ($onlyPublished, $virtuemart_category_id, FALSE, FALSE, $params );
 			$productModel->listing = TRUE;
 			$products = $productModel->getProducts ($ids, false, false, $onlyPublished, true);

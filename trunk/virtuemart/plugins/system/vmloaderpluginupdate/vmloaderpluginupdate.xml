@@ -5,7 +5,7 @@
 	<author>The VirtueMart Development Team</author>
 	<author>Reinhold Kainhofer</author>
 	<copyright>Copyright (C) 2017 Reinhold Kainhofer.</copyright>
-	<copyright>Copyright (C) 2018 - 2020 The VirtueMart Development Team.</copyright>
+	<copyright>Copyright (C) 2018 - 2022 The VirtueMart Development Team.</copyright>
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3+</license>
 	<authorUrl>http://www.virtuemart.net/</authorUrl>
 	<version>${PHING.VM.RELEASE}</version>
@@ -34,7 +34,8 @@
 				   label="VMSYSTEM_LOAD_VMCONFIG"
 				   extension="com_virtuemart"
 				   description="VMSYSTEM_LOAD_VMCONFIG_TIP">
-				<option value="1">COM_VIRTUEMART_YES</option>
+				<option value="2">COM_VIRTUEMART_YES_NOLANG</option>
+				<option value="1">COM_VIRTUEMART_YES_LANG</option>
 				<option value="0">COM_VIRTUEMART_NO</option>
 			</field>
 		</fieldset>

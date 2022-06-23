@@ -53,10 +53,16 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 			}
 		}
 
-		if(JFactory::getApplication()->isClient('site') and $this->params->get('loadAlwaysVmConfig', false) ){
+		if(JFactory::getApplication()->isClient('site') and $loadConfig = $this->params->get('loadAlwaysVmConfig', false) ){
 			defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
 			if(!class_exists('VmConfig')) require(VMPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
-			VmConfig::loadConfig(false,false, true, false);
+			if($loadConfig>1){
+				$lang = false;
+			} else {
+				$lang = true;
+			}
+
+			VmConfig::loadConfig(false,false, $lang, false);
 		}
 
 	}
@@ -92,13 +98,12 @@ class plgSystemVmLoaderPluginUpdate extends JPlugin {
 
 				if($view=='registration' or $task == 'registration.register') {
 					$t = '';
-					$msg = '';
 					if($task == 'registration.register'){
 						$t = '&task=saveUser';
-						$msg = 'Use the registration of VirtueMart';
+						vmInfo('Use the registration of VirtueMart');
 					}
 					$l = JRoute::_('index.php?option=com_virtuemart&view=user'.$t);
-					$app->redirect( $l,$msg);
+					$app->redirect( $l);
 				}
 			}
 		}

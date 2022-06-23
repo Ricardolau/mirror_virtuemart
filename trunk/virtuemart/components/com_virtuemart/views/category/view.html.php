@@ -176,26 +176,25 @@ class VirtuemartViewCategory extends VmView {
 			$pathway->addItem(strip_tags(htmlspecialchars_decode($this->keyword)));
 		}
 
-		$category = $categoryModel->getCategory($this->categoryId, false);
-		$this->assignRef('category', $category);
+		$this->category = $categoryModel->getCategory($this->categoryId, false);
 
 		foreach($paramNames as $k => $v){
-			if(!isset($category->{$k}) or $category->{$k}==''){
+			if(!isset($this->category->{$k}) or $this->category->{$k}==''){
 				$this->{$k} = $menuParams->get($prefix.$k,$v);
-			} else if(isset($category->{$k})){
-				$this->{$k} = $category->{$k};
+			} else if(isset($this->category->{$k})){
+				$this->{$k} = $this->category->{$k};
 			}
 		}
 
 		$this->storefront = $menuParams->get('storefront',0);
 
-		$this->perRow = $this->products_per_row = empty($category->products_per_row)? $menuParams->get($prefix.'products_per_row',$paramNames['products_per_row']):$category->products_per_row;
+		$this->perRow = $this->products_per_row = empty($this->category->products_per_row)? $menuParams->get($prefix.'products_per_row',$paramNames['products_per_row']):$this->category->products_per_row;
 
-		$vendorId = $category->virtuemart_vendor_id;
+		$vendorId = $this->category->virtuemart_vendor_id;
 		if(empty($vendorId)) $vendorId = 1; //If we are in the root category, the id is empty
 
 		//No redirect here, for category id = 0 means show ALL categories! note by Max Milbers
-		if ((!empty($this->categoryId) and $this->categoryId!==-1 ) and (empty($category->slug) or !$category->published)) {
+		if ((!empty($this->categoryId) and $this->categoryId!==-1 ) and (empty($this->category->slug) or !$this->category->published)) {
 
 			$this->handle404();
 		}
@@ -341,37 +340,37 @@ class VirtuemartViewCategory extends VmView {
 
 
 		// Add the category name to the pathway
-		if ($category->parents) {
-			foreach ($category->parents as $c){
+		if ($this->category->parents) {
+			foreach ($this->category->parents as $c){
 				if(!empty($c->virtuemart_category_id) and !empty($c->category_name) and !empty($c->published)){
 					$pathway->addItem(strip_tags(vmText::_($c->category_name)),JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$c->virtuemart_category_id, FALSE));
-				} else vmdebug('parent category is empty',$category->parents);
+				} else vmdebug('parent category is empty',$this->category->parents);
 			}
 		}
 		$catImgAmount = VmConfig::get('catimg_browse',1);
-		$categoryModel->addImages($category,$catImgAmount);
+		$categoryModel->addImages($this->category,$catImgAmount);
 
 		if($this->showcategory){
 
-			$category->children = $categoryModel->getChildCategoryList( $vendorId, $this->categoryId, $categoryModel->getDefaultOrdering(), $categoryModel->_selectedOrderingDir );
-			$categoryModel->addImages($category->children,$catImgAmount);
+			$this->category->children = $categoryModel->getChildCategoryList( $vendorId, $this->categoryId, $categoryModel->getDefaultOrdering(), $categoryModel->_selectedOrderingDir );
+			$categoryModel->addImages($this->category->children,$catImgAmount);
 			//Whatever fallback
-			$category->haschildren = $category->has_children;
+			$this->category->haschildren = $this->category->has_children;
 
 		} else {
-			$category->children = false;
+			$this->category->children = false;
 		}
 
 		if (VmConfig::get('enable_content_plugin', 0)) {
-			shopFunctionsF::triggerContentPlugin($category, 'category','category_description');
+			shopFunctionsF::triggerContentPlugin($this->category, 'category','category_description');
 		}
 
-		if(empty($category->category_template)){
-			$category->category_template = VmConfig::get('categorytemplate');
+		if(empty($this->category->category_template)){
+			$this->category->category_template = VmConfig::get('categorytemplate');
 		}
 
 		if(!empty($this->categorylayout)){
-			$category->category_layout = $this->categorylayout;
+			$this->category->category_layout = $this->categorylayout;
 		}
 
 		vmJsApi::jPrice();
@@ -382,7 +381,7 @@ class VirtuemartViewCategory extends VmView {
 		}
 
 
-		VmTemplate::setVmTemplate($this,$category->category_template,0,$category->category_layout);
+		VmTemplate::setVmTemplate($this,$this->category->category_template,0,$this->category->category_layout);
 
 
 		$customtitle = '';
@@ -400,8 +399,8 @@ class VirtuemartViewCategory extends VmView {
 		if(($this->storefront and empty($prefix)) or $this->show_store_desc or empty($this->categoryId)){
 
 			$vendorModel = VmModel::getModel('vendor');
-			if(!empty($category->virtuemart_vendor_id)){
-				$vendorModel->setId($category->virtuemart_vendor_id);
+			if(!empty($this->category->virtuemart_vendor_id)){
+				$vendorModel->setId($this->category->virtuemart_vendor_id);
 			} else {
 				$vendorModel->setId(1);;
 			}
@@ -430,7 +429,7 @@ class VirtuemartViewCategory extends VmView {
 				$metaObj = VmModel::getModel('manufacturer')->getManufacturer($this->virtuemart_manufacturer_id);
 				$this->manu_descr = $metaObj->mf_desc;
 			} else {
-				$metaObj = $category;
+				$metaObj = $this->category;
 			}
 
 			if (!empty($metaObj->metadesc)) {
@@ -446,8 +445,8 @@ class VirtuemartViewCategory extends VmView {
 				$customtitle = $metaObj->customtitle;
 			}
 
-			if ($this->app->getCfg('MetaAuthor') == '1' and !empty($category->metaauthor)) {
-				$metaauthor = $category->metaauthor;
+			if ($this->app->getCfg('MetaAuthor') == '1' and !empty($this->category->metaauthor)) {
+				$metaauthor = $this->category->metaauthor;
 			}
 
 		}
@@ -455,8 +454,8 @@ class VirtuemartViewCategory extends VmView {
 		if(empty($metadesc)){
 			$description = '';
 			if(!empty($this->categoryId)){
-				$description=$category->category_description;
-				$name=$category->category_name;
+				$description=$this->category->category_description;
+				$name=$this->category->category_name;
 			} else if(!empty($this->virtuemart_manufacturer_id)){
 				$metaObj = VmModel::getModel('manufacturer')->getManufacturer($this->virtuemart_manufacturer_id);
 				$description=$metaObj->mf_desc;
@@ -466,7 +465,7 @@ class VirtuemartViewCategory extends VmView {
 			$qdesc = str_replace(array("\n", "\r","\t"), "", $qdesc);
 			$qdesc = str_replace(array("  "), " ", $qdesc);
 			$qdesc = shopFunctionsF::limitStringByWord($qdesc,120);
-			$metadesc = $category->category_name . ". ". $qdesc . ' ' .vmText::_('COM_VIRTUEMART_READ_MORE');
+			$metadesc = $this->category->category_name . ". ". $qdesc . ' ' .vmText::_('COM_VIRTUEMART_READ_MORE');
 		}
 //		quorvia get rid of any excess data
 		$metadesc = str_replace(array("\n", "\r","\t"), "", $metadesc);
@@ -479,8 +478,8 @@ class VirtuemartViewCategory extends VmView {
 		// Set the titles
 		if (!empty($customtitle)) {
 			$title = strip_tags($customtitle);
-		} elseif (!empty($category->category_name)) {
-			$title = strip_tags($category->category_name);
+		} elseif (!empty($this->category->category_name)) {
+			$title = strip_tags($this->category->category_name);
 		} else {
 			$title = $this->setTitleByJMenu();
 		}
@@ -503,7 +502,7 @@ class VirtuemartViewCategory extends VmView {
 
 			// Override Category name when viewing manufacturers products !IMPORTANT AFTER page title.
 			// in case of multi mf, don't take the one of the 1rst product, but the mf name is in the $metaObj
-			if (isset($metaObj->mf_name) and isset($category->category_name)) $category->category_name = $metaObj->mf_name ;
+			if (isset($metaObj->mf_name) and isset($this->category->category_name)) $this->category->category_name = $metaObj->mf_name ;
 
 		}
 

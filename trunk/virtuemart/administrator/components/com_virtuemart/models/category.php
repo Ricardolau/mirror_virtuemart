@@ -144,7 +144,9 @@ vmdebug('Found cached cat, but without children');
 
 				/* Get the product count */
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->productcount = $this->countProducts($this->_id);
+			}
 
+			if($fe){
 				/* Get parent for breadcrumb */
 				$this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]->parents = $this->getParentsList($this->_id);
 			}

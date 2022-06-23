@@ -109,12 +109,13 @@ if(version_compare(JVERSION,'4.0.0','ge')) {
 }
 
 function virtuemartBuildRoute(&$query) {
-	vmSetStartTime('virtuemartBuildRoute');
+	
 	vmrouterHelper::getInstance($query);
+	//vmSetStartTime('virtuemartBuildRoute');
 	VmConfig::$_debug = vmrouterHelper::$debug;
 
 	$segments = vmrouterHelper::buildRoute($query);
-	VmConfig::$_debug = TRUE; vmTime('virtuemartBuildRoute', 'virtuemartBuildRoute', true);
+	//VmConfig::$_debug = TRUE; vmTime('virtuemartBuildRoute', 'virtuemartBuildRoute', true);
 	VmConfig::$_debug = vmrouterHelper::$debugSet;
 	return $segments;
 }

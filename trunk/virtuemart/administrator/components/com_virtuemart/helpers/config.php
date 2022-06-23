@@ -333,6 +333,9 @@ class VmConfig {
 		return vmLanguage::loadModJLang($name);
 	}
 
+	static $iniLang = true;
+	static $execTrigger = true;
+
 	/**
 	 * Loads the configuration and works as singleton therefore called static. The call using the program cache
 	 * is 10 times faster then taking from the session. The session is still approx. 30 times faster then using the file.
@@ -361,9 +364,9 @@ class VmConfig {
 	 */
 	static public function loadConfig($force = FALSE,$fresh = FALSE, $lang = true, $exeTrig = true) {
 
-		static $execTrigger = true;
+
 		static $defined = false;
-		static $iniLang = true;
+
 
 		if(!$defined){
 			JLoader::register('vmDefines', JPATH_ROOT.'/administrator/components/com_virtuemart/helpers/vmdefines.php');
@@ -378,9 +381,9 @@ class VmConfig {
 
 		if($fresh){
 			self::$_jpConfig = new VmConfig();
-			if($lang and $iniLang){
+			if($lang and VmConfig::$iniLang){
 				vmLanguage::initialise();
-				$iniLang = false;
+				VmConfig::$iniLang = false;
 			}
 			return self::$_jpConfig;
 		}
@@ -389,19 +392,19 @@ class VmConfig {
 		$app = JFactory::getApplication(vmDefines::$_appId);
 		if(!$force){
 			if(!empty(self::$_jpConfig) && !empty(self::$_jpConfig->_params)){
-				//vmdebug('Return existing config ', (int)$iniLang, (int)$execTrigger);
-				if($lang and $iniLang){
+				//vmdebug('Return existing config ', (int)VmConfig::$iniLang, (int)VmConfig::$execTrigger);
+				if($lang and VmConfig::$iniLang){
 					vmLanguage::initialise();
-					$iniLang = false;
+					VmConfig::$iniLang = false;
 				}
 
-				if($exeTrig and $execTrigger){
+				if($exeTrig and VmConfig::$execTrigger){
 					// try plugins
 					$isSite = VmConfig::isSite();
 					vDispatcher::importVMPlugins('vmuserfield');
 					if($isSite){
 						//vmdebug('Execute trigger plgVmInitialise');
-						$execTrigger = false;
+						VmConfig::$execTrigger = false;
 						vDispatcher::trigger( 'plgVmInitialise', array() );
 					}
 				}
@@ -457,7 +460,7 @@ class VmConfig {
 
 		if(empty(self::$_jpConfig->_raw)){
 			vmLanguage::initialise();
-			$iniLang = false;
+			VmConfig::$iniLang = false;
 			$_value = VirtueMartModelConfig::readConfigFile();
 			if (!$_value) {
 				vmError('Serious error, config file could not be read');
@@ -476,9 +479,9 @@ class VmConfig {
 		self::echoAdmin();
 		self::showDebug();
 
-		if($lang and $iniLang){
+		if($lang and VmConfig::$iniLang){
 			vmLanguage::initialise();
-			$iniLang = false;
+			VmConfig::$iniLang = false;
 		}
 
 		vmLanguage::debugLangVars();
@@ -504,16 +507,16 @@ class VmConfig {
 		}
 
 
-		if($exeTrig and $execTrigger){
+		if($exeTrig and VmConfig::$execTrigger){
 
 			$isSite = VmConfig::isSite();
 			vDispatcher::importVMPlugins('vmuserfield');
 			if($isSite){
-				$execTrigger = false;
+				VmConfig::$execTrigger = false;
 				vDispatcher::trigger('plgVmInitialise', array());
 			}
 		}
-		vmTime('time to load config param $lang='.$lang.' and iniLang='.(int)$iniLang. '  $exeTrig = '.(int)$exeTrig.' now = '.(int)$execTrigger,'loadConfig');
+		vmTime('time to load config param $lang='.$lang.' and iniLang='.(int)VmConfig::$iniLang. '  $exeTrig = '.(int)$exeTrig.' now = '.(int)VmConfig::$execTrigger,'loadConfig');
 
 		return self::$_jpConfig;
 	}

@@ -712,16 +712,16 @@ class VirtueMartModelCustomfields extends VmModel {
 
 				$i=0;
 				if($sorted and is_array($sorted) ){
-					$first = 0;
+					//$first = 0;
 					foreach($sorted as $i=>$line){
 
-						if($first == 1){    //We remove with this the "Select option" option, for non parent dropdowns
+						/*if($first == 1){    //We remove with this the "Select option" option, for non parent dropdowns
 							foreach($field->selectoptions as $comboOpt){
 								array_shift($comboOpt->comboptions);
 							}
-						}
+						}*/
 						$html .= self::renderProductChildLine($i,$line,$field,$productModel,$row,$showSku);
-						$first++;
+						//$first++;
 					}
 				}
 

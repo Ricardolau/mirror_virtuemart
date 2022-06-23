@@ -153,7 +153,10 @@ class VirtueMartModelCountry extends VmModel {
 		$ordering = $this->_getOrdering();
 		$hash = $filterCountry.(int)$onlyPublished.$ordering.(int)$noLimit;
 		if(!isset($countries[$hash])){
+			$setDebug = VmConfig::$_debug;
+			VmConfig::$_debug = 0;
 			$countries[$hash] = $this->_data = $this->exeSortSearchListQuery(0,'*',' FROM `#__virtuemart_countries`',$whereString,'',$ordering);
+			VmConfig::$_debug = $setDebug;
 		}
 		return $countries[$hash];
     }

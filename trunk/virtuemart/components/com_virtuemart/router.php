@@ -182,7 +182,7 @@ class vmrouterHelper {
 
 		if(self::$_db!==null) return false;
 
-		if (!class_exists( 'VmConfig' ) or !class_exists('VmLanguage') or !isset(VmLanguage::$currLangTag)) {
+		if (!class_exists( 'VmConfig' ) or VmConfig::$iniLang or !isset(VmLanguage::$currLangTag)) {
 			if (!class_exists( 'VmConfig' )){
 				require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 			}
@@ -1523,8 +1523,10 @@ class vmrouterHelper {
 			vmError('Error in slq router.php function getFieldOfObjectWithLangFallBack '.$e->getMessage());
 		}
 
-		if($ids[$hash]===null){
+		if(!isset($ids[$hash])){
 			$ids[$hash] = false;
+			VmConfig::$_debug = true;
+			vmdebug('Router getFieldOfObjectWithLangFallBack Could not find '.$q );
 		}
 		//vmdebug('getFieldOfObjectWithLangFallBack my query ',str_replace('#__',self::$_db->getPrefix(),self::$_db->getQuery()),$ids[$hash]);
 		return $ids[$hash];

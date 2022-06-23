@@ -384,21 +384,6 @@ class vmJsApi{
 		vmJsApi::fancybox();
 	}
 
-	static function fancybox(){
-		/*if(JVM_VERSION < 4){
-			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false,false,false,false,'1.3.4');
-		} else {*/
-			vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.2.pack',false,false,false,false,'1.3.4.2');
-		//}
-
-		vmJsApi::css('jquery.fancybox-1.3.4');
-
-		if(!Vmconfig::isSite()){
-			vmJsApi::addJScript('fancybox/jquery.mousewheel-3.0.4.pack',false,false);
-			vmJsApi::addJScript('fancybox/jquery.easing-1.3.pack',false,false);
-		}
-	}
-
 	// Virtuemart product and price script
 	static function jPrice() {
 
@@ -489,27 +474,33 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		return;
 	}
 
+	static function fancybox(){
+
+		vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.2.pack',false,false,false,false,'1.3.4.2');
+		vmJsApi::css('jquery.fancybox-1.3.4');
+
+		if(!VmConfig::isSite()){
+			vmJsApi::addJScript('fancybox/jquery.mousewheel-3.0.4.pack',false,false);
+			vmJsApi::addJScript('fancybox/jquery.easing-1.3.pack',false,false);
+		}
+	}
+
 	static function loadPopUpLib(){
 
-		static $done = false;
-		if ($done) return true;
+		static $fancy = null;
+		if(isset($fancy)){
+			return $fancy;
+		}
 
 		self::vmVariables();
 
-		//I think this should be removed, and replaced by another setting
-		if(!VmConfig::get ('jquery', true)) {
-			return true;
-		}
-
-		if(VmConfig::get('usefancy',1)){
+		if($fancy = VmConfig::get('usefancy',1)){
 			self::fancybox();
-
 		} else {
 			vmJsApi::addJScript( 'facebox', false, true, false, false, '' );
 			vmJsApi::css( 'facebox' );
 		}
 
-		$done = true;
 	}
 
 	/**

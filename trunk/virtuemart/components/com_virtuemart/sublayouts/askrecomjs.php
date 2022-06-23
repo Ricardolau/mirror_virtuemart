@@ -21,9 +21,7 @@ defined ('_JEXEC') or die('Restricted access');
 static $ask_recommened_loaded = false;
 if($ask_recommened_loaded) return '';
 
-if(VmConfig::get('usefancy',1)){
-	vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false, false);
-	vmJsApi::css('jquery.fancybox-1.3.4');
+if(vmJsApi::loadPopUpLib()){
 	$Modal ="
 		$('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
 		  event.preventDefault();
@@ -35,9 +33,6 @@ if(VmConfig::get('usefancy',1)){
 		  });
 		";
 } else {
-
-	vmJsApi::addJScript( 'facebox', false, true );
-	vmJsApi::css( 'facebox' );
     $Modal ="
     		$('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
 		      event.preventDefault();
@@ -54,3 +49,4 @@ vmJsApi::addJScript('popups',"
 		".$Modal."
 	});
 ");
+$ask_recommened_loaded = true;

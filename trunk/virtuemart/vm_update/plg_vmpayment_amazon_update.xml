@@ -15,6 +15,6 @@
 
         <maintainer>${PHING.VM.MAINTAINER}</maintainer>
         <maintainerurl>${PHING.VM.MAINTAINERURL}</maintainerurl>
-        <targetplatform name="joomla" version=".*" />
+        <targetplatform name="joomla" version="3.*" />
     </update>
 </updates>

@@ -19,4 +19,8 @@
     <file type="template" id="vmbeez3" client="site" >vmbeez3_3.4.2.zip</file>
     <file type="template" id="horme_3" client="site" >horme_3_v2.0.0.zip</file>
   </files>
+  <updateservers>
+    <!-- Note: No spaces or linebreaks allowed between the server tags -->
+    <server type="package" name="VirtueMart Update Site"><![CDATA[http://virtuemart.net/releases/vm3/pkg_virtuemart_update.xml]]></server>
+  </updateservers>
  </extension>

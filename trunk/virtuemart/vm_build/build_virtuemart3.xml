@@ -3,10 +3,10 @@
 <project name="Build VirtueMart" default="VIRTUEMART_AND_FULLINSTALLER" basedir=".">
     <!-- value can be: major, minor, bugfix -->
     <property name="releasetype" value="BUGFIX"/>
-    <property name="vm.version.main" value="3.8"/>
-    <property name="vm.version" value="3.8.3"/>
-    <property name="joomla.version" value="3.9.18"/>
-    <property name="PHING.VM.REVISION" value="10329"/>
+    <property name="vm.version.main" value="4.0"/>
+    <property name="vm.version" value="4.0.4"/>
+    <property name="joomla.version" value="3.10.9"/>
+    <property name="PHING.VM.REVISION" value="10681"/>
     <property name="PHING.VM.CODENAME" value="Eagle owl"/>
     <property name="PHING.VM.UPDATEFOLDER" value="vm3"/>
     <property file="build.properties"/>
@@ -165,6 +165,8 @@
         <exclude name="**/vm_build/**"/>
         <exclude name="**/payzen/**"/>
         <exclude name="**/systempay/**"/>
+        <exclude name="**/klarna/**"/>
+        <exclude name="**/klarnacheckout/**"/>
         <exclude name="**/installationJ2/**"/>
         <exclude name="**/installationJ3/**"/>
         <exclude name="**/helpers/vmfilter.php"/>
@@ -172,6 +174,8 @@
         <exclude name="**/com_virtuemart/toolbar**"/>
         <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
         <exclude name="**/vmbeez5/**"/>
+        <exclude name="**/vmstore/**"/>
+        <exclude name="index.html"/>
         <!--exclude name="**/vm_update/**"/ -->
         <exclude name="**/ar-AA/**"/>
         <exclude name="**/bg-BG/**"/>
@@ -213,9 +217,10 @@
         <exclude name="**/vmfile.php"/>
         <exclude name="**/vm_update/**"/>
         <exclude name="**/tmpl/bs2-**"/>
-        <exclude name="**/tmpl/bs3-**"/>
+        <!-- exclude name="**/tmpl/bs3-**"/ -->
         <exclude name="**/tmpl/bs4-**"/>
-        <exclude name="**/jquery.min.js"/>
+        <exclude name="**/com_virtuemart/assets/js/jquery.min.js"/>
+        <exclude name=".buildpath"/>
     </fileset>
     <!-- ============================================  -->
     <!--  FILESET ALL FUL INSTALLER FILES -->
@@ -232,7 +237,8 @@
         <exclude name="**/vmf/**"/>
         <exclude name="**/com_virtuemart/toolbar**"/>
         <exclude name="**/vmbeez5/**"/>
-        <exclude name="**/jquery.min.js"/>
+        <exclude name="**/vmstore/**"/>
+        <exclude name="**/com_virtuemart/assets/js/jquery.min.js"/>
     </fileset>
 
 
@@ -246,7 +252,7 @@
         <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.php"/>
         <exclude name="**/components/com_virtuemart/views/virtuemart/tmpl/default.xml"/>
         <exclude name="**/tmpl/bs2-**"/>
-        <exclude name="**/tmpl/bs3-**"/>
+        <!--exclude name="**/tmpl/bs3-**"/-->
         <exclude name="**/tmpl/bs4-**"/>
         <exclude name="**/jquery.min.js"/>
     </fileset>
@@ -339,6 +345,8 @@
         <exclude name=".DS_Store"/>
         <exclude name="**/payzen/**"/>
         <exclude name="**/systempay/**"/>
+        <exclude name="**/klarna/**"/>
+        <exclude name="**/klarnacheckout/**"/>
         <exclude name="index.html"/>
     </fileset>
     <fileset dir="${libraries.path}" id='libraries.aio.refid' defaultexcludes="true">
@@ -355,6 +363,8 @@
         <exclude name=".DS_Store"/>
         <exclude name="**/payzen/**"/>
         <exclude name="**/systempay/**"/>
+        <exclude name="**/klarna/**"/>
+        <exclude name="**/klarnacheckout/**"/>
         <exclude name="index.html"/>
     </fileset>
 
@@ -364,6 +374,8 @@
         <exclude name=".DS_Store"/>
         <exclude name="**/payzen/**"/>
         <exclude name="**/systempay/**"/>
+        <exclude name="**/klarna/**"/>
+        <exclude name="**/klarnacheckout/**"/>
         <exclude name="index.html"/>
     </fileset>
 

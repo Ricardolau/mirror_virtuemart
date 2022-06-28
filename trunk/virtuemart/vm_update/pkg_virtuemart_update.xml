@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updates>
+    <update>
+        <name>VirtueMart Package</name>
+        <description>VirtueMart Package with Core, AIO, admin template, TcPDF, vmBeez, horme3</description>
+        <type>package</type>
+        <version>${PHING.VM.RELEASE}</version>
+        <infourl title="VirtueMart URL">http://virtuemart.net/news/latest-news/469-security-release-vm3-0-8</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://dev.virtuemart.net/attachments/download/1316/com_virtuemart.4.0.2.10661_package_or_extract.zip</downloadurl>
+        </downloads>
+        <tags>
+        	<tag>stable</tag>
+    	</tags>
+        <maintainer>${PHING.VM.MAINTAINER}</maintainer>
+        <maintainerurl>${PHING.VM.MAINTAINERURL}</maintainerurl>
+        <targetplatform name="joomla" version="3.*" />
+    </update>
+    <update>
+        <name>VirtueMart Package</name>
+        <description>VirtueMart Package</description>
+        <type>package</type>
+        <version>${PHING.VM.RELEASE}</version>
+        <infourl title="VirtueMart URL">http://virtuemart.net/news/latest-news/469-security-release-vm3-0-8</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://dev.virtuemart.net/attachments/download/1316/com_virtuemart.4.0.2.10661_package_or_extract.zip</downloadurl>
+        </downloads>
+        <tags>
+        	<tag>stable</tag>
+    	</tags>
+        <maintainer>${PHING.VM.MAINTAINER}</maintainer>
+        <maintainerurl>${PHING.VM.MAINTAINERURL}</maintainerurl>
+        <targetplatform name="joomla" version="4.*" />
+    </update>
+</updates>

@@ -578,7 +578,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 			JToolbarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
 			$this->addStandardDefaultViewCommands();
 
-
 			$this->assignRef('productlist', $productlist);
 
 

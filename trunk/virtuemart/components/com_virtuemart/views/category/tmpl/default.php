@@ -37,10 +37,10 @@ if (vRequest::getInt('dynamic',false) and vRequest::getInt('virtuemart_product_i
 }
 ?> <div class="category-view"> <?php
 $js = "
-jQuery(document).ready(function () {
-	jQuery('.orderlistcontainer').hover(
-		function() { jQuery(this).find('.orderlist').stop().show()},
-		function() { jQuery(this).find('.orderlist').stop().hide()}
+jQuery(document).ready(function ($) {
+	$('.orderlistcontainer').hover(
+		function() { $(this).find('.orderlist').stop().show()},
+		function() { $(this).find('.orderlist').stop().hide()}
 	)
 });
 ";
@@ -138,13 +138,11 @@ if ($this->showsearch or $this->keyword !== false) {
 	/*if($this->keyword !== false){
 		?><h3><?php echo vmText::sprintf('COM_VM_SEARCH_KEYWORD_FOR', $this->keyword); ?></h3><?php
 	}*/
-	$j = 'jQuery(document).ready(function() {
-
-jQuery(".changeSendForm")
+	$j = 'jQuery(document).ready(function($) {
+$(".changeSendForm")
 	.off("change",Virtuemart.sendCurrForm)
     .on("change",Virtuemart.sendCurrForm);
 })';
-
 	vmJsApi::addJScript('sendFormChange',$j);
 } ?>
 

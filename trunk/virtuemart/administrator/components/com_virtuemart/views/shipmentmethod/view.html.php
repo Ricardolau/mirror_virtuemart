@@ -152,32 +152,8 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 
 		$id = 'categories';
 
-		vmJsApi::addJScript('ajax_catree');
+		vmJsApi::ajaxCategoryDropDown($id, $param, $eOpt);
 
-		$j = "jQuery(document).ready(function($) {
-	jQuery(document).ready(function($) {
-		Virtuemart.emptyCatOpt = '".$eOpt."';
-		Virtuemart.param = '".$param."';
-		Virtuemart.isAdmin = '".self::isAdmin()."';
-		Virtuemart.loadCategoryTree('".$id."');
-	});
-});
-";
-		vmJsApi::addJScript('pro-tech.AjaxCategoriesLoad', $j, false, true, true);
-
-		$id = 'blocking_categories';
-		$j = "jQuery(document).ready(function($) {
-	jQuery(document).ready(function($) {
-		Virtuemart.emptyCatOpt = '".$eOpt."';
-		Virtuemart.param = '".$param."';
-		Virtuemart.isAdmin = '".self::isAdmin()."';
-		Virtuemart.loadCategoryTree('".$id."');
-	});
-});
-";
-		//vmJsApi::addJScript('pro-tech.AjaxCategoriesLoad2', $j, false, true, true);
-
-		//vmJsApi::ajaxCategoryDropDown($id, $param, $eOpt);
 	}
 
 }

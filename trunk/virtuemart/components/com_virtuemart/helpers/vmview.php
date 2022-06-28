@@ -125,7 +125,7 @@ class VmView extends JViewLegacy{
 
 
 
-	static public function getVmSubLayoutPath($name){
+	static public function getVmSubLayoutPath($name) {
 
 		static $layouts = array();
 
@@ -183,7 +183,6 @@ class VmView extends JViewLegacy{
 
 			return $layouts[$name];
 		}
-
 	}
 
 	public function setLayoutAndSub($layout, $sub){

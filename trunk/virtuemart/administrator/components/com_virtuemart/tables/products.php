@@ -102,7 +102,7 @@ class TableProducts extends VmTable {
 	/*var $has_children = null;*/
 
 	/** @var int product_canon_category_id used to force a canonical category useful for items in more than one category */
-	var $product_canon_category_id = null;
+	var $product_canon_category_id = 0;
 
 
 	function __construct($db) {
@@ -131,5 +131,11 @@ class TableProducts extends VmTable {
 		$this->published = VmConfig::get('product.published',1);
 	}
 
+	function check() {
+
+		if(empty($this->product_canon_category_id)) $this->product_canon_category_id = 0;
+
+		parent::check();
+	}
 }
 // pure php no closing tag

@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_customs` (
   `locked_on` datetime,
   `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_custom_id`),
-  UNIQUE KEY field_type_searchable_published  (`field_type`, `searchable`, `published`),
+  KEY `field_type_searchable_published` (`field_type`, `searchable`, `published`),
   KEY `custom_parent_id` (`custom_parent_id`),
   KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
   KEY `custom_element` (`custom_element`),

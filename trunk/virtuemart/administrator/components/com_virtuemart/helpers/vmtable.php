@@ -603,7 +603,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 			if (!empty($obj->{$xParams})) {
 				if (!is_string($obj->{$xParams})){
-					vmError('vmTable Error, $obj->{$xParams} is not a string ');
+					vmError('vmTable Error, $obj->{$xParams} is not a string '.print_r($obj));
 					return;
 				}
 				$params = explode('|', $obj->{$xParams});

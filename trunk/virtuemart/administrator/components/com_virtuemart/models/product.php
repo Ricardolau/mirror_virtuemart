@@ -1834,7 +1834,7 @@ vmSetStartTime('letsUpdateProducts');
 					if($category['published']){
 						if(!$product->canonCatId) $product->canonCatId = $category['virtuemart_category_id'];
 //					use a canonical category if published and a values is stored
-						if (!empty($product->product_canon_category_id)  && $category['virtuemart_category_id'] == $product->product_canon_category_id ){
+						if (!empty($product->product_canon_category_id) and $category['virtuemart_category_id'] == $product->product_canon_category_id ){
 							$product->canonCatId = $product->product_canon_category_id;
 							$product->canonCatIdname = $category['category_name'];
 							//vmdebug('Canon cat found');

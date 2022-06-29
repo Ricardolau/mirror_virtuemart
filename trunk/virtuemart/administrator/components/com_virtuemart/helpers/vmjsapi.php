@@ -465,9 +465,14 @@ jQuery(document).ready(function() { // GALT: Start listening for dynamic content
 		}
 		VmJsApi::jSite();
 
+		$updateTrigger = '';
+		if(JVM_VERSION>3){
+			$updateTrigger = '$("#'.$prefix.'virtuemart_country_id'.$suffix.'").vm2front("setOpt",{field_update_trigger : "chosen:updated"});';
+		}
 		self::addJScript('vm-countryState'.$prefix,'
 		jQuery(document).ready( function($) {
 			$("#'.$prefix.'virtuemart_country_id'.$suffix.'").vm2front("list",{dest : "#'.$prefix.'virtuemart_state_id'.$suffix.'",ids : "'.$stateIds.'",prefiks : "'.$prefix.'"});
+			'.$updateTrigger.'
 		});
 		');
 		$JcountryStateList[$prefix] = TRUE;

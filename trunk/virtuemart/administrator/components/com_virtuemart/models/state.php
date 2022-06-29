@@ -67,10 +67,16 @@ class VirtueMartModelState extends VmModel {
 			$this->_data = $c[$h];
 			return $c[$h];
 		} else {
-			$quer= 'SELECT * FROM `#__virtuemart_states`  WHERE `virtuemart_country_id`= "'.(int)$countryId.'" ';
+
 			if($published){
-				$quer .= 'AND `published`="1" ';
+				$select = 'virtuemart_state_id, virtuemart_country_id, state_name, state_2_code, state_3_code, ordering, shared';
+				$pub = 'AND `published`="1" ';
+			} else {
+				$select = '*';
+				$pub = '';
 			}
+
+			$quer= 'SELECT '.$select.' FROM `#__virtuemart_states`  WHERE `virtuemart_country_id`= "'.(int)$countryId.'" '.$pub;
 
 			$quer .= 'ORDER BY `#__virtuemart_states`.`state_name`';
 

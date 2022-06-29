@@ -109,7 +109,7 @@ var Virtuemart = window.Virtuemart || {};
 						}
 					}
 				}
-				console.log('Adding to list');
+
 				$(that.state_fields).each(function() {
 					var state_field = this,
 						id = $(this).attr('id'),

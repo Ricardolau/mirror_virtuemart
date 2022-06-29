@@ -644,6 +644,9 @@ abstract class vmPlugin extends JPlugin {
 			$this->_vmpItable = $this->createPluginTableObject ($this->_tablename, $this->tableFields, $primaryKey, $this->_tableId, $this->_loggable);
 		}
 
+		if($this->_toConvertDec){
+			$this->_vmpItable->setConvertDecimal($this->_toConvertDec);
+		}
 		$this->_vmpItable->bindChecknStore ($values, $preload);
 
 		return $values;

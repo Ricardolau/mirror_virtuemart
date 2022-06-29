@@ -142,7 +142,7 @@ class plgVmPaymentStandard extends vmPSPlugin {
 
 
 		$dbValues['order_number'] = $order['details']['BT']->order_number;
-		$dbValues['virtuemart_paymentmethod_id'] = $order['details']['BT']->virtuemart_paymentmethod_id;
+		$dbValues['virtuemart_paymentmethod_id'] = (int)$order['details']['BT']->virtuemart_paymentmethod_id;
 		$dbValues['cost_per_transaction'] = $method->cost_per_transaction;
 		$dbValues['cost_min_transaction'] = $method->cost_min_transaction;
 		$dbValues['cost_percent_total'] = $method->cost_percent_total;

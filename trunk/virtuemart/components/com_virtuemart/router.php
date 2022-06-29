@@ -255,6 +255,7 @@ class vmrouterHelper {
 			//vmdebug('Router initialised with language '.$this->slang);
 			VmConfig::$_debug = self::$debugSet;
 		}
+		return true;
 	}
 
 	static public function setRoutingQuery($query){
@@ -279,7 +280,7 @@ class vmrouterHelper {
 		}
 		if(!self::$Itemid) {
 			if(vmrouterHelper::$debug) vmdebug( 'There is still no itemid' );
-			self::$Itemid = '';
+			self::$Itemid = 0;
 		}
 
 		//vmdebug('setRoutingQuery executed with language '.$this->slang, $query);

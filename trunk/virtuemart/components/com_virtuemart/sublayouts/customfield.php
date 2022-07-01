@@ -126,14 +126,12 @@ class VirtueMartCustomFieldRenderer {
 						$selectType = 'select.radiolist';
 						$class = '';
 						$dom = '';
-						//$idTagK = VmHtml::ensureUniqueId($idTag.'cvard'.$k);
+						$attribs = array('class'=>'cvselection cvradio no-vm-bind');
 					} else {
 						vmJsApi::chosenDropDowns();
 						$dom = 'select';
-						//$idTagK = '[';	//Joomla workaround to get a list without id
+						$attribs = array('class'=>$class.' cvselection cvdrop no-vm-bind');
 					}
-
-					$attribs = array('class'=>$class.' cvselection no-vm-bind','style'=>'min-width:70px;');
 
 					$view = 'productdetails';
 					$attribs['data-reload'] = '1';
@@ -606,7 +604,14 @@ class VirtueMartCustomFieldRenderer {
 										$productCustom->text = VirtueMartModelCustomfields::displayCustomMedia ($productCustom->customfield_value,'product',$customfield->width,$customfield->height).' '.$price;
 									} else if($type == 'PB') {
 										$productB = VmModel::getModel('product')->getProduct($productCustom->bundle_product_id);
-										$productCustom->text = $productB->product_name.' '.$price;
+										/*$images[0] = $productB->virtuemart_media_id[0];
+										$width = isset($customfield->width)? $customfield->width : VmConfig::get('img_width', 0);
+										$height = isset($customfield->height)? $customfield->height : VmConfig::get('img_height', 0);
+										$thumb = '';
+										//if(!empty($width) or !empty($height)){
+											$thumb = VirtueMartModelCustomfields::displayCustomMedia($images[0], 'product', $width, $height ).' ';
+										//}*/
+										$productCustom->text = /*$thumb . ' ' . */$productB->product_name . ' ' . $price;
 									} else {
 										$trValue = vmText::_($productCustom->customfield_value);
 										if($productCustom->customfield_value!=$trValue and strpos($trValue,'%1')!==false){

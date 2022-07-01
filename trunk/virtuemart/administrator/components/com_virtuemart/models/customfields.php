@@ -444,15 +444,18 @@ class VirtueMartModelCustomfields extends VmModel {
 		}
 
 		$serials = '';
-		if(isset($field->product_sku)){
-			$serials = '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_SKU').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_sku . '" name="field[' . $row . '][product_sku]" /> </span></td>';
+		if(!empty($field->is_input)){
+			if(isset($field->product_sku)){
+				$serials = '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_SKU').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_sku . '" name="field[' . $row . '][product_sku]" /> </span></td>';
+			}
+			if(isset($field->product_gtin)){
+				$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_GTIN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_gtin . '" name="field[' . $row . '][product_gtin]" /> </span></td>';
+			}
+			if(isset($field->product_mpn)){
+				$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_MPN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_mpn . '" name="field[' . $row . '][product_mpn]" /> </span></td>';
+			}
 		}
-		if(isset($field->product_gtin)){
-			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_GTIN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_gtin . '" name="field[' . $row . '][product_gtin]" /> </span></td>';
-		}
-		if(isset($field->product_mpn)){
-			$serials .= '<td><span style="white-space: nowrap;">'.vmText::_('COM_VIRTUEMART_PRODUCT_MPN').'<input type="text" size="12" style="text-align:right;" value="' . $field->product_mpn . '" name="field[' . $row . '][product_mpn]" /> </span></td>';
-		}
+
 
 
 		switch ($field->field_type) {

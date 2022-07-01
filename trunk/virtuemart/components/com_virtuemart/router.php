@@ -1526,8 +1526,9 @@ class vmrouterHelper {
 
 		if(!isset($ids[$hash])){
 			$ids[$hash] = false;
-			VmConfig::$_debug = true;
+			VmConfig::$logDebug = 1;
 			vmdebug('Router getFieldOfObjectWithLangFallBack Could not find '.$q );
+			VmConfig::$logDebug = 0;
 		}
 		//vmdebug('getFieldOfObjectWithLangFallBack my query ',str_replace('#__',self::$_db->getPrefix(),self::$_db->getQuery()),$ids[$hash]);
 		return $ids[$hash];
@@ -1732,9 +1733,9 @@ class vmrouterHelper {
 			$app		= JFactory::getApplication();
 			$menu		= $app->getMenu('site');
 
-			self::$rItemid = vRequest::getInt('Itemid',false);
+			self::$rItemid = (int)vRequest::getInt('Itemid',0);
 			if(!empty($query['Itemid'])){
-				self::$Itemid = $query['Itemid'];
+				self::$Itemid = (int)$query['Itemid'];
 			} else {
 				self::$Itemid = self::$rItemid;
 			}

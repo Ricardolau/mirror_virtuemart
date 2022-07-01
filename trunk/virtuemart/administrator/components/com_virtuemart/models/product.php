@@ -2565,6 +2565,7 @@ vmSetStartTime('letsUpdateProducts');
 
 		if(!$stored ){
 			vmError('You are not an administrator or the correct vendor, storing of product cancelled');
+			vmdebug('You are not an administrator or the correct vendor, storing of product cancelled', $data, $product_data->loadFieldValues());
 			return FALSE;
 		}
 

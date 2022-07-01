@@ -8,7 +8,7 @@ defined ('_JEXEC') or die();
  *
  * @package    VirtueMart
  * @subpackage Helpers
- * @author Max Milbers
+ * @author Max Milbers, stAn
  * @copyright Copyright (c) 2014 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
@@ -28,6 +28,7 @@ defined ('_JEXEC') or die();
 class vmJsApi{
 
 	private static $_jsAdd = array();
+	private static $_jsAddJhtml = array();
 	private static $_be = null;
 
 	private function __construct() {
@@ -101,13 +102,27 @@ class vmJsApi{
 	public static function removeJScript($name){
 		unset(self::$_jsAdd[$name]);
 	}
-
+	public static function jhtml(...$j_args) {
+		$name = reset($j_args); 
+		self::$_jsAddJhtml[$name] = $j_args; 
+		
+	}
 	public static function writeJS(){
 
 		$html = '';
 		$headInline = '';
 		$document = JFactory::getDocument();
-
+		
+		foreach (self::$_jsAddJhtml as $name => $j_args) {
+			if (empty($j_args)) {
+				JHtml::_($name); 
+			}
+			else {
+				//injects the framework as first param:
+				call_user_func_array('JHtml::_', $j_args); 
+			}
+		}
+		
 		foreach(self::$_jsAdd as $name => &$jsToAdd){
 
 			if($jsToAdd['written']) continue;
@@ -321,7 +336,7 @@ class vmJsApi{
 
 		if($isSite===-1) $isSite = VmConfig::isSiteByApp();	//Maybe VmConfig::isSite()
 
-		if(VmConfig::get('jquery_framework',true)) JHtml::_('jquery.framework');
+		if(VmConfig::get('jquery_framework',true)) self::jhtml('jquery.framework');
 
 		if (!VmConfig::get ('jquery', true) and $isSite) {
 			vmdebug('Common jQuery is disabled');
@@ -546,7 +561,7 @@ jQuery(document).ready(function($) {
 
 			if(VmConfig::get ('jchosen', 0) or !VmConfig::isSite()){
 				if(JVM_VERSION >3){
-					JHtml::_('formbehavior.chosen');
+					self::jhtml('formbehavior.chosen');
 				} else {
 					vmJsApi::addJScript('chosen.jquery.min',false,false);
 					vmJsApi::css('chosen');
@@ -622,7 +637,7 @@ jQuery(document).ready(function($) {
 		}
 
 		// Implement Joomla's form validation
-		JHtml::_('behavior.formvalidator');
+		self::jhtml('behavior.formvalidator');
 		self::vmVariables();
 
 		$regfields = array();

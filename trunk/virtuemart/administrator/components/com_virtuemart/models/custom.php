@@ -558,11 +558,12 @@ class VirtueMartModelCustom extends VmModel {
 		} else if($type=='PB'){
 			$varsToPush = array(
 				'addEmpty'		=> array(0, 'int'),
+				'selectType'	=> array(0, 'int'),
 				'bundle_product_id' => array('', 'string'),
 				'bundle_category_id'	=> array(0, 'int', 'vmcategories', array('params' => 'multiple="true"')), //Creates list in BE with products of that category
 				'multiplyPrice'	=> array(0, 'string', 'list', array('options' => array('0'=>'COM_VM_CUSTOM_ADDPRICE',
-					'base_productprice'=>'COM_VM_CUSTOM_PERC_ON_BASEPRICE',
-					'free'  => 'COM_VM_CUSTOM_FREE'/*,
+				'base_productprice'=>'COM_VM_CUSTOM_PERC_ON_BASEPRICE',
+				'free'  => 'COM_VM_CUSTOM_FREE'/*,
 					'base_variantprice'=>'COM_VM_CUSTOM_PERC_ON_VARIANTPRICE',
 					'-1' => 'COM_VM_CUSTOM_PERC_ON_MODIFICATOR'*/)))
 			);

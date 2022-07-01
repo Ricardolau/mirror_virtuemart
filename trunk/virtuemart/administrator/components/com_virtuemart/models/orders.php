@@ -1125,17 +1125,38 @@ class VirtueMartModelOrders extends VmModel {
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
  		//vmdebug('updateStatusForOneOrder', $inputOrder);
+		if(empty($virtuemart_order_id) and !empty($inputOrder['virtuemart_order_id'])){
+			$virtuemart_order_id = $inputOrder['virtuemart_order_id'];
+		}
 
-		/* Update the order */
-		$data = $this->getTable('orders');
-		$data->load($virtuemart_order_id);
-		$old_order_status = $data->order_status;
-		$old_o_hash = $data->o_hash;
+		if(empty($virtuemart_order_id)) {
+			vmError('updateStatusForOneOrder empty virtuemart_order_id', 'updateStatusForOneOrder empty orderId');
+			vmTrace('updateStatusForOneOrder empty virtuemart_order_id');
+			return false;
+		}
+
 		if(empty($inputOrder['virtuemart_order_id'])){
 			unset($inputOrder['virtuemart_order_id']);
 		}
 
+		/* Update the order */
+		$data = $this->getTable('orders');
+		$data->load($virtuemart_order_id);
+
+		if(empty($data->created_by)){
+			vmError('updateStatusForOneOrder unknown virtuemart_order_id', 'updateStatusForOneOrder unknown orderId');
+			vmTrace('updateStatusForOneOrder unknown virtuemart_order_id');
+			return false;
+		}
+
+		$old_order_status = $data->order_status;
+		$old_o_hash = $data->o_hash;
+
 		$data->bind($inputOrder);
+
+
+
+
 
 		$cp_rm = VmConfig::get('cp_rm',array('C'));
 		if(!is_array($cp_rm)) $cp_rm = array($cp_rm);

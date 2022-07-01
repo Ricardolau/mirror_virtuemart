@@ -135,7 +135,7 @@ class TableProducts extends VmTable {
 
 		if(empty($this->product_canon_category_id)) $this->product_canon_category_id = 0;
 
-		parent::check();
+		return parent::check();
 	}
 }
 // pure php no closing tag

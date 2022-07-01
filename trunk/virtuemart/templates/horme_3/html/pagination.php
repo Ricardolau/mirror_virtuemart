@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
 function pagination_list_render($list)
 {
 	// Reverse output rendering for right-to-left display.
-	$app = JFactory::getApplication();
+
 	$html = '<div class="text-center"><ul class="pagination pagination-sm clearfix">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
@@ -45,8 +45,8 @@ function pagination_list_render($list)
  */
 function pagination_item_active(&$item)
 {
-	$app = JFactory::getApplication();
-	if ($app->isAdmin())
+
+	if (!VmConfig::isSite())
 	{
 		if ($item->base > 0)
 		{
@@ -75,8 +75,8 @@ function pagination_item_active(&$item)
  */
 function pagination_item_inactive(&$item)
 {
-	$app = JFactory::getApplication();
-	if ($app->isAdmin())
+
+	if (!VmConfig::isSite())
 	{
 		return "<li><a href=\"#\">" . $item->text . "</a></li>";
 	}

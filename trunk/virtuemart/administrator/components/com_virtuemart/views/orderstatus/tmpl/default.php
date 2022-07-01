@@ -65,8 +65,8 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				<?php echo vmText::_('COM_VIRTUEMART_ORDER_STATUS_DELIVERY_DATE'); ?>
 			</th>
 			<th>
-			<?php  echo $this->sort('ordering')  ?>
-			<?php echo JHtml::_('grid.order',  $this->orderStatusList ); ?>
+			<?php echo $this->sort('ordering')  ?>
+			<?php echo $this->saveOrder(); ?>
 			</th>
 			<th width="20">
 				<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
@@ -184,7 +184,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				<td align="center" class="order">
 					<span><?php echo $this->pagination->vmOrderUpIcon($i, $row->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 					<span><?php echo $this->pagination->vmOrderDownIcon( $i, $row->ordering,$n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
-					<input class="ordering" type="text" name="order[<?php echo $i?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" />
+					<input class="ordering" type="text" name="order[<?php echo $row->virtuemart_orderstate_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" />
 				</td>
 				<td align="center"><?php echo $published; ?></td>
 				<td width="10">

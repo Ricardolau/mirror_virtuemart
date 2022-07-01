@@ -70,7 +70,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
                     </th>
 					<th class="uk-visible@m uk-text-center@m">
 						<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
-						<?php echo JHtml::_('grid.order', $this->countries, 'filesave.png', 'saveOrder' ); ?>
+						<?php echo $this->saveOrder(); ?>
 					</th>
 					<th class="uk-table-shrink uk-text-center@m">
 						<?php echo $this->sort('published' , 'COM_VIRTUEMART_PUBLISHED') ?>
@@ -121,7 +121,7 @@ $states = vmText::_('COM_VIRTUEMART_STATE_S');
 							<?php echo $row->country_num_code ; ?>
                         </td>
 						<td class="vm-order uk-visible@m">
-							<input class="ordering" type="text" name="order[<?php echo $i?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" /><span class="vmicon vmicon-16-move"></span>
+							<input class="ordering" type="text" name="order[<?php echo $row->virtuemart_country_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $row->ordering; ?>" style="text-align: center" /><span class="vmicon vmicon-16-move"></span>
 						</td>
 						<td class="uk-text-center@m">
 							<?php echo $published; ?>

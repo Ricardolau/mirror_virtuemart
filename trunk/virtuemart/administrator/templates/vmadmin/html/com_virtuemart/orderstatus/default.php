@@ -67,7 +67,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 				</th>
 				<th class="uk-visible@m">
 					<?php echo $this->sort('ordering') ?>
-					<?php echo JHtml::_('grid.order', $this->orderStatusList); ?>
+					<?php echo $this->saveOrder(); ?>
 				</th>
 				<th class="uk-table-shrink">
 					<?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
@@ -246,7 +246,7 @@ vmLanguage::loadJLang('com_virtuemart_config');
 					<td class="order uk-visible@m">
 						<span><?php echo $this->pagination->vmOrderUpIcon($i, $row->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon($i, $row->ordering, $n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
-						<input class="ordering" type="text" name="order[<?php echo $i ?>]" id="order[<?php echo $i ?>]"
+						<input class="ordering" type="text" name="order[<?php echo $row->virtuemart_orderstate_id ?>]" id="order[<?php echo $i ?>]"
 								size="5" value="<?php echo $row->ordering; ?>" />
 					</td>
 					<td class="uk-text-center@m">

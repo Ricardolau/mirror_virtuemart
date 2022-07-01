@@ -110,7 +110,7 @@ if ($product_parent_id = vRequest::getInt('product_parent_id', false)) {
 				if ($this->showOrdering) { ?>
 					<th>
 						<?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
-						<?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' ); ?>
+						<?php echo $this->saveOrder(); ?>
 					</th>
 				<?php } ?>
 				<th><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S'); ?></th>

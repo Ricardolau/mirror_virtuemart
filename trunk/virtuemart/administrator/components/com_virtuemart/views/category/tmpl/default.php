@@ -92,7 +92,7 @@ AdminUIHelper::startAdminArea($this);
 
 			<th style="min-width:80px;width:8%;text-align:center;">
 				<?php echo $this->sort( 'c.ordering' , 'COM_VIRTUEMART_ORDERING') ?>
-				<?php echo JHtml::_('grid.order', $this->categories, 'filesave.png', 'saveOrder' ); ?>
+				<?php echo $this->saveOrder(); ?>
 			</th>
 			<th align="center" >
 				<?php echo $this->sort('c.published' , 'COM_VIRTUEMART_PUBLISHED') ?>
@@ -182,7 +182,7 @@ AdminUIHelper::startAdminArea($this);
 					}
 
 					?>
-					<input class="ordering" type="text" name="order[<?php echo $i?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $cat->ordering; ?>" style="text-align: center" />
+					<input class="ordering" type="text" name="order[<?php echo $cat->virtuemart_category_id?>]" id="order[<?php echo $i?>]" size="5" value="<?php echo $cat->ordering; ?>" style="text-align: center" />
 				</td>
 				<td align="center">
 					<?php echo $published;?>

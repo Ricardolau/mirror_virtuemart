@@ -75,7 +75,7 @@ AdminUIHelper::startAdminArea($this);
 			</th>
 			<th>
 			<?php echo $this->sort('ordering','COM_VIRTUEMART_FIELDMANAGER_REORDER') ?>
-			<?php echo JHtml::_('grid.order',  $this->userfieldsList ); ?>
+			<?php echo $this->saveOrder(); ?>
 			</th>
 			 <th><?php echo $this->sort('virtuemart_userfield_id', 'COM_VIRTUEMART_ID')  ?></th>
 		</tr>
@@ -139,7 +139,7 @@ AdminUIHelper::startAdminArea($this);
 				<td class="order">
 					<span><?php echo $this->pagination->vmOrderUpIcon( $i, $ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')  ); ?></span>
 					<span><?php echo $this->pagination->vmOrderDownIcon( $i, $ordering, $n, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN') ); ?></span>
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="ordering" style="text-align: center" />
+					<input type="text" name="order[<?php echo $row->virtuemart_userfield_id?>]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="ordering" style="text-align: center" />
 			</td>
 			<td width="10">
 					<?php echo $row->virtuemart_userfield_id; ?>

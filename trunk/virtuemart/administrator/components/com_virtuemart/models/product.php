@@ -2394,7 +2394,7 @@ vmSetStartTime('letsUpdateProducts');
 
 //		quorvia if no category could be found do not update anything for sequence
 		if ($virtuemart_category_id) {
-
+			vmdebug('Saveorder',$cid,$order);
 			$updated = 0;
 			$db = JFactory::getDbo();
 			foreach( $order as $prod => $ord ) {

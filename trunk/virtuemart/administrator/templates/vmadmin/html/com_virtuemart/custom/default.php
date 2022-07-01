@@ -73,7 +73,7 @@ $iconRatio=0.75;
 					<th class="uk-text-center@m">
 						<?php
 						echo $this->sort('ordering');
-						echo JHtml::_('grid.order', $customs);
+						echo $this->saveOrder();
 						?>
 					</th>
 					<?php
@@ -221,7 +221,7 @@ $iconRatio=0.75;
 								<span class="vmicon vmicon-16-move"></span>
 								<!--span><?php echo $this->pagination->vmOrderUpIcon($i, $custom->ordering, 'orderUp', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
 						<span><?php echo $this->pagination->vmOrderDownIcon($i, $custom->ordering, $n, true, 'orderDown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span-->
-								<input class="ordering" type="text" name="order[<?php echo $i ?>]"
+								<input class="ordering" type="text" name="order[<?php echo $custom->virtuemart_custom_id ?>]"
 										id="order[<?php echo $i ?>]" size="5" value="<?php echo $custom->ordering; ?>"
 										style="text-align: center"/>
 							</td>

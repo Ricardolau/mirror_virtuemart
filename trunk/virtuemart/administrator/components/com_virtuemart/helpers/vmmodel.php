@@ -6,7 +6,7 @@
  * @package	VirtueMart
  * @subpackage Helpers
  * @author Max Milbers
- * @copyright Copyright (c) 2011 - 2021 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2011 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -1239,7 +1239,7 @@ class VmModel extends vObject{
 	}
 	/**
 	 * Original From Joomla Method to move a weblink
-	 * @ Author Kohl Patrick
+	 * @ Author Kohl Patrick, Max Milbers
 	 * @$filter the field to group by
 	 * @access	public
 	 * @return	boolean	True on success
@@ -1251,15 +1251,14 @@ class VmModel extends vObject{
 		$groupings = array();
 
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ )
-		{
-			$table->load( (int) $cid[$i] );
+		foreach( $order as $id => $ord ) {
+			$table->load( (int) $id );
 			// track categories
 			if ($filter) $groupings[] = $table->{$filter};
 
-			if ($table->ordering != $order[$i])
+			if ($table->ordering != $ord)
 			{
-				$table->ordering = $order[$i];
+				$table->ordering = $ord;
 				if (!$table->store()) {
 					return false;
 				}

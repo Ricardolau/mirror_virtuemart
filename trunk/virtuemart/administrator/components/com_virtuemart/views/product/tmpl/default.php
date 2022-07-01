@@ -97,7 +97,7 @@ if($this->pagination->limit<=$mediaLimit or $totalList<=$mediaLimit){
 		if( $this->showOrdering ) { ?>
 			<th style="min-width:40px;width:6%;max-width:70px;">
 				<?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
-				<?php echo JHtml::_('grid.order', $this->productlist); ?>
+				<?php echo $this->saveOrder(); ?>
 			</th>
 		<?php } ?>
 		<th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S') ; ?></th>

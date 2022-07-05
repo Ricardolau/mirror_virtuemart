@@ -716,7 +716,7 @@ vmdebug('Found cached cat, but without children');
 	 * @param  array $cats categories to order
 	 * @return bool
 	 */
-	public function setOrder($cats, $order){
+	public function saveOrder($cats, $order, $filter = NULL){
 
 		$total		= count( $cats );
 		$groupings	= array();
@@ -728,15 +728,16 @@ vmdebug('Found cached cat, but without children');
 
 		$db = JFactory::getDBO();
 		// update ordering values
-		for( $i=0; $i < $total; $i++ ) {
+		//for( $i=0; $i < $total; $i++ ) {
+		foreach( $order as $id => $ord ) {
 
-			$row->load( $cats[$i] );
-			$db->setQuery( sprintf($query,  (int)$cats[$i] ), 0 ,1 );
+			$row->load( (int)$id );
+			$db->setQuery( sprintf($query,  (int)$id ), 0 ,1 );
 			$parent = $db->loadObject();
 
 			$groupings[] = $parent->category_parent_id;
-			if ($row->ordering != $order[$i]) {
-				$row->ordering = $order[$i];
+			if ($row->ordering != $ord) {
+				$row->ordering = $ord;
 				if (!$row->toggle('ordering',$row->ordering)) {
 					return false;
 				}

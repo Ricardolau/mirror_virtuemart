@@ -108,7 +108,7 @@ interface vIOrderable {
 	function getDefaultOrdering();
 	function _getOrdering($preTable='');
 
-	function saveorder($cid = array(), $order, $filter = null);
+	function saveOrder($cid = array(), $order, $filter = null);
 	function checkFilterOrder($toCheck);
 	function checkFilterDir($toCheck);
 }

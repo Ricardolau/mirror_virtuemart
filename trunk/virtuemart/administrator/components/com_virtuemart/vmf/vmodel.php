@@ -707,7 +707,7 @@ abstract class vModel extends vBasicModel implements vITableable, vIStorable, vI
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function saveorder($cid = array(), $order, $filter = null)
+	public function saveOrder($cid = array(), $order, $filter = null)
 	{
 		$table = $this->getTable($this->_maintablename);
 		$groupings = array();
@@ -723,7 +723,7 @@ abstract class vModel extends vBasicModel implements vITableable, vIStorable, vI
 			{
 				$table->ordering = $order[$i];
 				if (!$table->store()) {
-					vmError('VmModel saveorder '.$table->getDbo()->getErrorMsg());
+					vmError('VmModel saveOrder '.$table->getDbo()->getErrorMsg());
 					return false;
 				}
 			}

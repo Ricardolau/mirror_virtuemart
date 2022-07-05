@@ -331,7 +331,7 @@ class VmController extends JControllerLegacy{
 		$this->setRedirect( $this->redirectPath);
 	}
 
-	function saveorder() {
+	function saveOrder() {
 
 		vRequest::vmCheckToken();
 
@@ -339,7 +339,7 @@ class VmController extends JControllerLegacy{
 		$order 	= vRequest::getInt( 'order', array() );
 
 		$model = $this->getModel($this->_cname);
-		if (!$model->saveorder($cid, $order)) {
+		if (!$model->saveOrder($cid, $order)) {
 			$msg = 'error';
 		} else {
 			if(!VmConfig::isSite() and VmConfig::showDebug()){

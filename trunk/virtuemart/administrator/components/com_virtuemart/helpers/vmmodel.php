@@ -1245,7 +1245,7 @@ class VmModel extends vObject{
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function saveorder($cid, $order, $filter = null)
+	function saveOrder($cid, $order, $filter = null)
 	{
 		$table = $this->getTable($this->_maintablename);
 		$groupings = array();

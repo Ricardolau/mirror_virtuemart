@@ -248,10 +248,10 @@ abstract class vHtmlGrid {
 	 *
 	 * @since   1.5
 	 */
-	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
+	public static function order($rows, $image = 'filesave.png', $task = 'saveOrder')
 	{
-		return '<a href="javascript:saveorder('
-			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+		return '<a href="javascript:saveOrder('
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveOrder btn btn-micro pull-right" title="'
 			. vmText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 

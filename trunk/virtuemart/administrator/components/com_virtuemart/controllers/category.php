@@ -130,21 +130,7 @@ class VirtuemartControllerCategory extends VmController {
 			vmError('JERROR_ALERTNOAUTHOR', 'JERROR_ALERTNOAUTHOR');
 			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart');
 		}
-		
-		// Check for request forgeries
-		vRequest::vmCheckToken();
-
-		$cid	= vRequest::getInt( 'cid', array() );	//is sanitized
-
-		$model = VmModel::getModel('category');
-
-		$order	= vRequest::getInt('order', array() );
-
-		if ($model->setOrder($cid,$order)) {
-			vmInfo('COM_VIRTUEMART_NEW_ORDERING_SAVED');
-		}
-
-		$this->setRedirect('index.php?option=com_virtuemart&view=category');
+		return parent::saveOrder();
 	}
 
 }

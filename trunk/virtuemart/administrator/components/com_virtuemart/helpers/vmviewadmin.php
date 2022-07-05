@@ -521,6 +521,6 @@ class VmViewAdmin extends JViewLegacy {
 	}
 
 	public function saveOrder(){
-		return '<a href="#" onclick="Joomla.submitbutton(\'saveOrder\')" rel="tooltip" class="saveorder btn btn-small pull-right" title="'.vmText::_('JLIB_HTML_SAVE_ORDER').'"><span class="icon-menu-2"></span></a>';
+		return '<a href="#" onclick="Joomla.submitbutton(\'saveOrder\')" rel="tooltip" class="saveOrder btn btn-small pull-right" title="'.vmText::_('JLIB_HTML_SAVE_ORDER').'"><span class="icon-menu-2"></span></a>';
 	}
 }

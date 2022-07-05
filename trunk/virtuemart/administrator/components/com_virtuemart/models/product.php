@@ -2387,7 +2387,7 @@ vmSetStartTime('letsUpdateProducts');
 	 * @throws Exception
 	 * @since version	 */
 //	 quorvia created this function because old save order may have an issue
-	function saveorder ($cid, $order, $filter = NULL) {
+	function saveOrder ($cid, $order, $filter = NULL) {
 		vRequest::vmCheckToken();
 		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
 		if(is_array($virtuemart_category_id)) $virtuemart_category_id = reset($virtuemart_category_id);

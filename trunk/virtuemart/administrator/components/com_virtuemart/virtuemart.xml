@@ -7,7 +7,7 @@
     <authorEmail>max|at|virtuemart.net</authorEmail>
     <authorUrl>${PHING.VM.MAINTAINERURL}</authorUrl>
     <copyright>Copyright (C) 2004-2022 Virtuemart Team. All rights reserved.</copyright>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <version status="${PHING.VM.DEV_STATUS}">${PHING.VM.RELEASE}</version>
     <description></description>
 

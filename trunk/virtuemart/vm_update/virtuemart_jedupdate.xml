@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jedupdate version="1">
+	<core_body>
+	VirtueMart
+	</core_body>
+	
+	<!-- valid links only or leave blank -->
+	<homepage_link>https://virtuemart.net</homepage_link>
+	<download_link>https://virtuemart.net/download</download_link>
+	<demo_link>https://demo.virtuemart.net</demo_link>
+	<documentation_link>https://docs.virtuemart.net</documentation_link>
+	<support_link>https://forum.virtuemart.net</support_link>
+	<license_link>http://www.gnu.org/licenses/gpl-3.0.de.html</license_link>
+	
+	<version>4.0.2</version>
+
+	<compatibility>
+		<version>30</version>
+		<version>40</version>
+	</compatibility>
+</jedupdate>

@@ -9,7 +9,7 @@
 	<copyright>Copyright (C) 2004 - 2022 Virtuemart Team, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL; see LICENSE.txt</license>
 	<version>${PHING.VM.RELEASE}</version>
-	<description>New administration template for VirtueMart for testing and development. Enable the template in the virtuemart config on the first tab, section "Advanced".</description>
+	<description>New administration template for VirtueMart. Enable the template in the virtuemart config on the first tab, section "Advanced".</description>
 
 	<files>
 		<folder>html</folder>

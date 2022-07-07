@@ -52,7 +52,7 @@ class VirtuemartControllerManufacturer extends VmController {
 		/* Load the data */
 		$data = vRequest::getRequest();
 		/* add the mf desc as html code */
-		$this->getStrByAcl(array('mf_desc'),$data);
+		$this->getStrByAcl(array('mf_name','mf_desc','customtitle'),$data);
 
 		parent::save($data);
 	}

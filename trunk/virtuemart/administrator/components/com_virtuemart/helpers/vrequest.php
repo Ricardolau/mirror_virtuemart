@@ -201,22 +201,28 @@ class vRequest {
 	 * @return mixed|null
 	 */
 	public static function get($name, $default = null, $filter = FILTER_UNSAFE_RAW, $flags = FILTER_FLAG_NO_ENCODE,$source = 0){
-		//vmSetStartTime();
-		if(!empty($name)){
 
-			if($source===0){
-				$source = $_REQUEST;
-			} else if($source=='GET'){
-				$source = $_GET;
-				if(JVM_VERSION>2){
-					$router = JFactory::getApplication()->getRouter();
-					$vars = $router->getVars();
+		if(empty($name)){
+			vmTrace('empty name in vRequest::get');
+			return $default;
+		} else {
+
+			if($source!==0 and $source=='POST'){
+				$source = $_POST;
+			} else {
+				$router = JFactory::getApplication()->getRouter();
+				$vars = $router->getVars();
+				if($source===0){
+					$source = $_REQUEST;
+					if(!empty($vars)){
+						$source = array_merge($_REQUEST,$vars);
+					}
+				} else if($source=='GET'){
+					$source = $_GET;
 					if(!empty($vars)){
 						$source = array_merge($_GET,$vars);
 					}
 				}
-			} else if($source=='POST'){
-				$source = $_POST;
 			}
 
 			if(isset($source[$name])){
@@ -224,11 +230,8 @@ class vRequest {
 			} else {
 				return $default;
 			}
-
-		} else {
-			vmTrace('empty name in vRequest::get');
-			return $default;
 		}
+
 
 	}
 

@@ -1147,7 +1147,7 @@ class VirtueMartModelOrders extends VmModel {
 		$data = $this->getTable('orders');
 		$data->load($virtuemart_order_id);
 
-		if(empty($data->created_by)){
+		if(empty($data->created_on)){
 			vmError('updateStatusForOneOrder unknown virtuemart_order_id', 'updateStatusForOneOrder unknown orderId');
 			vmTrace('updateStatusForOneOrder unknown virtuemart_order_id');
 			return false;

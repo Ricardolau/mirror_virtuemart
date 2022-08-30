@@ -384,7 +384,7 @@ class VmPagination extends vObject {
 		else
 		{
 			$html .= "\n" . vmText::_('JLIB_HTML_NO_RECORDS_FOUND');
-			vmTrace('getResultsCounter JLIB_HTML_NO_RECORDS_FOUND');
+			vmTrace('getResultsCounter JLIB_HTML_NO_RECORDS_FOUND', FALSE, 5);
 		}
 
 		return $html;

@@ -311,7 +311,7 @@ class VirtueMartCart {
 			}
 			$loadBT = true;
 			$countBT = count($this->BT) - count($this->cartfields);
-			vmdebug('my setupAddressFieldsForCart $countBT $this->byDefaultBT',(int)$countBT, (int) count($this->byDefaultBT));
+			//vmdebug('my setupAddressFieldsForCart $countBT $this->byDefaultBT',(int)$countBT, (int) count($this->byDefaultBT));
 			//Check if the address is already loaded
 			if( $countBT > count($this->byDefaultBT) ){
 				$loadBT = false;
@@ -748,10 +748,10 @@ class VirtueMartCart {
 					'path'=> $path
 				);
 				@setcookie('myCart', $contEncode, $arr_cookie_options);
-				vmdebug('<span style="background-color: red;">storeCart by Cookie</span>',time(),$arr_cookie_options);
+				//vmdebug('<span style="background-color: red;">storeCart by Cookie</span>',time(),$arr_cookie_options);
 			} else {
 				@setcookie('myCart', $contEncode, $timeout, $path, $domain, 1, 1);
-				vmdebug('<span style="background-color: red;">storeCart by Cookie</span>');
+				//vmdebug('<span style="background-color: red;">storeCart by Cookie</span>');
 			}
 
 		}

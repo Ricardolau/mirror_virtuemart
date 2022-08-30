@@ -5,7 +5,7 @@
 *
 * @package	VirtueMart
 * @subpackage User
-* @author Oscar van Eijk
+* @author alatak, Max Milbers
 * @link https://virtuemart.net
 * @copyright Copyright (c) 2004 - Copyright (C) 2004 - 2022 Virtuemart Team. All rights reserved. VirtueMart Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

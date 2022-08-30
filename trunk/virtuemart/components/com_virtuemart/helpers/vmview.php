@@ -38,7 +38,19 @@ class VmView extends JViewLegacy{
 		if(!isset(VmView::$bs)){
 			VmView::$bs = VmConfig::get('bootstrap','');
 			VmView::$override = VmConfig::get('useLayoutOverrides',1);
-			vmdebug('VmView loaded with override and bootstrap version',(int) VmView::$override, VmView::$bs);
+			if(VmConfig::$_debug){
+				$msg = '';
+				if(!empty(VmView::$override)){
+					$msg = 'VmView loaded with override';
+				}
+				if(!empty(VmView::$bs)){
+					$msg .= ' bootstrap version '. VmView::$bs;
+				}
+				if(!empty($msg)){
+					vmdebug($msg);
+				}
+			}
+
 		}
 		parent::__construct($config);
 	}
@@ -144,7 +156,18 @@ class VmView extends JViewLegacy{
 			if(!isset(VmView::$bs)){
 				VmView::$bs = VmConfig::get('bootstrap','');
 				VmView::$override = VmConfig::get('useLayoutOverrides',1);
-				vmdebug('VmView loaded with override and bootstrap version',(int) VmView::$override, VmView::$bs);
+				if(VmConfig::$_debug){
+					$msg = '';
+					if(!empty(VmView::$override)){
+						$msg = 'VmView loaded with override';
+					}
+					if(!empty(VmView::$bs)){
+						$msg .= ' bootstrap version '. VmView::$bs;
+					}
+					if(!empty($msg)){
+						vmdebug($msg);
+					}
+				}
 			}
 
 			if(VmView::$bs!=='') {

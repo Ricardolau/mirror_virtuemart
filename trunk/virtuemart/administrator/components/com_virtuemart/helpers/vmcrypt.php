@@ -204,7 +204,7 @@ class vmCrypt {
 				$usedKey['b64'] = 0;
 				vmCrypt::$existingKeys[$uDate] = $usedKey;
 				//vmCrypt::$existingKeys[$uDate]['b64'] = 0;
-				vmdebug('Doing base64_decode '.$usedKey['key']. ' '.$key);
+				//vmdebug('Doing base64_decode '.$usedKey['key']. ' '.$key);
 			} /*else {
 				$key = $usedKey['key'];
 			}*/

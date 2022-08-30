@@ -1457,7 +1457,7 @@ class VmMediaHandler {
 	 * @author Max Milbers
 	 */
 	public function displayHidden(){
-		vmdebug('displayHidden',$this->_hidden);
+		//vmdebug('displayHidden',$this->_hidden);
 		$html='';
 		foreach($this->_hidden as $k=>$v){
 			$html .= '<input type="hidden" name="'.$k.'" value="'.$v.'" />';

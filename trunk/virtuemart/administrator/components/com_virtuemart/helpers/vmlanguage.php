@@ -56,7 +56,7 @@ class vmLanguage {
 		vmdebug('vmLanguage initialise '.self::$jSelLangTag);
 		$siteLang = self::$currLangTag = self::$jSelLangTag;
 		if( !VmConfig::isSite()){
-			$siteLang = vRequest::getString('vmlang',$siteLang );
+			$siteLang = vRequest::getString('vmlang',$siteLang, $_REQUEST );	//0 overwritten on purpose with $_REQUEST
 			if (!$siteLang) {
 				$siteLang = self::$jSelLangTag;
 			}
@@ -64,6 +64,10 @@ class vmLanguage {
 
 		self::setLanguageByTag($siteLang);
 
+	}
+
+	static public function getShopDefaultSiteLangTagByJoomla(){
+		return self::getShopDefaultOrSiteLangTagByJoomla();
 	}
 
 	static public function getShopDefaultOrSiteLangTagByJoomla(){

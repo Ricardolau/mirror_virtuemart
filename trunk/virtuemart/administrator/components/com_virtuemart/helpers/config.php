@@ -419,8 +419,13 @@ class VmConfig {
 		$db = JFactory::getDbo();
 
 		self::$installed = true;
-		$install = vRequest::getInt('install',false);
-		$redirected = vRequest::getInt('redirected',false);
+		if(!VmConfig::isSiteByApp()){
+			$install = vRequest::getInt('install',false);
+			$redirected = vRequest::getInt('redirected',false);
+		} else {
+			$install = $redirected = false;
+		}
+
 		$link='';
 		$msg = '';
 
@@ -679,7 +684,7 @@ class VmConfig {
 
 		if(self::$isSite===null){
 			$sess = JFactory::getSession();
-			$manage = vRequest::getInt('manage',$sess->get('manage', false,'vm'));
+			$manage = vRequest::getInt('manage',$sess->get('manage', false,'vm'),$_REQUEST);
 			if(!self::isSiteByApp() or ($manage and vmAccess::manager('manage'))){
 				self::$isSite = false;
 			} else {

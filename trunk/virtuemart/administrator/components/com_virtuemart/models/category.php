@@ -78,21 +78,21 @@ class VirtueMartModelCategory extends VmModel {
 		$childs = (int)$childs;
 		//vmdebug('getCategory '.$this->_id.' '.$childs);
 		if (isset($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag])) {
-			vmdebug('Found cached cat');
+			//vmdebug('Found cached cat '.$this->_id);
 			return clone($this->_cache[$this->_id][$childs][VmLanguage::$currLangTag]);
 		} else {
 
 			if($childs and !empty($this->_cache[$this->_id][0][VmLanguage::$currLangTag])){
 				$this->_cache[$this->_id][1][VmLanguage::$currLangTag] = clone($this->_cache[$this->_id][0][VmLanguage::$currLangTag]);
-vmdebug('Found cached cat, but without children');
+				//vmdebug('Found cached cat, but without children');
 			} else if(!$childs and !empty($this->_cache[$this->_id][1][VmLanguage::$currLangTag])){
 				$t = clone($this->_cache[$this->_id][1][VmLanguage::$currLangTag]);
 				$t->children = false;
 				$t->haschildren = null;
 				$t->productcount = false;
-				$t->parents = false;
+				//$t->parents = false;
 				$this->_cache[$this->_id][0][VmLanguage::$currLangTag] = $t;
-				vmdebug('Use already loaded category with children');
+				//vmdebug('Use already loaded category with children '.$this->_id);
 				return $t;
 
 			} else {
@@ -247,7 +247,7 @@ vmdebug('Found cached cat, but without children');
 			return self::$cats[$h];
 		}
 		else {
-			vmdebug('getChildCategoryListObject did not find, cached'.$h);
+			//vmdebug('getChildCategoryListObject did not find, cached '.$h);
 			if($media) {
 
 				$hMedia = $hP . 0;

@@ -58,7 +58,7 @@ class vmDefines {
 		defined ('VMPATH_ADMINISTRATOR') or define ('VMPATH_ADMINISTRATOR',	VMPATH_ROOT .'/administrator');
 		defined ('VMPATH_ADMIN') or define ('VMPATH_ADMIN', VMPATH_ADMINISTRATOR .'/components/com_virtuemart' );
 
-		defined('VM_VERSION') or define ('VM_VERSION', 3);
+		defined('VM_VERSION') or define ('VM_VERSION', 4);
 
 		if($appId===0){
 			if(defined('JVERSION')){

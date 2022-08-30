@@ -54,6 +54,7 @@ class TableInvoices extends VmTable {
 
 		$this->setUniqueName('invoice_number');
 		$this->setLoggable();
+		$this->setLockable();
 		//$this->setHashable('inv_hash');
 		$this->setTableShortCut('inv');
 	}

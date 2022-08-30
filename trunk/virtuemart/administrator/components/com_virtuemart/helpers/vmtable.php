@@ -467,11 +467,11 @@ class VmTable extends vObject implements \JTableInterface {
 					$date = new JDate($this->{$f});
 					$this->{$f} = $date->toSQL();
 				} else {
-					if(JVM_VERSION<4){
+					/*if(JVM_VERSION<4){
 						$this->{$f} = self::$nullDate;	//Works maybe also in j4
-					} else {
+					} else {*/
 						$this->{$f} = null;
-					}
+					//}
 				}
 			}
 		}
@@ -936,7 +936,7 @@ class VmTable extends vObject implements \JTableInterface {
 
 			if (isset($this->locked_on)) {
 				//Check if user is allowed to store, then disable or prevent storing
-				$this->locked_on = 0;
+				$this->locked_on = null;
 			}
 		}
 	}

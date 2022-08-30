@@ -43,7 +43,7 @@ class TableConfigs extends VmTable {
 		parent::__construct('#__virtuemart_configs', 'virtuemart_config_id', $db);
 
 		$this->setLoggable();
-
+		$this->setLockable();
 	}
 
 }

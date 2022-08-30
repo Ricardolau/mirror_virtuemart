@@ -51,7 +51,7 @@ class TableUserfield_values extends VmTable {
 	{
 		parent::__construct('#__virtuemart_userfield_values', 'virtuemart_userfield_value_id', $db);
 		$this->setPrimaryKey('virtuemart_userfield_id');
-
+		$this->setLoggable();
 	}
 
 	/**

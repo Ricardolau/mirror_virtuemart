@@ -94,6 +94,8 @@ class TableCustoms extends VmTable {
 		$this->setObligatoryKeys('field_type');
 
 		$this->setLoggable();
+		$this->setLockable();
+
 		$this->setOrderable('ordering',false);
 		$this->setParameterable('custom_params',array());
 	}

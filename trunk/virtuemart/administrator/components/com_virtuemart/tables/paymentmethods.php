@@ -69,6 +69,7 @@ class TablePaymentmethods extends VmTable {
 	$this->setObligatoryKeys('payment_jplugin_id');
 	$this->setObligatoryKeys('payment_name');
 	$this->setLoggable();
+	$this->setLockable();
 	$this->setTranslatable(array('payment_name', 'payment_desc'));
 	$this->setSlug('payment_name');
 	$this->setTableShortCut('paym');

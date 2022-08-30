@@ -44,6 +44,7 @@ class TableUserfields extends VmTable {
 		$this->setObligatoryKeys('title');
 
 		$this->setLoggable();
+		$this->setLockable();
 
 		$this->setOrderable('ordering',false);
 		$this->_xParams = 'userfield_params';

@@ -59,7 +59,7 @@ class TableCurrencies extends VmTable {
 		$this->setUniqueName('currency_name');
 
 		$this->setLoggable();
-
+		$this->setLockable();
 		$this->setOrderable();
 	}
 

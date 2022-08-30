@@ -70,7 +70,7 @@ class TableUserinfos extends VmTable {
 		$this->setObligatoryKeys('virtuemart_user_id');
 
 		$this->setLoggable();
-
+		$this->setLockable();
 		$this->setTableShortCut('ui');
 
 	}

@@ -144,8 +144,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_userinfos` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_order_userinfo_id`),
   KEY `virtuemart_order_id` (`virtuemart_order_id`),
   KEY `virtuemart_user_id` (`virtuemart_user_id`,`address_type`),

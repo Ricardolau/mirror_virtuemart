@@ -88,6 +88,7 @@ class TableCategories extends VmTable {
 // 		$this->setPrimaryKey('virtuemart_category_id');
 		$this->setObligatoryKeys('category_name');
 		$this->setLoggable();
+		$this->setLockable();
 		$this->setTranslatable(array('category_name','category_description','metadesc','metakey','customtitle'));
 
 		$varsToPushParam = array(

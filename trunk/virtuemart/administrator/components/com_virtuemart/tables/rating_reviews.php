@@ -60,6 +60,7 @@ class TableRating_reviews extends VmTable {
 		$this->setObligatoryKeys('comment');
 
 		$this->setLoggable();
+		$this->setLockable();
 	}
 
 	function check(){

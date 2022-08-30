@@ -33,6 +33,7 @@ class TableVmusers extends VmTable {
 		parent::__construct('#__virtuemart_vmusers', 'virtuemart_user_id', $db);
 
 		$this->setLoggable();
+		$this->setLockable();
 
 		$this->setTableShortCut('vmu');
 		$this->_genericVendorId = false;

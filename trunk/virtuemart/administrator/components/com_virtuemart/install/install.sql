@@ -136,6 +136,21 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_calc_states` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
 
+
+CREATE TABLE IF NOT EXISTS `#__virtuemart_carts` (
+  `virtuemart_cart_id` INT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `virtuemart_user_id` INT(1) UNSIGNED NOT NULL,
+  `virtuemart_vendor_id` INT(1) UNSIGNED NOT NULL,
+  `cartData` VARBINARY(50000),
+  `created_on` datetime,
+  `created_by` int(1) NOT NULL DEFAULT '0',
+  `modified_on` datetime,
+  `modified_by` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`virtuemart_cart_id`),
+  KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
+  KEY `virtuemart_user_id` (`virtuemart_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Used to store the cart';
+
 -- --------------------------------------------------------
 
 --
@@ -275,20 +290,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_coupons` (
    KEY `coupon_type` (`coupon_type`),
    KEY `published` (`published`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Used to store coupon codes' ;
-
-CREATE TABLE IF NOT EXISTS `#__virtuemart_carts` (
-  `virtuemart_cart_id` INT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `virtuemart_user_id` INT(1) UNSIGNED NOT NULL,
-  `virtuemart_vendor_id` INT(1) UNSIGNED NOT NULL,
-  `cartData` VARBINARY(50000),
-  `created_on` datetime,
-  `created_by` int(1) NOT NULL DEFAULT '0',
-  `modified_on` datetime,
-  `modified_by` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`virtuemart_cart_id`),
-  KEY `virtuemart_vendor_id` (`virtuemart_vendor_id`),
-  KEY `virtuemart_user_id` (`virtuemart_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 COMMENT='Used to store the cart';
 
 -- --------------------------------------------------------
 --
@@ -619,8 +620,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_histories` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_order_history_id`),
   KEY `virtuemart_order_id` (`virtuemart_order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='Stores all actions and changes that occur to an order' AUTO_INCREMENT=1 ;
@@ -657,8 +656,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_items` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_order_item_id`),
   KEY `virtuemart_product_id` (`virtuemart_product_id`),
   KEY `virtuemart_order_id` (`virtuemart_order_id`),
@@ -694,8 +691,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_item_histories` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_order_item_history_id`),
   KEY `virtuemart_order_id` (`virtuemart_order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='Stores all actions and changes that occur to an order item only' AUTO_INCREMENT=1 ;
@@ -724,8 +719,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_order_calc_rules` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_order_calc_rule_id`),
   KEY `virtuemart_calc_id` (`virtuemart_calc_id`),
   KEY `virtuemart_order_id` (`virtuemart_order_id`),
@@ -993,8 +986,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_product_prices` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_product_price_id`),
   KEY `virtuemart_product_id` (`virtuemart_product_id`),
   KEY `product_price` (`product_price`),
@@ -1258,8 +1249,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_userfield_values` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_userfield_value_id`),
   KEY `virtuemart_userfield_id` (`virtuemart_userfield_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COMMENT='Holds the different values for dropdown and radio lists' AUTO_INCREMENT=1 ;
@@ -1373,8 +1362,6 @@ CREATE TABLE IF NOT EXISTS `#__virtuemart_waitingusers` (
   `created_by` int(1) NOT NULL DEFAULT '0',
   `modified_on` datetime,
   `modified_by` int(1) NOT NULL DEFAULT '0',
-  `locked_on` datetime,
-  `locked_by` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`virtuemart_waitinguser_id`),
   KEY `virtuemart_product_id` (`virtuemart_product_id`),
   KEY `notify_email` (`notify_email`)

@@ -60,7 +60,7 @@ class TableWorldzones extends VmTable {
 		$this->setUniqueName('zone_name');
 
 		$this->setLoggable();
-
+		$this->setLockable();
 	}
 
 

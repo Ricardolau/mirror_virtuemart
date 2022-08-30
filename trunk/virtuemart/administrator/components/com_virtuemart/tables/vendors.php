@@ -55,6 +55,8 @@ class TableVendors extends VmTable {
 		$this->setUniqueName('vendor_name');
 		$this->setSlug('vendor_store_name'); //Attention the slug autoname MUST be also in the translatable, if existing
 		$this->setLoggable();
+	    $this->setLockable();
+
 		$this->setTranslatable(array(
 			'vendor_store_name',
 			'vendor_phone',

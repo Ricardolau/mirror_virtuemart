@@ -66,6 +66,7 @@ class TableOrderstates extends VmTable {
 		$this->setObligatoryKeys('order_status_name');
 		$this->setObligatoryKeys('order_stock_handle');
 		$this->setLoggable();
+		$this->setLockable();
 	}
 
 	/**

@@ -57,6 +57,7 @@ class TableCountries extends VmTable {
 		$this->setObligatoryKeys('country_3_code');
 
 		$this->setLoggable();
+		$this->setLockable();
 		$this->setOrderable('ordering',false);
 	}
 

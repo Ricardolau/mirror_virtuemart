@@ -58,6 +58,7 @@ class TableStates extends VmTable {
 		$this->setObligatoryKeys('state_3_code');
 
 		$this->setLoggable();
+		$this->setLockable();
 	}
 
 }

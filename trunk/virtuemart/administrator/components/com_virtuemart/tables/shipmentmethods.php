@@ -68,6 +68,7 @@ class TableShipmentmethods extends VmTable {
 		$this->setObligatoryKeys('shipment_jplugin_id');
 		$this->setObligatoryKeys('shipment_name');
 		$this->setLoggable();
+	    $this->setLockable();
 		$this->setTranslatable(array('shipment_name', 'shipment_desc'));
 		$this->setSlug('shipment_name');
 		$this->setTableShortCut('shipm');

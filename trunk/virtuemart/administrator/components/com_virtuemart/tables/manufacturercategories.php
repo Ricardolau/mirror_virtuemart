@@ -48,6 +48,8 @@ class TableManufacturercategories extends VmTable {
 		$this->setUniqueName('mf_category_name');
 
 		$this->setLoggable();
+		$this->setLockable();
+
 		$this->setTranslatable(array('mf_category_name','mf_category_desc'));
 		$this->setSlug('mf_category_name');
 	}

@@ -113,6 +113,7 @@ class TableOrders extends VmTable {
 
 		$this->setUniqueName('order_number');
 		$this->setLoggable();
+		$this->setLockable();
 		$this->setHashable('o_hash');
 
 		$this->setOmittedHashFields(array('order_note','order_pass','order_create_invoice_pass','ip_address','order_status','paid','paid_on','invoice_locked','modified_on','modified_by','locked_on','locked_by'));

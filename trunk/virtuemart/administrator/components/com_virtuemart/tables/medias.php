@@ -72,7 +72,7 @@ class TableMedias extends VmTable {
 //		$this->setUniqueName('file_title');
 
 		$this->setLoggable ();
-
+		$this->setLockable();
 	}
 
 	function check () {

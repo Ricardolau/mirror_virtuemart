@@ -38,6 +38,7 @@ class TableShoppergroups extends VmTable
 		$this->setUniqueName('shopper_group_name');
 
 		$this->setLoggable();
+		$this->setLockable();
 		$this->setTableShortCut('sg');
 
 		$varsToPushParam = array('show_prices' => array(0,'int'));

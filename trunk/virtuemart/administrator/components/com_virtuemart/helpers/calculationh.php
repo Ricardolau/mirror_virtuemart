@@ -310,7 +310,7 @@ class calculationHelper {
 
 		$this->_cats = isset($product->categories)? $product->categories: array();
 		$this->_product = $product;
-		$this->_product->amount = $amount;	//temporary quantity
+		$this->_product->amount = floatval($amount);	//temporary quantity
 		//$this->productPrices = array();
 		if(!isset($this->_product->quantity)) $this->_product->quantity = 1;
 
@@ -361,6 +361,7 @@ class calculationHelper {
 			$amount=$product->step_order_level;
 		}
 
+		$amount = floatval($amount);
 		$this->_amount = $amount;
 
 		//We already have the productobject, no need for extra sql
@@ -531,7 +532,7 @@ class calculationHelper {
 		$tots = array('salesPrice', 'discountedPriceWithoutTax', 'priceWithoutTax', 'discountAmount', 'taxAmount');
 		foreach($tots as $name){
 			if(isset($this->productPrices[$name])){
-				$this->productPrices[$name.'Tt'] = $this->productPrices[$name] * $amount;
+				$this->productPrices[$name.'Tt'] = floatval($this->productPrices[$name]) * $amount;
 			} else {
 				$this->productPrices[$name.'Tt'] = 0.0;
 			}

@@ -465,7 +465,7 @@ class VirtueMartModelProduct extends VmModel {
 			if ((!empty($adjustedKeyword) && ($adjustedKeyword !== $keyword))) {
 				$keyword = $adjustedKeyword;
 			}
-			vmdebug('Current search field',$newSearchfields,$this->valid_search_fields);
+			//vmdebug('Current search field',$newSearchfields,$this->valid_search_fields);
 			foreach ($newSearchfields as $searchField) {
 				$prodLangFB = false;
 				if ($searchField == 'category_name' || $searchField == 'category_description') {
@@ -1460,7 +1460,10 @@ class VirtueMartModelProduct extends VmModel {
 
 		$q = 'SELECT * FROM `#__virtuemart_product_prices` WHERE `virtuemart_product_id` = "'.$productId.'" ';
 
+		static $loadedProductPrices = array();
+
 		if($front){
+			$hash = $productId.','.implode('.',$virtuemart_shoppergroup_ids).','.(int)$front;
 			if($virtuemart_shoppergroup_ids and count($virtuemart_shoppergroup_ids)>0){
 				$q .= ' AND (';
 				$sqrpss = '';
@@ -1469,16 +1472,19 @@ class VirtueMartModelProduct extends VmModel {
 				}
 
 				$q .= $sqrpss.' `virtuemart_shoppergroup_id` IS NULL OR `virtuemart_shoppergroup_id`="0") ';
+
 			}
 			$q .= ' AND ( (`product_price_publish_up` IS NULL OR `product_price_publish_up` = "' . $db->escape($this->_nullDate) . '" OR `product_price_publish_up` <= "' .$db->escape($this->_now) . '" )
 		        AND (`product_price_publish_down` IS NULL OR `product_price_publish_down` = "' .$db->escape($this->_nullDate) . '" OR product_price_publish_down >= "' . $db->escape($this->_now) . '" ) )';
+		} else {
+			$hash = $productId.','.(int)$front;
 		}
 
 		$q .= ' ORDER BY `product_price` '.VmConfig::get('price_orderby','DESC');
 
-		static $loadedProductPrices = array();
-		$hash = $productId.','.implode('.',$virtuemart_shoppergroup_ids).','.(int)$front; //md5($q);
 
+		//$hash = $productId.','.implode('.',$virtuemart_shoppergroup_ids).','.(int)$front;
+		//vmdebug('my price hash '.$productId, $hash);
 		if(!isset($loadedProductPrices[$hash])){
 			$err = ''; 
 			try {
@@ -1508,7 +1514,12 @@ class VirtueMartModelProduct extends VmModel {
 
 		if(!$optimised or !isset($product->has_prices) or $product->has_prices){
 			$product->allPrices = $this->loadProductPrices($productId,$virtuemart_shoppergroup_ids,$front);
-			$product->has_prices = 0;
+			if(empty($product->allPrices)){
+				$product->has_prices = 0;
+			} else {
+				$product->has_prices = 1;
+			}
+
 		} else {
 			//$product->has_prices = 0;
 			$product->allPrices = false;
@@ -1711,26 +1722,112 @@ class VirtueMartModelProduct extends VmModel {
 			$optimised = VmConfig::get('optimisedProductSql', true);
 			$product->allIds = array();
 
-			$storeHasMedias = false;
+
+			//We prestore the result, so we can directly load the product parent id by cache
+			self::$_productsSingle[$productKey] = $product;
+
 			$product->virtuemart_media_id = false;
-			if(!$optimised or !isset($product->has_medias) or $product->has_medias){
-				$xrefTable = $this->getTable ('product_medias');
-				$product->virtuemart_media_id = $xrefTable->load ((int)$this->_id);
-				//vmdebug('getProductSingle loaded media',$product->has_medias);
-				if(!isset($product->has_medias)){
-					$storeHasMedias = (int)!empty($product->virtuemart_media_id );
+
+			if($optimised){
+
+				$storeHasMedias = false;
+				if(!isset($product->has_medias) or $product->has_medias){
+					$xrefTable = $this->getTable ('product_medias');
+					$product->virtuemart_media_id = $xrefTable->load ((int)$this->_id);
+					//vmdebug('getProductSingle loaded media',$product->has_medias);
+					if(!isset($product->has_medias)){
+						$storeHasMedias = true;
+						$product->has_medias = (int)!empty($product->virtuemart_media_id );
+					}
 				}
+
+				// Load the shoppers the product is available to for Custom Shopper Visibility
+				$storeHasShoppergroups = false;
+				if(!isset($product->has_shoppergroups) or $product->has_shoppergroups){
+					$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
+					//vmdebug('getProductSingle loaded product_shoppergroups', $storeHasShoppergroups);
+					if(!isset($product->has_shoppergroups)){
+						$storeHasShoppergroups = true;
+						$product->has_shoppergroups = (int)!empty($product->shoppergroups );
+					}
+				}
+
+				$storeHasPrices = false;
+				if($prices) {
+					if(!isset($product->has_prices) or $product->has_prices){
+						if(!isset($product->has_prices)){
+							$storeHasPrices = true;
+						}
+						$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent,$optimised);
+					}
+				}
+
+				$storeHasManufacturers = false;
+				if(!isset($product->has_manufacturers) or $product->has_manufacturers){
+					$product->virtuemart_manufacturer_id = $this->getTable('product_manufacturers')->load($this->_id);
+					//vmdebug('getProductSingle loaded product_manufacturers',$product->has_manufacturers);
+					if(!isset($product->has_manufacturers)){
+						$storeHasManufacturers = true;
+						$product->has_manufacturers = (int)!empty($product->virtuemart_manufacturer_id );
+					}
+				}
+
+				// Load the categories the product is in
+				$storeHasCategories = false;
+				if(!isset($product->has_categories) or $product->has_categories){
+					$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
+					//vmdebug('getProductSingle loaded categories',$product->categoryItem);
+					if(!isset($product->has_categories)){
+						$storeHasCategories = true;
+						$product->has_categories = (int)!empty($product->categoryItem );
+					}
+				}
+
+				if( ($storeHasMedias!==false or $storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasPrices!==false)){
+
+
+					$q = '';
+					if($storeHasPrices!==false){
+						$q .= ' `has_prices`='.(int)$storeHasPrices.',';
+					}
+					if($storeHasMedias!==false){
+						$q .= ' `has_medias`='.(int)$storeHasMedias.',';
+					}
+					if($storeHasShoppergroups!==false){
+						$q .= ' `has_shoppergroups`='.(int)$storeHasShoppergroups.',';
+					}
+					if($storeHasManufacturers!==false){
+						$q .= ' `has_manufacturers`='.(int)$storeHasManufacturers.',';
+					}
+					if($storeHasCategories!==false){
+						$q .= ' `has_categories`='.(int)$storeHasCategories.',';
+					}
+					//vmdebug('Update? product store HasXref '.$product->virtuemart_product_id,$q);
+					if(!empty($q)){
+
+						$q = rtrim($q,',');
+						vmSetStartTime('letsUpdateProducts');
+						$db = JFactory::getDbo();
+						$q = 'UPDATE #__virtuemart_products SET '.$q.' WHERE `virtuemart_product_id`='.$product->virtuemart_product_id.';';
+						$db->setQuery($q);
+						$res = $db->execute();vmdebug('Updated product store HasXref '.$product->virtuemart_product_id,$q);
+						if(!$res){
+							vmError('Could not update Product', 'Could not update Product with id '.$product->virtuemart_product_id.' still existing?');
+						}
+						vmTime('Updated product xref '.$product->virtuemart_product_id,'letsUpdateProducts');
+					}
+
+				}
+
+			} else {
+				$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
+				$product->virtuemart_media_id = $this->getTable ('product_medias')->load ((int)$this->_id);
+				$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent,$optimised);
+				$product->virtuemart_manufacturer_id = $this->getTable('product_manufacturers')->load($this->_id);
+				$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
+
 			}
 
-			// Load the shoppers the product is available to for Custom Shopper Visibility
-			$storeHasShoppergroups = false;
-			if(!$optimised or !isset($product->has_shoppergroups) or $product->has_shoppergroups){
-				$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
-				//vmdebug('getProductSingle loaded product_shoppergroups', $storeHasShoppergroups);
-				if(!isset($product->has_shoppergroups)){
-					$storeHasShoppergroups = (int)!empty($product->shoppergroups );
-				}
-			}
 
 			if (!empty($product->shoppergroups) and $front) {
 				$commonShpgrps = array_intersect ($virtuemart_shoppergroup_ids, $product->shoppergroups);
@@ -1739,26 +1836,6 @@ class VirtueMartModelProduct extends VmModel {
 					$pr->slug = $product->slug;
 					$pr->access = false;
 					return $pr;
-				}
-			}
-
-			//We prestore the result, so we can directly load the product parent id by cache
-			self::$_productsSingle[$productKey] = $product;
-
-			$storeHasPrices = false;
-			if($prices) {
-				if(!isset($product->has_prices)){
-					$storeHasPrices = 1;
-				}
-				$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent,$optimised);
-			}
-
-			$storeHasManufacturers = false;
-			if(!$optimised or !isset($product->has_manufacturers) or $product->has_manufacturers){
-				$product->virtuemart_manufacturer_id = $this->getTable('product_manufacturers')->load($this->_id);
-				//vmdebug('getProductSingle loaded product_manufacturers',$product->has_manufacturers);
-				if(!isset($product->has_manufacturers)){
-					$storeHasManufacturers = (int)!empty($product->virtuemart_manufacturer_id );
 				}
 			}
 
@@ -1775,53 +1852,11 @@ class VirtueMartModelProduct extends VmModel {
 				$product->mf_url = '';
 			}
 
-			// Load the categories the product is in
-			$storeHasCategories = false;
-			if(!$optimised or !isset($product->has_categories) or $product->has_categories){
-				$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
-				//vmdebug('getProductSingle loaded categories',$product->categoryItem);
-				if(!isset($product->has_categories)){
-					$storeHasCategories = (int)!empty($product->categoryItem );
-				}
-			}
 
 
 
-			if($optimised and ($storeHasMedias!==false or $storeHasShoppergroups!==false or $storeHasManufacturers!==false or $storeHasCategories!==false or $storeHasPrices!==false)){
 
 
-				$q = '';
-				if($storeHasPrices!==false){
-					$q .= ' `has_prices`='.(int)$storeHasPrices.',';
-				}
-				if($storeHasMedias!==false){
-					$q .= ' `has_medias`='.$storeHasMedias.',';
-				}
-				if($storeHasShoppergroups!==false){
-					$q .= ' `has_shoppergroups`='.$storeHasShoppergroups.',';
-				}
-				if($storeHasManufacturers!==false){
-					$q .= ' `has_manufacturers`='.$storeHasManufacturers.',';
-				}
-				if($storeHasCategories!==false){
-					$q .= ' `has_categories`='.$storeHasCategories.',';
-				}
-				//vmdebug('Update? product store HasXref '.$product->virtuemart_product_id,$q);
-				if(!empty($q)){
-
-					$q = rtrim($q,',');
-vmSetStartTime('letsUpdateProducts');
-					$db = JFactory::getDbo();
-					$q = 'UPDATE #__virtuemart_products SET '.$q.' WHERE `virtuemart_product_id`='.$product->virtuemart_product_id.';';
-					$db->setQuery($q);
-					$res = $db->execute();vmdebug('Updated product store HasXref '.$product->virtuemart_product_id,$q);
-					if(!$res){
-						vmError('Could not update Product', 'Could not update Product with id '.$product->virtuemart_product_id.' still existing?');
-					}
-					vmTime('Updated product xref '.$product->virtuemart_product_id,'letsUpdateProducts');
-				}
-
-			}
 
 			$product->canonCatId = false;
 			$product->canonCatIdname = '';

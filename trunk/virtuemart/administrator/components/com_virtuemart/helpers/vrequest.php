@@ -116,8 +116,8 @@ class vRequest {
 	 * - Strips all characters <32 and over 127
 	 * - Strips all html.
 	 */
-	public static function getCmd($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH);
+	public static function getCmd($name, $default = '', $source = 0){
+		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH, $source);
 	}
 
 	/**
@@ -189,6 +189,11 @@ class vRequest {
 		return self::filter($url,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 	}
 
+	public static $request = null;
+	public static $get = null;
+	public static $filteredVars = array();
+	public static $varRouter = null;
+
 	/**
 	 * Main filter function, called by the others with set Parameters
 	 * The standard filter is non restrictiv.
@@ -200,38 +205,132 @@ class vRequest {
 	 * @param int $flags
 	 * @return mixed|null
 	 */
-	public static function get($name, $default = null, $filter = FILTER_UNSAFE_RAW, $flags = FILTER_FLAG_NO_ENCODE,$source = 0){
+	public static function get($name, $default = false, $filter = FILTER_UNSAFE_RAW, $flags = FILTER_FLAG_NO_ENCODE, $source = 0){
+		vmSetStartTime('getfilter');
 
 		if(empty($name)){
-			vmTrace('empty name in vRequest::get');
+			vmTrace('empty name in vRequest::get', FALSE, 5);
 			return $default;
 		} else {
 
-			if($source!==0 and $source=='POST'){
-				$source = $_POST;
-			} else {
-				$router = JFactory::getApplication()->getRouter();
-				$vars = $router->getVars();
-				if($source===0){
-					$source = $_REQUEST;
-					if(!empty($vars)){
-						$source = array_merge($_REQUEST,$vars);
+			if($source!==0 and is_array($source)){
+				$sourceVar = $source;
+				if(isset($sourceVar[$name])) {
+					$v = $sourceVar[$name];
+					$v = self::filter($v,$filter,$flags);
+				} else {
+					$v = $default;
+				}
+				return $v;
+			}
+
+			$key = $filter.'.'.$flags;
+			if(isset(self::$filteredVars[$source][$name][$key])){
+				//vmTime('Using cache '.$name,'getfilter');
+				return self::$filteredVars[$source][$name][$key];
+			}
+
+			if($source==0){
+				if(isset(self::$request)){
+					$sourceVar = self::$request;
+				}
+				else {
+					$sourceVar = $_REQUEST;
+					if(VmConfig::isSite()){
+						if(self::$varRouter===null) {
+							$router = JFactory::getApplication()->getRouter();
+							self::$varRouter = $router->getVars();
+						}
+
+						vmdebug('In $_REQUEST and router '.$key, $_REQUEST, self::$varRouter);
+						if(empty($_REQUEST)) {
+							$sourceVar = self::$varRouter;
+						} else if (empty(self::$varRouter)) {
+							$sourceVar = $_REQUEST;
+						} else if(is_array(self::$varRouter) and is_array($_REQUEST) ){
+							$sourceVar = array_merge(self::$varRouter, $_REQUEST);
+							//self::$request = $sourceVar = array_merge($_REQUEST, self::$varRouter);
+							vmdebug('Merging $request vars '.$key, $_REQUEST, self::$varRouter, self::$request);
+						}
 					}
-				} else if($source=='GET'){
-					$source = $_GET;
-					if(!empty($vars)){
-						$source = array_merge($_GET,$vars);
+
+				}
+
+			} else if($source=='GET') {
+				if (isset(self::$get)) {
+					$sourceVar = self::$get;
+				} else {
+					$sourceVar = $_GET;
+					if(VmConfig::isSite()){
+						if (self::$varRouter===null) {
+							$router = JFactory::getApplication()->getRouter();
+							self::$varRouter = $router->getVars();
+						}
+						vmdebug('In $_GET and router '.$key, $sourceVar, self::$varRouter);
+						if(empty($_GET)){
+							$sourceVar = self::$varRouter;
+						} else if (empty(self::$varRouter)) {
+							$sourceVar = $_GET;
+						} else if (is_array(self::$varRouter) and is_array($_GET) ) {
+							//self::$get = $sourceVar = array_merge(self::$varRouter, $_GET);
+							$sourceVar = array_merge($_GET, self::$varRouter);
+							vmdebug('Merging $get vars '.$key, $sourceVar);
+						}
 					}
 				}
+			} else if ($source=='POST') {
+				$sourceVar = $_POST;
+			} else if(!empty($source)) {
+				$sourceVar = $source;
 			}
 
-			if(isset($source[$name])){
-				return self::filter($source[$name],$filter,$flags);
+			if(isset($sourceVar[$name])) {
+				$v = $sourceVar[$name];
+				$v = self::filter($v,$filter,$flags);
+				self::$filteredVars[$source][$name][$key] = $v;
 			} else {
-				return $default;
+				$v = $default;  //default must not be cached
 			}
+
+			//vmdebug('Set cache',self::$filteredVars[$source]);
+			//vmTime('Get filter '.$key,'getfilter');
+			return $v;
+
+		}
+	}
+
+	public static $routerSet = false;
+
+	public static function setRouterVars(){
+
+		if(self::$routerSet) return;
+		vmdebug('Set router vars');
+		if(VmConfig::isSite()) {
+			$router = JFactory::getApplication()->getRouter();
+			self::$varRouter = $router->getVars();
 		}
 
+		self::$request = $_REQUEST;
+		self::$get = $_GET;
+		if(VmConfig::isSite()) {
+			
+			if(empty($_GET)){
+				self::$get = self::$varRouter;
+				vmdebug('setRouterVars $_GET empty ', self::$get);
+			} else if (empty(self::$varRouter)) {
+				self::$get = $_GET;
+				vmdebug('setRouterVars $varRouter empty ', self::$get);
+			} else if ( is_array(self::$varRouter) and is_array($_GET) ) {
+				//self::$get = array_merge(self::$varRouter, $_GET);
+				self::$get = array_merge($_GET, self::$varRouter);
+				vmdebug('setRouterVars Merging $get vars ', $_GET, self::$varRouter, self::$get);
+			}
+			self::$request = array_merge( self::$request, self::$get);
+			self::$request = array_merge( self::$request, $_POST);
+			vmdebug('Set router vars Post, Get, self::$get and self::$request', $_POST ,$_GET, self::$get, self::$request);
+		}
+
+		self::$routerSet = true;
 
 	}
 
@@ -277,7 +376,15 @@ class vRequest {
 	 * @return mixed cleaned $_REQUEST
 	 */
 	public static function getRequest( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
-		return self::filter($_REQUEST, $filter, $flags,true);
+		if (self::$varRouter===null) {
+			$router = JFactory::getApplication()->getRouter();
+			self::$varRouter = $router->getVars();
+		}
+		$source = $_REQUEST;
+		if(!empty(self::$varRouter)){
+			$source = array_merge(self::$varRouter,$_REQUEST);
+		}
+		return self::filter($source, $filter, $flags,true);
 		//return  filter_var_array($_REQUEST, $filter);
 	}
 	
@@ -286,14 +393,16 @@ class vRequest {
 	}
 	
 	public static function getGet( $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_ENCODE_LOW ){
-		$source = $_GET;
-		if(JVM_VERSION>2){
+
+		if (self::$varRouter===null) {
 			$router = JFactory::getApplication()->getRouter();
-			$vars = $router->getVars();
-			if(!empty($vars)){
-				$source = array_merge($_GET,$vars);
-			}
+			self::$varRouter = $router->getVars();
 		}
+		$source = $_GET;
+		if(!empty(self::$varRouter)){
+			$source = array_merge($_GET,self::$varRouter);
+		}
+
 		return self::filter($source, $filter, $flags,true);
 	}
 	
@@ -306,9 +415,14 @@ class vRequest {
 		if(isset($_REQUEST[$name])){
 			$tmp = $_REQUEST[$name];
 			$_REQUEST[$name] = $value;
+			self::$request[$name] = $value;
+			self::$filteredVars[0][$name] = array();
+			self::$filteredVars[0]['POST'] = array();
+			self::$filteredVars[0]['GET'] = array();
 			return $tmp;
 		} else {
 			$_REQUEST[$name] = $value;
+			self::$request[$name] = $value;
 			return null;
 		}
 	}

@@ -71,29 +71,53 @@ if(version_compare(JVERSION,'4.0.0','ge')) {
 		}
 		
 		public function preprocess($query) {
-			if (!isset($query['Itemid'])) {
-				$menu = SiteApplication::getInstance('site')->getMenu();
 
-				// Search for all menu items for your component
-				$menuItems = $menu->getItems('component', 'com_virtuemart');
+			//if (!isset($query['Itemid'])) {
 
-				if (!empty($menuItems))
-				{
-					$shopMenuItemId = 0;
-					
-					foreach ($menuItems as $menuItem) {
-						if (!empty($menuItem->query['option']) && $menuItem->query['option'] === 'com_virtuemart' && !empty($menuItem->query['view']) && $menuItem->query['view'] === 'category' && empty($menuItem->query['virtuemart_category_id']) && empty($menuItem->query['virtuemart_manufacturer_id'])) {
-							$shopMenuItemId = $menuItem->id;
-							break;
-						}
-					}
-					
-					if ($shopMenuItemId > 0)
-					{
-						$query['Itemid'] = $shopMenuItemId;
-					}
+				vmrouterHelper::getInstance($query);
+
+				$Itemid = vmrouterHelper::findCorrectItemid( $query );
+
+				if(empty($Itemid)){
+					$Itemid = vmrouterHelper::findCorrectItemidBySQL($query, vmLanguage::$jSelLangTag);
+					vmdebug('My preprocess findCorrectItemidBySQL',$Itemid);
+				} else {
+					vmdebug('My preprocess findCorrectItemid',$Itemid);
 				}
-			}
+
+				if(!empty($Itemid)){
+					$query['Itemid'] = $Itemid;
+					//vmdebug('My preprocess $Itemid',$Itemid);
+				} else
+				if(!empty(vmrouterHelper::$Itemid)){
+					$query['Itemid'] = vmrouterHelper::$Itemid;
+					vmdebug('preprocess Itemid by vmrouterHelper::$Itemid '.$query['Itemid']);
+				} else {
+					vmdebug('Strange error, empty vmrouterHelper::$Itemid');
+					/*$menu = SiteApplication::getInstance('site')->getMenu();
+
+					// Search for all menu items for your component
+					$menuItems = $menu->getItems('component', 'com_virtuemart');
+
+					if (!empty($menuItems))
+					{
+						$shopMenuItemId = 0;
+
+						foreach ($menuItems as $menuItem) {
+							if (!empty($menuItem->query['option']) && $menuItem->query['option'] === 'com_virtuemart' && !empty($menuItem->query['view']) && $menuItem->query['view'] === 'category' && empty($menuItem->query['virtuemart_category_id']) && empty($menuItem->query['virtuemart_manufacturer_id'])) {
+								$shopMenuItemId = $menuItem->id;
+								break;
+							}
+						}
+
+						if ($shopMenuItemId > 0)
+						{
+							$query['Itemid'] = $shopMenuItemId;
+						}
+					}*/
+				}
+
+			//}
 			
 			return parent::preprocess($query);
 		}
@@ -124,7 +148,6 @@ function virtuemartParseRoute($segments) {
 
 	vmrouterHelper::getInstance($query);
 	VmConfig::$_debug = vmrouterHelper::$debug;
-
 	$vars = vmrouterHelper::parseRoute($segments);
 
 	VmConfig::$_debug = vmrouterHelper::$debugSet;
@@ -162,15 +185,15 @@ class vmrouterHelper {
 	static public $full = false;
 
 	static public $useGivenItemid = false;
-	static public int $Itemid = 0;
-	static public int $rItemid = 0;
+	static public $Itemid = 0;
+	static public $rItemid = 0;
 	static protected $orderings = null;
 	static public $limit = null ;
 
 	static public $router_disabled = false ;
 
 	static protected $_db = null;
-	static protected $edit = null;
+
 	static protected $_catRoute = array ();
 	static public $byMenu = 0;
 	static public $template = 0;
@@ -213,9 +236,10 @@ class vmrouterHelper {
 			self::$template->id = 0;
 		}
 
+		self::$_db = JFactory::getDbo();
 		if (!self::$router_disabled = VmConfig::get('seo_disabled', false)) {
 
-			self::$_db = JFactory::getDbo();
+
 			self::$seo_translate = VmConfig::get('seo_translate', false);
 
 
@@ -238,8 +262,6 @@ class vmrouterHelper {
 			self::$full = VmConfig::get('seo_full',true);
 			self::$useGivenItemid = 0;//VmConfig::get('useGivenItemid',false);
 
-			self::$edit = ('edit' == vRequest::getCmd('task') or vRequest::getInt('manage')=='1');
-
 			self::$slang = VmLanguage::$currLangTag;
 
 			if(self::$andAccess === null){
@@ -249,12 +271,18 @@ class vmrouterHelper {
 				self::$authStr = implode('.',$auth);
 			}
 
-			self::setActiveMenu();
-
-			self::setRoutingQuery($query);
-			//vmdebug('Router initialised with language '.$this->slang);
-			VmConfig::$_debug = self::$debugSet;
 		}
+
+		self::setActiveMenu();
+		//self::setMenuItemId();
+		//if(!empty(vmrouterHelper::$menu)){
+
+		vmdebug('My menu',vmrouterHelper::$menu);
+		//}
+		self::setRoutingQuery($query);
+		//vmdebug('Router initialised with language '.$this->slang);
+		VmConfig::$_debug = self::$debugSet;
+
 		return true;
 	}
 
@@ -331,7 +359,7 @@ class vmrouterHelper {
 			return $segments;
 		}
 
-		if (self::$edit) return $segments;
+		if (!VmConfig::isSite()) return $segments;
 
 		$view = '';
 
@@ -618,6 +646,7 @@ class vmrouterHelper {
 			case 'cart';
 
 				$layout = (empty( $query['layout'] )) ? 0 : $query['layout'];
+				//vmdebug('Router link to cart',$segments,$query,$jmenu,$layout,$jmenu['cart'][$layout]);
 				if(isset( $jmenu['cart'][$layout] )) {
 					$query['Itemid'] = $jmenu['cart'][$layout];
 				} else if ($layout!=0 and isset($jmenu['cart'][0]) ) {
@@ -630,6 +659,7 @@ class vmrouterHelper {
 					// the worst
 					$segments[] = self::lang('cart') ;
 				}
+				//vmdebug('Router link to cart',$segments, $query);
 				break;
 			case 'orders';
 				if ( isset($jmenu['orders']) ) $query['Itemid'] = $jmenu['orders'];
@@ -1214,7 +1244,7 @@ class vmrouterHelper {
 						self::$CategoryName[self::$slang][$catId] = self::getCategoryNames($catId, $menuCatid );
 					}
 					$category->route .= self::$CategoryName[self::$slang][$catId] ;
-					if ($menuCatid == 0  && self::$menu['virtuemart']) $category->Itemid = self::$menu['virtuemart'] ;
+					if ($menuCatid == 0  and !empty(self::$menu['virtuemart'])) $category->Itemid = self::$menu['virtuemart'] ;
 				}
 				self::$_catRoute[$key] = $category;
 
@@ -1380,7 +1410,7 @@ class vmrouterHelper {
 		return self::$productNamesCache[self::$slang][$id];
 	}
 
-	static int $counter = 0;
+	static $counter = 0;
 	/* Get parent Product first found category ID */
 	static public function getParentProductcategory($id){
 
@@ -1592,7 +1622,8 @@ class vmrouterHelper {
 		$q .= ' ORDER BY `language` DESC';
 		self::$_db->setQuery($q);
 		$menuVmitems = self::$_db->loadObjectList();
-		//vmdebug('setMenuItemId $q',$q);
+		//VmConfig::$_debug = 1;
+		//vmdebug('setMenuItemId $q',$q,$menuVmitems);
 		$homeid =0;
 
 		self::$menu = array();
@@ -1722,20 +1753,20 @@ class vmrouterHelper {
 				} else self::$menu['virtuemart'] = $homeid;
 			}
 		}
-		//vmdebug('setMenuItemId',self::$menu);
+		vmdebug('setMenuItemId',self::$menu);
 		$mCache[$h] = self::$menu;
 	}
 
 	/* Set self::$activeMenu to current Item ID from Joomla Menus */
-	static protected function setActiveMenu(){
+	static public function setActiveMenu(){
 		if (self::$activeMenu === null ) {
 
 			$app		= JFactory::getApplication();
 			$menu		= $app->getMenu('site');
 
-			self::$rItemid = (int)vRequest::getInt('Itemid',0);
-			if(!empty($query['Itemid'])){
-				self::$Itemid = (int)$query['Itemid'];
+			self::$rItemid = (int)vRequest::getInt('Itemid',0, $_REQUEST);
+			if(!empty(self::$query['Itemid'])){
+				self::$Itemid = (int)self::$query['Itemid'];
 			} else {
 				self::$Itemid = self::$rItemid;
 			}
@@ -1767,6 +1798,196 @@ class vmrouterHelper {
 
 	}
 
+	static public function findCorrectItemid(&$query){
+
+		if( isset($query['view']) ) {
+			$view = $query['view'];
+		} else {
+			$view = '';
+		}
+
+		if ($view == 'category') {
+			$catId = empty($query['virtuemart_category_id'])? 0:(int)$query['virtuemart_category_id'];
+			$manId = empty($query['virtuemart_manufacturer_id'])? 0:(int)$query['virtuemart_manufacturer_id'];
+			if(isset(self::$menu['virtuemart_category_id'][$catId][$manId])) {
+				$query['Itemid'] = self::$menu['virtuemart_category_id'][$catId][$manId];
+			} else {
+				/*if($categoryRoute===null)*/ $categoryRoute = self::getCategoryRoute($catId,$manId);
+				//http://forum.virtuemart.net/index.php?topic=121642.0
+				if (!empty($categoryRoute->Itemid)) {
+					$query['Itemid'] = $categoryRoute->Itemid;
+				} else if (!empty(self::$menu['virtuemart'])) {
+					$query['Itemid'] = self::$menu['virtuemart'];
+				}
+			}
+			if ( !empty(self::$menu['category']) ){
+				vmdebug('Itemid for jmenu category?');
+				$query['Itemid'] = self::$menu['category'];
+			}
+
+		}
+		else if ($view == 'cart') {
+			$layout = (empty( $query['layout'] )) ? 0 : $query['layout'];
+			if(isset( self::$menu['cart'][$layout] )) {
+				$query['Itemid'] = self::$menu['cart'][$layout];
+			} else if ($layout!=0 and isset(self::$menu['cart'][0]) ) {
+				$query['Itemid'] = self::$menu['cart'][0];
+			} else if ( isset(self::$menu['virtuemart']) ) {
+				$query['Itemid'] = self::$menu['virtuemart'];
+			}
+		}
+		/*else if ($view == 'invoice') {
+
+		}*/
+		else if ($view == 'manufacturer') {
+			if(isset($query['virtuemart_manufacturer_id'])) {
+				if (isset(self::$menu['virtuemart_manufacturer_id'][ $query['virtuemart_manufacturer_id'] ] ) ) {
+					$query['Itemid'] = self::$menu['virtuemart_manufacturer_id'][$query['virtuemart_manufacturer_id']];
+				} else {
+					if ( isset(self::$menu['manufacturer']) ) $query['Itemid'] = self::$menu['manufacturer'];
+					else $query['Itemid'] = self::$menu['virtuemart'];
+				}
+				unset($query['virtuemart_manufacturer_id']);
+			} else {
+				if ( isset(self::$menu['manufacturer']) ) $query['Itemid'] = self::$menu['manufacturer'];
+				else $query['Itemid'] = self::$menu['virtuemart'];
+			}
+		}
+		else if ($view == 'orders') {
+			if ( isset(self::$menu['orders']) ) $query['Itemid'] = self::$menu['orders'];
+			else {
+				$query['Itemid'] = self::$menu['virtuemart'];
+			}
+		}
+		else if ($view == 'productdetails') {
+			if (!empty($query['virtuemart_product_id']) and isset(self::$menu['virtuemart_product_id']) and isset(self::$menu['virtuemart_product_id'][ $query['virtuemart_product_id'] ] ) ) {
+				$query['Itemid'] = self::$menu['virtuemart_product_id'][$query['virtuemart_product_id']];
+			}
+		}
+		else if ($view == 'user') {
+			if ( isset(self::$menu['user'])) $query['Itemid'] = self::$menu['user'];
+			else {
+				$query['Itemid'] = self::$menu['virtuemart'];
+			}
+		} else if ($view == 'vendor') {
+			if(isset($query['virtuemart_vendor_id'])) {
+				if (isset(self::$menu['virtuemart_vendor_id'][ $query['virtuemart_vendor_id'] ] ) ) {
+					$query['Itemid'] = self::$menu['virtuemart_vendor_id'][$query['virtuemart_vendor_id']];
+				} else {
+					if ( isset(self::$menu['vendor']) ) {
+						$query['Itemid'] = self::$menu['vendor'];
+					} else {
+						$query['Itemid'] = self::$menu['virtuemart'];
+					}
+				}
+			} else if ( isset(self::$menu['vendor']) ) {
+				$query['Itemid'] = self::$menu['vendor'];
+			} else {
+				$query['Itemid'] = self::$menu['virtuemart'];
+			}
+
+		}
+
+		if(empty($query['Itemid']) and isset (self::$menu['virtuemart'])){
+			$query['Itemid'] = self::$menu['virtuemart'] ;
+		}
+
+		if(isset($query['Itemid'])) return $query['Itemid']; else return false;
+
+	}
+
+	static public function findCorrectItemidBySQL($query, $tag){
+
+		static $andAccess = null;
+
+		if($andAccess === null){
+			$user = JFactory::getUser();
+			$auth = array_unique($user->getAuthorisedViewLevels());
+			$andAccess = ' AND client_id=0 AND published=1 AND ( access="' . implode ('" OR access="', $auth) . '" ) ';
+		}
+
+		$like = '';
+		$cmds = array('option', 'view', 'task', 'layout');
+		$vm=0;
+		foreach($cmds as $cmd){
+			if(isset($query[$cmd])){
+				$like .= '&'.$cmd.'='.$query[$cmd];
+			}
+			/*if( '' !== $v = vRequest::getCmd($cmd, '')){
+				$like .= '&'.$cmd.'='.$v;
+			}*/
+		}
+
+		$option = isset($query['option'])? $query['option'] : vRequest::getCmd('option', '');
+		$view =  isset($query['view'])? $query['view'] : vRequest::getCmd('view', '');
+
+		if($option=='com_virtuemart'){
+			$ints = array();
+			if($view == 'category'){
+				$ints = array('virtuemart_category_id','virtuemart_manufacturer_id');
+			} else if($view == 'productdetails'){
+				$ints = array('virtuemart_product_id');
+			}
+		} else {
+			$ints = array('id');
+		}
+
+		foreach($ints as $cmd){
+			if(isset($query[$cmd])){
+				$like .= '&'.$cmd.'='.$query[$cmd];
+			} else {
+				$like .= '&'.$cmd.'=0';
+				//vmdebug('The $cmd '.$cmd.' was not in the query');
+			}
+
+		}
+
+		if($like!==''){
+			$like = '`link` like "index.php?'.substr($like,1).'%"';
+		} else {
+			$like = '`home`="1"';
+		}
+
+		$q = 'SELECT id FROM `#__menu` WHERE '.$like.' and (language="*" or language = "'.$tag.'" )'.$andAccess;
+
+		//$q .= ' and `id` = "'.(int)$id.'" ';
+
+		$q .= ' ORDER BY `language` DESC';
+		$h = md5($q);
+
+		static $c = array();
+
+		if(isset($c[$h])){
+			if(vmrouterHelper::$debug) {
+
+				vmdebug('Found CACHED itemid '.$tag,$c[$h]);
+			}
+
+			return $c[$h];
+		} else {
+			$db = JFactory::getDbo();
+			$db->setQuery($q);
+			$c[$h] = $db->loadResult();
+			//VmConfig::$_debug = true;vmrouterHelper::$debug=true;
+			vmdebug('findCorrectItemidBySQL use as like '.vmLanguage::$currLangTag.' '.$like, $c[$h]);
+			if(!$c[$h]){
+				if($view == 'productdetails'){
+					$query['view'] = 'category';
+					if(vmrouterHelper::$debug) vmdebug('Productdetails Check with view category',$query);
+					return static::findCorrectItemidBySQL($query,$tag);
+				} else if($view == 'category' and isset($query['virtuemart_category_id']) and !empty($query['virtuemart_category_id'])){
+					$query['virtuemart_category_id'] = 0;
+					if(vmrouterHelper::$debug) vmdebug('Check with empty virtuemart_category_id',$query);
+					return static::findCorrectItemidBySQL($query,$tag);
+				}
+			} else {
+				if(vmrouterHelper::$debug) vmdebug('Found as new itemid for '.$tag.' '.$like,$q,$c[$h]);
+			}
+
+			return $c[$h];
+
+		}
+	}
 
 	/*
 	 * Get language key or use $key in route

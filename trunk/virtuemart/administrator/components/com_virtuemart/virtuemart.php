@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 VmConfig::loadConfig();
-
+vRequest::setRouterVars();
 //VmConfig::showDebug('all');
 
 vmRam('Start');

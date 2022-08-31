@@ -22,6 +22,7 @@ if( !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not 
 if (!class_exists( 'VmConfig' )) require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 
 VmConfig::loadConfig();
+vRequest::setRouterVars();
 
 vmRam('Start');
 //vmTime('joomla start until Vm is called','joomlaStart');
@@ -29,10 +30,16 @@ vmSetStartTime('vmStart');
 
 vmLanguage::loadJLang('com_virtuemart', true);
 
-$_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'category')) ;
+//$_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'category')) ;
+$_controller = vRequest::getCmd('view', false) ;    //Old legacy, that 'view' is priorised
+if(empty($_controller)){
+	$_controller = vRequest::getCmd('controller', 'category');
+	vRequest::setVar('view',$_controller);
+}
+
 $task = vRequest::getCmd('task','') ;
 
-
+vmdebug('Controller and Task in main controller',$_controller, $task);
 
 $trigger = 'onVmSiteController';
 // 	$task = vRequest::getCmd('task',vRequest::getCmd('layout',$_controller) );		$this makes trouble!
@@ -47,6 +54,7 @@ $app = JFactory::getApplication();
 if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 
 	if	( shopFunctionsF::isFEmanager() ) {
+		vmdebug('I am a FE-Manager');
 		$session->set('manage', 1,'vm');
 		vRequest::setVar('manage','1');
 		vRequest::setVar('tmpl','component') ;
@@ -74,10 +82,7 @@ if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 	}
 
 } elseif($_controller) {
-		if($_controller!='productdetails'){
-			//$session->set('manage', 0,'vm');
-			//vRequest::setVar('manage','0');
-		}
+
 		vmJsApi::jQuery();
 		vmJsApi::jSite();
 		vmJsApi::cssSite();
@@ -95,6 +100,8 @@ $_class = 'VirtuemartController'.ucfirst($_controller);
 if (file_exists($basePath.'/controllers/'.$_controller.'.php')) {
 	if (!class_exists($_class)) {
 		require ($basePath.'/controllers/'.$_controller.'.php');
+	} else {
+		vmError('Tried to load controller '.$_controller.' on base path '.$basePath.'. File available, but class not found. '.$_class);
 	}
 }
 else {
@@ -116,7 +123,7 @@ if (class_exists($_class)) {
     //vmTime($_class.' Finished task '.$task,'Start');
     vmRam('End');
     vmRamPeak('Peak');
-	vmTime('"'.$_class.'" Finished task ','vmStart');
+	vmTime('"'.$_class.'" Finished task '.$task.' in '.$basePath,'vmStart');
     /* Redirect if set by the controller */
     $controller->redirect();
 } else {

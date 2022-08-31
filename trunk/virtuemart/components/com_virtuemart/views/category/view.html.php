@@ -338,7 +338,6 @@ class VirtuemartViewCategory extends VmView {
 
 		$this->showBasePrice = (vmAccess::manager() or vmAccess::isSuperVendor());
 
-
 		// Add the category name to the pathway
 		if ($this->category->parents) {
 			foreach ($this->category->parents as $c){

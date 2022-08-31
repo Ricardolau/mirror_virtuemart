@@ -311,11 +311,11 @@ class com_virtuemartInstallerScript {
 		));
 
 		$this->alterTable('#__virtuemart_orders',array(
-			'customer_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
+			'customer_note' => '`oc_note` text COMMENT \'old customer notes\'',
 		));
 
 		$this->alterTable('#__virtuemart_orders',array(
-			'oc_note' => '`oc_note` text NOT NULL DEFAULT "" COMMENT \'old customer notes\'',
+			'oc_note' => '`oc_note` text COMMENT \'old customer notes\'',
 		));
 
 		$this->alterTable('#__virtuemart_vendor_users',array(

@@ -51,7 +51,7 @@ vmuikitAdminUIHelper::startAdminArea($this);
 	<div id="filterbox" class="filter-bar">
 		<?php
 		$extras = array();
-		if ($this->showVendors()) {
+		if ($this->showVendors() and !empty($this->lists['vendors'])) {
 			$extras[] = $this->lists['vendors'];
 		}
 		//$extras[]=$this->catpagination->getLimitBox();

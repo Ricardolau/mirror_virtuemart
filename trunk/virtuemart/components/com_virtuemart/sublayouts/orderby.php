@@ -53,12 +53,23 @@ if($orderDir == 'ASC'){
 	$orderDir = 'ASC';
 }
 
+$orderDirConf = VmConfig::get ('prd_brws_orderby_dir');
+$orderbyCfg = VmConfig::get ('browse_orderby_field');
+
+if ($orderDir != $orderDirConf ) {
+	$orderDirLink = '&dir=' . $orderDir;	//was '&order='
+	} else {
+	$orderDirLink = '';
+}
 
 $orderDirTxt = vmText::_ ('COM_VIRTUEMART_'.$orderDir);
 
 $link = JRoute::_ ($fieldLink . $manufacturerTxt . $orderbyTxt . $orderDirLink,FALSE);
 
 // full string list
+if ($orderby == '') {
+	$orderby = $orderbyCfg;
+}
 $orderby = strtoupper ($orderby);
 
 $dotps = strrpos ($orderby, '.');

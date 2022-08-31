@@ -1125,12 +1125,10 @@ class VirtueMartModelOrders extends VmModel {
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
  		//vmdebug('updateStatusForOneOrder', $inputOrder);
-		if( empty($virtuemart_order_id) ){
-			if(!empty($inputOrder['virtuemart_order_id'])){
-				$virtuemart_order_id = $inputOrder['virtuemart_order_id'];
-			} else if(!empty($inputOrder->virtuemart_order_id)){
-				$virtuemart_order_id = $inputOrder->virtuemart_order_id;
-			}
+		if( empty($virtuemart_order_id) and !empty($inputOrder['virtuemart_order_id'])){
+			$virtuemart_order_id = $inputOrder['virtuemart_order_id'];
+		} else if(empty($inputOrder['virtuemart_order_id'])){
+			$inputOrder['virtuemart_order_id'] = $virtuemart_order_id;
 		}
 
 		if(empty($virtuemart_order_id)) {
@@ -1157,10 +1155,6 @@ class VirtueMartModelOrders extends VmModel {
 		$old_o_hash = $data->o_hash;
 
 		$data->bind($inputOrder);
-
-
-
-
 
 		$cp_rm = VmConfig::get('cp_rm',array('C'));
 		if(!is_array($cp_rm)) $cp_rm = array($cp_rm);

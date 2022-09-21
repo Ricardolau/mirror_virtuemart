@@ -32,10 +32,7 @@ vmLanguage::loadJLang('com_virtuemart', true);
 
 //$_controller = vRequest::getCmd('view', vRequest::getCmd('controller', 'category')) ;
 $_controller = vRequest::getCmd('view', false) ;    //Old legacy, that 'view' is priorised
-if(empty($_controller)){
-	$_controller = vRequest::getCmd('controller', 'category');
-	vRequest::setVar('view',$_controller);
-}
+
 
 $task = vRequest::getCmd('task','') ;
 
@@ -74,6 +71,10 @@ if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 		$router = $app->getRouter();
 		$router->setMode(0);
 
+		if(empty($_controller)){
+			$_controller = vRequest::getCmd('controller', 'virtuemart');
+			vRequest::setVar('view',$_controller);
+		}
 	} else {
 		$session->set('manage', 0,'vm');
 		vRequest::setVar('manage',0);
@@ -81,12 +82,16 @@ if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 		$app->redirect('index.php?option=com_virtuemart', vmText::_('COM_VIRTUEMART_RESTRICTED_ACCESS') );
 	}
 
-} elseif($_controller) {
+} else{
 
-		vmJsApi::jQuery();
-		vmJsApi::jSite();
-		vmJsApi::cssSite();
-		$basePath = VMPATH_SITE;
+	if(empty($_controller)){
+		$_controller = vRequest::getCmd('controller', 'category');
+		vRequest::setVar('view',$_controller);
+	}
+	vmJsApi::jQuery();
+	vmJsApi::jSite();
+	vmJsApi::cssSite();
+	$basePath = VMPATH_SITE;
 }
 
 
@@ -100,8 +105,6 @@ $_class = 'VirtuemartController'.ucfirst($_controller);
 if (file_exists($basePath.'/controllers/'.$_controller.'.php')) {
 	if (!class_exists($_class)) {
 		require ($basePath.'/controllers/'.$_controller.'.php');
-	} else {
-		vmError('Tried to load controller '.$_controller.' on base path '.$basePath.'. File available, but class not found. '.$_class);
 	}
 }
 else {
@@ -112,6 +115,7 @@ else {
 	foreach($rets as $ret){
 		if($ret) return true;
 	}
+	vmError('Tried to load controller '.$_controller.' on base path '.$basePath.'. No File available '.$_class);
 }
 
 

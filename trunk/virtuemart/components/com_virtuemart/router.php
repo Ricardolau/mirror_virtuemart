@@ -684,14 +684,7 @@ class vmrouterHelper {
 		}
 
 
-		if (isset($query['task'])) {
-			$segments[] = self::lang($query['task']);
-			unset($query['task']);
-		}
-		if (isset($query['layout'])) {
-			$segments[] = self::lang($query['layout']) ;
-			unset($query['layout']);
-		}
+
 		vmrouterHelper::resetLanguage();
 		return $segments;
 	}

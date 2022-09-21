@@ -859,8 +859,7 @@ class VirtueMartModelCustomfields extends VmModel {
 				if (strcasecmp(get_class($document),'JDocumentHTML') === 0) {
 					return '</td><td>'.VmHtml::editor('field['.$row.'][customfield_params]',$field->customfield_params, '550', '400', '60', '20', false);
 				}
-				vmJsApi::addJScript('mceAddControl', '// Creates a new editor instance
-							tinymce.execCommand("mceAddControl",true,"field-' . $row . '-customfield_value")', true);
+				vmJsApi::addJScript('mceAddControl-' . $row, 'tinymce.execCommand("mceAddControl", true, "field-' . $row . '-customfield_value");', true, false, true);
 				return $priceInput . '</td><td><textarea class="mceInsertContentNew" name="field[' . $row . '][customfield_params]" id="field-' . $row . '-customfield_value">' . $field->customfield_params . '</textarea>';
 				//return '<input type="text" value="'.$field->customfield_value.'" name="field['.$row.'][customfield_value]" /></td><td>'.$priceInput;
 				break;
@@ -1265,9 +1264,9 @@ class VirtueMartModelCustomfields extends VmModel {
 
 					} else {
 
-						$pluginFields = vRequest::getVar( 'customProductData', NULL );
+						$pluginFields = vRequest::getVar( 'customProductData', false );
 
-						if($pluginFields == NULL and isset($product->customPlugin)) {
+						if($pluginFields == false and isset($product->customPlugin)) {
 							$pluginFields = json_decode( $product->customPlugin, TRUE );
 						}
 
@@ -1537,8 +1536,7 @@ class VirtueMartModelCustomfields extends VmModel {
 
 		vDispatcher::importVMPlugins('vmcustom');
 
-
-		vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
+		//vmdebug('Delete $old_customfield_ids',$old_customfield_ids);
 
 		if ( count($old_customfield_ids) ) {
 			// call the plugins to delete their records

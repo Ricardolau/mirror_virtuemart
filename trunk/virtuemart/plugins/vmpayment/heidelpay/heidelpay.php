@@ -360,8 +360,8 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 			require(VMPATH_ADMIN . DS . 'models' . DS . 'orders.php');
 		}
 
-		$virtuemart_paymentmethod_id = JRequest::getInt ('pm', 0);
-		$order_number = JRequest::getString ('on', 0);
+		$virtuemart_paymentmethod_id = vRequest::getInt ('pm', 0);
+		$order_number = vRequest::getString ('on', 0);
 
 		if (!($method = $this->getVmPluginMethod ($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
@@ -438,8 +438,8 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		}
 		
 		
-		$virtuemart_paymentmethod_id = JRequest::getInt ('pm', 0);
-		$order_number = JRequest::getString ('on', 0);
+		$virtuemart_paymentmethod_id = vRequest::getInt ('pm', 0);
+		$order_number = vRequest::getString ('on', 0);
 
 		if (!($method = $this->getVmPluginMethod ($virtuemart_paymentmethod_id))) {
 			return NULL; // Another method was selected, do nothing
@@ -482,16 +482,9 @@ class plgVmPaymentHeidelpay extends vmPSPlugin {
 		}
 			
 		}
+
 		
-		
-		
-		
-		
-		
-			
-		
-		
-		$order_number = JRequest::getVar ('on');
+		$order_number = vRequest::getVar ('on');
 		if (!$order_number) {
 			return FALSE;
 		}

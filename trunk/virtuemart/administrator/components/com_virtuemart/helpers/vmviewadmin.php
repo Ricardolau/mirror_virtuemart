@@ -86,7 +86,7 @@ class VmViewAdmin extends JViewLegacy {
 			return true;
 		} else {
 			vmError('JERROR_ALERTNOAUTHOR', 'JERROR_ALERTNOAUTHOR');
-			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart');
+			JFactory::getApplication()->redirect( 'index.php?option=com_virtuemart&manage=0');
 		}
 
 	}

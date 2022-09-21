@@ -61,14 +61,15 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmpayment/'. $payment->payment_element .'/'. $payment->payment_element . '.xml');
 			if (file_exists($formFile)){
 
-				$payment->form = JForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+				$form = JForm::getInstance($payment->payment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$payment->params = new stdClass();
-				$varsToPush = vmPlugin::getVarsToPushFromForm($payment->form);
+				$varsToPush = vmPlugin::getVarsToPushFromForm($form);
 
 				VmTable::bindParameterableToSubField($payment,$varsToPush);
-				$payment->form->bind($payment->getProperties());
+				$props = $payment->getProperties();
 
-				$fdata = $payment->form->getData()->toArray();
+				$form->bind($props);
+				$fdata = $form->getData()->toArray();
 				if(isset($fdata['checkConditionsCore']) or isset($fdata['params']['checkConditionsCore'])){
 					$this->checkConditionsCore = true;
 					vmPSPlugin::addVarsToPushCore($varsToPush);
@@ -77,34 +78,26 @@ class VirtuemartViewPaymentMethod extends VmViewAdmin {
 					$toRemove = array();
 					vmPSPlugin::addVarsToPushCore($toRemove,1);
 					foreach($toRemove as $name=>$v){
-						$payment->form->removeField($name,'params');
+						$form->removeField($name,'params');
 					}
-					$payment->form->bind($payment->getProperties());
+					$props = $payment->getProperties();
 					$this->shipmentList = shopfunctions::renderShipmentDropdown($payment->virtuemart_shipmentmethod_ids);
 				}
+				$payment->form = $form;
+				$payment->form->bind($props);
 
 			} else {
 				$payment->form = null;
 			}
 
-			/*$this->checkConditionsCore = false;
-			$fdata = $payment->form->getData()->toArray();
-			//vmdebug('$this->checkConditionsCore = true',$fdata);
-			if(isset($fdata['params']['checkConditionsCore'])){
-				//$this->checkConditionsCore = true;
-				$this->shipmentList = $this->renderShipmentDropdown($payment->virtuemart_shipment_ids);
-				vmdebug('$this->checkConditionsCore = true');
-			}*/
-
-
+			if($this->showVendors()){
+				$this->vendorList= ShopFunctions::renderVendorList($payment->virtuemart_vendor_id);
+			}
 
 			$this->assignRef('payment',	$payment);
 			$this->vmPPaymentList = self::renderInstalledPaymentPlugins($payment->payment_jplugin_id);
 			$this->shopperGroupList = ShopFunctions::renderShopperGroupList($payment->virtuemart_shoppergroup_ids, true);
 
-			if($this->showVendors()){
-				$this->vendorList= ShopFunctions::renderVendorList($payment->virtuemart_vendor_id);
-			}
 
 			$currency_model = VmModel::getModel ('currency');
 			$currencies = $currency_model->getCurrencies ();

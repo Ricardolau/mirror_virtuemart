@@ -46,14 +46,16 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 			// Get the payment XML.
 			$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmshipment/'. $shipment->shipment_element .'/'. $shipment->shipment_element . '.xml');
 			if (file_exists($formFile)){
-				$shipment->form = JForm::getInstance($shipment->shipment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+
+				$form = JForm::getInstance($shipment->shipment_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 				$shipment->params = new stdClass();
-				$varsToPush = vmPlugin::getVarsToPushFromForm($shipment->form);
+				$varsToPush = vmPlugin::getVarsToPushFromForm($form);
 
 				VmTable::bindParameterableToSubField($shipment,$varsToPush);
-				$shipment->form->bind($shipment->getProperties());
+				$props = $shipment->getProperties();
 
-				$fdata = $shipment->form->getData()->toArray();
+				$form->bind($props);
+				$fdata = $form->getData()->toArray();
 				if(isset($fdata['checkConditionsCore']) or isset($fdata['params']['checkConditionsCore'])){
 					$this->checkConditionsCore = true;
 					vmPSPlugin::addVarsToPushCore($varsToPush);
@@ -62,24 +64,24 @@ class VirtuemartViewShipmentmethod extends VmViewAdmin {
 					$toRemove = array();
 					vmPSPlugin::addVarsToPushCore($toRemove,1);
 					foreach($toRemove as $name=>$v){
-						$shipment->form->removeField($name,'params');
+						$form->removeField($name,'params');
 					}
-					$shipment->form->bind($shipment->getProperties());
+					$props = $shipment->getProperties();
 					$this->shipmentList = shopfunctions::renderShipmentDropdown($shipment->virtuemart_shipmentmethod_ids);
 				}
+				$shipment->form = $form;
+				$shipment->form->bind($props);
 
 			} else {
 				$shipment->form = null;
 			}
 
-
 			if($this->showVendors()){
-				$vendorList= ShopFunctions::renderVendorList($shipment->virtuemart_vendor_id);
-				$this->assignRef('vendorList', $vendorList);
+				$this->vendorList= ShopFunctions::renderVendorList($shipment->virtuemart_vendor_id);
 			}
 
-			$this->pluginList = self::renderInstalledShipmentPlugins($shipment->shipment_jplugin_id);
 			$this->assignRef('shipment', $shipment);
+			$this->pluginList = self::renderInstalledShipmentPlugins($shipment->shipment_jplugin_id);
 			$this->shopperGroupList = ShopFunctions::renderShopperGroupList($shipment->virtuemart_shoppergroup_ids,true);
 
 			$currency_model = VmModel::getModel ('currency');

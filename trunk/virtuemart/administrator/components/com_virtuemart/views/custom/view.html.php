@@ -59,11 +59,13 @@ class VirtuemartViewCustom extends VmViewAdmin {
 				$formFile	= vRequest::filterPath( VMPATH_ROOT .'/plugins/vmcustom/'. $this->custom->custom_element . '/' . $this->custom->custom_element . '.xml');
 				if (file_exists($formFile)){
 
-					$this->custom->form = JForm::getInstance($this->custom->custom_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
+					$form = JForm::getInstance($this->custom->custom_element, $formFile, array(),false, '//vmconfig | //config[not(//vmconfig)]');
 					$this->custom->params = new stdClass();
-					$varsToPush = vmPlugin::getVarsToPushFromForm($this->custom->form);
+					$varsToPush = vmPlugin::getVarsToPushFromForm($form);
 					VmTable::bindParameterableToSubField($this->custom,$varsToPush);
-					$this->custom->form->bind($this->custom->getProperties());
+					$props = $this->custom->getProperties();
+					$form->bind($props);
+					$this->custom->form = $form;
 
 				}
 			} else {

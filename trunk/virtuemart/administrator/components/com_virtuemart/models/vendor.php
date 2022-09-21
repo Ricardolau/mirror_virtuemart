@@ -310,7 +310,7 @@ class VirtueMartModelVendor extends VmModel {
 	static $_vendorCurrencies = array();
 	static function getVendorCurrency ($_vendorId) {
 		if(empty($_vendorId)){
-			vmTrace('getVendorCurrency vendor Id empty');
+			vmTrace('getVendorCurrency vendor Id empty',0,4);
 			$_vendorId = 1;
 		}
 		if(!isset(self::$_vendorCurrencies[$_vendorId])){

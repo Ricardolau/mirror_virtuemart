@@ -150,10 +150,7 @@ class VirtuemartViewInvoice extends VmView {
 		vDispatcher::importVMPlugins('vmpayment');
 		vDispatcher::trigger('plgVmgetEmailCurrency',array( $orderDetails['details']['BT']->virtuemart_paymentmethod_id, $orderDetails['details']['BT']->virtuemart_order_id, &$this->user_currency_id));
 
-		$this->currency = CurrencyDisplay::getInstance($this->user_currency_id,$virtuemart_vendor_id);
-		if ($this->user_currency_id) {
-			$this->currency->exchangeRateShopper=$orderDetails['details']['BT']->user_currency_rate;
-		}
+		$this->currency = CurrencyDisplay::getInstance($this->user_currency_id,$virtuemart_vendor_id, $orderDetails['details']['BT']->user_currency_rate);
 
 		if($vendor->vendor_currency!=$this->user_currency_id){
 			$this->currencyV = CurrencyDisplay::getInstance($vendor->vendor_currency,$virtuemart_vendor_id);

@@ -99,9 +99,9 @@ class CurrencyDisplay {
 	 EXAMPLE: ||&euro;|2|,||1|8
 	 * @return string
 	 */
-	static public function getInstance($currencyId=0,$vendorId=0){
+	static public function getInstance( $currencyId=0, $vendorId=0, $user_currency_rate = 0){
 
-		$h = $currencyId.'.'.$vendorId;
+		$h = $currencyId.'.'.$vendorId.'.'.$user_currency_rate;
 		if (!isset(self::$_instance[$h])) {
 			self::$_instance[$h] = new CurrencyDisplay($vendorId);
 
@@ -135,6 +135,10 @@ class CurrencyDisplay {
 						vmWarn(vmText::sprintf('COM_VIRTUEMART_CONF_WARN_NO_FORMAT_DEFINED','<a href="'.$link.'">'.$link.'</a>'));
 					}
 				}
+			}
+
+			if($user_currency_rate!=0){
+				self::$_instance[$h]->exchangeRateShopper = $user_currency_rate;
 			}
 		}
 		self::$_instance[$h]->setPriceArray();
@@ -366,7 +370,7 @@ class CurrencyDisplay {
 	 * @param unknown_type $price
 	 * @param unknown_type $shop
 	 */
-	function convertCurrencyTo($currency,$price,$shop=true){
+	function convertCurrencyTo( $currency, $price, $shop=true){
 
 		if(empty($price)){
 			$price = 0.0;
@@ -385,6 +389,8 @@ class CurrencyDisplay {
 
 		if(is_Object($currency)){
 			$exchangeRate = (float)$currency->exchangeRateShopper;
+		} else if(!empty($this->exchangeRateShopper)){
+			$exchangeRate = $this->exchangeRateShopper;
 		}
 		else {
 			static $currency_exchange_rate = array();

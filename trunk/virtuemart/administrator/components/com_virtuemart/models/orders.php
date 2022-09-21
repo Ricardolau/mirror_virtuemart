@@ -1125,10 +1125,20 @@ class VirtueMartModelOrders extends VmModel {
 	function updateStatusForOneOrder($virtuemart_order_id,$inputOrder,$useTriggers=true){
 
  		//vmdebug('updateStatusForOneOrder', $inputOrder);
-		if( empty($virtuemart_order_id) and !empty($inputOrder['virtuemart_order_id'])){
-			$virtuemart_order_id = $inputOrder['virtuemart_order_id'];
-		} else if(empty($inputOrder['virtuemart_order_id'])){
-			$inputOrder['virtuemart_order_id'] = $virtuemart_order_id;
+		if(is_array($inputOrder)){
+			if( empty($virtuemart_order_id) and !empty($inputOrder['virtuemart_order_id'])){
+				$virtuemart_order_id = $inputOrder['virtuemart_order_id'];
+			} else if(empty($inputOrder['virtuemart_order_id'])){
+				$inputOrder['virtuemart_order_id'] = $virtuemart_order_id;
+			}
+		} else if(is_object($inputOrder)){
+			if( empty($virtuemart_order_id) and !empty($inputOrder->virtuemart_order_id)){
+				$virtuemart_order_id = $inputOrder->virtuemart_order_id;
+			} else if(empty($inputOrder->virtuemart_order_id)){
+				$inputOrder->virtuemart_order_id = $virtuemart_order_id;
+			}
+			//$virtuemart_order_id = $inputOrder->virtuemart_order_id;
+			if(vmEcho::$_debug) VmError( 'updateStatusForOneOrder $inputOrder is object '.$virtuemart_order_id );
 		}
 
 		if(empty($virtuemart_order_id)) {

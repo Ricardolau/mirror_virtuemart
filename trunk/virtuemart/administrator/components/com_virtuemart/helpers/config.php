@@ -24,14 +24,6 @@ class VmConfig {
 	public static $_starttime = array();
 	public static $loaded = FALSE;
 
-	public static $maxMessageCount = 0;
-	public static $maxMessage = 400;
-	public static $echoDebug = FALSE;
-	public static $logDebug = FALSE;
-	public static $logFileName = 'com_virtuemart';
-	public static $echoAdmin = FALSE;
-	const LOGFILEEXT = '.log.php';
-
 	public static $langs = array();
 	public static $langCount = 0;
 
@@ -44,7 +36,6 @@ class VmConfig {
 	public static $jDefLang = false;
 	public static $jDefLangTag = false;
 
-	public static $mType = 'info';
 	var $_params = array();
 	var $_raw = array();
 	public static $installed = false;
@@ -61,11 +52,6 @@ class VmConfig {
 		//But 15 has the best precision, using higher precision adds fantasy numbers to the end, but creates also errors in rounding
 		ini_set('serialize_precision',16);
 
-		if(JVM_VERSION<3){
-			self::$mType = 'info';
-		} else {
-			self::$mType = 'notice';
-		}
 	}
 
 	static function getStartTime(){
@@ -78,12 +64,6 @@ class VmConfig {
 
 	static function getSecret(){
 		return self::$_secret;
-	}
-
-	static function echoAdmin(){
-		if(self::$echoAdmin===FALSE){
-			self::$echoAdmin = vmAccess::manager('core.manage');
-		}
 	}
 
 	static function showDebug($override=false){
@@ -100,21 +80,21 @@ class VmConfig {
 
 			//$debug = 'all';	//this is only needed, when you want to debug THIS file
 			// 1 show debug only to admins
-			self::$_debug = FALSE;
-			if($debug === 'admin' and VmConfig::$echoAdmin){
-				self::$_debug = TRUE;
+			self::$_debug = 0;
+			if($debug === 'admin' and vmAccess::manager('core.manage')){
+				self::$_debug = 1;
 			}
 			// 2 show debug to anyone
 			else if ($debug === 'all') {
-					self::$_debug = TRUE;
+				self::$_debug = 1;
 			}
 
 			if ($dev === 'all') {
 				self::setErrRepDebug();
-			} else if($dev === 'admin' and VmConfig::$echoAdmin){
-				self::setErrRepDebug();
 			} else if($dev === 'none'){
 				self::setErrRepDefault();
+			} else if($dev === 'admin' and vmAccess::manager('core.manage')){
+				self::setErrRepDebug();
 			}
 		}
 
@@ -481,15 +461,14 @@ class VmConfig {
 			self::$_jpConfig->setParams(self::$_jpConfig->_raw);
 		}
 
-		self::echoAdmin();
-		self::showDebug();
+		$opts = array('_debug'=>self::showDebug(), 'echoAdmin' => vmAccess::manager('core.manage'));
+		VmEcho::setOpts($opts);
 
 		if($lang and VmConfig::$iniLang){
 			vmLanguage::initialise();
 			VmConfig::$iniLang = false;
+			vmLanguage::debugLangVars();
 		}
-
-		vmLanguage::debugLangVars();
 
 		self::$_secret = JFactory::getConfig()->get('secret');
 

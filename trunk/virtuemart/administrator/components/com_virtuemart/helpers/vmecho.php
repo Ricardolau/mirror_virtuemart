@@ -8,7 +8,7 @@
  * @subpackage Helpers
  * @author Max Milbers
  * @copyright Copyright (c) 2014-2022 VirtueMart Team. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL 2, see COPYRIGHT.php
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL 3, see COPYRIGHT.php
  */
 defined('_JEXEC') or die('Restricted access');
 
@@ -28,15 +28,40 @@ defined('_JEXEC') or die('Restricted access');
  * @param string $value
  */
 
+class vmEcho {
+	
+	public static $maxMessageCount = 0;
+	public static $maxMessage = 400;
+	public static $_debug = 0;
+	public static $echoAdmin = 0;
+	public static $echoDebug = 0;
+	public static $logDebug = 0;
+	public static $logFileName = 'com_virtuemart';
+	const LOGFILEEXT = '.log.php';
+	public static $mType = 'notice';
+	public static $_starttime = array();
+
+	static public function setOpts($options = array()){
+
+		if(isset($options['_debug'])){
+			vmEcho::$_debug = (int)($options['_debug']);
+		}
+		if(isset($options['echoAdmin'])){
+			vmEcho::$echoAdmin = (int)($options['echoAdmin']);
+		}
+
+	}
+
+}
 
 function vmInfo($publicdescr,$value=NULL){
 
 	$app = JFactory::getApplication();
 
 	$msg = '';
-	$type = VmConfig::$mType;//'info';
+	$type = vmEcho::$mType;//'info';
 
-	if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
+	if(vmEcho::$maxMessageCount<vmEcho::$maxMessage){
 		$lang = vmLanguage::getLanguage();
 		if($value!==NULL){
 
@@ -50,18 +75,18 @@ function vmInfo($publicdescr,$value=NULL){
 		}
 	}
 	else {
-		if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
+		if (vmEcho::$maxMessageCount == vmEcho::$maxMessage) {
 			$msg .= ' Max messages reached';
 			$type = 'warning';
-			VmConfig::$maxMessageCount++;
+			vmEcho::$maxMessageCount++;
 		} else {
 			return false;
 		}
 	}
 
 	if(!empty($msg)){
-		VmConfig::$maxMessageCount++;
-		if(VmConfig::$_debug ){
+		vmEcho::$maxMessageCount++;
+		if(vmEcho::$_debug ){
 			vmdebug('vmInfo: '.$msg);
 		} else {
 			$app ->enqueueMessage($msg,$type);
@@ -81,30 +106,30 @@ function vmInfo($publicdescr,$value=NULL){
  */
 function vmAdminInfo($publicdescr,$value=NULL){
 
-	if(VmConfig::$echoAdmin){
+	if(vmEcho::$echoAdmin){
 
 		$app = JFactory::getApplication();
 
-		if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
+		if(vmEcho::$maxMessageCount<vmEcho::$maxMessage){
 			$lang = vmLanguage::getLanguage();
 			if($value!==NULL){
 
 				$args = func_get_args();
 				if (count($args) > 0) {
 					$args[0] = $lang->_($args[0]);
-					VmConfig::$maxMessageCount++;
-					$app ->enqueueMessage(call_user_func_array('sprintf', $args),VmConfig::$mType);
+					vmEcho::$maxMessageCount++;
+					$app ->enqueueMessage(call_user_func_array('sprintf', $args),vmEcho::$mType);
 				}
 			}	else {
-				VmConfig::$maxMessageCount++;
+				vmEcho::$maxMessageCount++;
 				$publicdescr = $lang->_($publicdescr);
-				$app ->enqueueMessage('Info: '.vmText::_($publicdescr),VmConfig::$mType);
+				$app ->enqueueMessage('Info: '.vmText::_($publicdescr),vmEcho::$mType);
 			}
 		}
 		else {
-			if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
-				$app->enqueueMessage ('Max messages reached '.vmText::_($publicdescr), VmConfig::$mType);
-				VmConfig::$maxMessageCount++;
+			if (vmEcho::$maxMessageCount == vmEcho::$maxMessage) {
+				$app->enqueueMessage ('Max messages reached '.vmText::_($publicdescr), vmEcho::$mType);
+				vmEcho::$maxMessageCount++;
 			}else {
 				return false;
 			}
@@ -118,7 +143,7 @@ function vmWarn($publicdescr,$value=NULL){
 
 	$app = JFactory::getApplication();
 	$msg = '';
-	if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
+	if(vmEcho::$maxMessageCount<vmEcho::$maxMessage){
 		$lang = vmLanguage::getLanguage();
 		if($value!==NULL){
 
@@ -133,16 +158,16 @@ function vmWarn($publicdescr,$value=NULL){
 		}
 	}
 	else {
-		if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
+		if (vmEcho::$maxMessageCount == vmEcho::$maxMessage) {
 			$msg = 'Max messages reached';
-			VmConfig::$maxMessageCount++;
+			vmEcho::$maxMessageCount++;
 		} else {
 			return false;
 		}
 	}
 
 	if(!empty($msg)){
-		VmConfig::$maxMessageCount++;
+		vmEcho::$maxMessageCount++;
 		$app ->enqueueMessage($msg,'warning');
 		return $msg;
 	} else {
@@ -179,9 +204,9 @@ function vmError($descr, $publicdescr = '', $trace = 1){
 	}
 
 	logInfo($adminmsg.$body,'error');
-	if(VmConfig::$maxMessageCount< (VmConfig::$maxMessage+5)){
+	if(vmEcho::$maxMessageCount< (vmEcho::$maxMessage+5)){
 
-		if(VmConfig::$echoAdmin){
+		if(vmEcho::$echoAdmin){
 			$msg = $adminmsg;
 		} else {
 			if(!empty($publicdescr)){
@@ -190,21 +215,21 @@ function vmError($descr, $publicdescr = '', $trace = 1){
 		}
 	}
 	else {
-		if (VmConfig::$maxMessageCount == (VmConfig::$maxMessage+5)) {
+		if (vmEcho::$maxMessageCount == (vmEcho::$maxMessage+5)) {
 			$msg = 'Max messages reached';
-			VmConfig::$maxMessageCount++;
+			vmEcho::$maxMessageCount++;
 		} else {
 			return false;
 		}
 	}
 
 	if(!empty($msg)){
-		VmConfig::$maxMessageCount++;
-		if(VmConfig::$echoDebug){
-			VmConfig::$maxMessageCount++;
+		vmEcho::$maxMessageCount++;
+		if(vmEcho::$echoDebug){
+			vmEcho::$maxMessageCount++;
 			echo $msg."\n";
 		}else {
-			VmConfig::$maxMessageCount++;
+			vmEcho::$maxMessageCount++;
 			$app = JFactory::getApplication();
 			$app ->enqueueMessage($msg,'error');
 		}
@@ -224,8 +249,8 @@ function vmError($descr, $publicdescr = '', $trace = 1){
  */
 function vmdebug($debugdescr,$debugvalues=NULL){
 
-	if(VmConfig::$_debug ){
-		if(VmConfig::$maxMessageCount<VmConfig::$maxMessage){
+	if(vmEcho::$_debug ){
+		if(vmEcho::$maxMessageCount<vmEcho::$maxMessage){
 			if($debugvalues!==NULL){
 				$args = func_get_args();
 				if (count($args) > 1) {
@@ -246,23 +271,23 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 				}
 			}
 
-			if(VmConfig::$echoDebug){
-				VmConfig::$maxMessageCount++;
+			if(vmEcho::$echoDebug){
+				vmEcho::$maxMessageCount++;
 				echo $debugdescr;
-			} else if(VmConfig::$logDebug){
+			} else if(vmEcho::$logDebug){
 				logInfo($debugdescr,'vmdebug');
 			}else {
-				VmConfig::$maxMessageCount++;
+				vmEcho::$maxMessageCount++;
 				$app = JFactory::getApplication();
-				$app ->enqueueMessage('<span class="vmdebug" >'.VmConfig::$maxMessageCount.' vmdebug '.$debugdescr.'</span>');
+				$app ->enqueueMessage('<span class="vmdebug" >'.vmEcho::$maxMessageCount.' vmdebug '.$debugdescr.'</span>');
 			}
 
 		}
 		else {
-			if (VmConfig::$maxMessageCount == VmConfig::$maxMessage) {
+			if (vmEcho::$maxMessageCount == vmEcho::$maxMessage) {
 				$app = JFactory::getApplication();
 				$app->enqueueMessage ('Max messages reached', 'info');
-				VmConfig::$maxMessageCount++;
+				vmEcho::$maxMessageCount++;
 			}
 		}
 
@@ -272,7 +297,7 @@ function vmdebug($debugdescr,$debugvalues=NULL){
 
 function vmTrace($notice,$force=FALSE, $args = 10){
 
-	if($force || (VMConfig::showDebug() ) ){
+	if($force || vmEcho::$_debug ){
 		ob_start();
 		echo '<pre>';
 		debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,$args);
@@ -281,16 +306,16 @@ function vmTrace($notice,$force=FALSE, $args = 10){
 		$body = ob_get_contents();
 		ob_end_clean();
 
-		if(VmConfig::$logDebug){
+		if(vmEcho::$logDebug){
 			logInfo($body,$notice);
 		}
 
-		if(VMConfig::showDebug()){
-			if(VmConfig::$echoDebug){
+		if(vmEcho::$_debug){
+			if(vmEcho::$echoDebug){
 				echo $notice.' <pre>'.$body.'</pre>';
 			}
 			$app = JFactory::getApplication();
-			$app ->enqueueMessage('<span class="vmdebug" >'.VmConfig::$maxMessageCount.' vmTrace '.$notice.' '.$body.'</span>');
+			$app ->enqueueMessage('<span class="vmdebug" >'.vmEcho::$maxMessageCount.' vmTrace '.$notice.' '.$body.'</span>');
 		}
 	}
 
@@ -305,14 +330,14 @@ function vmRamPeak($notice,$value=NULL){
 }
 
 function vmStartTimer($n='cur'){
-	VmConfig::$_starttime[$n]['t'] = microtime(TRUE);
+	vmEcho::$_starttime[$n]['t'] = microtime(TRUE);
 }
 
 function vmSetStartTime($n='cur', $t = 0){
 	if($t === 0){
-		VmConfig::$_starttime[$n]['t'] = microtime(TRUE);
+		vmEcho::$_starttime[$n]['t'] = microtime(TRUE);
 	} else {
-		VmConfig::$_starttime[$n]['t'] = $t;
+		vmEcho::$_starttime[$n]['t'] = $t;
 	}
 }
 
@@ -321,31 +346,31 @@ function vmTime( $descr, $name='cur', $sum = true, $output = true){
 	if (empty($descr)) {
 		$descr = $name;
 	}
-	//$starttime = VmConfig::$_starttime ;
-	if(empty(VmConfig::$_starttime[$name]['t'])){
+	//$starttime = vmEcho::$_starttime ;
+	if(empty(vmEcho::$_starttime[$name]['t'])){
 		vmdebug('vmTime: '.$descr.' starting '.microtime(TRUE));
-		VmConfig::$_starttime[$name] = array();
-		VmConfig::$_starttime[$name]['t'] = microtime(TRUE);
+		vmEcho::$_starttime[$name] = array();
+		vmEcho::$_starttime[$name]['t'] = microtime(TRUE);
 	}
 	else {
 		$t = microtime (TRUE);
-		$dt = ( $t - VmConfig::$_starttime[$name]['t'] );
-		if(!isset(VmConfig::$_starttime[$name]['Z'])){
-			VmConfig::$_starttime[$name]['Z'] = $dt;
+		$dt = ( $t - vmEcho::$_starttime[$name]['t'] );
+		if(!isset(vmEcho::$_starttime[$name]['Z'])){
+			vmEcho::$_starttime[$name]['Z'] = $dt;
 		} else {
-			VmConfig::$_starttime[$name]['Z'] += $dt;
+			vmEcho::$_starttime[$name]['Z'] += $dt;
 		}
 
-		if($sum) $dt = VmConfig::$_starttime[$name]['Z'];
+		if($sum) $dt = vmEcho::$_starttime[$name]['Z'];
 
 		if ($name == 'cur') {
 			if($output) vmdebug ('vmTime: ' . $descr . ' time consumed ' . $dt);
-			VmConfig::$_starttime[$name]['t'] = microtime (TRUE);
+			vmEcho::$_starttime[$name]['t'] = microtime (TRUE);
 		}
 		else {
 			$tmp = 'vmTime: ' . $descr . ': ' . $dt;
 			if($output) vmdebug ($tmp);
-			//if($reset) VmConfig::$_starttime[$name]['t'] = $t;
+			//if($reset) vmEcho::$_starttime[$name]['t'] = $t;
 		}
 	}
 	return $dt;
@@ -366,12 +391,12 @@ function logInfo ($text, $type = 'message') {
 
 		$config = JFactory::getConfig();
 		$log_path = $config->get('log_path', VMPATH_ROOT . "/log" );
-		$file = $log_path . "/" . VmConfig::$logFileName . VmConfig::LOGFILEEXT;
+		$file = $log_path . "/" . vmEcho::$logFileName . vmEcho::LOGFILEEXT;
 
 		if (!is_dir($log_path)) {
 			jimport('joomla.filesystem.folder');
 			if (!JFolder::create($log_path)) {
-				if (VmConfig::$echoAdmin){
+				if (vmEcho::$echoAdmin){
 					$msg = 'Could not create path ' . $log_path . ' to store log information. Check your folder ' . $log_path . ' permissions.';
 					$app = JFactory::getApplication();
 					$app->enqueueMessage($msg, 'error');
@@ -380,7 +405,7 @@ function logInfo ($text, $type = 'message') {
 			}
 		}
 		if (!is_writable($log_path)) {
-			if (VmConfig::$echoAdmin){
+			if (vmEcho::$echoAdmin){
 				$msg = 'Path ' . $log_path . ' to store log information is not writable. Check your folder ' . $log_path . ' permissions.';
 				$app = JFactory::getApplication();
 				$app->enqueueMessage($msg, 'error');
@@ -416,7 +441,7 @@ function logInfo ($text, $type = 'message') {
 		fwrite ($fp,  " ".strtoupper($type) . ' ' . htmlspecialchars($text));
 		fclose ($fp);
 	} else {
-		if (VmConfig::$echoAdmin){
+		if (vmEcho::$echoAdmin){
 			$msg = 'Could not write in file  ' . $file . ' to store log information. Check your file ' . $file . ' permissions.';
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($msg, 'error');

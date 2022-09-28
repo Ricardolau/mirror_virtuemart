@@ -120,8 +120,8 @@ class VirtuemartControllerVirtuemart extends VmController {
 					[keys]
 					key = "'.VmConfig::get('member_access_number','').'"
 					unixtime = "'.$today.'"
-					res = "'.vRequest::filter($data->res,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW).'"
-					html = "'.htmlspecialchars($data->html).'"
+					res = "'.vRequest::vmSpecialChars($data->res).'"
+					html = "'.vRequest::vmSpecialChars($data->html).'"
 					; */ ?>';
 				$result = JFile::write($safePath, $content);
 			}

@@ -67,7 +67,7 @@ $safePath = str_replace('/',DS, VMPATH_ADMIN.'/'.$token);
 
 
 //$suggestedPath2 = VMPATH_ADMIN.DS.vmCrypt::getToken(21).DS;
-echo '<div>'.vmText::sprintf('COM_VM_SAFEPATH_EXPLAIN', htmlspecialchars($usafePath), htmlspecialchars($safePath),'').'</div>';
+echo '<div>'.vmText::sprintf('COM_VM_SAFEPATH_EXPLAIN', vRequest::vmSpecialChars($usafePath), vRequest::vmSpecialChars($safePath),'').'</div>';
 
 $extra = '';
 if(vRequest::getBool('show_spwizard',false)){

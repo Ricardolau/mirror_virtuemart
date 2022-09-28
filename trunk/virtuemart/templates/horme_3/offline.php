@@ -27,11 +27,11 @@ include_once JPATH_THEMES.'/'.$this->template.'/logic.php'; // load logic.php
 				<jdoc:include type="message" />
 				<?php if ($app->getCfg('offline_image')) { ?>
 				<div class="text-center">
-						<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->getCfg('sitename')); ?>" />
+						<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo vRequest::vmSpecialChars($app->getCfg('sitename')); ?>" />
 				</div>
 				<?php } ?>
 				<h1 class="page-header text-center">
-				<?php echo htmlspecialchars($app->getCfg('sitename')); ?>
+				<?php echo vRequest::vmSpecialChars($app->getCfg('sitename')); ?>
 				</h1>
 				<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != '') { ?>
 				<p class="lead text-center">

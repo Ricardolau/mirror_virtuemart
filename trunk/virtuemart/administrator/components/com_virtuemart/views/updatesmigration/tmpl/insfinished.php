@@ -72,7 +72,7 @@ if($option=='com_virtuemart'){
 			<td>
 				<?php
 				$s = empty($instPath)? VMPATH_ROOT:$instPath;
-				echo vmText::sprintf('COM_VM_INSTALLATION_SOURCE',htmlspecialchars($s)); ?>
+				echo vmText::sprintf('COM_VM_INSTALLATION_SOURCE',vRequest::vmSpecialChars($s)); ?>
             </td>
 		</tr>
 		<?php  if (vRequest::getCmd('view','')=='install') {

@@ -79,7 +79,7 @@ abstract class vHtmlJGrid
 			} else {
 				$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
 				$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-				$html[] = ' title="' . addslashes(htmlspecialchars($translate ? vmText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
+				$html[] = ' title="' . addslashes(vRequest::vmSpecialChars($translate ? vmText::_($active_title) : $active_title)) . '">';
 				$html[] = '<span class="state ' . $active_class . '">';
 				$html[] = $text ? ('<span class="text">' . ($translate ? vmText::_($text):$text) . '</span>') : '';
 				$html[] = '</span>';
@@ -105,7 +105,7 @@ abstract class vHtmlJGrid
 				$html[] = '</a>';
 			} else {
 				$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
-				$html[] = ' title="' . addslashes(htmlspecialchars($translate ? vmText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
+				$html[] = ' title="' . addslashes(vRequest::vmSpecialChars($translate ? vmText::_($inactive_title) : $inactive_title)) . '">';
 				$html[] = '<span class="state ' . $inactive_class . '">';
 				$html[] = $text ? ('<span class="text">' . ($translate ? vmText::_($text) : $text) . '</span>') :'';
 				$html[] = '</span>';

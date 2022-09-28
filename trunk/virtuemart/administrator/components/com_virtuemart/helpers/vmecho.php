@@ -438,7 +438,7 @@ function logInfo ($text, $type = 'message') {
 		}
 
 		fwrite ($fp, "\n" . JFactory::getDate()->format ('Y-m-d H:i:s'));
-		fwrite ($fp,  " ".strtoupper($type) . ' ' . htmlspecialchars($text));
+		fwrite ($fp,  " ".strtoupper($type) . ' ' . vRequest::vmSpecialChars($text));
 		fclose ($fp);
 	} else {
 		if (vmEcho::$echoAdmin){

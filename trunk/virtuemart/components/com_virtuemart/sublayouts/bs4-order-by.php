@@ -20,7 +20,7 @@ $productModel = VmModel::getModel('product');
 // get the virtuemart category id
 $virtuemart_category_id = vRequest::getInt('virtuemart_category_id', -1);
 
-$getArray = vRequest::getGet(FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$getArray = vRequest::getGet(FILTER_SANITIZE_SPECIAL_CHARS);
 if (!isset($getArray['view'])) {
 	$getArray['view'] = 'category';
 }

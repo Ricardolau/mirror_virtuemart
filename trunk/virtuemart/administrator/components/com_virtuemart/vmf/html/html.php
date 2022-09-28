@@ -824,7 +824,7 @@ abstract class vHtml extends vBasicModel
 
 		if (!$text)
 		{
-			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+			$alt = vRequest::vmSpecialChars($alt);
 			$text = static::image($image, $alt, null, true);
 		}
 
@@ -840,11 +840,11 @@ abstract class vHtml extends vBasicModel
 		if ($class == 'hasTip')
 		{
 			// Still using MooTools tooltips!
-			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+			$tooltip = vRequest::vmSpecialChars($tooltip);
 
 			if ($title)
 			{
-				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+				$title = vRequest::vmSpecialChars($title);
 				$tooltip = $title . '::' . $tooltip;
 			}
 		}
@@ -912,7 +912,7 @@ abstract class vHtml extends vBasicModel
 			// Escape everything, if required.
 			if ($escape)
 			{
-				$result = htmlspecialchars($result);
+				$result = vRequest::vmSpecialChars($result);
 			}
 		}
 
@@ -998,7 +998,7 @@ abstract class vHtml extends vBasicModel
 
 		return '<div' . $div_class . '>'
 				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '" name="' . $name . '" id="' . $id . '" value="' . vRequest::vmSpecialChars($inputvalue) . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
 			. '</div>';
 	}

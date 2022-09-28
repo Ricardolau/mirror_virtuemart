@@ -40,7 +40,7 @@ class SofortText extends SofortElement {
 	 * @see SofortElement::render()
 	 */
 	public function render() {
-		return $this->escape ? htmlspecialchars($this->text) : $this->text;
+		return $this->escape ? vRequest::vmSpecialChars($this->text) : $this->text;
 	}
 }
 ?>

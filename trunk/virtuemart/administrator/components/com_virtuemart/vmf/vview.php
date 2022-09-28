@@ -28,7 +28,7 @@ abstract class vView extends vBasicModel implements vIView {
 	public function escape($output)
 	{
 		// Escape the output.
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+		return vRequest::vmSpecialChars($output);
 	}
 
 	/**

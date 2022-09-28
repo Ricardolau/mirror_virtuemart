@@ -274,7 +274,7 @@ class VirtueMartModelOrders extends VmModel {
 			foreach($concat as $c){
 				$order['details']['BT']->order_name .= trim($c).' ';
 			}
-			$order['details']['BT']->order_name = trim(htmlspecialchars(strip_tags(htmlspecialchars_decode($order['details']['BT']->order_name))));
+			$order['details']['BT']->order_name = trim(vRequest::vmSpecialChars(strip_tags(htmlspecialchars_decode($order['details']['BT']->order_name))));
 
 			if(isset($order['details']['ST'])){
 				$order['details']['has_ST'] = true;
@@ -498,7 +498,7 @@ class VirtueMartModelOrders extends VmModel {
 
 		if($this->_data){
 			foreach($this->_data as $k=>$d){
-				$this->_data[$k]->order_name = htmlspecialchars(strip_tags(htmlspecialchars_decode($d->order_name)));
+				$this->_data[$k]->order_name = vRequest::vmSpecialChars(strip_tags(htmlspecialchars_decode($d->order_name)));
 			}
 		}
 

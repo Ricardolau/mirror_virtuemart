@@ -82,7 +82,7 @@ class vButtonHelp extends vButton
 		// Get Help URL
 		jimport('joomla.language.help');
 		$url = JHelp::createURL($ref, $com, $override, $component);
-		$url = htmlspecialchars($url, ENT_QUOTES);
+		$url = vRequest::vmSpecialChars($url);
 		$cmd = "Joomla.popupWindow('$url', '" . vmText::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;

@@ -192,7 +192,7 @@ class PaypalHelperPayPalStd extends PaypalHelperPaypal {
 		$html .= '<input type="hidden" name="charset" value="utf-8">';
 
 		foreach ($post_variables as $name => $value) {
-			$html .= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
+			$html .= '<input type="hidden" name="' . $name . '" value="' . vRequest::vmSpecialChars($value) . '" />';
 		}
 		if ($this->_method->debug) {
 

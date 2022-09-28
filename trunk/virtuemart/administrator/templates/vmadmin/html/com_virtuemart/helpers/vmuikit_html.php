@@ -210,7 +210,7 @@ class VmuikitHtml extends VmHtml {
 			}
 			$id = $name.$key;
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($key, ENT_QUOTES) . '" '.$checked.' ' . $extra. ' />' . $val;
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . vRequest::vmSpecialChars($key, ENT_QUOTES) . '" '.$checked.' ' . $extra. ' />' . $val;
 			$html .= "\n\t" . "</label>".$separator."\n";
 		}
 

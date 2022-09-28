@@ -182,7 +182,7 @@ class plgVmPaymentTco extends vmPSPlugin {
         $html = '<div style="margin: auto; text-align: center;">';
         $html .= '<form action="' . $tcoDetails["env"] . '/checkout/purchase' . '" method="post" id="vmPaymentForm" >';
         foreach ($post_variables as $name => $value) {
-            $html.= '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
+            $html.= '<input type="hidden" name="' . $name . '" value="' . vRequest::vmSpecialChars($value) . '" />';
         }
         $html.= '<input type="submit" id="tco_submit" class="vm-button-correct" style="display:none" value="' . vmText::_('VMPAYMENT_TCO_BUTTON_MESSAGE') . '" />';
         $html.= '</form></div><br />';

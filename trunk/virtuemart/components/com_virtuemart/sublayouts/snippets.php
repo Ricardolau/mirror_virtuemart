@@ -27,7 +27,7 @@ if (is_object($productrating)) {
 }
 
 $canonicalUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')).JRoute::_($product->canonical);
-$name = htmlspecialchars(strip_tags($product->product_name));
+$name = vRequest::vmSpecialChars(strip_tags($product->product_name));
 if (VmConfig::get('show_manufacturers', 1)){
 	$brand = (!empty($product->mf_name)? $product->mf_name : '');
 } else {
@@ -86,7 +86,7 @@ if (empty($description)){
 		$description = $product->product_desc;
 	}
 }
-$description = str_replace('"','\"',htmlspecialchars(strip_tags($description)));
+$description = str_replace('"','\"',vRequest::vmSpecialChars(strip_tags($description)));
 ?>
 
 <script type="application/ld+json">

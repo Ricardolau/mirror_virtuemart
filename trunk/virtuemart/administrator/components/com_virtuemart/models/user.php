@@ -604,14 +604,14 @@ class VirtueMartModelUser extends VmModel {
             }
 
         } else {
-            $data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
+            $data['name'] = vRequest::filter($data['name'],FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
 
         }
         $data['name'] = str_replace(array('\'','"',',','%','*','/','\\','?','^','`','{','}','|','~'),array(''),$data['name']);
 
         $can_change_username = (int)$usersConfig->get('change_login_name', false);
 
-        $data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
+        $data['username'] = vRequest::filter($data['username'],FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
 
         $username = $user->get('username');
         if(!empty($username)){

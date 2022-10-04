@@ -98,8 +98,8 @@ class com_tcpdfInstallerScript {
 		$html .= "<h3>Installation Successful.</h3>";
 
 		echo $html;
+		if(class_exist('vRequest')) vRequest::setVar('tcpdf_html',$html);
 		$_REQUEST['tcpdf_html'] = $html;
-
 		return TRUE;
 
 	}

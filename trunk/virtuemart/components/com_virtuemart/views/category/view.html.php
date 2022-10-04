@@ -102,6 +102,7 @@ class VirtuemartViewCategory extends VmView {
 		$this->Itemid = $itemId;
 
 		$this->productModel = VmModel::getModel('product');
+		$this->productModel->cartattribute = 1;
 		$this->keyword = $this->productModel->keyword;
 
 		$this->virtuemart_manufacturer_id = vRequest::getInt('virtuemart_manufacturer_id', -1 );

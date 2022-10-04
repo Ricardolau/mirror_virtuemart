@@ -1,4 +1,6 @@
 <?php
+
+
 if(  !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 /**
  *
@@ -329,7 +331,7 @@ class vmrouterHelper {
 			}
 
 		} else {
-			if(self::$slang != VmLanguage::$currLangTag or (self::$byMenu and $query['Itemid'] != self::$Itemid)){
+			if(self::$slang != VmLanguage::$currLangTag or (self::$byMenu and !empty($query['Itemid']) and $query['Itemid'] != self::$Itemid)){
 				//vmdebug('Execute setRoutingQuery because, ',VmLanguage::$currLangTag,$query['Itemid']);
 				self::$slang = VmLanguage::$currLangTag;
 				vmrouterHelper::setRoutingQuery($query);
@@ -1549,9 +1551,9 @@ class vmrouterHelper {
 
 		if(!isset($ids[$hash])){
 			$ids[$hash] = false;
-			VmConfig::$logDebug = 1;
+			vmEcho::$logDebug = 1;
 			vmdebug('Router getFieldOfObjectWithLangFallBack Could not find '.$q );
-			VmConfig::$logDebug = 0;
+			vmEcho::$logDebug = 0;
 		}
 		//vmdebug('getFieldOfObjectWithLangFallBack my query ',str_replace('#__',self::$_db->getPrefix(),self::$_db->getQuery()),$ids[$hash]);
 		return $ids[$hash];

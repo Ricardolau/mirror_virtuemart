@@ -90,7 +90,8 @@ class vRequest {
 			$str  = str_replace('..', '', $str);
 		};
 		$str  = preg_replace('#[/\\\\]+#', DS, $str);
-		$str = filter_var($str, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW);
+		$str = vRequest::vmSpecialChars($str);
+
 		return $str;
 	}
 
@@ -105,11 +106,11 @@ class vRequest {
 	}
 
 	public static function getInt($name, $default = 0, $source = 0){
-		return self::get($name, $default, FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE,$source);
+		return self::get($name, $default, FILTER_SANITIZE_NUMBER_INT,FILTER_FLAG_NO_ENCODE, $source);
 	}
 
-	public static function getFloat($name,$default=0.0){
-		return self::get($name,$default,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_SCIENTIFIC|FILTER_FLAG_ALLOW_FRACTION);
+	public static function getFloat($name,$default=0.0, $source = 0){
+		return self::get($name,$default,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_SCIENTIFIC|FILTER_FLAG_ALLOW_FRACTION, $source);
 	}
 
 	/**
@@ -117,7 +118,10 @@ class vRequest {
 	 * - Strips all html.
 	 */
 	public static function getCmd($name, $default = '', $source = 0){
-		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH, $source);
+		$str =  self::get($name, $default, FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH, $source);
+		$str = trim($str, ' ' . chr(194) . chr(160));
+		$str = vRequest::vmSpecialChars(strip_tags(vRequest::vmSpecialChars_decode($str)));
+		return $str;
 	}
 
 	/**
@@ -125,7 +129,10 @@ class vRequest {
 	 * - Strips all html.
 	 */
 	public static function getWord($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
+		$str =  self::get($name, $default, FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_STRIP_LOW);
+		$str = trim($str, ' ' . chr(194) . chr(160));
+		$str = vRequest::vmSpecialChars(strip_tags(vRequest::vmSpecialChars_decode($str)));
+		return $str;
 	}
 
 	/**
@@ -140,8 +147,14 @@ class vRequest {
 	 * - Encodes all characters that has a numerical value <32.
 	 * - strips html
 	 */
-	public static function getString($name, $default = ''){
-		return self::get($name, $default, FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+	public static function getString($name, $default = '', $source = 0){
+
+		$str = self::get($name, $default, FILTER_UNSAFE_RAW,FILTER_FLAG_ENCODE_LOW, $source);
+
+		// replace no-break-space 'whitespace'
+		$str = trim($str, ' ' . chr(194) . chr(160));
+		$str = vRequest::vmSpecialChars(strip_tags(vRequest::vmSpecialChars_decode($str)));
+		return $str;
 	}
 
 	public static function recurseFilterText(&$tmp){
@@ -160,7 +173,7 @@ class vRequest {
 	 * - keeps "secure" html
 	 */
 	public static function getHtml($name, $default = '', $input = 0){
-		$tmp = self::get($name, $default,FILTER_UNSAFE_RAW,FILTER_FLAG_NO_ENCODE,$input);
+		$tmp = self::get($name, $default,FILTER_UNSAFE_RAW,FILTER_FLAG_NO_ENCODE, $input);
 
 		if(is_array($tmp)){
 			self::recurseFilterText($tmp);
@@ -186,7 +199,7 @@ class vRequest {
 		$url = strip_tags($url);
 
 		//$url = self::filter($url,FILTER_SANITIZE_URL,'');
-		return self::filter($url,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+		return self::filter($url,FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 	}
 
 	public static $request = null;
@@ -231,30 +244,12 @@ class vRequest {
 			}
 
 			if($source==0){
-				if(isset(self::$request)){
-					$sourceVar = self::$request;
-				}
-				else {
-					$sourceVar = $_REQUEST;
-					if(VmConfig::isSite()){
-						if(self::$varRouter===null) {
-							$router = JFactory::getApplication()->getRouter();
-							self::$varRouter = $router->getVars();
-						}
 
-						vmdebug('In $_REQUEST and router '.$key, $_REQUEST, self::$varRouter);
-						if(empty($_REQUEST)) {
-							$sourceVar = self::$varRouter;
-						} else if (empty(self::$varRouter)) {
-							$sourceVar = $_REQUEST;
-						} else if(is_array(self::$varRouter) and is_array($_REQUEST) ){
-							$sourceVar = array_merge(self::$varRouter, $_REQUEST);
-							//self::$request = $sourceVar = array_merge($_REQUEST, self::$varRouter);
-							vmdebug('Merging $request vars '.$key, $_REQUEST, self::$varRouter, self::$request);
-						}
-					}
-
+				if(!isset(self::$request)){
+					vRequest::setRouterVars();
 				}
+				$sourceVar = self::$request;
+
 
 			} else if($source=='GET') {
 				if (isset(self::$get)) {
@@ -303,8 +298,9 @@ class vRequest {
 
 	public static function setRouterVars(){
 
-		if(self::$routerSet) return;
-		vmdebug('Set router vars');
+		//if(self::$routerSet) return;
+		$routerDebug = VmConfig::get('debug_enable_router',0);
+		if($routerDebug)vmdebug('Set router vars');
 		if(VmConfig::isSite()) {
 			$router = JFactory::getApplication()->getRouter();
 			self::$varRouter = $router->getVars();
@@ -313,21 +309,22 @@ class vRequest {
 		self::$request = $_REQUEST;
 		self::$get = $_GET;
 		if(VmConfig::isSite()) {
-			
+
+
 			if(empty($_GET)){
 				self::$get = self::$varRouter;
-				vmdebug('setRouterVars $_GET empty ', self::$get);
+				if($routerDebug)vmdebug('setRouterVars $_GET empty ', self::$get);
 			} else if (empty(self::$varRouter)) {
 				self::$get = $_GET;
-				vmdebug('setRouterVars $varRouter empty ', self::$get);
+				if($routerDebug)vmdebug('setRouterVars $varRouter empty ', self::$get);
 			} else if ( is_array(self::$varRouter) and is_array($_GET) ) {
-				//self::$get = array_merge(self::$varRouter, $_GET);
+				if($routerDebug)self::$get = array_merge(self::$varRouter, $_GET);
 				self::$get = array_merge($_GET, self::$varRouter);
-				vmdebug('setRouterVars Merging $get vars ', $_GET, self::$varRouter, self::$get);
+				if($routerDebug)vmdebug('setRouterVars Merging $get vars ', $_GET, self::$varRouter, self::$get);
 			}
 			self::$request = array_merge( self::$request, self::$get);
 			self::$request = array_merge( self::$request, $_POST);
-			vmdebug('Set router vars Post, Get, self::$get and self::$request', $_POST ,$_GET, self::$get, self::$request);
+			if($routerDebug) vmdebug('Set router vars Post, Get, self::$get and self::$request', $_POST ,$_GET, self::$get, self::$request);
 		}
 
 		self::$routerSet = true;
@@ -348,7 +345,7 @@ class vRequest {
 	public static function recurseFilter(&$var, $filter, $flags = FILTER_FLAG_STRIP_LOW){
 		foreach($var as $k=>&$v){
 			if(!empty($k) and !is_numeric($k)){
-				$t = filter_var($k, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW);
+				$t = filter_var($k, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW);
 				if($t!=$k){
 					$var[$t] = $v;
 					unset($var[$k]);
@@ -406,7 +403,7 @@ class vRequest {
 		return self::filter($source, $filter, $flags,true);
 	}
 	
-	public static function getFiles( $name, $filter = FILTER_SANITIZE_FULL_SPECIAL_CHARS, $flags = FILTER_FLAG_STRIP_LOW){
+	public static function getFiles( $name, $filter = FILTER_SANITIZE_SPECIAL_CHARS, $flags = FILTER_FLAG_STRIP_LOW){
 		if(empty($_FILES[$name])) return false;
 		return  self::filter($_FILES[$name], $filter, $flags);
 	}
@@ -433,6 +430,16 @@ class vRequest {
 			$c = htmlspecialchars ($c,ENT_QUOTES,'UTF-8',false);	//ENT_SUBSTITUTE only for php5.4 and higher
 		} else {
 			$c = htmlspecialchars ($c,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8',false);
+		}
+		return $c;
+	}
+
+	public static function vmSpecialChars_decode($c){
+		if (version_compare(phpversion(), '5.4.0', '<')) {
+			// php version isn't high enough
+			$c = htmlspecialchars_decode ($c,ENT_QUOTES);	//ENT_SUBSTITUTE only for php5.4 and higher
+		} else {
+			$c = htmlspecialchars_decode ($c,ENT_QUOTES|ENT_SUBSTITUTE);
 		}
 		return $c;
 	}

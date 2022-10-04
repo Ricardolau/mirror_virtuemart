@@ -111,7 +111,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			$filterArray = array('product_name', '`p`.created_on', '`p`.product_sku','`p`.product_mpn',
 			'product_s_desc', 'product_desc','`l`.slug',
-			'category_name', 'category_description', 'mf_name',
+			'category_name', 'category_description', /*'mf_name',*/
 			'product_price', '`p`.product_special', '`p`.product_sales', '`p`.product_availability', '`p`.product_available_date',
 			'`p`.product_height', '`p`.product_width', '`p`.product_length', '`p`.product_lwh_uom',
 			'`p`.product_weight', '`p`.product_weight_uom', '`p`.product_in_stock', '`p`.low_stock_notification',
@@ -196,9 +196,15 @@ class VirtueMartModelProduct extends VmModel {
 			//$this->virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', FALSE);
 			$this->searchAllCats = $app->getUserStateFromRequest('com_virtuemart.customfields.searchAllCats','searchAllCats',false);
 
-			$this->keyword = vRequest::getString('keyword','');
-			$this->keyword = urldecode($this->keyword);
-			$this->keyword = vRequest::filter($this->keyword,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+			$this->keyword = vRequest::getString('keyword','', $_GET);
+			if($this->keyword === ''){
+				$this->keyword = vRequest::getString('keyword','', $_REQUEST);
+			} else {
+				$this->keyword = urldecode($this->keyword);
+			}
+
+			//vmdebug('my keyword for search',$this->keyword);
+			//$this->keyword = urlencode(vRequest::filter($this->keyword,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW));
 
 			vRequest::setVar('keyword',urlencode($this->keyword));
 			$this->search_type = vRequest::getVar ('search_type', '');
@@ -218,7 +224,7 @@ class VirtueMartModelProduct extends VmModel {
 				}
 
 					if(is_object($this->searchcustoms)) $this->searchcustoms = get_object_vars($this->searchcustoms);
-					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+					$this->searchcustoms = vRequest::filter($this->searchcustoms,FILTER_SANITIZE_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
 				foreach($this->searchcustoms as $k=>$v){
 					if(empty($v)) unset($this->searchcustoms[$k]);
 				}
@@ -258,8 +264,8 @@ class VirtueMartModelProduct extends VmModel {
 				}
 			}
 
-			$this->keyword = $this->filter_product;
-
+			$this->keyword = vRequest::getString('filter_product','');
+			vmdebug('my keyword for search',$this->keyword);
 			$this->search_type = $app->getUserStateFromRequest ($option . '.'. $view . $task.'.search_type', 'search_type', '', 'word');
 			if(!vmAccess::manager('managevendors')){
 				$this->virtuemart_vendor_id = vmAccess::getVendorId();
@@ -454,7 +460,8 @@ class VirtueMartModelProduct extends VmModel {
 
 		if (!empty($keyword) and $group === FALSE) {
 
-			$keyword = vRequest::filter(html_entity_decode($keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+			//$keyword = vRequest::filter(html_entity_decode($keyword, ENT_QUOTES, "UTF-8"),FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
+			$keyword =  vRequest::vmSpecialChars($keyword);
 			$keyword = $db->escape( $keyword, true );
 			$keyword =  '"%' .str_replace(array(' '),'%', $keyword). '%"';
 
@@ -465,14 +472,15 @@ class VirtueMartModelProduct extends VmModel {
 			if ((!empty($adjustedKeyword) && ($adjustedKeyword !== $keyword))) {
 				$keyword = $adjustedKeyword;
 			}
-			//vmdebug('Current search field',$newSearchfields,$this->valid_search_fields);
-			foreach ($newSearchfields as $searchField) {
+			vmdebug('Current search field',$newSearchfields,$this->valid_search_fields);
+			foreach ($newSearchfields as $k => $searchField) {
 				$prodLangFB = false;
 				if ($searchField == 'category_name' || $searchField == 'category_description') {
 					$joinCatLang = true;
 				}
 				else if ($searchField == 'mf_name') {
-					$joinMfLang = true;
+					unset($newSearchfields[$k]);
+					//$joinMfLang = true;
 				}
 				else if ($searchField == 'product_price') {
 					$joinPrice = TRUE;
@@ -590,11 +598,17 @@ class VirtueMartModelProduct extends VmModel {
 		} else if ($isSite) {
 
 			if($searchcustoms or !empty($filter_search)){
-				if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
+
+				$DoNotShowUncategorisedParents = !VmConfig::get('show_uncat_parent_products',FALSE);
+				$DoNotShowUncategorisedChildren =  !VmConfig::get('show_uncat_child_products',TRUE);
+				if($DoNotShowUncategorisedParents and $DoNotShowUncategorisedChildren){
+					$joinCategory = TRUE;
+					$where[] = ' (`pc`.`virtuemart_category_id` > "0") ';
+				} else if ($DoNotShowUncategorisedParents) {
 					$joinCategory = TRUE;
 					$where[] = ' ((p.`product_parent_id` = "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` > "0") ';
 				}
-				if (!VmConfig::get('show_uncat_child_products',TRUE)) {
+				else if ($DoNotShowUncategorisedChildren) {
 					$joinCategory = TRUE;
 					$where[] = ' ((p.`product_parent_id` > "0" AND `pc`.`virtuemart_category_id` > "0") OR p.`product_parent_id` = "0") ';
 				}
@@ -810,7 +824,6 @@ class VirtueMartModelProduct extends VmModel {
 				$where[] = ' p.`published`="1" ';
 			} else {
 				$published = isset($params['published']) ? $params['published'] : $this->published;
-				vmdebug('my published ',$published,$params);
 				if($published>0){
 					$where[] = ' p.`published`="1" ';
 				} else if(!$isSite and $published=='0'){
@@ -898,7 +911,7 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
-		if ($joinMf == TRUE or $joinMfLang) {
+		if ( ($joinMf == TRUE or $joinMfLang) and $keyword == false) {
 			$joinedTables[] = ' LEFT JOIN `#__virtuemart_product_manufacturers` ON p.`virtuemart_product_id` = `#__virtuemart_product_manufacturers`.`virtuemart_product_id` ';
 			if($joinMfLang){
 				$joinedTables[] = 'LEFT JOIN `#__virtuemart_manufacturers_' . VmConfig::$vmlang . '` as m ON m.`virtuemart_manufacturer_id` = `#__virtuemart_product_manufacturers`.`virtuemart_manufacturer_id` ';
@@ -1186,6 +1199,8 @@ class VirtueMartModelProduct extends VmModel {
 	static $_alreadyLoadedIds = array();
 	static $omitLoaded = false;
 
+	var $cartattribute = -1;
+
 	/**
 	 * This function creates a product with the attributes of the parent.
 	 *
@@ -1215,8 +1230,10 @@ class VirtueMartModelProduct extends VmModel {
 			vmTrace('getProduct Quanty empty');
 			$quantity = 1;
 		}
-		if($virtuemart_shoppergroup_ids === 0){
+
+		if($virtuemart_shoppergroup_ids === 0) {
 			$virtuemart_shoppergroup_ids = self::getCurrentUserShopperGrps();
+			vmdebug('Onw shoppergroup',$virtuemart_shoppergroup_ids);
 		}
 
 		$checkedProductKey = self::checkIfCached($virtuemart_product_id, $front, $withCalc, $onlyPublished, $quantity, $virtuemart_shoppergroup_ids,$this->withRating);
@@ -1243,7 +1260,7 @@ class VirtueMartModelProduct extends VmModel {
 		}
 		$child = $this->getProductSingle ($virtuemart_product_id, $front,$quantity,false,$virtuemart_shoppergroup_ids);
 
-		if (!$child->published && $onlyPublished) {
+		if ($onlyPublished and empty($child->published)) {
 			self::$_products[$productKey] = false;
 			vmTime('getProduct return false, not published '.$virtuemart_product_id,'getProduct');
 			return FALSE;
@@ -1288,7 +1305,9 @@ class VirtueMartModelProduct extends VmModel {
 			$withPrice = true;
 			if(isset($child->selectedPrice)){
 				$withPrice = false;
+				vmdebug('Child has price, load parent without price');
 			}
+
 			$parentProduct = $this->getProductSingle ($child->product_parent_id, $front,$quantity, false, 0, $withPrice);
 			if(!$parentProduct){
 				$msg = 'Child product id '.$child->virtuemart_product_id. ' is missing parent product with $child->product_parent_id '.$child->product_parent_id;
@@ -1300,8 +1319,8 @@ class VirtueMartModelProduct extends VmModel {
 				vmTrace('Error, parent product with virtuemart_product_id = '.$parentProduct->virtuemart_product_id.' has same parent id like the child with virtuemart_product_id '.$child->virtuemart_product_id);
 				break;
 			}
-			$attribs = get_object_vars ($parentProduct);
 
+			$attribs = get_object_vars ($parentProduct);
 			foreach ($attribs as $k=> $v) {
 
 				if (!property_exists($parentProduct, $k) or 'shared_stock' == $k or (!$child->shared_stock and ('product_in_stock' == $k or 'product_ordered' == $k))) {// Do not copy parent stock into child
@@ -1323,11 +1342,11 @@ class VirtueMartModelProduct extends VmModel {
 			else {
 				$child->product_parent_id = 0;
 			}
-
+			vmdebug('Child prices', $child->selectedPrice, $child->allPrices);
 		}
 
 		//$child->product_name = vRequest::vmHtmlEntities( $child->product_name);
-		//vmdebug('getProduct Time: '.$runtime);
+
 		$child->published = $published;
 		$child->virtuemart_product_id = $pId;
 		$child->product_parent_id = $ppId;
@@ -1341,7 +1360,7 @@ class VirtueMartModelProduct extends VmModel {
 		$customfieldsModel = VmModel::getModel ('Customfields');
 		$child->modificatorSum = null;
 		if(!empty($child->allIds)){
-			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,-1, FALSE);
+			$child->customfields = $customfieldsModel->getCustomEmbeddedProductCustomFields ($child->allIds,0,$this->cartattribute, FALSE);
 		} else {
 			vmTrace('Empty product allIds in getProduct? '. $virtuemart_product_id);
 		}
@@ -1523,12 +1542,13 @@ class VirtueMartModelProduct extends VmModel {
 		} else {
 			//$product->has_prices = 0;
 			$product->allPrices = false;
+			$product->selectedPrice = false;
 		}
 
 		$i = 0;
 		$runtime = microtime (TRUE) - $this->starttime;
 		$product_parent_id = $product->product_parent_id;
-		//vmdebug('getRawProductPrices',$product->allPrices);
+
 		//Check for all prices to inherited by parent products
 		if( $withParent and !empty($product_parent_id)) {
 			//vmdebug('getRawProductPrices load parent prices for '.$productId,$product_parent_id);
@@ -1677,7 +1697,7 @@ class VirtueMartModelProduct extends VmModel {
 	var $withRating = false;
 	static $_productsSingle = array();
 
-	public function getProductSingle ($virtuemart_product_id, $front = TRUE, $quantity = 1, $withParent=false,$virtuemart_shoppergroup_ids=0, $prices = true) {
+	public function getProductSingle ($virtuemart_product_id, $front = TRUE, $quantity = 1, $withParent=false, $virtuemart_shoppergroup_ids=0, $prices = true) {
 
 		$virtuemart_product_id = $this->setId ($virtuemart_product_id);
 
@@ -1731,6 +1751,7 @@ class VirtueMartModelProduct extends VmModel {
 			if($optimised){
 
 				$storeHasMedias = false;
+				$product->virtuemart_media_id = false;
 				if(!isset($product->has_medias) or $product->has_medias){
 					$xrefTable = $this->getTable ('product_medias');
 					$product->virtuemart_media_id = $xrefTable->load ((int)$this->_id);
@@ -1743,6 +1764,7 @@ class VirtueMartModelProduct extends VmModel {
 
 				// Load the shoppers the product is available to for Custom Shopper Visibility
 				$storeHasShoppergroups = false;
+				$product->shoppergroups = false;
 				if(!isset($product->has_shoppergroups) or $product->has_shoppergroups){
 					$product->shoppergroups = $this->getTable('product_shoppergroups')->load($this->_id);
 					//vmdebug('getProductSingle loaded product_shoppergroups', $storeHasShoppergroups);
@@ -1753,16 +1775,23 @@ class VirtueMartModelProduct extends VmModel {
 				}
 
 				$storeHasPrices = false;
+				//Inheritance needs a set property
+				$product->allPrices = false;
+				$product->selectedPrice = 0;
 				if($prices) {
+
 					if(!isset($product->has_prices) or $product->has_prices){
 						if(!isset($product->has_prices)){
 							$storeHasPrices = true;
 						}
 						$this->getRawProductPrices($product,$quantity,$virtuemart_shoppergroup_ids,$front,$withParent,$optimised);
 					}
+				} else {
+					vmdebug('getProductSingle loading without prices id '.$virtuemart_product_id);
 				}
 
 				$storeHasManufacturers = false;
+				$product->virtuemart_manufacturer_id = false;
 				if(!isset($product->has_manufacturers) or $product->has_manufacturers){
 					$product->virtuemart_manufacturer_id = $this->getTable('product_manufacturers')->load($this->_id);
 					//vmdebug('getProductSingle loaded product_manufacturers',$product->has_manufacturers);
@@ -1774,6 +1803,7 @@ class VirtueMartModelProduct extends VmModel {
 
 				// Load the categories the product is in
 				$storeHasCategories = false;
+				$product->categoryItem = false;
 				if(!isset($product->has_categories) or $product->has_categories){
 					$product->categoryItem = $this->getProductCategories ($this->_id); //We need also the unpublished categories, else the calculation rules do not work
 					//vmdebug('getProductSingle loaded categories',$product->categoryItem);
@@ -3189,7 +3219,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 	 **/
 	function getOrderByList ($virtuemart_category_id = FALSE) {
 
-		$getArray = vRequest::getGet(FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$getArray = vRequest::getGet(FILTER_SANITIZE_SPECIAL_CHARS);
 
 		if (!isset($getArray['view'])) {
 			$getArray['view'] = 'category';

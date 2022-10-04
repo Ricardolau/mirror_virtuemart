@@ -2013,31 +2013,10 @@ class VirtueMartCart {
 			if(!empty($fld->name)){
 				$name = $fld->name;
 
-				if(!isset($data[$prefix.$name])){
-					$tmp = vRequest::getString($prefix.$name,false);
-					if($tmp){
-						$data[$prefix.$name] = $tmp;
-					}
-					else if($fld->required and isset($this->{$type}[$name])){	//Why we have this fallback to the already stored value?
-						$data[$prefix.$name] = $this->{$type}[$name];
-					}
-					/*if($fld->type=='text'){
-					} else {
-						vmdebug('my fld ',$fld);
-					}*/
-				}
-
 				if(isset($data[$prefix.$name])){
-					if(!empty($data[$prefix.$name])){
-						if(is_array($data[$prefix.$name])){
-							foreach($data[$prefix.$name] as $k=>$v){
-								$data[$prefix.$name][$k] = self::filterCartInput($v);
-							}
-						} else {
-							$data[$prefix.$name] = self::filterCartInput($data[$prefix.$name]);
-						}
-					}
-					$address[$name] = $data[$prefix.$name];
+					//We directly overwrite the $data array
+					$address[$name] = $data[$prefix.$name] = $userFieldsModel->prepareFieldDataSave($fld, $data, $prefix);
+
 				} else {
 					//vmdebug('Data not found for type '.$type.' and name '.$prefix.$name.' ');
 				}
@@ -2058,16 +2037,6 @@ class VirtueMartCart {
 		vmdebug('saveAddressInCart ',(int)$putIntoDb,$this->STsameAsBT,$type,$this->{$type});
 	}
 
-	private function filterCartInput($v){
-		//$v = vmFilter::hl( $v,array('deny_attribute'=>'*'));
-		//to strong
-		/* $value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags  */
-		//lets use instead
-		$v = JComponentHelper::filterText($v);
-		$v = (string)preg_replace('#on[a-z](.+?)\)#si','',$v);//replace start of script onclick() onload()...
-		$v =  str_replace(array('"',"\t","\n","\r","\0","\x0B"),' ',trim($v));
-		return (string)preg_replace('#^\'#si','',$v);
-	}
 
 	/**
 	 * Returns ST address considering the set options, with fallback

@@ -70,7 +70,7 @@ class VirtueMartModelUserfields extends VmModel {
 
 		$fieldType = $field->type;
 		$fieldName = $field->name;
-		$value = $data[$field->name];
+		$value = vRequest::getString($prefix.$fieldName,'', $data);//$data[$field->name];
 		$params = $field->userfield_params;
 
 		switch(strtolower($fieldType)) {
@@ -116,16 +116,16 @@ class VirtueMartModelUserfields extends VmModel {
 				break;*/
 			case 'textarea':
 				if(vmAccess::manager('html')){
-					$value = vRequest::getHtml($prefix.$fieldName,'');
+					$value = vRequest::getHtml($prefix.$fieldName,'', $data);
 				} else {
-					$value = vRequest::getString($prefix.$fieldName,'');
+					$value = vRequest::getString($prefix.$fieldName,'', $data);
 				}
 				break;
 			case 'editorta':
 				if(vmAccess::manager('html')){
-					$value = vRequest::getHtml($prefix.$fieldName,'');
+					$value = vRequest::getHtml($prefix.$fieldName,'', $data);
 				} else {
-					$value = vRequest::getString($prefix.$fieldName,'');
+					$value = vRequest::getString($prefix.$fieldName,'', $data);
 				}
 				break;
 			default:
@@ -139,11 +139,7 @@ class VirtueMartModelUserfields extends VmModel {
 
 			// no HTML TAGS but permit all alphabet
 
-			$value = vRequest::filter( $value,FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_FLAG_ENCODE_LOW);
-			$value = preg_replace('@<[\/\!]*?[^<>]*?>@si','',$value);//remove all html tags
-			$value = (string)preg_replace('#on[a-z](.+?)\)#si','',$value);//replace start of script onclick() onload()...
-			$value = trim(str_replace('"', ' ', $value),"'") ;
-			$value = (string)preg_replace('#^\'#si','',$value);//replace ' at start
+			//$value = vRequest::getString($prefix.$fieldName,'');
 
 			break;
 		}
@@ -805,8 +801,8 @@ class VirtueMartModelUserfields extends VmModel {
 
 				//TODO htmlentites creates problems with non-ascii chars, which exists as htmlentity, for example äöü
 
-				if ((!empty($valueN)) && (is_string($valueN))) $valueN = htmlspecialchars($valueN,ENT_COMPAT, 'UTF-8', false);	//was htmlentities
-				
+				if ((!empty($valueN)) && (is_string($valueN))) $valueN = vRequest::vmSpecialChars($valueN);	//was htmlentities
+
 				$_return['fields'][$_fld->name] = array(
 					     'name' => $_prefix . $_fld->name
 				,'value' => $valueN // htmlspecialchars (was htmlentities) encoded value for all except editorarea and plugins

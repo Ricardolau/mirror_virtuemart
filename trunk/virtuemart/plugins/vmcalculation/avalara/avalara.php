@@ -649,7 +649,7 @@ class plgVmCalculationAvalara extends vmCalculationPlugin {
 						$session->set ('vm_avatax_address_checked.' . $hash, TRUE, 'vm');
 
                         $correctedState = self::$validatedAddresses[0]->getRegion();
-                        //VmConfig::$logDebug = true; //Log our debug from now on
+                        //vmEcho::$logDebug = true; //Log our debug from now on
 						vmdebug('fillValidateAvalaraAddress',$correctedState, $vmadd['state']);
                         if (!empty($correctedState) && $correctedState != $vmadd['state']) {
                             $correctedStateId = ShopFunctions::getStateIDByName($correctedState);

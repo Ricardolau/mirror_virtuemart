@@ -6887,7 +6887,7 @@ class TCPDF {
 				$imsize = array($pw, $ph);
 			} else {
 				//$this->Error('[Image] Unable to get the size of the image: '.$file);
-				//VmConfig::$logDebug=1;
+				//vmEcho::$logDebug=1;
 				vmdebug('TCPDF [Image] Unable to get the size of the image. By VirtueMart Team, looks like this error comes from using absolute urls for images: '.$file,$imsize);
 
 				return;	//By VirtueMart Team*/

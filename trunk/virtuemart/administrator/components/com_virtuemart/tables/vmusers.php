@@ -111,15 +111,15 @@ class TableVmusers extends VmTable {
 					self::$_cache[$h] = $vmVends[0];vmdebug('my $vmVends',$q,$vmVends,$c);
 					if($c>1) {
 						vmError( 'There is a serious problem with your store, there are entries with the same virtuemart_vendor_id '.$this->virtuemart_vendor_id.' enable the vmdebug or check your virtuemart log files and fix it immediatly. Use the setStoreOwner function in Tools and Migration', 'There is a problem with the store, please contact the shop owner' );
-						$t = VmConfig::$logDebug;
+						$t = vmEcho::$logDebug;
 
 						foreach($vmVends as $vend){
 							vmdebug('Entries with the same vendor id',$vend);
-							VmConfig::$logDebug = 1;
+							vmEcho::$logDebug = 1;
 							vmdebug('Entries with the same vendor id',$vend);
-							VmConfig::$logDebug = 0;
+							vmEcho::$logDebug = 0;
 						}
-						VmConfig::$logDebug = $t;
+						vmEcho::$logDebug = $t;
 						return false;
 					} else if($c==1) {
 						vmdebug('Found one entry with the same vendor id',$c[0]['virtuemart_user_id'],$this->virtuemart_user_id);

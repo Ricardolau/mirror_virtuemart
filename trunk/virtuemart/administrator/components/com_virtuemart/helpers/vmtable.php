@@ -199,9 +199,9 @@ class VmTable extends vObject implements \JTableInterface {
 			vmdebug('$vmlang not set',VmConfig::$jDefLangTag);
 			vmError('$vmlang not set',VmConfig::$jDefLangTag);
 
-			VmConfig::$logDebug = true;
+			vmEcho::$logDebug = true;
 			vmTrace('$vmlang not set',true,20);
-			VmConfig::$logDebug = false;
+			vmEcho::$logDebug = false;
 
 			vmLanguage::initialise();
 			//return false;

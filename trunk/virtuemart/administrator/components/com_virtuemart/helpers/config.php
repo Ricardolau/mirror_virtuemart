@@ -24,6 +24,11 @@ class VmConfig {
 	public static $_starttime = array();
 	public static $loaded = FALSE;
 
+	/* @deprecated */
+	public static $echoDebug = FALSE;
+	/* @deprecated */
+	public static $logDebug = FALSE;
+
 	public static $langs = array();
 	public static $langCount = 0;
 

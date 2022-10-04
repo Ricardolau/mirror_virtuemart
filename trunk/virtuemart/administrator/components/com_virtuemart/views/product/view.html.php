@@ -60,7 +60,7 @@ class VirtuemartViewProduct extends VmViewAdmin {
 					$virtuemart_product_id = (int)$virtuemart_product_id;
 				}
 
-				$product = $model->getProductSingle($virtuemart_product_id,false);
+				$product = $model->getProductSingle($virtuemart_product_id, false, 1, false, array());
 
 				if(!empty($product->_loadedWithLangFallback)){
 					vmInfo('COM_VM_LOADED_WITH_LANGFALLBACK',$product->_loadedWithLangFallback);

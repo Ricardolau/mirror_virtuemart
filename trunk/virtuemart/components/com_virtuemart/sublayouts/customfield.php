@@ -704,7 +704,10 @@ class VirtueMartCustomFieldRenderer {
 						$prodIds = explode(',', $customfield->customfield_value);
 						foreach($prodIds as $pId){
 							$related = $pModel->getProduct((int)$pId,TRUE,$customfield->wPrice,TRUE,1);
-							if(!$related) continue;
+							if(!$related){
+								vmError('Custom related Product with id '.$pId.' not found');
+								continue;
+							}
 							$customfield->display .= VirtueMartCustomFieldRenderer::renderRelatedProduct($customfield,$related);
 						}
 					}
@@ -713,15 +716,20 @@ class VirtueMartCustomFieldRenderer {
 					$customfield->customfield_value = (int) $customfield->customfield_value;
 
 					if(empty($customfield->customfield_value)){
+						vmError('Related Product customfield with id ' . $customfield->viartuemart_customfield_id . ' has no value');
 						$customfield->display = 'customfield related product has no value';
 						return;
 					}
 					$pModel = VmModel::getModel('product');
 					$related = $pModel->getProduct((int)$customfield->customfield_value,TRUE,$customfield->wPrice,TRUE,1);
 
-					if(!$related) break;
+					if(!$related) {
+						vmError('Related Product with id ' . $customfield->customfield_value . ' not found');
+						break;
+					}
 
 					$customfield->display = VirtueMartCustomFieldRenderer::renderRelatedProduct($customfield,$related);
+					vmdebug('Rendered related product '.(int)$customfield->customfield_value);
 					break;
 			}
 
@@ -771,6 +779,7 @@ class VirtueMartCustomFieldRenderer {
 
 			}
 		}
+
 		return shopFunctionsF::renderVmSubLayout('related',array('customfield'=>$customfield,'related'=>$related, 'thumb'=>$thumb));
 
 

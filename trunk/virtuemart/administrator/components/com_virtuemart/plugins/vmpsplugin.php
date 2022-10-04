@@ -1073,7 +1073,7 @@ abstract class vmPSPlugin extends vmPlugin {
 
 			if (count ($blocking_countries) > 0 and in_array ($address['virtuemart_country_id'], $blocking_countries) ) {
 				//vmdebug('checkConditions '.$method->shipment_name.' fit ',$weight_cond,(int)$zip_cond,$nbproducts_cond,$orderamount_cond);
-				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode($blocking_countries,', ').' blocks');
+				vmdebug($this->_psType.'method '.$method->{$this->_psType.'_name'}.' = FALSE for variable virtuemart_country_id = '.$address['virtuemart_country_id'].', Reason: Country '.implode(', ', $blocking_countries).' blocks');
 				return false;
 			}
 			else{

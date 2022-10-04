@@ -874,7 +874,7 @@ class shopFunctionsF {
 		$mailer = JFactory::getMailer();
 		$mailer->addRecipient( $recipient );
 
-		$subjectMailer= '=?utf-8?B?'.base64_encode($subject).'?=';
+		$subjectMailer= mb_decode_mimeheader('=?utf-8?B?'.base64_encode($subject).'?=');
 		$mailer->setSubject(  html_entity_decode( $subjectMailer , ENT_QUOTES, 'UTF-8') );
 		$mailer->isHTML( VmConfig::get( 'order_mail_html', TRUE ) );
 		$mailer->setBody( $body );
@@ -965,7 +965,7 @@ class shopFunctionsF {
 		}
 		catch (Exception $e)
 		{
-			VmConfig::$logDebug = true;
+			vmEcho::$logDebug = true;
 			vmdebug('Error sending mail ',$e);
 			vmError('Error sending mail ');
 			// this will take care of the error message
@@ -979,7 +979,7 @@ class shopFunctionsF {
 
 
 
-	function sendRatingEmailToVendor ($data) {
+	static public function sendRatingEmailToVendor ($data) {
 
 		$vars = array();
 		$productModel = VmModel::getModel ('product');

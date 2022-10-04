@@ -68,8 +68,11 @@ if($manage and $task!='feed' and !in_array($_controller,$feViews)){
 		vmJsApi::jQuery(false);
 		vmJsApi::loadBECSS();
 
-		$router = $app->getRouter();
-		$router->setMode(0);
+		if(JVM_VERSION<4){
+			$router = $app->getRouter();
+			$router->setMode(0);
+		}
+
 
 		if(empty($_controller)){
 			$_controller = vRequest::getCmd('controller', 'virtuemart');

@@ -10,7 +10,7 @@ defined ('_JEXEC') or die();
  * @subpackage Language
  * @author Max Milbers
  * @copyright Copyright (c) 2016 - 2022 VirtueMart Team. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL 3, see COPYRIGHT.php
  */
 
 class vmLanguage {

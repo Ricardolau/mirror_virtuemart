@@ -1123,7 +1123,7 @@ class VirtueMartModelCustomfields extends VmModel {
 	static function displayCustomMedia ($media_id, $table = 'product', $width = false, $height = false, $absUrl = false, $attribs = '') {
 
 		$db = JFactory::getDBO ();
-		$data = new TableMedias($db);
+		$data = VmTable::getInstance('Medias', 'Table', array('dbo'=>JFactory::getDbo()));
 		$data->load ((int)$media_id);
 		if(!empty($data->file_type)){
 			$table = $data->file_type;

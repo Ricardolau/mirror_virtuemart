@@ -84,7 +84,7 @@ class VmTemplate {
 			return self::$_templates[$template['id']];
 		}
 	}
-	
+
 	public static function getTemplateById($id){
 
 		if(!isset(self::$_templates[$id])){
@@ -211,7 +211,24 @@ class VmTemplate {
 
 		if(is_dir( VMPATH_ROOT .'/templates/'.$template )) {
 			$app = JFactory::getApplication();
-			if(VmConfig::isSiteByApp()) $app->setTemplate($template,$registry);
+			if(VmConfig::isSiteByApp()) {
+
+
+				$currentTemplate = $app->getTemplate();
+				if ($currentTemplate !== $template)
+				{
+					if (JVM_VERSION >= 4) {
+						$templateObj = (object)$res;
+						$app->setTemplate($templateObj);
+						$currentTemplateObj = $app->getTemplate(true);
+						$currentTemplateObj->id = $templateObj->id;
+					}
+					else {
+						$app->setTemplate($template, $registry);
+					}
+
+				}
+			}
 
 		} else {
 			vmError( 'The chosen template couldnt be found on the filesystem: '.VMPATH_ROOT.'/templates/'.$template );

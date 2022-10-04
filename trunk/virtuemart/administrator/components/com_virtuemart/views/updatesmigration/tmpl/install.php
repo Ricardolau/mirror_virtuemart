@@ -23,7 +23,7 @@ AdminUIHelper::startAdminArea($this);
 
 vmInfo('COM_VM_INSTALLATION_INFO');
 if(!VmConfig::get('dangeroustools', false)){
-	$uri = JFactory::getURI();
+	$uri = vmURI::getURI();
 	$link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=config';
 	?>
 

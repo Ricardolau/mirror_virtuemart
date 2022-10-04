@@ -410,7 +410,7 @@ class VirtueMartViewCart extends VmView {
 			$text = '';
 			$user = JFactory::getUser();
 			if(vmAccess::manager() or vmAccess::isSuperVendor()) {
-				$uri = JFactory::getURI();
+				$uri = vmURI::getURI();
 				$link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=shipmentmethod';
 				$text = vmText::sprintf('COM_VIRTUEMART_NO_SHIPPING_METHODS_CONFIGURED_LINK', '<a href="' . $link . '" rel="nofollow">' . $link . '</a>');
 			}

@@ -12,6 +12,8 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Uri\Uri;
+
 class vmURI{
 
 	static function getCurrentUrlBy ($source = 'get',$route = false, $white = true, $ignore = false, $query = false){
@@ -151,5 +153,13 @@ class vmURI{
 			$useSSL = 0;
 		}
 		return $useSSL;
+	}
+
+	static function getURI(){
+		static $cUri = null;
+		if($cUri === null){
+			$cUri = JUri::getInstance();//->toString();
+		}
+		return $cUri;
 	}
 }

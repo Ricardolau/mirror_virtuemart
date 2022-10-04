@@ -684,7 +684,7 @@ class KlarnaHandler {
 				return TRUE;
 			}
 		}
-		$uri = JFactory::getURI();
+		$uri = vmURI::getURI();
 		$link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=config';
 		VmError(vmText::sprintf('VMPAYMENT_KLARNA_CANNOT_STORE_CONFIG', '<a href="' . $link . '">' . $link . '</a>', vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH')));
 		return FALSE;
@@ -1174,7 +1174,7 @@ class KlarnaHandler {
 		if ($safePath) {
 			return $safePath . "klarna/klarna.json";
 		} else {
-			$uri = JFactory::getURI();
+			$uri = vmURI::getURI();
 			$link = $uri->root() . 'administrator/index.php?option=com_virtuemart&view=config';
 			VmError(vmText::sprintf('VMPAYMENT_KLARNA_CANNOT_STORE_CONFIG', '<a href="' . $link . '">' . $link . '</a>', vmText::_('COM_VIRTUEMART_ADMIN_CFG_MEDIA_FORSALE_PATH')));
 			return NULL;

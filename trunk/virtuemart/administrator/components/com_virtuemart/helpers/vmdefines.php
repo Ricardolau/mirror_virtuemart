@@ -178,7 +178,7 @@ class vmDefines {
 		$vmpath_site = $rootPath.'/components/com_virtuemart';
 		//if(!class_exists('JFile')) require(VMPATH_LIBS.DS.'joomla'.DS.'filesystem'.DS.'file.php');
 
-		if(!defined(VMPATH_LIBS)) self::define_VMPATH_LIBS();
+		if(!defined('VMPATH_LIBS')) self::define_VMPATH_LIBS();
 		JLoader::register('JFile', VMPATH_LIBS.'/joomla/filesystem/file.php');
 		JLoader::register('JFolder', VMPATH_LIBS.'/joomla/filesystem/folder.php');
 		//JLoader::register('JToolbarHelper', JPATH_ADMINISTRATOR.'/includes/toolbar.php');
@@ -194,6 +194,7 @@ class vmDefines {
 		JLoader::register('VmHtml', $vmpath_admin.'/helpers/html.php');
 		JLoader::register('VmImage', $vmpath_admin.'/helpers/image.php');
 		JLoader::register('Img2Thumb', $vmpath_admin.'/helpers/img2thumb.php');
+		//JLoader::register('VmMedia', $vmpath_admin.'/helpers/vmmedia.php');
 		JLoader::register('VmMediaHandler', $vmpath_admin.'/helpers/mediahandler.php');
 		JLoader::register('vmFile', $vmpath_admin.'/helpers/mediahandler.php');
 		JLoader::register('Migrator', $vmpath_admin.'/helpers/migrator.php');

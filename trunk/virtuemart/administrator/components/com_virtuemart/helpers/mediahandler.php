@@ -41,22 +41,21 @@ class VmMediaHandler {
 	var $file_name = '';
 	var $file_extension = '';
 	var $virtuemart_media_id = '';
-	var $theme_url = null;
+	static $theme_url = null;
 	var $noImageSet = false;
-	static $stheme_url = null;
 	static $url = array();
 
 	function __construct($id=0){
 
 		$this->virtuemart_media_id = $id;
 
-		if(!isset(self::$stheme_url)){
-			self::$stheme_url = VmConfig::get('vm_themeurl',0);
-			if(empty(self::$stheme_url)){
-				self::$stheme_url = 'components/com_virtuemart/';
+		if(!isset(self::$theme_url)){
+			self::$theme_url = VmConfig::get('vm_themeurl',0);
+			if(empty(self::$theme_url)){
+				self::$theme_url = 'components/com_virtuemart/';
 			}
 		}
-		$this->theme_url = self::$stheme_url;
+
 	}
 
 	/**
@@ -527,8 +526,9 @@ class VmMediaHandler {
 		} else {*/
 			$file_name = VmConfig::get('no_image_set','noimage_new.gif');
 		//}
+		vmTrace('SetNoImageSet');
 		$this->file_name = JFile::stripExt($file_name);
-		$this->file_url_folder = self::$stheme_url.'assets/images/vmgeneral/';
+		$this->file_url_folder = self::$theme_url.'assets/images/vmgeneral/';
 		$this->file_url = $this->file_url_folder.$file_name;
 		$this->file_path_folder = VMPATH_ROOT.'/'.str_replace('/',DS, $this->file_url_folder);
 		$this->file_url_folder_thumb = self::getStoriesFb('typeless').'/';
@@ -556,6 +556,7 @@ class VmMediaHandler {
 
 		$typelessUrl = '';
 		if(empty($this->file_name) or empty($this->file_url)){
+			vmdebug('displayMediaThumb empty file name or url',$this->file_name,$this->file_url);
 			$typelessUrl = static::getStoriesFb('typeless').'/';
 			$this->setNoImageSet();
 		}
@@ -643,7 +644,7 @@ class VmMediaHandler {
 		$file_url = false;
 		$file_alt = false;
 		static $exists = array();
-		$tC = self::$stheme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
+		$tC = self::$theme_url.'assets/images/vmgeneral/filetype_'.$this->file_extension.'.png';
 
 		if(!empty($this->file_extension)){
 			$file_alt = $this->file_description;
@@ -657,7 +658,7 @@ class VmMediaHandler {
 		}
 
 		if(!$file_url){
-			$file_url = self::$stheme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
+			$file_url = self::$theme_url.'assets/images/vmgeneral/'.VmConfig::get('no_image_found');
 			$file_alt = vmText::_('COM_VIRTUEMART_NO_IMAGE_FOUND').' '.$this->file_description;
 		}
 

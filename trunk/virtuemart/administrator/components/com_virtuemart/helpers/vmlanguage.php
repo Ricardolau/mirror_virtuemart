@@ -9,7 +9,7 @@ defined ('_JEXEC') or die();
  * @package	VirtueMart
  * @subpackage Language
  * @author Max Milbers
- * @copyright Copyright (c) 2016 - 2017 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2016 - 2022 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL 2, see COPYRIGHT.php
  */
 
@@ -26,6 +26,8 @@ class vmLanguage {
 	/** @var string Current Selected Virtuemart Language Tag*/
 	public static $currLangTag = false;
 	public static $jLangCount = 1;
+	public static $langCount = 0;
+	public static $langs = array();
 	public static $languages = array();
 
 
@@ -48,12 +50,16 @@ class vmLanguage {
 			VmConfig::$jDefLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 		}
 
+		VmConfig::$defaultLangTag = VmConfig::get('vmDefLang',VmConfig::$jDefLangTag);
+		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
+
 		$l = JFactory::getLanguage();
+		//$l = JFactory::getApplication()->getLanguage();
 		//Set the "joomla selected language tag" and the joomla language to vmText
 		self::$jSelLangTag = $l->getTag();
 		self::$languages[self::$jSelLangTag] = $l;
 		vmText::$language = $l;
-		vmdebug('vmLanguage initialise '.self::$jSelLangTag);
+
 		$siteLang = self::$currLangTag = self::$jSelLangTag;
 		if( !VmConfig::isSite()){
 			$siteLang = vRequest::getString('vmlang',$siteLang, $_REQUEST );	//0 overwritten on purpose with $_REQUEST
@@ -62,6 +68,9 @@ class vmLanguage {
 			}
 		}
 
+		VmLanguage::$langs = (array)VmConfig::get('active_languages',array(VmConfig::$jDefLangTag));
+		VmLanguage::$langCount = count(VmLanguage::$langs);
+vmdebug('My languages count',vmLanguage::$langs);
 		self::setLanguageByTag($siteLang);
 
 	}
@@ -112,16 +121,15 @@ class vmLanguage {
 			}
 		}
 
-		$langs = (array)VmConfig::get('active_languages',array(VmConfig::$jDefLangTag));
-		VmConfig::$langCount = count($langs);
+
 
 		VmConfig::$vmlangTag = $siteLang;
 		VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
 
-		VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
-		VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
+		//VmConfig::$defaultLangTag = VmConfig::$jDefLangTag;
+		//VmConfig::$defaultLang = strtolower(strtr(VmConfig::$jDefLangTag,'-','_'));
 
-		if(VmConfig::$langCount>1){
+		if(VmLanguage::$langCount>1){
 			$lfbs = VmConfig::get('vm_lfbs','');
 			/*	This cannot work this way, because the SQL would need a union with left and right join, much too expensive.
 			 *	even worse, the old construction would prefer the secondary language over the first. It can be tested using the customfallback
@@ -157,9 +165,10 @@ class vmLanguage {
 			}
 		}
 
-		if(!in_array($siteLang, $langs)) {
+
+		if(!in_array($siteLang, VmLanguage::$langs)) {
 			//vmError('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
-			vmdebug('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',$langs));
+			vmdebug('Selected siteLang '. $siteLang.' is not in $langs '.implode(', ',VmLanguage::$langs));
 			$siteLang = VmConfig::$jDefLangTag;	//Set to shop language
 			VmConfig::$vmlang = strtolower(strtr($siteLang,'-','_'));
 		}
@@ -210,18 +219,18 @@ class vmLanguage {
 	}
 
 	static public function debugLangVars(){
-		//vmdebug('LangCount: '.VmConfig::$langCount.' $siteLang: '.$siteLang.' VmConfig::$vmlangSef: '.VmConfig::$vmlangSef.' self::$_jpConfig->lang '.VmConfig::$vmlang.' DefLang '.VmConfig::$defaultLang);
-		if(VmConfig::$langCount==1){
-			$l = VmConfig::$langCount.' Language, default shoplanguage (VmConfig::$jDefLang): '.VmConfig::$jDefLang.' '.VmConfig::$jDefLangTag;
+		//vmdebug('LangCount: '.VmLanguage::$langCount.' $siteLang: '.$siteLang.' VmConfig::$vmlangSef: '.VmConfig::$vmlangSef.' self::$_jpConfig->lang '.VmConfig::$vmlang.' DefLang '.VmConfig::$defaultLang);
+		if(VmLanguage::$langCount==1){
+			$l = VmLanguage::$langCount.' Language, default shoplanguage (VmConfig::$jDefLang): '.VmConfig::$jDefLang.' '.VmConfig::$jDefLangTag;
 		} else {
-			$l = VmConfig::$langCount.' Languages, default shoplanguage (VmConfig::$jDefLang): '.VmConfig::$jDefLang.' '.VmConfig::$jDefLangTag;
+			$l = VmLanguage::$langCount.' Languages, default joomla language $jDefLang): '.VmConfig::$jDefLang.' '.VmConfig::$jDefLangTag;
 			//if(VmConfig::$jDefLang!=VmConfig::$defaultLang){
 			if(self::getUseLangFallback()){
 				$l .= ' Fallback language (VmConfig::$defaultLang): '.VmConfig::$defaultLang;
 			}
 			$l .= ' Selected VM language (VmConfig::$vmlang): '.VmConfig::$vmlang.' '.VmConfig::$vmlangTag.' SEF: '.VmConfig::$vmlangSef.' $lfbs = '.VmConfig::get('vm_lfbs',''); ;
 		}
-		//vmdebug($l);
+		vmdebug($l);
 	}
 
 
@@ -319,7 +328,7 @@ class vmLanguage {
 		} else {
 			if(!isset(self::$languages[$tag])){
 				vmdebug('No language loaded '.$tag.' '.$name);
-				VmConfig::$logDebug = true;
+				vmEcho::$logDebug = true;
 				vmTrace('No language loaded '.$tag.' '.$name,true);
 				return false ;
 			}
@@ -396,7 +405,7 @@ class vmLanguage {
 
 		//static $cgULF = null;
 		if(self::$cgULF===null or $fresh){
-			if(VmConfig::$langCount>1 and VmConfig::$defaultLang!=VmConfig::$vmlang and !VmConfig::get('prodOnlyWLang',false) ){
+			if(VmLanguage::$langCount>1 and VmConfig::$defaultLang!=VmConfig::$vmlang and !VmConfig::get('prodOnlyWLang',false) ){
 				self::$cgULF = true;
 			} else {
 				self::$cgULF = false;
